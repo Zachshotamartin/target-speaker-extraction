@@ -1,3 +1,5 @@
+> Original planning record. For the implemented system, see [IMPLEMENTATION.md](IMPLEMENTATION.md), [REPRODUCING.md](REPRODUCING.md), and the measured reports. Proposed targets below are not current capability claims.
+
 # Model design
 
 This is a proposed design for independent implementation. No code, weights, measured parameter count or runtime exists yet. Defaults are recorded in [pilot.toml](../configs/pilot.toml).

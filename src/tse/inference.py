@@ -22,6 +22,14 @@ class Extractor:
         self.device = next(self.model.parameters()).device
         self.checkpoint_hash = sha256(checkpoint)
 
+    def warmup(self) -> None:
+        """Exercise the complete numeric path before the API declares readiness."""
+        time_axis = np.arange(48000, dtype=np.float32) / 16000
+        reference = 0.1 * np.sin(2 * np.pi * 220 * time_axis)
+        mixture = reference[:16000] + 0.08 * np.sin(2 * np.pi * 370 * time_axis[:16000])
+        self.extract_array(mixture, reference)
+        synchronize(self.device)
+
     def info(self) -> dict:
         return {
             "ready": True,

@@ -127,6 +127,7 @@ class SpeechCorpus:
         self.root = root.resolve()
         self.manifest = manifest
         self.manifest_hash = sha256(manifest)
+        self._verified_sources: set[str] = set()
         payload = json.loads(manifest.read_text())
         audit_records(payload["records"])
         self.records = {r["id"]: r for r in payload["records"]}
@@ -151,6 +152,10 @@ class SpeechCorpus:
         path = (self.root / row["path"]).resolve()
         if not path.is_relative_to(self.root):
             raise ValueError("Audio path escapes the data root")
+        if utterance not in self._verified_sources:
+            if sha256(path) != row["sha256"]:
+                raise ValueError(f"Audio checksum differs from inventory: {utterance}")
+            self._verified_sources.add(utterance)
         return read_audio(path)
 
     def _offset(self, row: dict, count: int, rng: np.random.Generator) -> int:

@@ -31,7 +31,7 @@ class DataConfig(StrictModel):
     minimum_utterances_per_speaker: int = Field(default=3, ge=3)
     mixtures_on_demand: Literal[True] = True
     distinct_reference_utterance: Literal[True] = True
-    prefer_different_reference_chapter: bool = True
+    prefer_different_reference_chapter: Literal[True] = True
     target_to_interferer_db: tuple[float, float] = (-5, 5)
     overlap_fraction: Literal[1.0] = 1.0
     target_present: Literal[True] = True
@@ -40,6 +40,8 @@ class DataConfig(StrictModel):
     def check_ratio(self):
         if self.target_to_interferer_db[0] > self.target_to_interferer_db[1]:
             raise ValueError("Mixture ratio bounds are reversed")
+        if self.target_to_interferer_db != (-5, 5):
+            raise ValueError("The v1 mixture protocol fixes ratio bounds to [-5, 5] dB")
         return self
 
 

@@ -48,6 +48,15 @@ def test_mixture_baseline_is_zero():
     assert all(row["si_sdri_db"] == 0 for row in rows)
 
 
+def test_changed_source_is_rejected(corpus_files):
+    root, manifest = corpus_files
+    corpus = SpeechCorpus(root, manifest, "train", 0.25, 0.25)
+    record = next(row for row in corpus.records.values() if row["split"] == "train")
+    (root / record["path"]).write_bytes(b"changed after inventory")
+    with pytest.raises(ValueError, match="checksum differs"):
+        corpus.read(record["id"])
+
+
 @pytest.mark.parametrize("length", [1, 31, 32, 33, 257, 4000])
 def test_model_length_and_reference_gradients(tiny_config, length):
     model = TargetExtractor(tiny_config.model)

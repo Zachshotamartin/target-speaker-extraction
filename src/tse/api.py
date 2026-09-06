@@ -75,8 +75,10 @@ def create_app(
         app.state.load_error = None
         if checkpoint.is_file():
             try:
-                app.state.extractor = Extractor(checkpoint, device)
-            except (ValueError, RuntimeError, OSError, KeyError) as error:
+                extractor = Extractor(checkpoint, device)
+                extractor.warmup()
+                app.state.extractor = extractor
+            except Exception as error:
                 app.state.load_error = type(error).__name__
                 LOGGER.exception("Model startup failed")
         else:

@@ -1,3 +1,5 @@
+> Original planning record. For the implemented system, see [IMPLEMENTATION.md](IMPLEMENTATION.md), [REPRODUCING.md](REPRODUCING.md), and the measured reports. Proposed targets below are not current capability claims.
+
 # Project plan
 
 Plan version: 1.0. Date: 2026-09-06. Current phase: repository foundation.

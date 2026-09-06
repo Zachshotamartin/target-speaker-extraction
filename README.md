@@ -1,74 +1,94 @@
-# Target Speaker Extraction
+# One voice · Target Speaker Extraction
 
-Train a compact audio model that isolates a chosen speaker from an overlapping recording, using a separate example of that person's voice.
+An independently implemented PyTorch system that estimates one person's voice from two overlapping speakers, guided by a separate voice sample. Includes training, data preparation, evaluation, a local API, and a browser audio workspace.
 
-The practical focus is reference quality: a voice sample recorded on a phone should still be useful when the conversation comes from another microphone or room. Whether the model achieves that is an experimental question, not a current capability claim.
+**Experimental research software.** It can select the wrong speaker and distort speech. The requested speaker must be present. Live microphone use and production speech quality are outside this release's claims.
 
-**Status: project plan and repository foundation. No audio model has been implemented or trained, and no performance results are available.**
+The central experiment asks whether corrupting the reference during training improves extraction with a different channel or simulated room. Clean and augmented models share the architecture, initialization seed, mixture schedule, and training budget. There is no SpeakerBeam source, checkpoint, or dependency.
 
-Public repository: [Zachshotamartin/target-speaker-extraction](https://github.com/Zachshotamartin/target-speaker-extraction).
+## Run locally
 
-## What we are building
+Python 3.12 and [uv](https://docs.astral.sh/uv/) are required. On the project Mac, the environment, public data, and training artifacts are in the ignored `.venv/`, `data/`, and `artifacts/` directories.
 
-Inputs:
+```sh
+uv sync --frozen
+uv run tse serve --device cpu
+```
 
-- A recording containing two overlapping speakers.
-- A separate 3–10 second reference recording of the intended speaker; the default experiment uses 5 seconds.
+Open <http://127.0.0.1:8000>. Select the development examples or supply a WAV/FLAC mixture up to 60 seconds and a separate 3–10 second voice reference. The interface provides waveform previews, synchronized original/output playback, and WAV download. Audio stays in the local service.
 
-Output:
+Serving requires `artifacts/releases/model.pt`, created by the study or export command. A fresh clone contains source and reports; raw audio and weights are not stored in Git. A missing model produces a not-ready state.
 
-- A mono audio file containing the estimated target voice, aligned to the input recording.
-- Processing metadata: model version, sample rate, duration, runtime, and input validation messages.
+## Reproduce the study
 
-The first version processes recorded audio locally. Live microphone use is a later milestone requiring a causal architecture and measured latency.
+```sh
+uv sync --frozen
+uv run python scripts/run_study.py --download --steps 5000 --device mps --evaluate-test
+```
 
-## Independent implementation
+Use `--device cpu` without Apple MPS. The command downloads a bounded official LibriSpeech selection, audits splits, builds deterministic cases, checks learning on 16 fixed training cases, trains two models, compares them on development data, exports the selected model, and evaluates the reserved test. Omit `--evaluate-test` while developing. The runner refuses to silently repeat an already opened final test.
 
-We will write the data pipeline, network, training loop, evaluation, and inference code ourselves using PyTorch and general numerical/audio libraries. The core experiment trains its weights from random initialization.
+Training resumes from atomic checkpoints. The first execution requires substantial time and network access. The recorded machine is an Apple M3 Pro with 18 GiB memory. See the [reproduction guide](docs/REPRODUCING.md) for individual commands and recovery.
 
-SpeakerBeam is a research reference, not a codebase or checkpoint dependency. Public datasets and established mathematical ideas will be attributed. This project claims an independent implementation and measured engineering contributions; it does not claim to have invented target speaker extraction.
+## What is implemented
 
-## Read the plan
+- Audited public audio acquisition, SHA-256 manifests, speaker-disjoint splits, distinct reference utterances, and deterministic paired mixtures.
+- A 1,223,296-parameter convolutional network with a reference encoder, feature-wise affine conditioning, a temporal separator, and learned analysis/synthesis filters. All weights start from random initialization.
+- AdamW training, accumulation, clipping, explicit CPU/MPS devices, development checkpoint selection, verified CPU resume, and structured provenance.
+- Target-specific SI-SDR improvement, speaker confusion, waveform error, five reference conditions, paired clustered uncertainty, duration/absence diagnostics, and reserved test cases.
+- Bounded long-file inference, input validation, a local multipart API, and a responsive audio workspace.
+- A dependency lock, automated tests, Linux CPU CI, wheel packaging, and a CPU container recipe.
 
-| Document | Contents |
+This is an independent implementation and controlled engineering study. Established ideas and datasets are attributed in [sources](docs/SOURCES.md); the project does not claim to have invented target speaker extraction.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    R[Separate voice reference] --> RE[Convolutional reference encoder]
+    RE --> P[Masked mean and standard deviation]
+    P --> E[128-dimensional voice representation]
+    M[Overlapping waveform] --> A[Learned analysis filters]
+    A --> T[16 conditioned temporal blocks]
+    E --> T
+    T --> K[Nonnegative mask]
+    A --> X[Apply mask]
+    K --> X
+    X --> D[Learned synthesis filters]
+    D --> O[Aligned target estimate]
+```
+
+The model is noncausal and processes recorded audio offline. Processing faster than the recording duration does not establish suitability for live calls.
+
+## Commands and checks
+
+```sh
+uv run tse --help
+uv run tse extract --mixture conversation.wav --reference voice.wav --output isolated.wav --device cpu
+uv run tse data audit
+uv run ruff check src tests scripts
+uv run ruff format --check src tests scripts
+uv run pytest -q
+uv build
+```
+
+The API exposes `GET /health`, `GET /ready`, `GET /model`, and `POST /extract` with multipart `mixture` and `reference` files. Successful responses contain a float WAV and an `X-TSE-Metadata` header. See `/docs` on the local server.
+
+## Review the project
+
+| Document | Purpose |
 | --- | --- |
-| [Project plan](docs/PROJECT_PLAN.md) | Product scope, research question, success criteria, hardware budget, delivery strategy |
-| [Data plan](docs/DATA_PLAN.md) | Sources, speaker splits, manifests, mixture generation, reference corruption, storage |
-| [Model design](docs/MODEL_DESIGN.md) | Tensor contracts, proposed architecture, losses, training and inference |
-| [Evaluation plan](docs/EVALUATION.md) | Baselines, experiments, leakage controls, metrics, uncertainty, release criteria |
-| [Engineering plan](docs/ENGINEERING.md) | Environment, package layout, tracking, tests, API, deployment and reproducibility |
-| [Roadmap and backlog](docs/ROADMAP.md) | Milestones, dependencies, implementation tickets and acceptance checks |
-| [Decisions](docs/DECISIONS.md) | Agreed boundaries and provisional design choices |
-| [Sources and attribution](docs/SOURCES.md) | Primary references, data licenses and origin tracking |
+| [Reproduction guide](docs/REPRODUCING.md) | Data, training, inference, recovery and verification |
+| [Implementation record](docs/IMPLEMENTATION.md) | Actual decisions and differences from the initial proposal |
+| [Roadmap](docs/ROADMAP.md) | Delivery evidence and remaining research |
+| [Original project plan](docs/PROJECT_PLAN.md) | Scope, hypotheses and proposed success criteria |
+| [Original evaluation plan](docs/EVALUATION.md) | Experiment rationale and acceptance targets |
+| [Sources](docs/SOURCES.md) | Data origins and primary research references |
 
-## Local machine
+Machine-readable results live in [`reports/`](reports/). Targets in the original proposal are not measured results. Quality claims must identify their split, checkpoint, and report.
 
-The initial plan targets an Apple M3 Pro with 18 GiB unified memory and approximately 44 GiB free disk at setup. Training speed and usable batch size are unmeasured. A short forward/backward benchmark is the first implementation gate.
+## Data and licensing
 
-The planning configuration is [configs/pilot.toml](configs/pilot.toml). It records proposed defaults; there is no training command consuming it yet.
+Speech comes from [LibriSpeech / OpenSLR 12](https://www.openslr.org/12), distributed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Examples are cropped, normalized, mixed derivatives; their local index retains source identifiers and attribution. No private recordings are included. This custom protocol is not the official Libri2Mix benchmark.
 
-## Available command
-
-With Python 3.12 installed:
-
-```sh
-python3.12 scripts/check_environment.py
-```
-
-Or with `uv`:
-
-```sh
-uv run --no-project --python 3.12 scripts/check_environment.py
-```
-
-The command reports the active interpreter, platform, disk space, tool availability, and installed PyTorch version if present. It does not install packages, download data, or run training. Model-specific MPS compatibility remains an implementation task.
-
-## Repository conventions
-
-- `main` holds reviewed, reproducible work; short feature branches hold implementation changes.
-- Audio, datasets, checkpoints, run logs, credentials, and local environments stay out of Git.
-- Small manifests, checksums, configurations, aggregate results, and documentation can be versioned when they contain no private paths or recordings.
-- Each reported experiment must identify its code commit, configuration, data manifest, checkpoint, and evaluation protocol.
-- Document capabilities as planned, implemented, measured, or released. Do not substitute proposed targets for results.
-
-The repository is intended for public portfolio review. A license for original project code has not yet been selected; third-party data and dependencies retain their own licenses.
+A license for original project code has not been selected. Public visibility alone does not grant an open-source license. Dependencies and data retain their respective licenses; weights remain local to this workspace.

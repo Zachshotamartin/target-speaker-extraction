@@ -66,6 +66,11 @@ def test_missing_model_and_invalid_reference(checkpoint, tmp_path):
     with TestClient(create_app(tmp_path / "missing.pt", "cpu")) as client:
         assert client.get("/ready").status_code == 503
         assert client.post("/extract", files=uploads()).status_code == 503
+    corrupt = tmp_path / "corrupt.pt"
+    corrupt.write_bytes(b"invalid checkpoint")
+    with TestClient(create_app(corrupt, "cpu")) as client:
+        assert client.get("/ready").status_code == 503
+        assert client.get("/").status_code == 200
     with TestClient(create_app(checkpoint, "cpu")) as client:
         assert (
             client.post("/extract", files=uploads(np.zeros(48000, dtype=np.float32))).status_code

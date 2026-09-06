@@ -100,6 +100,20 @@ def main() -> int:
     diagnostic.add_argument("--output", type=Path, required=True)
     diagnostic.add_argument("--device", choices=["cpu", "mps"], default="mps")
     diagnostic.add_argument("--limit", type=int, default=80)
+    delivery = commands.add_parser("evaluate-delivery", help="Score the app's waveform path")
+    delivery.add_argument("--checkpoint", type=Path, default=Path("artifacts/releases/model.pt"))
+    delivery.add_argument("--root", type=Path, default=Path("data/raw"))
+    delivery.add_argument("--manifest", type=Path, default=Path("data/manifests/inventory.json"))
+    delivery.add_argument("--cases", type=Path, required=True)
+    delivery.add_argument("--output", type=Path, required=True)
+    delivery.add_argument("--device", choices=["cpu", "mps"], default="cpu")
+    profile = commands.add_parser("profile-delivery", help="Time 10/30/60-second extraction")
+    profile.add_argument("--checkpoint", type=Path, default=Path("artifacts/releases/model.pt"))
+    profile.add_argument("--mixture", type=Path, required=True)
+    profile.add_argument("--reference", type=Path, required=True)
+    profile.add_argument("--output", type=Path, required=True)
+    profile.add_argument("--device", choices=["cpu", "mps"], default="cpu")
+    profile.add_argument("--repeats", type=int, default=5)
     args = parser.parse_args()
     try:
         if args.command == "data":
@@ -205,6 +219,25 @@ def main() -> int:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_bytes(audio)
             print(json.dumps(metadata, indent=2))
+        elif args.command == "evaluate-delivery":
+            from tse.deployment import evaluate_delivery
+
+            result = evaluate_delivery(
+                args.checkpoint, args.root, args.manifest, args.cases, args.output, args.device
+            )
+            print(json.dumps(result["summary"], indent=2))
+        elif args.command == "profile-delivery":
+            from tse.deployment import profile_delivery
+
+            result = profile_delivery(
+                args.checkpoint,
+                args.mixture,
+                args.reference,
+                args.output,
+                args.device,
+                args.repeats,
+            )
+            print(json.dumps(result["rows"], indent=2))
         elif args.command == "serve":
             import uvicorn
 

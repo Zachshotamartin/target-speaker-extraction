@@ -4,6 +4,7 @@ const $ = (id) => document.getElementById(id);
 const state = {
   ready: false,
   busy: false,
+  loadingExample: false,
   files: {},
   buffers: {},
   urls: {},
@@ -25,10 +26,10 @@ function clock(seconds) {
 }
 
 function updateButton() {
-  $("extract-button").disabled = !state.ready || state.busy || !state.files.mixture || !state.files.reference;
+  $("extract-button").disabled = !state.ready || state.busy || state.loadingExample || !state.files.mixture || !state.files.reference;
   $("extract-button").classList.toggle("busy", state.busy);
   $("extract-label").textContent = state.busy ? "Isolating the voice" : "Isolate this voice";
-  for (const input of document.querySelectorAll('input[type="file"], .example-button')) input.disabled = state.busy;
+  for (const input of document.querySelectorAll('input[type="file"], .example-button')) input.disabled = state.busy || state.loadingExample;
 }
 
 function stopAudio(except = null) {
@@ -83,8 +84,8 @@ async function decode(blob) {
   return state.context.decodeAudioData(await blob.arrayBuffer());
 }
 
-async function selectFile(kind, file) {
-  if (state.busy || !file) return;
+async function selectFile(kind, file, fromExample = false) {
+  if (state.busy || (state.loadingExample && !fromExample) || !file) return;
   const version = ++state.versions[kind];
   clearResult();
   delete state.files[kind];
@@ -185,7 +186,7 @@ $("seek").addEventListener("input", (event) => {
 
 $("extraction-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  if (state.busy || !state.ready || !state.files.mixture || !state.files.reference) return;
+  if (state.busy || state.loadingExample || !state.ready || !state.files.mixture || !state.files.reference) return;
   clearResult();
   state.busy = true;
   updateButton();
@@ -253,17 +254,18 @@ async function initialize() {
       button.className = "example-button";
       button.textContent = example.label;
       button.addEventListener("click", async () => {
-        if (state.busy) return;
-        button.disabled = true;
+        if (state.busy || state.loadingExample) return;
+        state.loadingExample = true;
+        updateButton();
         try {
           message("Loading a public speech example…");
           const audioResponses = await Promise.all([fetch(example.mixture), fetch(example.reference)]);
           if (audioResponses.some((item) => !item.ok)) throw new Error("Example audio is unavailable.");
           const [mixture, reference] = await Promise.all(audioResponses.map((item) => item.blob()));
-          await selectFile("mixture", new File([mixture], "example-conversation.wav", { type: "audio/wav" }));
-          await selectFile("reference", new File([reference], `${example.id}-voice.wav`, { type: "audio/wav" }));
+          await selectFile("mixture", new File([mixture], "example-conversation.wav", { type: "audio/wav" }), true);
+          await selectFile("reference", new File([reference], `${example.id}-voice.wav`, { type: "audio/wav" }), true);
         } catch (error) { message(error.message, "error"); }
-        finally { button.disabled = state.busy; }
+        finally { state.loadingExample = false; updateButton(); }
       });
       $("example-buttons").append(button);
     }

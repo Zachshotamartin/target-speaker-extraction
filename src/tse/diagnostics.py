@@ -10,7 +10,7 @@ import torch
 
 from tse.data import SpeechCorpus, augment_reference, load_cases
 from tse.engine import evaluate_model, load_model
-from tse.metrics import summarize
+from tse.metrics import measure, summarize
 from tse.utils import atomic_json, sha256
 
 
@@ -46,12 +46,26 @@ def diagnose(
                 "excluded_cases": len(cases) - len(selected),
                 "summary": summarize(rows),
                 "case_ids": [c["case_id"] for c in selected],
+                "rows": rows,
             }
         else:
             duration_results[str(seconds)] = {"eligible_cases": 0, "excluded_cases": len(cases)}
     absent = []
+    constant_rows = []
     with torch.inference_mode():
         for case in cases:
+            batch = corpus.batch([case], device)
+            embedding = torch.zeros(1, model.config.reference_encoder.embedding_dim, device=device)
+            constant_prediction = model.extract(batch["mixture"], embedding)
+            constant_rows.append(
+                {
+                    "case_id": case["case_id"],
+                    "target_speaker": batch["speakers"][0],
+                    **measure(
+                        constant_prediction, batch["mixture"], batch["target"], batch["interferer"]
+                    )[0],
+                }
+            )
             speakers = {corpus.records[source["id"]]["speaker"] for source in case["sources"]}
             candidates = [speaker for speaker in corpus.speakers if speaker not in speakers]
             if not candidates:
@@ -61,7 +75,6 @@ def diagnose(
             reference = corpus.read(source["id"])[:80000].copy()
             reference -= reference.mean()
             reference = augment_reference(reference, "clean", case["seed"])
-            batch = corpus.batch([case], device)
             prediction = model(batch["mixture"], torch.from_numpy(reference[None, None]).to(device))
             ratio = float(
                 10
@@ -85,6 +98,11 @@ def diagnose(
         "selected_step": payload["step"],
         "reference_duration_seconds": duration_results,
         "duration_note": "Eligible subsets differ at longer durations; compare paired common IDs for causal duration claims.",
+        "constant_conditioning": {
+            "summary": summarize(constant_rows),
+            "rows": constant_rows,
+            "interpretation": "Reference embedding replaced by all zeros at inference only. This out-of-distribution intervention diagnoses reference use; it is not an independently trained separation baseline.",
+        },
         "absent_targets": {
             "cases": len(absent),
             "mean_output_mixture_energy_db": float(

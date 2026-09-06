@@ -1,3 +1,5 @@
+> Original planning record. For the implemented system, see [IMPLEMENTATION.md](IMPLEMENTATION.md), [REPRODUCING.md](REPRODUCING.md), and the measured reports. Proposed targets below are not current capability claims.
+
 # Evaluation and experiments
 
 Status: protocol proposal. No experiment has been run. Final test thresholds and case manifests must be frozen before the final comparison.

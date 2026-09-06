@@ -1,3 +1,5 @@
+> Original planning record. For the implemented system, see [IMPLEMENTATION.md](IMPLEMENTATION.md), [REPRODUCING.md](REPRODUCING.md), and the measured reports. Proposed targets below are not current capability claims.
+
 # Decision log
 
 Recorded on 2026-09-06. Update decisions with evidence and preserve the reason for a change.

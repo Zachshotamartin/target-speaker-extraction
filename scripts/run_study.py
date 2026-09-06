@@ -71,6 +71,11 @@ def main() -> int:
         )
     if json.loads(overfit_summary.read_text())["best_development_si_sdri_db"] < 5:
         raise RuntimeError("Tiny-set learning gate failed; inspect that run before scaling")
+    tiny_validation = json.loads(Path("artifacts/runs/overfit/latest_validation.json").read_text())[
+        "summary"
+    ]
+    if tiny_validation["confusion_fraction"] > 0.1:
+        raise RuntimeError("Tiny-set target switching failed; inspect reference conditioning")
     config = ExperimentConfig.load(Path("configs/control.json"))
     config.training.max_optimizer_updates = args.steps
     destinations = []
@@ -142,6 +147,15 @@ def main() -> int:
     run("export", "--checkpoint", checkpoint)
     run("examples")
     run(
+        "evaluate-delivery",
+        "--cases",
+        "data/manifests/dev-report-cases.json",
+        "--output",
+        "reports/delivered-development.json",
+        "--device",
+        args.device,
+    )
+    run(
         "diagnose",
         "--checkpoint",
         checkpoint,
@@ -188,6 +202,15 @@ def main() -> int:
             "reports/augmented-test.json",
             "--output",
             "reports/test-comparison.json",
+        )
+        run(
+            "evaluate-delivery",
+            "--cases",
+            "data/manifests/test-cases.json",
+            "--output",
+            "reports/delivered-test.json",
+            "--device",
+            args.device,
         )
     print(
         json.dumps(
