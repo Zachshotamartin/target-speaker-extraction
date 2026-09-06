@@ -12,6 +12,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+from tse.reporting import analyze_failures
+
 
 def read(path: str) -> dict:
     return json.loads(Path(path).read_text())
@@ -49,6 +51,25 @@ def main() -> None:
         )
     ):
         raise ValueError("Report inputs do not identify one frozen delivered artifact")
+    failures = analyze_failures(
+        Path("reports/delivered-test.json"),
+        Path("data/manifests/test-cases.json"),
+        Path("data/manifests/inventory.json"),
+        Path("reports/selected-test-failures.json"),
+    )["conditions"]["clean"]
+    level_table = [
+        "| Target level relative to interferer | Cases | SI-SDRi | Model confusion | Mixture-baseline confusion |",
+        "| --- | ---: | ---: | ---: | ---: |",
+    ]
+    for key, label in (
+        ("quieter_target", "Below −2 dB"),
+        ("similar_levels", "−2 to +2 dB"),
+        ("louder_target", "Above +2 dB"),
+    ):
+        group = failures["level_group"][key]
+        level_table.append(
+            f"| {label} | {group['cases']} | {group['mean_si_sdri_db']:.2f} dB | {percent(group['confusion_fraction'])} | {percent(group['mixture_baseline_confusion_fraction'])} |"
+        )
     conditions = ["clean", "noise", "channel", "reverb", "combined"]
     quality_table = [
         "| Reference | Control SI-SDRi | Augmented SI-SDRi | Paired gain [approx. 95% CI] | Confusion, control / augmented |",
@@ -209,6 +230,12 @@ The app's exact shared WAV processing path achieves **{delivered_clean["mean_si_
 ![Frozen reference-condition results](../reports/figures/test-conditions.png)
 
 ## Failure diagnostics
+
+The delivered clean test path, grouped by target level:
+
+{chr(10).join(level_table)}
+
+The mixture-baseline confusion proxy is recovered from the two target scores for each identical mixture. It exposes the proxy's dependence on relative level. Across {failures["paired_requests"]["complete_pairs"]} complete mixture pairs, both requested targets improve in {percent(failures["paired_requests"]["both_targets_improved_fraction"])}; at least one target triggers confusion in {percent(failures["paired_requests"]["either_target_confused_fraction"])}. These are descriptive slices, not independently randomized comparisons. Chapter and individual-speaker summaries are in [failure analysis](../reports/selected-test-failures.json).
 
 On {absent["cases"]} development requests with a third, absent speaker's reference, output energy exceeds −20 dB relative to mixture in **{percent(absent["output_above_minus20db_fraction"])}** of cases. Mean output/mixture energy is {absent["mean_output_mixture_energy_db"]:.2f} dB. Target absence is unsupported; the system can emit another voice. No SI-SDR against a zero target is reported.
 

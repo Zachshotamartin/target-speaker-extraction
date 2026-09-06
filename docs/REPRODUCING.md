@@ -90,6 +90,7 @@ The [local listening gallery](http://127.0.0.1:8000/gallery/) contains the first
 ```sh
 uv run tse evaluate-delivery --cases data/manifests/test-cases.json --output reports/delivered-test.json --device cpu
 uv run tse diagnose --checkpoint artifacts/releases/model.pt --output reports/reference-diagnostics.json --device cpu
+uv run tse analyze-failures --report reports/delivered-test.json --cases data/manifests/test-cases.json --output reports/selected-test-failures.json
 ```
 
 Use development cases for delivery checks before the final freeze. The first command scores the same WAV decoding, normalization, extraction, and WAV encoding functions used by the API. HTTP behavior has independent integration tests.

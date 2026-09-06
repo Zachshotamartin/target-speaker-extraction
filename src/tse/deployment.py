@@ -63,6 +63,7 @@ def evaluate_delivery(
         "case_manifest_sha256": sha256(cases_path),
         "split": protocol["split"],
         "device": device,
+        "confusion_margin_db": extractor.config.evaluation.confusion_margin_db,
         "path": "Float WAV encode -> API's shared extract_files -> Float WAV decode -> score",
         "elapsed_seconds": time.perf_counter() - started,
         "summary": summarize(rows),

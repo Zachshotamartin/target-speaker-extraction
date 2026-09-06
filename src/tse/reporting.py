@@ -12,6 +12,121 @@ from tse.data import SpeechCorpus, load_cases
 from tse.utils import atomic_json, sha256
 
 
+def analyze_failures(report_path: Path, cases_path: Path, manifest: Path, output: Path) -> dict:
+    """Join exact recipes to scores without fitting thresholds or selecting a model."""
+    report = json.loads(report_path.read_text())
+    if report["case_manifest_sha256"] != sha256(cases_path) or report[
+        "source_manifest_sha256"
+    ] != sha256(manifest):
+        raise ValueError("Failure analysis requires the exact evaluated case and source manifests")
+    cases = {case["case_id"]: case for case in json.loads(cases_path.read_text())["cases"]}
+    records = {row["id"]: row for row in json.loads(manifest.read_text())["records"]}
+    margin = report.get(
+        "confusion_margin_db",
+        report.get("config", {}).get("evaluation", {}).get("confusion_margin_db", 3),
+    )
+
+    def describe(rows: list[dict]) -> dict:
+        baseline = [
+            row["mixture_baseline_confused"] for row in rows if "mixture_baseline_confused" in row
+        ]
+        return {
+            "cases": len(rows),
+            "mean_si_sdri_db": float(np.mean([row["si_sdri_db"] for row in rows])),
+            "negative_improvement_fraction": float(
+                np.mean([row["si_sdri_db"] < 0 for row in rows])
+            ),
+            "confusion_fraction": float(np.mean([row["confused"] for row in rows])),
+            "mixture_baseline_confusion_fraction": float(np.mean(baseline)) if baseline else None,
+            "baseline_paired_cases": len(baseline),
+        }
+
+    joined = []
+    seen = set()
+    for row in report["rows"]:
+        identity = (row["case_id"], row["condition"])
+        if identity in seen or row["case_id"] not in cases:
+            raise ValueError("Duplicate or unknown scored case")
+        seen.add(identity)
+        case = cases[row["case_id"]]
+        index = case["target_index"]
+        target = records[case["sources"][index]["id"]]
+        reference = records[case["references"][index]["id"]]
+        if target["speaker"] != row["target_speaker"]:
+            raise ValueError("Scored target speaker does not match its recipe")
+        ratio = case["ratio_db"] * (1 if index == 0 else -1)
+        joined.append(
+            {
+                **row,
+                "target_index": index,
+                "target_to_interferer_db": ratio,
+                "level_group": "quieter_target"
+                if ratio < -2
+                else "louder_target"
+                if ratio > 2
+                else "similar_levels",
+                "reference_chapter_group": "different_chapter"
+                if target["chapter"] != reference["chapter"]
+                else "same_chapter",
+                "mixture_key": json.dumps(
+                    {key: case[key] for key in ("sources", "samples", "ratio_db")}, sort_keys=True
+                ),
+            }
+        )
+    conditions = {}
+    for condition in sorted({row["condition"] for row in joined}):
+        rows = [row for row in joined if row["condition"] == condition]
+        pairs = {}
+        for row in rows:
+            pairs.setdefault(row["mixture_key"], []).append(row)
+        valid_pairs = [
+            pair
+            for pair in pairs.values()
+            if len(pair) == 2 and {row["target_index"] for row in pair} == {0, 1}
+        ]
+        for left, right in valid_pairs:
+            left["mixture_baseline_confused"] = (
+                right["mixture_si_sdr_db"] > left["mixture_si_sdr_db"] + margin
+            )
+            right["mixture_baseline_confused"] = (
+                left["mixture_si_sdr_db"] > right["mixture_si_sdr_db"] + margin
+            )
+        groups = {}
+        for key in ("level_group", "reference_chapter_group", "target_speaker"):
+            groups[key] = {
+                str(value): describe([row for row in rows if row[key] == value])
+                for value in sorted({row[key] for row in rows})
+            }
+        conditions[condition] = {
+            **groups,
+            "paired_requests": {
+                "complete_pairs": len(valid_pairs),
+                "excluded_groups": len(pairs) - len(valid_pairs),
+                "both_targets_improved_fraction": float(
+                    np.mean([all(row["si_sdri_db"] > 0 for row in pair) for pair in valid_pairs])
+                )
+                if valid_pairs
+                else None,
+                "either_target_confused_fraction": float(
+                    np.mean([any(row["confused"] for row in pair) for pair in valid_pairs])
+                )
+                if valid_pairs
+                else None,
+            },
+        }
+    result = {
+        "report_sha256": sha256(report_path),
+        "case_manifest_sha256": sha256(cases_path),
+        "source_manifest_sha256": sha256(manifest),
+        "split": report["split"],
+        "confusion_margin_db": margin,
+        "conditions": conditions,
+        "interpretation": "Descriptive post-evaluation slices. Level bins are fixed at -2/+2 dB; chapter groups use source metadata. No demographic attributes are inferred. Small groups and shared mixtures limit precision. Do not use final-test slices to retune this release.",
+    }
+    atomic_json(output, result)
+    return result
+
+
 def compare(control_path: Path, treatment_path: Path, output: Path, replicates: int = 1000) -> dict:
     control, treatment = (json.loads(path.read_text()) for path in (control_path, treatment_path))
     for key in ("case_manifest_sha256", "source_manifest_sha256", "split", "protocol"):

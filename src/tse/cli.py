@@ -124,6 +124,13 @@ def main() -> int:
     gallery.add_argument("--output", type=Path, default=Path("artifacts/gallery"))
     gallery.add_argument("--device", choices=["cpu", "mps"], default="cpu")
     gallery.add_argument("--count", type=int, default=20)
+    failures = commands.add_parser(
+        "analyze-failures", help="Describe level, chapter and paired-target failure slices"
+    )
+    failures.add_argument("--report", type=Path, required=True)
+    failures.add_argument("--cases", type=Path, required=True)
+    failures.add_argument("--manifest", type=Path, default=Path("data/manifests/inventory.json"))
+    failures.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
         if args.command == "data":
@@ -261,6 +268,11 @@ def main() -> int:
                 args.count,
             )
             print(json.dumps({"output": str(args.output), "items": len(result["items"])}))
+        elif args.command == "analyze-failures":
+            from tse.reporting import analyze_failures
+
+            result = analyze_failures(args.report, args.cases, args.manifest, args.output)
+            print(json.dumps({"split": result["split"], "conditions": list(result["conditions"])}))
         elif args.command == "serve":
             import uvicorn
 

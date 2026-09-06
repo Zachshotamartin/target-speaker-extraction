@@ -1,0 +1,1880 @@
+{
+  "report_sha256": "cbbb6430f88bb2e7cbe68f68e76315a2f9e1dba10343d9f70b662eeb5f83b47d",
+  "case_manifest_sha256": "a1c53c0effb5ce5c0ae884307584e745a938cb12aabdb684b442c5c7cabd80c5",
+  "source_manifest_sha256": "ec48066f2e6ccc80e01478b91cb2657ee502e320a0e4da27e3394d22f56162b7",
+  "split": "dev",
+  "confusion_margin_db": 3.0,
+  "conditions": {
+    "channel": {
+      "level_group": {
+        "louder_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 1.1250267083828265,
+          "negative_improvement_fraction": 0.2923076923076923,
+          "confusion_fraction": 0.007692307692307693,
+          "mixture_baseline_confusion_fraction": 0.0,
+          "baseline_paired_cases": 130
+        },
+        "quieter_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 2.8276497767521787,
+          "negative_improvement_fraction": 0.17692307692307693,
+          "confusion_fraction": 0.2846153846153846,
+          "mixture_baseline_confusion_fraction": 1.0,
+          "baseline_paired_cases": 130
+        },
+        "similar_levels": {
+          "cases": 140,
+          "mean_si_sdri_db": 1.5239946493080685,
+          "negative_improvement_fraction": 0.3,
+          "confusion_fraction": 0.10714285714285714,
+          "mixture_baseline_confusion_fraction": 0.1357142857142857,
+          "baseline_paired_cases": 140
+        }
+      },
+      "reference_chapter_group": {
+        "different_chapter": {
+          "cases": 171,
+          "mean_si_sdri_db": 1.928911200740881,
+          "negative_improvement_fraction": 0.25146198830409355,
+          "confusion_fraction": 0.13450292397660818,
+          "mixture_baseline_confusion_fraction": 0.3508771929824561,
+          "baseline_paired_cases": 171
+        },
+        "same_chapter": {
+          "cases": 229,
+          "mean_si_sdri_db": 1.7352112604541028,
+          "negative_improvement_fraction": 0.26200873362445415,
+          "confusion_fraction": 0.13100436681222707,
+          "mixture_baseline_confusion_fraction": 0.388646288209607,
+          "baseline_paired_cases": 229
+        }
+      },
+      "target_speaker": {
+        "1272": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.5046809911727905,
+          "negative_improvement_fraction": 0.2222222222222222,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.1111111111111111,
+          "baseline_paired_cases": 9
+        },
+        "1462": {
+          "cases": 13,
+          "mean_si_sdri_db": 1.5672365885514479,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.23076923076923078,
+          "baseline_paired_cases": 13
+        },
+        "1673": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.0040920310550265,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.2222222222222222,
+          "mixture_baseline_confusion_fraction": 0.2222222222222222,
+          "baseline_paired_cases": 9
+        },
+        "174": {
+          "cases": 5,
+          "mean_si_sdri_db": 2.8192683696746825,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 5
+        },
+        "1919": {
+          "cases": 12,
+          "mean_si_sdri_db": 0.4317491004864375,
+          "negative_improvement_fraction": 0.5833333333333334,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "1988": {
+          "cases": 12,
+          "mean_si_sdri_db": 2.369765410820643,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 12
+        },
+        "1993": {
+          "cases": 14,
+          "mean_si_sdri_db": 3.3422898650169373,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.35714285714285715,
+          "baseline_paired_cases": 14
+        },
+        "2035": {
+          "cases": 10,
+          "mean_si_sdri_db": 3.2542529463768006,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.7,
+          "baseline_paired_cases": 10
+        },
+        "2078": {
+          "cases": 13,
+          "mean_si_sdri_db": 0.9757351508507361,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.15384615384615385,
+          "baseline_paired_cases": 13
+        },
+        "2086": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.8859899938106537,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "2277": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.5799404638154164,
+          "negative_improvement_fraction": 0.07142857142857142,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 14
+        },
+        "2412": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.129034170082637,
+          "negative_improvement_fraction": 0.07142857142857142,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.2857142857142857,
+          "baseline_paired_cases": 14
+        },
+        "2428": {
+          "cases": 10,
+          "mean_si_sdri_db": 1.8028578639030457,
+          "negative_improvement_fraction": 0.3,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "251": {
+          "cases": 11,
+          "mean_si_sdri_db": 1.8699543096802451,
+          "negative_improvement_fraction": 0.2727272727272727,
+          "confusion_fraction": 0.09090909090909091,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "2803": {
+          "cases": 11,
+          "mean_si_sdri_db": 3.036269285462119,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.09090909090909091,
+          "baseline_paired_cases": 11
+        },
+        "2902": {
+          "cases": 12,
+          "mean_si_sdri_db": -0.501520519455274,
+          "negative_improvement_fraction": 0.6666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "3000": {
+          "cases": 10,
+          "mean_si_sdri_db": 0.5027857661247254,
+          "negative_improvement_fraction": 0.4,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "3081": {
+          "cases": 10,
+          "mean_si_sdri_db": -1.0875426173210143,
+          "negative_improvement_fraction": 0.7,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.2,
+          "baseline_paired_cases": 10
+        },
+        "3170": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.4969052016735076,
+          "negative_improvement_fraction": 0.1,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.1,
+          "baseline_paired_cases": 10
+        },
+        "3536": {
+          "cases": 8,
+          "mean_si_sdri_db": 1.3166534751653671,
+          "negative_improvement_fraction": 0.25,
+          "confusion_fraction": 0.375,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 8
+        },
+        "3576": {
+          "cases": 7,
+          "mean_si_sdri_db": -1.538231304713658,
+          "negative_improvement_fraction": 0.5714285714285714,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.5714285714285714,
+          "baseline_paired_cases": 7
+        },
+        "3752": {
+          "cases": 17,
+          "mean_si_sdri_db": 2.899226854829227,
+          "negative_improvement_fraction": 0.11764705882352941,
+          "confusion_fraction": 0.17647058823529413,
+          "mixture_baseline_confusion_fraction": 0.35294117647058826,
+          "baseline_paired_cases": 17
+        },
+        "3853": {
+          "cases": 12,
+          "mean_si_sdri_db": 2.0801621278127036,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.25,
+          "mixture_baseline_confusion_fraction": 0.6666666666666666,
+          "baseline_paired_cases": 12
+        },
+        "422": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.0447697109646268,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.3333333333333333,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5338": {
+          "cases": 7,
+          "mean_si_sdri_db": 3.3401783534458707,
+          "negative_improvement_fraction": 0.14285714285714285,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "5536": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.207377473513285,
+          "negative_improvement_fraction": 0.2222222222222222,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5694": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.6402774254480998,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "5895": {
+          "cases": 13,
+          "mean_si_sdri_db": 3.191314642245953,
+          "negative_improvement_fraction": 0.15384615384615385,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.5384615384615384,
+          "baseline_paired_cases": 13
+        },
+        "6241": {
+          "cases": 10,
+          "mean_si_sdri_db": -1.165958571434021,
+          "negative_improvement_fraction": 0.7,
+          "confusion_fraction": 0.5,
+          "mixture_baseline_confusion_fraction": 0.6,
+          "baseline_paired_cases": 10
+        },
+        "6295": {
+          "cases": 8,
+          "mean_si_sdri_db": 3.3842697590589523,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "6313": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.5937546133995055,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "6319": {
+          "cases": 9,
+          "mean_si_sdri_db": 3.6816203196843467,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.3333333333333333,
+          "baseline_paired_cases": 9
+        },
+        "6345": {
+          "cases": 11,
+          "mean_si_sdri_db": 0.5382971871982921,
+          "negative_improvement_fraction": 0.36363636363636365,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.5454545454545454,
+          "baseline_paired_cases": 11
+        },
+        "652": {
+          "cases": 7,
+          "mean_si_sdri_db": 1.6262893676757812,
+          "negative_improvement_fraction": 0.42857142857142855,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "777": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.897300291061401,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "7850": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.0435792605082195,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.3333333333333333,
+          "mixture_baseline_confusion_fraction": 0.5555555555555556,
+          "baseline_paired_cases": 9
+        },
+        "7976": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.2698990404605865,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 8
+        },
+        "8297": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.6213963230450947,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "84": {
+          "cases": 11,
+          "mean_si_sdri_db": 0.9094283797524192,
+          "negative_improvement_fraction": 0.45454545454545453,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "8842": {
+          "cases": 6,
+          "mean_si_sdri_db": 2.5607378085454306,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.16666666666666666,
+          "baseline_paired_cases": 6
+        }
+      },
+      "paired_requests": {
+        "complete_pairs": 200,
+        "excluded_groups": 0,
+        "both_targets_improved_fraction": 0.555,
+        "either_target_confused_fraction": 0.265
+      }
+    },
+    "clean": {
+      "level_group": {
+        "louder_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 1.1960462542680594,
+          "negative_improvement_fraction": 0.27692307692307694,
+          "confusion_fraction": 0.015384615384615385,
+          "mixture_baseline_confusion_fraction": 0.0,
+          "baseline_paired_cases": 130
+        },
+        "quieter_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 2.7974879576609686,
+          "negative_improvement_fraction": 0.18461538461538463,
+          "confusion_fraction": 0.2923076923076923,
+          "mixture_baseline_confusion_fraction": 1.0,
+          "baseline_paired_cases": 130
+        },
+        "similar_levels": {
+          "cases": 140,
+          "mean_si_sdri_db": 1.63922516794077,
+          "negative_improvement_fraction": 0.2785714285714286,
+          "confusion_fraction": 0.10714285714285714,
+          "mixture_baseline_confusion_fraction": 0.1357142857142857,
+          "baseline_paired_cases": 140
+        }
+      },
+      "reference_chapter_group": {
+        "different_chapter": {
+          "cases": 171,
+          "mean_si_sdri_db": 1.9398671601686561,
+          "negative_improvement_fraction": 0.23391812865497075,
+          "confusion_fraction": 0.14619883040935672,
+          "mixture_baseline_confusion_fraction": 0.3508771929824561,
+          "baseline_paired_cases": 171
+        },
+        "same_chapter": {
+          "cases": 229,
+          "mean_si_sdri_db": 1.8206711208455948,
+          "negative_improvement_fraction": 0.2576419213973799,
+          "confusion_fraction": 0.13100436681222707,
+          "mixture_baseline_confusion_fraction": 0.388646288209607,
+          "baseline_paired_cases": 229
+        }
+      },
+      "target_speaker": {
+        "1272": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.5673203468322754,
+          "negative_improvement_fraction": 0.2222222222222222,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.1111111111111111,
+          "baseline_paired_cases": 9
+        },
+        "1462": {
+          "cases": 13,
+          "mean_si_sdri_db": 1.684363658611591,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.23076923076923078,
+          "baseline_paired_cases": 13
+        },
+        "1673": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.0228424734539456,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.2222222222222222,
+          "mixture_baseline_confusion_fraction": 0.2222222222222222,
+          "baseline_paired_cases": 9
+        },
+        "174": {
+          "cases": 5,
+          "mean_si_sdri_db": 3.946731185913086,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 5
+        },
+        "1919": {
+          "cases": 12,
+          "mean_si_sdri_db": 1.2670686145623524,
+          "negative_improvement_fraction": 0.4166666666666667,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "1988": {
+          "cases": 12,
+          "mean_si_sdri_db": 2.886512557665507,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 12
+        },
+        "1993": {
+          "cases": 14,
+          "mean_si_sdri_db": 3.37533187014716,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.35714285714285715,
+          "baseline_paired_cases": 14
+        },
+        "2035": {
+          "cases": 10,
+          "mean_si_sdri_db": 3.4862741112709044,
+          "negative_improvement_fraction": 0.1,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.7,
+          "baseline_paired_cases": 10
+        },
+        "2078": {
+          "cases": 13,
+          "mean_si_sdri_db": 1.0368753900894752,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.15384615384615385,
+          "baseline_paired_cases": 13
+        },
+        "2086": {
+          "cases": 8,
+          "mean_si_sdri_db": 3.0970848947763443,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.125,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "2277": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.63770261832646,
+          "negative_improvement_fraction": 0.07142857142857142,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 14
+        },
+        "2412": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.536910116672516,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.2857142857142857,
+          "baseline_paired_cases": 14
+        },
+        "2428": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.1653178095817567,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "251": {
+          "cases": 11,
+          "mean_si_sdri_db": 1.9650880098342896,
+          "negative_improvement_fraction": 0.2727272727272727,
+          "confusion_fraction": 0.09090909090909091,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "2803": {
+          "cases": 11,
+          "mean_si_sdri_db": 2.702047835696827,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.09090909090909091,
+          "baseline_paired_cases": 11
+        },
+        "2902": {
+          "cases": 12,
+          "mean_si_sdri_db": -0.8535715242226919,
+          "negative_improvement_fraction": 0.6666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "3000": {
+          "cases": 10,
+          "mean_si_sdri_db": 0.6765877783298493,
+          "negative_improvement_fraction": 0.4,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "3081": {
+          "cases": 10,
+          "mean_si_sdri_db": -0.06452224254608155,
+          "negative_improvement_fraction": 0.7,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.2,
+          "baseline_paired_cases": 10
+        },
+        "3170": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.199613857269287,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.1,
+          "baseline_paired_cases": 10
+        },
+        "3536": {
+          "cases": 8,
+          "mean_si_sdri_db": 1.0937030017375946,
+          "negative_improvement_fraction": 0.375,
+          "confusion_fraction": 0.375,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 8
+        },
+        "3576": {
+          "cases": 7,
+          "mean_si_sdri_db": -1.7319493974958147,
+          "negative_improvement_fraction": 0.7142857142857143,
+          "confusion_fraction": 0.2857142857142857,
+          "mixture_baseline_confusion_fraction": 0.5714285714285714,
+          "baseline_paired_cases": 7
+        },
+        "3752": {
+          "cases": 17,
+          "mean_si_sdri_db": 2.780218341771294,
+          "negative_improvement_fraction": 0.11764705882352941,
+          "confusion_fraction": 0.17647058823529413,
+          "mixture_baseline_confusion_fraction": 0.35294117647058826,
+          "baseline_paired_cases": 17
+        },
+        "3853": {
+          "cases": 12,
+          "mean_si_sdri_db": 1.7876344720522563,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.25,
+          "mixture_baseline_confusion_fraction": 0.6666666666666666,
+          "baseline_paired_cases": 12
+        },
+        "422": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.0389674769507513,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.3333333333333333,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5338": {
+          "cases": 7,
+          "mean_si_sdri_db": 3.410649844578334,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "5536": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.1003796797659664,
+          "negative_improvement_fraction": 0.1111111111111111,
+          "confusion_fraction": 0.1111111111111111,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5694": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.341284155845642,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "5895": {
+          "cases": 13,
+          "mean_si_sdri_db": 4.0257345254604635,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.5384615384615384,
+          "baseline_paired_cases": 13
+        },
+        "6241": {
+          "cases": 10,
+          "mean_si_sdri_db": -2.3995530724525453,
+          "negative_improvement_fraction": 0.7,
+          "confusion_fraction": 0.5,
+          "mixture_baseline_confusion_fraction": 0.6,
+          "baseline_paired_cases": 10
+        },
+        "6295": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.838302820920944,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "6313": {
+          "cases": 10,
+          "mean_si_sdri_db": 1.676532781124115,
+          "negative_improvement_fraction": 0.4,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "6319": {
+          "cases": 9,
+          "mean_si_sdri_db": 3.771124561627706,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.3333333333333333,
+          "baseline_paired_cases": 9
+        },
+        "6345": {
+          "cases": 11,
+          "mean_si_sdri_db": 1.0750206058675593,
+          "negative_improvement_fraction": 0.36363636363636365,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.5454545454545454,
+          "baseline_paired_cases": 11
+        },
+        "652": {
+          "cases": 7,
+          "mean_si_sdri_db": 0.9785953845296588,
+          "negative_improvement_fraction": 0.42857142857142855,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "777": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.7920837879180906,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "7850": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.3056219418843586,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.3333333333333333,
+          "mixture_baseline_confusion_fraction": 0.5555555555555556,
+          "baseline_paired_cases": 9
+        },
+        "7976": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.381739556789398,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 8
+        },
+        "8297": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.6102196276187897,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "84": {
+          "cases": 11,
+          "mean_si_sdri_db": 0.9511317990042947,
+          "negative_improvement_fraction": 0.45454545454545453,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "8842": {
+          "cases": 6,
+          "mean_si_sdri_db": 2.731571674346924,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.16666666666666666,
+          "baseline_paired_cases": 6
+        }
+      },
+      "paired_requests": {
+        "complete_pairs": 200,
+        "excluded_groups": 0,
+        "both_targets_improved_fraction": 0.57,
+        "either_target_confused_fraction": 0.275
+      }
+    },
+    "combined": {
+      "level_group": {
+        "louder_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 1.0486924281487098,
+          "negative_improvement_fraction": 0.2846153846153846,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.0,
+          "baseline_paired_cases": 130
+        },
+        "quieter_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 2.7621971322939944,
+          "negative_improvement_fraction": 0.2076923076923077,
+          "confusion_fraction": 0.2923076923076923,
+          "mixture_baseline_confusion_fraction": 1.0,
+          "baseline_paired_cases": 130
+        },
+        "similar_levels": {
+          "cases": 140,
+          "mean_si_sdri_db": 1.4292918975864137,
+          "negative_improvement_fraction": 0.2857142857142857,
+          "confusion_fraction": 0.12857142857142856,
+          "mixture_baseline_confusion_fraction": 0.1357142857142857,
+          "baseline_paired_cases": 140
+        }
+      },
+      "reference_chapter_group": {
+        "different_chapter": {
+          "cases": 171,
+          "mean_si_sdri_db": 1.87199760668459,
+          "negative_improvement_fraction": 0.2573099415204678,
+          "confusion_fraction": 0.12280701754385964,
+          "mixture_baseline_confusion_fraction": 0.3508771929824561,
+          "baseline_paired_cases": 171
+        },
+        "same_chapter": {
+          "cases": 229,
+          "mean_si_sdri_db": 1.6393227850505878,
+          "negative_improvement_fraction": 0.26200873362445415,
+          "confusion_fraction": 0.15283842794759825,
+          "mixture_baseline_confusion_fraction": 0.388646288209607,
+          "baseline_paired_cases": 229
+        }
+      },
+      "target_speaker": {
+        "1272": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.541317767567105,
+          "negative_improvement_fraction": 0.2222222222222222,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.1111111111111111,
+          "baseline_paired_cases": 9
+        },
+        "1462": {
+          "cases": 13,
+          "mean_si_sdri_db": 1.3381253939408522,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.07692307692307693,
+          "mixture_baseline_confusion_fraction": 0.23076923076923078,
+          "baseline_paired_cases": 13
+        },
+        "1673": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.123855537838406,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.2222222222222222,
+          "mixture_baseline_confusion_fraction": 0.2222222222222222,
+          "baseline_paired_cases": 9
+        },
+        "174": {
+          "cases": 5,
+          "mean_si_sdri_db": 3.0743000745773315,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 5
+        },
+        "1919": {
+          "cases": 12,
+          "mean_si_sdri_db": 0.25394100944201153,
+          "negative_improvement_fraction": 0.5833333333333334,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "1988": {
+          "cases": 12,
+          "mean_si_sdri_db": 1.3418472409248352,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.25,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 12
+        },
+        "1993": {
+          "cases": 14,
+          "mean_si_sdri_db": 3.348913167204176,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.35714285714285715,
+          "baseline_paired_cases": 14
+        },
+        "2035": {
+          "cases": 10,
+          "mean_si_sdri_db": 3.3783523559570314,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.7,
+          "baseline_paired_cases": 10
+        },
+        "2078": {
+          "cases": 13,
+          "mean_si_sdri_db": 0.9741479891997117,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.15384615384615385,
+          "baseline_paired_cases": 13
+        },
+        "2086": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.887996196746826,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "2277": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.5101097651890347,
+          "negative_improvement_fraction": 0.07142857142857142,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 14
+        },
+        "2412": {
+          "cases": 14,
+          "mean_si_sdri_db": 1.9701445954186576,
+          "negative_improvement_fraction": 0.14285714285714285,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.2857142857142857,
+          "baseline_paired_cases": 14
+        },
+        "2428": {
+          "cases": 10,
+          "mean_si_sdri_db": 1.8025061011314392,
+          "negative_improvement_fraction": 0.3,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "251": {
+          "cases": 11,
+          "mean_si_sdri_db": 1.8698894489895215,
+          "negative_improvement_fraction": 0.2727272727272727,
+          "confusion_fraction": 0.09090909090909091,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "2803": {
+          "cases": 11,
+          "mean_si_sdri_db": 2.9015452319925483,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.09090909090909091,
+          "baseline_paired_cases": 11
+        },
+        "2902": {
+          "cases": 12,
+          "mean_si_sdri_db": -0.4155404071013133,
+          "negative_improvement_fraction": 0.6666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "3000": {
+          "cases": 10,
+          "mean_si_sdri_db": 0.525555682182312,
+          "negative_improvement_fraction": 0.4,
+          "confusion_fraction": 0.3,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "3081": {
+          "cases": 10,
+          "mean_si_sdri_db": -1.2564805626869202,
+          "negative_improvement_fraction": 0.6,
+          "confusion_fraction": 0.3,
+          "mixture_baseline_confusion_fraction": 0.2,
+          "baseline_paired_cases": 10
+        },
+        "3170": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.292901986837387,
+          "negative_improvement_fraction": 0.1,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.1,
+          "baseline_paired_cases": 10
+        },
+        "3536": {
+          "cases": 8,
+          "mean_si_sdri_db": 1.167059525847435,
+          "negative_improvement_fraction": 0.375,
+          "confusion_fraction": 0.375,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 8
+        },
+        "3576": {
+          "cases": 7,
+          "mean_si_sdri_db": -1.3612158639090401,
+          "negative_improvement_fraction": 0.7142857142857143,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.5714285714285714,
+          "baseline_paired_cases": 7
+        },
+        "3752": {
+          "cases": 17,
+          "mean_si_sdri_db": 2.9260014435824226,
+          "negative_improvement_fraction": 0.11764705882352941,
+          "confusion_fraction": 0.17647058823529413,
+          "mixture_baseline_confusion_fraction": 0.35294117647058826,
+          "baseline_paired_cases": 17
+        },
+        "3853": {
+          "cases": 12,
+          "mean_si_sdri_db": 1.9320887923240662,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.25,
+          "mixture_baseline_confusion_fraction": 0.6666666666666666,
+          "baseline_paired_cases": 12
+        },
+        "422": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.0144513977898493,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.4444444444444444,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5338": {
+          "cases": 7,
+          "mean_si_sdri_db": 3.392462798527309,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "5536": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.997330109278361,
+          "negative_improvement_fraction": 0.2222222222222222,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5694": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.5758468707402546,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "5895": {
+          "cases": 13,
+          "mean_si_sdri_db": 3.399719916857206,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.5384615384615384,
+          "baseline_paired_cases": 13
+        },
+        "6241": {
+          "cases": 10,
+          "mean_si_sdri_db": -1.104424285888672,
+          "negative_improvement_fraction": 0.7,
+          "confusion_fraction": 0.4,
+          "mixture_baseline_confusion_fraction": 0.6,
+          "baseline_paired_cases": 10
+        },
+        "6295": {
+          "cases": 8,
+          "mean_si_sdri_db": 3.313487157225609,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "6313": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.3314191460609437,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "6319": {
+          "cases": 9,
+          "mean_si_sdri_db": 3.05483071009318,
+          "negative_improvement_fraction": 0.1111111111111111,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.3333333333333333,
+          "baseline_paired_cases": 9
+        },
+        "6345": {
+          "cases": 11,
+          "mean_si_sdri_db": 0.7421269525181163,
+          "negative_improvement_fraction": 0.36363636363636365,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.5454545454545454,
+          "baseline_paired_cases": 11
+        },
+        "652": {
+          "cases": 7,
+          "mean_si_sdri_db": 1.5918448652539934,
+          "negative_improvement_fraction": 0.2857142857142857,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "777": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.901733922958374,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "7850": {
+          "cases": 9,
+          "mean_si_sdri_db": 0.9350841310289171,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.2222222222222222,
+          "mixture_baseline_confusion_fraction": 0.5555555555555556,
+          "baseline_paired_cases": 9
+        },
+        "7976": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.34010311961174,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 8
+        },
+        "8297": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.418283114830653,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "84": {
+          "cases": 11,
+          "mean_si_sdri_db": 0.625053730877963,
+          "negative_improvement_fraction": 0.45454545454545453,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "8842": {
+          "cases": 6,
+          "mean_si_sdri_db": 2.6588093042373657,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.16666666666666666,
+          "baseline_paired_cases": 6
+        }
+      },
+      "paired_requests": {
+        "complete_pairs": 200,
+        "excluded_groups": 0,
+        "both_targets_improved_fraction": 0.56,
+        "either_target_confused_fraction": 0.28
+      }
+    },
+    "noise": {
+      "level_group": {
+        "louder_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 1.2191775331130394,
+          "negative_improvement_fraction": 0.2692307692307692,
+          "confusion_fraction": 0.015384615384615385,
+          "mixture_baseline_confusion_fraction": 0.0,
+          "baseline_paired_cases": 130
+        },
+        "quieter_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 2.7659379445589507,
+          "negative_improvement_fraction": 0.18461538461538463,
+          "confusion_fraction": 0.3,
+          "mixture_baseline_confusion_fraction": 1.0,
+          "baseline_paired_cases": 130
+        },
+        "similar_levels": {
+          "cases": 140,
+          "mean_si_sdri_db": 1.6555211204503264,
+          "negative_improvement_fraction": 0.2571428571428571,
+          "confusion_fraction": 0.10714285714285714,
+          "mixture_baseline_confusion_fraction": 0.1357142857142857,
+          "baseline_paired_cases": 140
+        }
+      },
+      "reference_chapter_group": {
+        "different_chapter": {
+          "cases": 171,
+          "mean_si_sdri_db": 1.9787722199458129,
+          "negative_improvement_fraction": 0.22807017543859648,
+          "confusion_fraction": 0.14619883040935672,
+          "mixture_baseline_confusion_fraction": 0.3508771929824561,
+          "baseline_paired_cases": 171
+        },
+        "same_chapter": {
+          "cases": 229,
+          "mean_si_sdri_db": 1.7968031412649363,
+          "negative_improvement_fraction": 0.2445414847161572,
+          "confusion_fraction": 0.13537117903930132,
+          "mixture_baseline_confusion_fraction": 0.388646288209607,
+          "baseline_paired_cases": 229
+        }
+      },
+      "target_speaker": {
+        "1272": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.5447283188501992,
+          "negative_improvement_fraction": 0.2222222222222222,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.1111111111111111,
+          "baseline_paired_cases": 9
+        },
+        "1462": {
+          "cases": 13,
+          "mean_si_sdri_db": 1.695566250727727,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.23076923076923078,
+          "baseline_paired_cases": 13
+        },
+        "1673": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.1528268257776897,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.2222222222222222,
+          "mixture_baseline_confusion_fraction": 0.2222222222222222,
+          "baseline_paired_cases": 9
+        },
+        "174": {
+          "cases": 5,
+          "mean_si_sdri_db": 4.106387615203857,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 5
+        },
+        "1919": {
+          "cases": 12,
+          "mean_si_sdri_db": 1.3742228945096333,
+          "negative_improvement_fraction": 0.4166666666666667,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "1988": {
+          "cases": 12,
+          "mean_si_sdri_db": 3.025564963618914,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.08333333333333333,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 12
+        },
+        "1993": {
+          "cases": 14,
+          "mean_si_sdri_db": 3.329415806702205,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.35714285714285715,
+          "baseline_paired_cases": 14
+        },
+        "2035": {
+          "cases": 10,
+          "mean_si_sdri_db": 3.6051055192947388,
+          "negative_improvement_fraction": 0.1,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.7,
+          "baseline_paired_cases": 10
+        },
+        "2078": {
+          "cases": 13,
+          "mean_si_sdri_db": 1.034061271410722,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.15384615384615385,
+          "baseline_paired_cases": 13
+        },
+        "2086": {
+          "cases": 8,
+          "mean_si_sdri_db": 3.088547706604004,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.125,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "2277": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.6737999064581737,
+          "negative_improvement_fraction": 0.07142857142857142,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 14
+        },
+        "2412": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.554202037198203,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.2857142857142857,
+          "baseline_paired_cases": 14
+        },
+        "2428": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.2040311098098755,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "251": {
+          "cases": 11,
+          "mean_si_sdri_db": 1.980770018967715,
+          "negative_improvement_fraction": 0.2727272727272727,
+          "confusion_fraction": 0.09090909090909091,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "2803": {
+          "cases": 11,
+          "mean_si_sdri_db": 2.614246509291909,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.09090909090909091,
+          "baseline_paired_cases": 11
+        },
+        "2902": {
+          "cases": 12,
+          "mean_si_sdri_db": -0.6348742047945658,
+          "negative_improvement_fraction": 0.5833333333333334,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "3000": {
+          "cases": 10,
+          "mean_si_sdri_db": 0.6987030267715454,
+          "negative_improvement_fraction": 0.4,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "3081": {
+          "cases": 10,
+          "mean_si_sdri_db": 0.06376128196716309,
+          "negative_improvement_fraction": 0.6,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.2,
+          "baseline_paired_cases": 10
+        },
+        "3170": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.2000745296478272,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.1,
+          "baseline_paired_cases": 10
+        },
+        "3536": {
+          "cases": 8,
+          "mean_si_sdri_db": 0.8720279335975647,
+          "negative_improvement_fraction": 0.375,
+          "confusion_fraction": 0.375,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 8
+        },
+        "3576": {
+          "cases": 7,
+          "mean_si_sdri_db": -1.7408181599208288,
+          "negative_improvement_fraction": 0.7142857142857143,
+          "confusion_fraction": 0.2857142857142857,
+          "mixture_baseline_confusion_fraction": 0.5714285714285714,
+          "baseline_paired_cases": 7
+        },
+        "3752": {
+          "cases": 17,
+          "mean_si_sdri_db": 2.7363376056446747,
+          "negative_improvement_fraction": 0.11764705882352941,
+          "confusion_fraction": 0.17647058823529413,
+          "mixture_baseline_confusion_fraction": 0.35294117647058826,
+          "baseline_paired_cases": 17
+        },
+        "3853": {
+          "cases": 12,
+          "mean_si_sdri_db": 1.9333206017812092,
+          "negative_improvement_fraction": 0.25,
+          "confusion_fraction": 0.25,
+          "mixture_baseline_confusion_fraction": 0.6666666666666666,
+          "baseline_paired_cases": 12
+        },
+        "422": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.015665504667494,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.3333333333333333,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5338": {
+          "cases": 7,
+          "mean_si_sdri_db": 3.417924267905099,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "5536": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.102939859032631,
+          "negative_improvement_fraction": 0.1111111111111111,
+          "confusion_fraction": 0.1111111111111111,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5694": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.2400366067886353,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "5895": {
+          "cases": 13,
+          "mean_si_sdri_db": 3.402265484516437,
+          "negative_improvement_fraction": 0.07692307692307693,
+          "confusion_fraction": 0.15384615384615385,
+          "mixture_baseline_confusion_fraction": 0.5384615384615384,
+          "baseline_paired_cases": 13
+        },
+        "6241": {
+          "cases": 10,
+          "mean_si_sdri_db": -2.3071856260299684,
+          "negative_improvement_fraction": 0.7,
+          "confusion_fraction": 0.5,
+          "mixture_baseline_confusion_fraction": 0.6,
+          "baseline_paired_cases": 10
+        },
+        "6295": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.6170374006032944,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "6313": {
+          "cases": 10,
+          "mean_si_sdri_db": 1.5388392806053162,
+          "negative_improvement_fraction": 0.4,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "6319": {
+          "cases": 9,
+          "mean_si_sdri_db": 3.771969517072042,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.3333333333333333,
+          "baseline_paired_cases": 9
+        },
+        "6345": {
+          "cases": 11,
+          "mean_si_sdri_db": 1.321278539570895,
+          "negative_improvement_fraction": 0.2727272727272727,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.5454545454545454,
+          "baseline_paired_cases": 11
+        },
+        "652": {
+          "cases": 7,
+          "mean_si_sdri_db": 0.9845564365386963,
+          "negative_improvement_fraction": 0.2857142857142857,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "777": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.709154486656189,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "7850": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.309750305281745,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.3333333333333333,
+          "mixture_baseline_confusion_fraction": 0.5555555555555556,
+          "baseline_paired_cases": 9
+        },
+        "7976": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.5487117171287537,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 8
+        },
+        "8297": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.658198783795039,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "84": {
+          "cases": 11,
+          "mean_si_sdri_db": 0.952215541492809,
+          "negative_improvement_fraction": 0.45454545454545453,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "8842": {
+          "cases": 6,
+          "mean_si_sdri_db": 2.683333158493042,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.16666666666666666,
+          "baseline_paired_cases": 6
+        }
+      },
+      "paired_requests": {
+        "complete_pairs": 200,
+        "excluded_groups": 0,
+        "both_targets_improved_fraction": 0.585,
+        "either_target_confused_fraction": 0.28
+      }
+    },
+    "reverb": {
+      "level_group": {
+        "louder_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 1.0965968480476966,
+          "negative_improvement_fraction": 0.2923076923076923,
+          "confusion_fraction": 0.015384615384615385,
+          "mixture_baseline_confusion_fraction": 0.0,
+          "baseline_paired_cases": 130
+        },
+        "quieter_target": {
+          "cases": 130,
+          "mean_si_sdri_db": 2.7433369829104497,
+          "negative_improvement_fraction": 0.18461538461538463,
+          "confusion_fraction": 0.2923076923076923,
+          "mixture_baseline_confusion_fraction": 1.0,
+          "baseline_paired_cases": 130
+        },
+        "similar_levels": {
+          "cases": 140,
+          "mean_si_sdri_db": 1.5449696204492025,
+          "negative_improvement_fraction": 0.29285714285714287,
+          "confusion_fraction": 0.11428571428571428,
+          "mixture_baseline_confusion_fraction": 0.1357142857142857,
+          "baseline_paired_cases": 140
+        }
+      },
+      "reference_chapter_group": {
+        "different_chapter": {
+          "cases": 171,
+          "mean_si_sdri_db": 1.905890547392661,
+          "negative_improvement_fraction": 0.23391812865497075,
+          "confusion_fraction": 0.14619883040935672,
+          "mixture_baseline_confusion_fraction": 0.3508771929824561,
+          "baseline_paired_cases": 171
+        },
+        "same_chapter": {
+          "cases": 229,
+          "mean_si_sdri_db": 1.7012221016738092,
+          "negative_improvement_fraction": 0.27510917030567683,
+          "confusion_fraction": 0.13537117903930132,
+          "mixture_baseline_confusion_fraction": 0.388646288209607,
+          "baseline_paired_cases": 229
+        }
+      },
+      "target_speaker": {
+        "1272": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.6426621543036566,
+          "negative_improvement_fraction": 0.2222222222222222,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.1111111111111111,
+          "baseline_paired_cases": 9
+        },
+        "1462": {
+          "cases": 13,
+          "mean_si_sdri_db": 1.6772662492898793,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.23076923076923078,
+          "baseline_paired_cases": 13
+        },
+        "1673": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.047375586297777,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.2222222222222222,
+          "mixture_baseline_confusion_fraction": 0.2222222222222222,
+          "baseline_paired_cases": 9
+        },
+        "174": {
+          "cases": 5,
+          "mean_si_sdri_db": 3.91235990524292,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 5
+        },
+        "1919": {
+          "cases": 12,
+          "mean_si_sdri_db": 1.0418530702590942,
+          "negative_improvement_fraction": 0.4166666666666667,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "1988": {
+          "cases": 12,
+          "mean_si_sdri_db": 2.227708727121353,
+          "negative_improvement_fraction": 0.08333333333333333,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 12
+        },
+        "1993": {
+          "cases": 14,
+          "mean_si_sdri_db": 3.287423380783626,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.35714285714285715,
+          "baseline_paired_cases": 14
+        },
+        "2035": {
+          "cases": 10,
+          "mean_si_sdri_db": 3.5923016905784606,
+          "negative_improvement_fraction": 0.1,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.7,
+          "baseline_paired_cases": 10
+        },
+        "2078": {
+          "cases": 13,
+          "mean_si_sdri_db": 1.0433844052828276,
+          "negative_improvement_fraction": 0.3076923076923077,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.15384615384615385,
+          "baseline_paired_cases": 13
+        },
+        "2086": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.9498661160469055,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.125,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "2277": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.1763151798929488,
+          "negative_improvement_fraction": 0.14285714285714285,
+          "confusion_fraction": 0.07142857142857142,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 14
+        },
+        "2412": {
+          "cases": 14,
+          "mean_si_sdri_db": 2.5269314306122914,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.2857142857142857,
+          "baseline_paired_cases": 14
+        },
+        "2428": {
+          "cases": 10,
+          "mean_si_sdri_db": 1.9426932513713837,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "251": {
+          "cases": 11,
+          "mean_si_sdri_db": 1.9984921975569292,
+          "negative_improvement_fraction": 0.2727272727272727,
+          "confusion_fraction": 0.09090909090909091,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "2803": {
+          "cases": 11,
+          "mean_si_sdri_db": 2.7201092785054986,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.09090909090909091,
+          "baseline_paired_cases": 11
+        },
+        "2902": {
+          "cases": 12,
+          "mean_si_sdri_db": -0.5637445201476415,
+          "negative_improvement_fraction": 0.5833333333333334,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 12
+        },
+        "3000": {
+          "cases": 10,
+          "mean_si_sdri_db": 0.6797232270240784,
+          "negative_improvement_fraction": 0.4,
+          "confusion_fraction": 0.3,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "3081": {
+          "cases": 10,
+          "mean_si_sdri_db": -0.15000996589660645,
+          "negative_improvement_fraction": 0.7,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.2,
+          "baseline_paired_cases": 10
+        },
+        "3170": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.0853132247924804,
+          "negative_improvement_fraction": 0.2,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.1,
+          "baseline_paired_cases": 10
+        },
+        "3536": {
+          "cases": 8,
+          "mean_si_sdri_db": 1.0644895732402802,
+          "negative_improvement_fraction": 0.375,
+          "confusion_fraction": 0.375,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 8
+        },
+        "3576": {
+          "cases": 7,
+          "mean_si_sdri_db": -1.6451189177376884,
+          "negative_improvement_fraction": 0.7142857142857143,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.5714285714285714,
+          "baseline_paired_cases": 7
+        },
+        "3752": {
+          "cases": 17,
+          "mean_si_sdri_db": 2.7817215779248405,
+          "negative_improvement_fraction": 0.11764705882352941,
+          "confusion_fraction": 0.17647058823529413,
+          "mixture_baseline_confusion_fraction": 0.35294117647058826,
+          "baseline_paired_cases": 17
+        },
+        "3853": {
+          "cases": 12,
+          "mean_si_sdri_db": 1.5557127594947815,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.25,
+          "mixture_baseline_confusion_fraction": 0.6666666666666666,
+          "baseline_paired_cases": 12
+        },
+        "422": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.0673136181301541,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.3333333333333333,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5338": {
+          "cases": 7,
+          "mean_si_sdri_db": 3.3272993905203685,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "5536": {
+          "cases": 9,
+          "mean_si_sdri_db": 2.059895780351427,
+          "negative_improvement_fraction": 0.1111111111111111,
+          "confusion_fraction": 0.1111111111111111,
+          "mixture_baseline_confusion_fraction": 0.4444444444444444,
+          "baseline_paired_cases": 9
+        },
+        "5694": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.353084643681844,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "5895": {
+          "cases": 13,
+          "mean_si_sdri_db": 3.7802496414918165,
+          "negative_improvement_fraction": 0.07692307692307693,
+          "confusion_fraction": 0.07692307692307693,
+          "mixture_baseline_confusion_fraction": 0.5384615384615384,
+          "baseline_paired_cases": 13
+        },
+        "6241": {
+          "cases": 10,
+          "mean_si_sdri_db": -2.3956122517585756,
+          "negative_improvement_fraction": 0.7,
+          "confusion_fraction": 0.5,
+          "mixture_baseline_confusion_fraction": 0.6,
+          "baseline_paired_cases": 10
+        },
+        "6295": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.9972577542066574,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 8
+        },
+        "6313": {
+          "cases": 10,
+          "mean_si_sdri_db": 1.6652167558670044,
+          "negative_improvement_fraction": 0.4,
+          "confusion_fraction": 0.2,
+          "mixture_baseline_confusion_fraction": 0.3,
+          "baseline_paired_cases": 10
+        },
+        "6319": {
+          "cases": 9,
+          "mean_si_sdri_db": 3.1836350096596613,
+          "negative_improvement_fraction": 0.1111111111111111,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.3333333333333333,
+          "baseline_paired_cases": 9
+        },
+        "6345": {
+          "cases": 11,
+          "mean_si_sdri_db": 1.1646625453775579,
+          "negative_improvement_fraction": 0.36363636363636365,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.5454545454545454,
+          "baseline_paired_cases": 11
+        },
+        "652": {
+          "cases": 7,
+          "mean_si_sdri_db": 0.7420239874294826,
+          "negative_improvement_fraction": 0.5714285714285714,
+          "confusion_fraction": 0.14285714285714285,
+          "mixture_baseline_confusion_fraction": 0.42857142857142855,
+          "baseline_paired_cases": 7
+        },
+        "777": {
+          "cases": 10,
+          "mean_si_sdri_db": 2.717879021167755,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.1,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 10
+        },
+        "7850": {
+          "cases": 9,
+          "mean_si_sdri_db": 1.0952116913265653,
+          "negative_improvement_fraction": 0.4444444444444444,
+          "confusion_fraction": 0.3333333333333333,
+          "mixture_baseline_confusion_fraction": 0.5555555555555556,
+          "baseline_paired_cases": 9
+        },
+        "7976": {
+          "cases": 8,
+          "mean_si_sdri_db": 2.437843769788742,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.25,
+          "baseline_paired_cases": 8
+        },
+        "8297": {
+          "cases": 6,
+          "mean_si_sdri_db": 1.44931298494339,
+          "negative_improvement_fraction": 0.3333333333333333,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.5,
+          "baseline_paired_cases": 6
+        },
+        "84": {
+          "cases": 11,
+          "mean_si_sdri_db": 0.859190745787187,
+          "negative_improvement_fraction": 0.36363636363636365,
+          "confusion_fraction": 0.2727272727272727,
+          "mixture_baseline_confusion_fraction": 0.36363636363636365,
+          "baseline_paired_cases": 11
+        },
+        "8842": {
+          "cases": 6,
+          "mean_si_sdri_db": 2.721710522969564,
+          "negative_improvement_fraction": 0.16666666666666666,
+          "confusion_fraction": 0.16666666666666666,
+          "mixture_baseline_confusion_fraction": 0.16666666666666666,
+          "baseline_paired_cases": 6
+        }
+      },
+      "paired_requests": {
+        "complete_pairs": 200,
+        "excluded_groups": 0,
+        "both_targets_improved_fraction": 0.545,
+        "either_target_confused_fraction": 0.28
+      }
+    }
+  },
+  "interpretation": "Descriptive post-evaluation slices. Level bins are fixed at -2/+2 dB; chapter groups use source metadata. No demographic attributes are inferred. Small groups and shared mixtures limit precision. Do not use final-test slices to retune this release."
+}
