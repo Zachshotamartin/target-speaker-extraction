@@ -4,14 +4,17 @@
   "wheel_import_verified": true,
   "packaged_web_assets_verified": true,
   "real_speech_extract_verified": true,
+  "checkpoint_sha256": "f3271f1decf7ec0e8e9b0f1fab578a693f51c4a1d1778adeeb9109a5e64a5c20",
+  "wheel_sha256": "8396a810a71a3824e4586c0e14ec5323159eddc291ed6c08bb3ce939427c1d41",
   "metadata": {
-    "model_id": "af2173b7b1b5",
+    "model_id": "f3271f1decf7",
     "sample_rate": 16000,
     "duration_seconds": 4.0,
-    "processing_seconds": 0.1679,
-    "model_seconds": 0.1594,
-    "real_time_factor": 0.042,
-    "output_peak": 0.5290974974632263,
+    "processing_seconds": 0.1222,
+    "model_seconds": 0.1165,
+    "real_time_factor": 0.0306,
+    "output_peak": 0.5744121074676514,
     "training_updates": 5000
-  }
+  },
+  "timing_note": "Functional smoke check during other project work, not the isolated performance benchmark."
 }

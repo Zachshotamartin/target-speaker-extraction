@@ -1,0 +1,82 @@
+{
+  "comparison": "reference_augmentation",
+  "control_report_sha256": "cbbb6430f88bb2e7cbe68f68e76315a2f9e1dba10343d9f70b662eeb5f83b47d",
+  "treatment_report_sha256": "a4ce5d2ba0c3263bfdf69da6585078cc1071484dccd02025a91c0c1b8f516637",
+  "split": "dev",
+  "protocol": "custom-librispeech-tse-v1",
+  "case_manifest_sha256": "a1c53c0effb5ce5c0ae884307584e745a938cb12aabdb684b442c5c7cabd80c5",
+  "seed": 42,
+  "training_update_budget": 5000,
+  "control_selected_step": 5000,
+  "treatment_selected_step": 5000,
+  "conditions": {
+    "channel": {
+      "cases": 400,
+      "mean_treatment_minus_control_db": 0.30389382772147655,
+      "median_difference_db": 0.25806570053100586,
+      "paired_ci95_db": [
+        0.13999426164256243,
+        0.45952811388593806
+      ],
+      "control_confusion_fraction": 0.1325,
+      "treatment_confusion_fraction": 0.12
+    },
+    "clean": {
+      "cases": 400,
+      "mean_treatment_minus_control_db": 0.18993012798950076,
+      "median_difference_db": 0.1535722017288208,
+      "paired_ci95_db": [
+        0.036251320214008495,
+        0.3432333693144957
+      ],
+      "control_confusion_fraction": 0.1375,
+      "treatment_confusion_fraction": 0.1325
+    },
+    "combined": {
+      "cases": 400,
+      "mean_treatment_minus_control_db": 0.3405557135865092,
+      "median_difference_db": 0.2525160312652588,
+      "paired_ci95_db": [
+        0.15698305015432767,
+        0.5335549849531013
+      ],
+      "control_confusion_fraction": 0.14,
+      "treatment_confusion_fraction": 0.1225
+    },
+    "noise": {
+      "cases": 400,
+      "mean_treatment_minus_control_db": 0.15578501284122467,
+      "median_difference_db": 0.1381571888923645,
+      "paired_ci95_db": [
+        -0.006385263847404094,
+        0.3187562908065144
+      ],
+      "control_confusion_fraction": 0.14,
+      "treatment_confusion_fraction": 0.1325
+    },
+    "reverb": {
+      "cases": 400,
+      "mean_treatment_minus_control_db": 0.21384780101478099,
+      "median_difference_db": 0.1321338415145874,
+      "paired_ci95_db": [
+        0.024129091478574366,
+        0.39694864769003996
+      ],
+      "control_confusion_fraction": 0.14,
+      "treatment_confusion_fraction": 0.135
+    }
+  },
+  "equal_weight_mismatch_gain_db": 0.25352058879099787,
+  "equal_weight_mismatch_ci95_db": [
+    0.08974897126042726,
+    0.4169241728357108
+  ],
+  "mismatch_conditions": [
+    "noise",
+    "channel",
+    "reverb",
+    "combined"
+  ],
+  "mismatch_uncertainty_method": "Average condition differences within each case, then bootstrap target-speaker clusters jointly; preserves within-case condition dependence.",
+  "uncertainty_note": "One training seed unless separate seed reports are supplied; target-speaker bootstrap intervals are approximate."
+}

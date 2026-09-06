@@ -1,0 +1,1030 @@
+{
+  "checkpoint_sha256": "f3271f1decf7ec0e8e9b0f1fab578a693f51c4a1d1778adeeb9109a5e64a5c20",
+  "case_manifest_sha256": "5f01beef5505f59ad876c024c8989aed8ad6450b3f69644d03d25b53c0c63026",
+  "source_manifest_sha256": "ec48066f2e6ccc80e01478b91cb2657ee502e320a0e4da27e3394d22f56162b7",
+  "selection": "First 20 development requests in manifest order, including paired target swaps; no score-based selection.",
+  "attribution": "LibriSpeech, Panayotov et al. (2015), CC BY 4.0. Cropped, normalized, mixed and processed derivatives.",
+  "source": "https://www.openslr.org/12",
+  "items": [
+    {
+      "case_id": "dev-88000",
+      "target_speaker": "1272",
+      "sources": [
+        {
+          "id": "1272-128104-0000",
+          "offset": 6663
+        },
+        {
+          "id": "8842-304647-0008",
+          "offset": 43308
+        }
+      ],
+      "references": [
+        {
+          "id": "1272-135031-0010",
+          "offset": 46758
+        },
+        {
+          "id": "8842-302196-0004",
+          "offset": 11319
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": 4.875712871551514,
+        "mixture_si_sdr_db": 0.02910473570227623,
+        "si_sdri_db": 4.8466081619262695,
+        "interferer_si_sdr_db": -10.150455474853516,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.35196197032928467,
+        "output_mixture_energy_db": -2.3029837608337402
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1508,
+        "model_seconds": 0.1497,
+        "real_time_factor": 0.0377,
+        "output_peak": 0.5744121074676514,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-01-mixture.wav",
+        "reference": "case-01-reference.wav",
+        "target": "case-01-target.wav",
+        "output": "case-01-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88000-swap",
+      "target_speaker": "8842",
+      "sources": [
+        {
+          "id": "1272-128104-0000",
+          "offset": 6663
+        },
+        {
+          "id": "8842-304647-0008",
+          "offset": 43308
+        }
+      ],
+      "references": [
+        {
+          "id": "1272-135031-0010",
+          "offset": 46758
+        },
+        {
+          "id": "8842-302196-0004",
+          "offset": 11319
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": 5.686038017272949,
+        "mixture_si_sdr_db": 0.009252137504518032,
+        "si_sdri_db": 5.676785945892334,
+        "interferer_si_sdr_db": -12.331350326538086,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.28588414192199707,
+        "output_mixture_energy_db": -4.18978214263916
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1236,
+        "model_seconds": 0.1229,
+        "real_time_factor": 0.0309,
+        "output_peak": 0.7039084434509277,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-02-mixture.wav",
+        "reference": "case-02-reference.wav",
+        "target": "case-02-target.wav",
+        "output": "case-02-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88001",
+      "target_speaker": "1462",
+      "sources": [
+        {
+          "id": "1462-170138-0010",
+          "offset": 59115
+        },
+        {
+          "id": "777-126732-0065",
+          "offset": 10783
+        }
+      ],
+      "references": [
+        {
+          "id": "1462-170138-0027",
+          "offset": 73
+        },
+        {
+          "id": "777-126732-0003",
+          "offset": 15800
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": 5.461356163024902,
+        "mixture_si_sdr_db": 0.556879997253418,
+        "si_sdri_db": 4.904476165771484,
+        "interferer_si_sdr_db": -15.145456314086914,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.2967633605003357,
+        "output_mixture_energy_db": -3.288254976272583
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1261,
+        "model_seconds": 0.1255,
+        "real_time_factor": 0.0315,
+        "output_peak": 0.970365583896637,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-03-mixture.wav",
+        "reference": "case-03-reference.wav",
+        "target": "case-03-target.wav",
+        "output": "case-03-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88001-swap",
+      "target_speaker": "777",
+      "sources": [
+        {
+          "id": "1462-170138-0010",
+          "offset": 59115
+        },
+        {
+          "id": "777-126732-0065",
+          "offset": 10783
+        }
+      ],
+      "references": [
+        {
+          "id": "1462-170138-0027",
+          "offset": 73
+        },
+        {
+          "id": "777-126732-0003",
+          "offset": 15800
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": 4.894758701324463,
+        "mixture_si_sdr_db": -0.6041398048400879,
+        "si_sdri_db": 5.498898506164551,
+        "interferer_si_sdr_db": -8.981084823608398,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.34757187962532043,
+        "output_mixture_energy_db": -3.213452100753784
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1236,
+        "model_seconds": 0.1229,
+        "real_time_factor": 0.0309,
+        "output_peak": 0.9798115491867065,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-04-mixture.wav",
+        "reference": "case-04-reference.wav",
+        "target": "case-04-target.wav",
+        "output": "case-04-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88002",
+      "target_speaker": "1673",
+      "sources": [
+        {
+          "id": "1673-143396-0015",
+          "offset": 1092
+        },
+        {
+          "id": "84-121123-0020",
+          "offset": 19947
+        }
+      ],
+      "references": [
+        {
+          "id": "1673-143397-0010",
+          "offset": 110698
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 27347
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": -1.2630739212036133,
+        "mixture_si_sdr_db": -2.9369421005249023,
+        "si_sdri_db": 1.673868179321289,
+        "interferer_si_sdr_db": -0.7241194844245911,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.5751346349716187,
+        "output_mixture_energy_db": -4.385423183441162
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.15,
+        "model_seconds": 0.1491,
+        "real_time_factor": 0.0375,
+        "output_peak": 0.5919601321220398,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-05-mixture.wav",
+        "reference": "case-05-reference.wav",
+        "target": "case-05-target.wav",
+        "output": "case-05-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88002-swap",
+      "target_speaker": "84",
+      "sources": [
+        {
+          "id": "1673-143396-0015",
+          "offset": 1092
+        },
+        {
+          "id": "84-121123-0020",
+          "offset": 19947
+        }
+      ],
+      "references": [
+        {
+          "id": "1673-143397-0010",
+          "offset": 110698
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 27347
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": 4.569568157196045,
+        "mixture_si_sdr_db": 2.7060751914978027,
+        "si_sdri_db": 1.8634929656982422,
+        "interferer_si_sdr_db": -7.449077606201172,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.3374820351600647,
+        "output_mixture_energy_db": -2.378598690032959
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1332,
+        "model_seconds": 0.1322,
+        "real_time_factor": 0.0333,
+        "output_peak": 0.8238731622695923,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-06-mixture.wav",
+        "reference": "case-06-reference.wav",
+        "target": "case-06-target.wav",
+        "output": "case-06-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88003",
+      "target_speaker": "174",
+      "sources": [
+        {
+          "id": "174-50561-0008",
+          "offset": 159511
+        },
+        {
+          "id": "5895-34629-0033",
+          "offset": 34373
+        }
+      ],
+      "references": [
+        {
+          "id": "174-84280-0002",
+          "offset": 19577
+        },
+        {
+          "id": "5895-34629-0026",
+          "offset": 27193
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": 0.08125785738229752,
+        "mixture_si_sdr_db": -2.6143078804016113,
+        "si_sdri_db": 2.695565700531006,
+        "interferer_si_sdr_db": -1.3278720378875732,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.5330208539962769,
+        "output_mixture_energy_db": -2.7304534912109375
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1145,
+        "model_seconds": 0.1135,
+        "real_time_factor": 0.0286,
+        "output_peak": 0.5676441192626953,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-07-mixture.wav",
+        "reference": "case-07-reference.wav",
+        "target": "case-07-target.wav",
+        "output": "case-07-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88003-swap",
+      "target_speaker": "5895",
+      "sources": [
+        {
+          "id": "174-50561-0008",
+          "offset": 159511
+        },
+        {
+          "id": "5895-34629-0033",
+          "offset": 34373
+        }
+      ],
+      "references": [
+        {
+          "id": "174-84280-0002",
+          "offset": 19577
+        },
+        {
+          "id": "5895-34629-0026",
+          "offset": 27193
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": 6.16507625579834,
+        "mixture_si_sdr_db": 2.837218761444092,
+        "si_sdri_db": 3.327857494354248,
+        "interferer_si_sdr_db": -9.316084861755371,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.2884940803050995,
+        "output_mixture_energy_db": -2.5684187412261963
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1406,
+        "model_seconds": 0.1399,
+        "real_time_factor": 0.0352,
+        "output_peak": 0.8454582691192627,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-08-mixture.wav",
+        "reference": "case-08-reference.wav",
+        "target": "case-08-target.wav",
+        "output": "case-08-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88004",
+      "target_speaker": "1919",
+      "sources": [
+        {
+          "id": "1919-142785-0027",
+          "offset": 85328
+        },
+        {
+          "id": "84-121123-0020",
+          "offset": 21555
+        }
+      ],
+      "references": [
+        {
+          "id": "1919-142785-0009",
+          "offset": 6076
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 16090
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": -0.8578992486000061,
+        "mixture_si_sdr_db": -0.8773097395896912,
+        "si_sdri_db": 0.01941049098968506,
+        "interferer_si_sdr_db": 0.7923699617385864,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.6871511340141296,
+        "output_mixture_energy_db": -1.1580088138580322
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1193,
+        "model_seconds": 0.1185,
+        "real_time_factor": 0.0298,
+        "output_peak": 0.8914873600006104,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-09-mixture.wav",
+        "reference": "case-09-reference.wav",
+        "target": "case-09-target.wav",
+        "output": "case-09-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88004-swap",
+      "target_speaker": "84",
+      "sources": [
+        {
+          "id": "1919-142785-0027",
+          "offset": 85328
+        },
+        {
+          "id": "84-121123-0020",
+          "offset": 21555
+        }
+      ],
+      "references": [
+        {
+          "id": "1919-142785-0009",
+          "offset": 6076
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 16090
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": 1.0315191745758057,
+        "mixture_si_sdr_db": 1.4727685451507568,
+        "si_sdri_db": -0.44124937057495117,
+        "interferer_si_sdr_db": -0.9322104454040527,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.49345576763153076,
+        "output_mixture_energy_db": -1.348317265510559
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1373,
+        "model_seconds": 0.1362,
+        "real_time_factor": 0.0343,
+        "output_peak": 0.8571497201919556,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-10-mixture.wav",
+        "reference": "case-10-reference.wav",
+        "target": "case-10-target.wav",
+        "output": "case-10-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88005",
+      "target_speaker": "1988",
+      "sources": [
+        {
+          "id": "1988-147956-0026",
+          "offset": 32808
+        },
+        {
+          "id": "6313-66125-0015",
+          "offset": 56952
+        }
+      ],
+      "references": [
+        {
+          "id": "1988-147956-0029",
+          "offset": 6158
+        },
+        {
+          "id": "6313-66125-0023",
+          "offset": 53516
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": 2.1201326847076416,
+        "mixture_si_sdr_db": 1.416144847869873,
+        "si_sdri_db": 0.7039878368377686,
+        "interferer_si_sdr_db": -3.3333849906921387,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.3791641294956207,
+        "output_mixture_energy_db": -1.1390246152877808
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1305,
+        "model_seconds": 0.1299,
+        "real_time_factor": 0.0326,
+        "output_peak": 0.8401638865470886,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-11-mixture.wav",
+        "reference": "case-11-reference.wav",
+        "target": "case-11-target.wav",
+        "output": "case-11-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88005-swap",
+      "target_speaker": "6313",
+      "sources": [
+        {
+          "id": "1988-147956-0026",
+          "offset": 32808
+        },
+        {
+          "id": "6313-66125-0015",
+          "offset": 56952
+        }
+      ],
+      "references": [
+        {
+          "id": "1988-147956-0029",
+          "offset": 6158
+        },
+        {
+          "id": "6313-66125-0023",
+          "offset": 53516
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": -2.2721660137176514,
+        "mixture_si_sdr_db": -1.4759070873260498,
+        "si_sdri_db": -0.7962589263916016,
+        "interferer_si_sdr_db": 1.4555602073669434,
+        "confused": true,
+        "near_silent": false,
+        "normalized_l1": 0.6312436461448669,
+        "output_mixture_energy_db": -1.1654638051986694
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1058,
+        "model_seconds": 0.1049,
+        "real_time_factor": 0.0264,
+        "output_peak": 0.8986482620239258,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-12-mixture.wav",
+        "reference": "case-12-reference.wav",
+        "target": "case-12-target.wav",
+        "output": "case-12-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88006",
+      "target_speaker": "1993",
+      "sources": [
+        {
+          "id": "1993-147149-0002",
+          "offset": 17160
+        },
+        {
+          "id": "3853-163249-0037",
+          "offset": 10754
+        }
+      ],
+      "references": [
+        {
+          "id": "1993-147964-0009",
+          "offset": 15345
+        },
+        {
+          "id": "3853-163249-0002",
+          "offset": 23742
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": 4.463789939880371,
+        "mixture_si_sdr_db": 3.1165475845336914,
+        "si_sdri_db": 1.3472423553466797,
+        "interferer_si_sdr_db": -5.5575995445251465,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.3800894618034363,
+        "output_mixture_energy_db": -1.5498322248458862
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1194,
+        "model_seconds": 0.1187,
+        "real_time_factor": 0.0299,
+        "output_peak": 0.758414089679718,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-13-mixture.wav",
+        "reference": "case-13-reference.wav",
+        "target": "case-13-target.wav",
+        "output": "case-13-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88006-swap",
+      "target_speaker": "3853",
+      "sources": [
+        {
+          "id": "1993-147149-0002",
+          "offset": 17160
+        },
+        {
+          "id": "3853-163249-0037",
+          "offset": 10754
+        }
+      ],
+      "references": [
+        {
+          "id": "1993-147964-0009",
+          "offset": 15345
+        },
+        {
+          "id": "3853-163249-0002",
+          "offset": 23742
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": 0.17086336016654968,
+        "mixture_si_sdr_db": -2.5688745975494385,
+        "si_sdri_db": 2.7397379875183105,
+        "interferer_si_sdr_db": -4.979186534881592,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.4801097810268402,
+        "output_mixture_energy_db": -8.037603378295898
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1183,
+        "model_seconds": 0.1175,
+        "real_time_factor": 0.0296,
+        "output_peak": 0.36503928899765015,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-14-mixture.wav",
+        "reference": "case-14-reference.wav",
+        "target": "case-14-target.wav",
+        "output": "case-14-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88007",
+      "target_speaker": "2035",
+      "sources": [
+        {
+          "id": "2035-147960-0002",
+          "offset": 20255
+        },
+        {
+          "id": "6345-93302-0014",
+          "offset": 31219
+        }
+      ],
+      "references": [
+        {
+          "id": "2035-152373-0017",
+          "offset": 9212
+        },
+        {
+          "id": "6345-93302-0002",
+          "offset": 38703
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": 3.389458417892456,
+        "mixture_si_sdr_db": 1.7960543632507324,
+        "si_sdri_db": 1.5934040546417236,
+        "interferer_si_sdr_db": -5.752973556518555,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.3607184886932373,
+        "output_mixture_energy_db": -1.4759809970855713
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1081,
+        "model_seconds": 0.1073,
+        "real_time_factor": 0.027,
+        "output_peak": 0.7466773986816406,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-15-mixture.wav",
+        "reference": "case-15-reference.wav",
+        "target": "case-15-target.wav",
+        "output": "case-15-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88007-swap",
+      "target_speaker": "6345",
+      "sources": [
+        {
+          "id": "2035-147960-0002",
+          "offset": 20255
+        },
+        {
+          "id": "6345-93302-0014",
+          "offset": 31219
+        }
+      ],
+      "references": [
+        {
+          "id": "2035-152373-0017",
+          "offset": 9212
+        },
+        {
+          "id": "6345-93302-0002",
+          "offset": 38703
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": -5.081474304199219,
+        "mixture_si_sdr_db": -1.7894810438156128,
+        "si_sdri_db": -3.2919931411743164,
+        "interferer_si_sdr_db": 3.6836657524108887,
+        "confused": true,
+        "near_silent": false,
+        "normalized_l1": 0.8182569146156311,
+        "output_mixture_energy_db": -0.49454060196876526
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1354,
+        "model_seconds": 0.1346,
+        "real_time_factor": 0.0339,
+        "output_peak": 0.8456092476844788,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-16-mixture.wav",
+        "reference": "case-16-reference.wav",
+        "target": "case-16-target.wav",
+        "output": "case-16-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88008",
+      "target_speaker": "2078",
+      "sources": [
+        {
+          "id": "2078-142845-0014",
+          "offset": 7349
+        },
+        {
+          "id": "2412-153948-0004",
+          "offset": 76381
+        }
+      ],
+      "references": [
+        {
+          "id": "2078-142845-0037",
+          "offset": 106326
+        },
+        {
+          "id": "2412-153954-0019",
+          "offset": 35490
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": 1.7567635774612427,
+        "mixture_si_sdr_db": -2.2564711570739746,
+        "si_sdri_db": 4.013234615325928,
+        "interferer_si_sdr_db": -7.129073619842529,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.4257599711418152,
+        "output_mixture_energy_db": -7.722089767456055
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1215,
+        "model_seconds": 0.1204,
+        "real_time_factor": 0.0304,
+        "output_peak": 0.41920703649520874,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-17-mixture.wav",
+        "reference": "case-17-reference.wav",
+        "target": "case-17-target.wav",
+        "output": "case-17-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88008-swap",
+      "target_speaker": "2412",
+      "sources": [
+        {
+          "id": "2078-142845-0014",
+          "offset": 7349
+        },
+        {
+          "id": "2412-153948-0004",
+          "offset": 76381
+        }
+      ],
+      "references": [
+        {
+          "id": "2078-142845-0037",
+          "offset": 106326
+        },
+        {
+          "id": "2412-153954-0019",
+          "offset": 35490
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": 5.161219596862793,
+        "mixture_si_sdr_db": 2.1320691108703613,
+        "si_sdri_db": 3.0291504859924316,
+        "interferer_si_sdr_db": -8.439508438110352,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.3487508296966553,
+        "output_mixture_energy_db": -0.302719384431839
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1175,
+        "model_seconds": 0.1168,
+        "real_time_factor": 0.0294,
+        "output_peak": 0.9856247901916504,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-18-mixture.wav",
+        "reference": "case-18-reference.wav",
+        "target": "case-18-target.wav",
+        "output": "case-18-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88009",
+      "target_speaker": "2086",
+      "sources": [
+        {
+          "id": "2086-149220-0030",
+          "offset": 47427
+        },
+        {
+          "id": "84-121123-0024",
+          "offset": 9679
+        }
+      ],
+      "references": [
+        {
+          "id": "2086-149214-0000",
+          "offset": 38891
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 16838
+        }
+      ],
+      "target_index": 0,
+      "metrics": {
+        "si_sdr_db": 8.197335243225098,
+        "mixture_si_sdr_db": 3.8218860626220703,
+        "si_sdri_db": 4.375449180603027,
+        "interferer_si_sdr_db": -11.048823356628418,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.24343644082546234,
+        "output_mixture_energy_db": -2.075298309326172
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.1052,
+        "model_seconds": 0.1043,
+        "real_time_factor": 0.0263,
+        "output_peak": 0.8136826157569885,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-19-mixture.wav",
+        "reference": "case-19-reference.wav",
+        "target": "case-19-target.wav",
+        "output": "case-19-output.wav"
+      }
+    },
+    {
+      "case_id": "dev-88009-swap",
+      "target_speaker": "84",
+      "sources": [
+        {
+          "id": "2086-149220-0030",
+          "offset": 47427
+        },
+        {
+          "id": "84-121123-0024",
+          "offset": 9679
+        }
+      ],
+      "references": [
+        {
+          "id": "2086-149214-0000",
+          "offset": 38891
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 16838
+        }
+      ],
+      "target_index": 1,
+      "metrics": {
+        "si_sdr_db": 4.8094611167907715,
+        "mixture_si_sdr_db": -3.8060238361358643,
+        "si_sdri_db": 8.615485191345215,
+        "interferer_si_sdr_db": -12.152613639831543,
+        "confused": false,
+        "near_silent": false,
+        "normalized_l1": 0.3054830729961395,
+        "output_mixture_energy_db": -6.858630657196045
+      },
+      "processing": {
+        "model_id": "f3271f1decf7",
+        "sample_rate": 16000,
+        "duration_seconds": 4.0,
+        "processing_seconds": 0.0987,
+        "model_seconds": 0.098,
+        "real_time_factor": 0.0247,
+        "output_peak": 0.24121147394180298,
+        "training_updates": 5000
+      },
+      "tracks": {
+        "mixture": "case-20-mixture.wav",
+        "reference": "case-20-reference.wav",
+        "target": "case-20-target.wav",
+        "output": "case-20-output.wav"
+      }
+    }
+  ]
+}

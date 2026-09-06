@@ -1,0 +1,109 @@
+{
+  "model": {
+    "ready": true,
+    "model_id": "f3271f1decf7",
+    "checkpoint_sha256": "f3271f1decf7ec0e8e9b0f1fab578a693f51c4a1d1778adeeb9109a5e64a5c20",
+    "training_updates": 5000,
+    "training_experiment": "E04-reference-augmentation",
+    "parameters": 1223296,
+    "device": "cpu",
+    "sample_rate": 16000,
+    "operating_envelope": "Experimental, target-present, two-speaker offline extraction. Quality varies with voice and recording conditions.",
+    "limits": {
+      "mixture_seconds": 60.0,
+      "reference_seconds": [
+        3.0,
+        10.0
+      ],
+      "combined_upload_mib": 24
+    },
+    "confidence_available": false
+  },
+  "checkpoint_bytes": 4993723,
+  "model_load_seconds": 0.03804641601163894,
+  "process_peak_rss_gib": 0.4528656005859375,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "torch_version": "2.14.0",
+  "cpu_threads": 6,
+  "mixture_sha256": "23fd23ddd35d764d7b31adae4f6cbf97673b4917b3aaabc3d2e877ac295c1cac",
+  "reference_sha256": "87b113b19c9ca53821de510dbfbbca4585f8137b4c4d340fc92de8a282b0f1ff",
+  "rows": [
+    {
+      "duration_seconds": 10,
+      "output_samples": 160000,
+      "expected_samples": 160000,
+      "exact_length": true,
+      "first_request_seconds": 0.4227,
+      "warm_repeats": 5,
+      "warm_median_seconds": 0.4007,
+      "warm_p95_seconds": 0.43524,
+      "warm_model_median_seconds": 0.3999,
+      "warm_median_real_time_factor": 0.04007,
+      "chunk_whole_rms_error": 8.947877105924817e-09,
+      "chunk_whole_max_error": 1.1920928955078125e-07,
+      "boundary_10ms_rms_error": 6.796458507096759e-09,
+      "whole_output_rms": 0.08305179327726364,
+      "timings_seconds": [
+        0.4356,
+        0.4338,
+        0.4007,
+        0.3871,
+        0.3887
+      ]
+    },
+    {
+      "duration_seconds": 30,
+      "output_samples": 480000,
+      "expected_samples": 480000,
+      "exact_length": true,
+      "first_request_seconds": 1.1902,
+      "warm_repeats": 5,
+      "warm_median_seconds": 1.2579,
+      "warm_p95_seconds": 1.3941599999999998,
+      "warm_model_median_seconds": 1.2565,
+      "warm_median_real_time_factor": 0.04193,
+      "chunk_whole_rms_error": 8.933156436796708e-09,
+      "chunk_whole_max_error": 1.4901161193847656e-07,
+      "boundary_10ms_rms_error": 7.948302460647483e-09,
+      "whole_output_rms": 0.0822000578045845,
+      "timings_seconds": [
+        1.2548,
+        1.4218,
+        1.2323,
+        1.2579,
+        1.2836
+      ]
+    },
+    {
+      "duration_seconds": 60,
+      "output_samples": 960000,
+      "expected_samples": 960000,
+      "exact_length": true,
+      "first_request_seconds": 2.7389,
+      "warm_repeats": 5,
+      "warm_median_seconds": 2.6789,
+      "warm_p95_seconds": 2.9373,
+      "warm_model_median_seconds": 2.6764,
+      "warm_median_real_time_factor": 0.04464833333333333,
+      "chunk_whole_rms_error": 8.879061930144871e-09,
+      "chunk_whole_max_error": 1.1920928955078125e-07,
+      "boundary_10ms_rms_error": 7.04199054624155e-09,
+      "whole_output_rms": 0.0817742794752121,
+      "timings_seconds": [
+        2.6789,
+        2.3484,
+        2.5175,
+        2.8109,
+        2.9689
+      ]
+    }
+  ],
+  "protocol": "One process per device; model load timed separately, first request per length followed by repeated warm requests. End-to-end includes audio decode/resample, model and WAV encode; excludes browser/network/HTTP parsing. RSS includes whole-clip diagnostic and is a process high-water mark, not isolated serving memory. Timing input repeats a development clip; no training workload should run concurrently. First request is not a fresh OS disk-cache measurement.",
+  "provenance": {
+    "commit": "118739d8150840b155d52237d452d7e0c05ad58c",
+    "dirty": true,
+    "python": "3.12.5",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "source_tree_sha256": "c579ffafed0adafe627b822f204e75f403bae9157a9482dd47baf82ac93d4b58"
+  }
+}

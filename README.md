@@ -6,16 +6,28 @@ An independently implemented PyTorch system that estimates one person's voice fr
 
 The central experiment asks whether corrupting the reference during training improves extraction with a different channel or simulated room. Clean and augmented models share the architecture, initialization seed, mixture schedule, and training budget. There is no SpeakerBeam source, checkpoint, or dependency.
 
+## Measured release
+
+Two models were trained for 5,000 updates each on an Apple M3 Pro. The selected model achieves **1.73 dB mean SI-SDR improvement** on 1,000 reserved test requests from 40 unseen speakers. Reference augmentation adds **0.22 dB** across mismatch conditions (approximate paired 95% interval: 0.07–0.39 dB; one training seed).
+
+The delivered path worsens 29.1% of cases and triggers the speaker-confusion proxy in 14.6%; the original 5 dB quality target was not reached. This is a completed experimental pipeline with a modest measured gain. See the [model card](docs/MODEL_CARD.md) and [technical case study](docs/CASE_STUDY.md) for the full findings.
+
+Warm processing of a repeated 60-second development recording takes **0.45 seconds on MPS** or **2.68 seconds on CPU**, including file decode and WAV encode. This is offline throughput, not live latency. Exact output length and agreement with whole-recording processing were verified at 10/30/60 seconds.
+
+![Frozen test results](reports/figures/test-conditions.png)
+
 ## Run locally
 
 Python 3.12 and [uv](https://docs.astral.sh/uv/) are required. On the project Mac, the environment, public data, and training artifacts are in the ignored `.venv/`, `data/`, and `artifacts/` directories.
 
 ```sh
 uv sync --frozen
-uv run tse serve --device cpu
+uv run tse serve --device mps
 ```
 
 Open <http://127.0.0.1:8000>. Select the development examples or supply a WAV/FLAC mixture up to 60 seconds and a separate 3–10 second voice reference. The interface provides waveform previews, synchronized original/output playback, and WAV download. Audio stays in the local service.
+
+Use `--device cpu` without Apple MPS. The [local listening gallery](http://127.0.0.1:8000/gallery/) includes 20 fixed development requests with mixture, reference, known target, and model output, including successes and failures.
 
 Serving requires `artifacts/releases/model.pt`, created by the study or export command. A fresh clone contains source and reports; raw audio and weights are not stored in Git. A missing model produces a not-ready state.
 
@@ -78,6 +90,8 @@ The API exposes `GET /health`, `GET /ready`, `GET /model`, and `POST /extract` w
 
 | Document | Purpose |
 | --- | --- |
+| [Model card](docs/MODEL_CARD.md) | Frozen test results, artifact identity, runtime and limitations |
+| [Technical case study](docs/CASE_STUDY.md) | Research question, implementation choices and findings |
 | [Reproduction guide](docs/REPRODUCING.md) | Data, training, inference, recovery and verification |
 | [Implementation record](docs/IMPLEMENTATION.md) | Actual decisions and differences from the initial proposal |
 | [Roadmap](docs/ROADMAP.md) | Delivery evidence and remaining research |
@@ -86,6 +100,8 @@ The API exposes `GET /health`, `GET /ready`, `GET /model`, and `POST /extract` w
 | [Sources](docs/SOURCES.md) | Data origins and primary research references |
 
 Machine-readable results live in [`reports/`](reports/). Targets in the original proposal are not measured results. Quality claims must identify their split, checkpoint, and report.
+
+Public source identities, frozen recipes and training records are in [`metadata/`](metadata/). Verification includes 20 passing tests, Linux CPU CI, a fresh noneditable wheel installation, and real browser extraction through a non-root CPU container.
 
 ## Data and licensing
 

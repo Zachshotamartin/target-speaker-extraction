@@ -1,0 +1,111 @@
+{
+  "model": {
+    "ready": true,
+    "model_id": "f3271f1decf7",
+    "checkpoint_sha256": "f3271f1decf7ec0e8e9b0f1fab578a693f51c4a1d1778adeeb9109a5e64a5c20",
+    "training_updates": 5000,
+    "training_experiment": "E04-reference-augmentation",
+    "parameters": 1223296,
+    "device": "mps:0",
+    "sample_rate": 16000,
+    "operating_envelope": "Experimental, target-present, two-speaker offline extraction. Quality varies with voice and recording conditions.",
+    "limits": {
+      "mixture_seconds": 60.0,
+      "reference_seconds": [
+        3.0,
+        10.0
+      ],
+      "combined_upload_mib": 24
+    },
+    "confidence_available": false
+  },
+  "checkpoint_bytes": 4993723,
+  "model_load_seconds": 0.1391147499671206,
+  "process_peak_rss_gib": 0.478973388671875,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "torch_version": "2.14.0",
+  "cpu_threads": 6,
+  "mixture_sha256": "23fd23ddd35d764d7b31adae4f6cbf97673b4917b3aaabc3d2e877ac295c1cac",
+  "reference_sha256": "87b113b19c9ca53821de510dbfbbca4585f8137b4c4d340fc92de8a282b0f1ff",
+  "rows": [
+    {
+      "duration_seconds": 10,
+      "output_samples": 160000,
+      "expected_samples": 160000,
+      "exact_length": true,
+      "first_request_seconds": 0.586,
+      "warm_repeats": 5,
+      "warm_median_seconds": 0.07,
+      "warm_p95_seconds": 0.07152,
+      "warm_model_median_seconds": 0.0691,
+      "warm_median_real_time_factor": 0.007000000000000001,
+      "chunk_whole_rms_error": 8.98956997730238e-09,
+      "chunk_whole_max_error": 1.7881393432617188e-07,
+      "boundary_10ms_rms_error": 7.343776697865678e-09,
+      "whole_output_rms": 0.08305179327726364,
+      "timings_seconds": [
+        0.07,
+        0.0698,
+        0.0718,
+        0.0704,
+        0.07
+      ]
+    },
+    {
+      "duration_seconds": 30,
+      "output_samples": 480000,
+      "expected_samples": 480000,
+      "exact_length": true,
+      "first_request_seconds": 0.2178,
+      "warm_repeats": 5,
+      "warm_median_seconds": 0.2212,
+      "warm_p95_seconds": 0.24031999999999998,
+      "warm_model_median_seconds": 0.2196,
+      "warm_median_real_time_factor": 0.007373333333333333,
+      "chunk_whole_rms_error": 9.021599467473607e-09,
+      "chunk_whole_max_error": 1.7881393432617188e-07,
+      "boundary_10ms_rms_error": 5.771344291360947e-09,
+      "whole_output_rms": 0.0822000578045845,
+      "timings_seconds": [
+        0.2191,
+        0.218,
+        0.2433,
+        0.2284,
+        0.2212
+      ]
+    },
+    {
+      "duration_seconds": 60,
+      "output_samples": 960000,
+      "expected_samples": 960000,
+      "exact_length": true,
+      "first_request_seconds": 0.4536,
+      "warm_repeats": 5,
+      "warm_median_seconds": 0.4478,
+      "warm_p95_seconds": 0.45698,
+      "warm_model_median_seconds": 0.4449,
+      "warm_median_real_time_factor": 0.007463333333333333,
+      "chunk_whole_rms_error": 8.78277628402202e-09,
+      "chunk_whole_max_error": 8.940696716308594e-08,
+      "boundary_10ms_rms_error": 7.953332215038245e-09,
+      "whole_output_rms": 0.0817742794752121,
+      "timings_seconds": [
+        0.4478,
+        0.4481,
+        0.4418,
+        0.4425,
+        0.4592
+      ]
+    }
+  ],
+  "protocol": "One process per device; model load timed separately, first request per length followed by repeated warm requests. End-to-end includes audio decode/resample, model and WAV encode; excludes browser/network/HTTP parsing. RSS includes whole-clip diagnostic and is a process high-water mark, not isolated serving memory. Timing input repeats a development clip; no training workload should run concurrently. First request is not a fresh OS disk-cache measurement.",
+  "provenance": {
+    "commit": "118739d8150840b155d52237d452d7e0c05ad58c",
+    "dirty": true,
+    "python": "3.12.5",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "source_tree_sha256": "c579ffafed0adafe627b822f204e75f403bae9157a9482dd47baf82ac93d4b58"
+  },
+  "mps_allocated_gib": 0.004557132720947266,
+  "mps_driver_gib": 1.08154296875
+}

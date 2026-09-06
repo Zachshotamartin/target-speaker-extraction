@@ -1,0 +1,27 @@
+{
+  "files": {
+    "metadata/data/dev-cases.json": "5f01beef5505f59ad876c024c8989aed8ad6450b3f69644d03d25b53c0c63026",
+    "metadata/data/dev-report-cases.json": "a1c53c0effb5ce5c0ae884307584e745a938cb12aabdb684b442c5c7cabd80c5",
+    "metadata/data/inventory.json": "ec48066f2e6ccc80e01478b91cb2657ee502e320a0e4da27e3394d22f56162b7",
+    "metadata/data/test-cases.json": "a06c84af1b766391c65b82789d85616159831c4c65e8eef2e426b7887fe51a60",
+    "metadata/data/train-cases.json": "1f28b55cf0c623fafeae9ca471b9b6ce332db369576124d03f3aba03c996d47c",
+    "metadata/data/dev-clean.acquisition.json": "3c26613786f3e873ed0005db2df84463dc2da2f5d5e0c634524e43333d8e3ed9",
+    "metadata/data/test-clean.acquisition.json": "53972649b39f430d8c61e4fdeef14c50a3d86d3aca86a798f1e02d6a9d82a2b7",
+    "metadata/data/train-clean-100.acquisition.json": "f034bb741890afd9b9333aba7b01a1cb9ac33fcd050f0ec4f335e540a6d9230f",
+    "metadata/training/overfit/config.json": "71674793fb6ac47a689dc8c5339833f8c70400c85d13b021e6fa1a2a15348c6b",
+    "metadata/training/overfit/provenance.json": "352fe23c3259ab3e7d59121bcdb667cd9da1ea73f3cbe808d9e4c9fd21bf1d83",
+    "metadata/training/overfit/summary.json": "5924cdda40b1304fd44bf6a7d364de38bc2ea336db2bf1e879f89c10e367ccbd",
+    "metadata/training/overfit/metrics.jsonl": "709c046136b422afb5a6b6a7ed3e7a0454fb356805cc1c89da7f79cdedcd8c18",
+    "metadata/training/control/config.json": "3f79a5973c142d54e34e78c19bd5ee245f3992b30c579d0cb30ffcc7fb435d18",
+    "metadata/training/control/provenance.json": "00c658c5ff75af014f1c24908b1342b901166f5a363e1e3b65f1468f16bbf707",
+    "metadata/training/control/summary.json": "63b930addcd80bad1e10d7dee012b305147451aaca233ff44b0b2d9ac9a71914",
+    "metadata/training/control/metrics.jsonl": "9644729672bacde1b761ed00fb374f40deb1a557625033a6198a53f6354923bc",
+    "metadata/training/augmented/config.json": "3b58a7ab3807fed0096cf42f3c0f0724557e3f9f844977c9118df4532af4b007",
+    "metadata/training/augmented/provenance.json": "c3db79afa7ab9e1a7cf28bd50155ef8510a51d3f9114dccd334bb6bc332e0002",
+    "metadata/training/augmented/summary.json": "ad57d7a7b9aafda5d3017db7e8ac7af33388cab37f003a8586e5c501fc66880e",
+    "metadata/training/augmented/metrics.jsonl": "a0402d17d48bb9ad042973210da6e90e64b37ae3168ad4f4f29f88739d94b380",
+    "metadata/model.json": "93490289a2e5c2471c3224c1253f9c2c6e22f93880285939aebe7dd6404db9d3",
+    "metadata/gallery.json": "2685983e757ab0383382b9d9ed8d4b29c7a51cd5deca5bca07d6c3a3954d32ea"
+  },
+  "note": "Public LibriSpeech identities and relative paths only. No recordings or weights are copied. Data manifests retain CC BY 4.0 source attribution. Training durations may contain resumed segments; see implementation notes."
+}

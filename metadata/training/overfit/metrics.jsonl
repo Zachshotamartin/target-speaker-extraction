@@ -1,0 +1,31 @@
+{"event": "train", "step": 1, "loss": 1.402892827987671, "gradient_norm": 3.2961254119873047, "elapsed_seconds": 0.86}
+{"event": "train", "step": 25, "loss": 0.4583120346069336, "gradient_norm": 1.3097710609436035, "elapsed_seconds": 2.93}
+{"event": "train", "step": 50, "loss": 0.24360720813274384, "gradient_norm": 0.6376016139984131, "elapsed_seconds": 5.03}
+{"event": "train", "step": 75, "loss": -2.015065908432007, "gradient_norm": 13.231369018554688, "elapsed_seconds": 7.11}
+{"event": "train", "step": 100, "loss": -0.6140872240066528, "gradient_norm": 11.30846118927002, "elapsed_seconds": 9.21}
+{"event": "validation", "step": 100, "mean_si_sdri_db": 0.5520577877759933, "confusion_fraction": 0.25, "best_score": 0.5520577877759933, "selection_split": "train_diagnostic"}
+{"event": "train", "step": 125, "loss": -0.8010197877883911, "gradient_norm": 3.632329225540161, "elapsed_seconds": 11.73}
+{"event": "train", "step": 150, "loss": -0.3763120770454407, "gradient_norm": 29.730037689208984, "elapsed_seconds": 13.79}
+{"event": "train", "step": 175, "loss": -4.207025527954102, "gradient_norm": 5.985100269317627, "elapsed_seconds": 15.86}
+{"event": "train", "step": 200, "loss": -4.771557331085205, "gradient_norm": 13.502603530883789, "elapsed_seconds": 17.93}
+{"event": "validation", "step": 200, "mean_si_sdri_db": 5.79344978928566, "confusion_fraction": 0.0, "best_score": 5.79344978928566, "selection_split": "train_diagnostic"}
+{"event": "train", "step": 225, "loss": -9.597281455993652, "gradient_norm": 17.864730834960938, "elapsed_seconds": 20.42}
+{"event": "train", "step": 250, "loss": -6.292981147766113, "gradient_norm": 5.719963073730469, "elapsed_seconds": 22.53}
+{"event": "train", "step": 275, "loss": -9.972740173339844, "gradient_norm": 11.72487735748291, "elapsed_seconds": 24.6}
+{"event": "train", "step": 300, "loss": -5.679361343383789, "gradient_norm": 12.52194595336914, "elapsed_seconds": 26.69}
+{"event": "validation", "step": 300, "mean_si_sdri_db": 1.4850894883275032, "confusion_fraction": 0.25, "best_score": 5.79344978928566, "selection_split": "train_diagnostic"}
+{"event": "train", "step": 325, "loss": -3.673408269882202, "gradient_norm": 4.988657474517822, "elapsed_seconds": 29.06}
+{"event": "train", "step": 350, "loss": -3.6521174907684326, "gradient_norm": 11.809762001037598, "elapsed_seconds": 31.27}
+{"event": "train", "step": 375, "loss": -7.4125800132751465, "gradient_norm": 5.858148097991943, "elapsed_seconds": 33.36}
+{"event": "train", "step": 400, "loss": -8.602981567382812, "gradient_norm": 11.751054763793945, "elapsed_seconds": 35.43}
+{"event": "validation", "step": 400, "mean_si_sdri_db": 8.97804707288742, "confusion_fraction": 0.0, "best_score": 8.97804707288742, "selection_split": "train_diagnostic"}
+{"event": "train", "step": 425, "loss": -13.533806800842285, "gradient_norm": 22.12331199645996, "elapsed_seconds": 37.95}
+{"event": "train", "step": 450, "loss": -8.917603492736816, "gradient_norm": 8.077798843383789, "elapsed_seconds": 40.05}
+{"event": "train", "step": 475, "loss": -11.63449478149414, "gradient_norm": 15.169388771057129, "elapsed_seconds": 42.12}
+{"event": "train", "step": 500, "loss": -11.910991668701172, "gradient_norm": 17.252676010131836, "elapsed_seconds": 44.2}
+{"event": "validation", "step": 500, "mean_si_sdri_db": 10.76112762093544, "confusion_fraction": 0.0, "best_score": 10.76112762093544, "selection_split": "train_diagnostic"}
+{"event": "train", "step": 525, "loss": -7.913019180297852, "gradient_norm": 8.129928588867188, "elapsed_seconds": 46.72}
+{"event": "train", "step": 550, "loss": -7.564525604248047, "gradient_norm": 12.758448600769043, "elapsed_seconds": 48.81}
+{"event": "train", "step": 575, "loss": -9.5999116897583, "gradient_norm": 11.607207298278809, "elapsed_seconds": 50.92}
+{"event": "train", "step": 600, "loss": -12.051114082336426, "gradient_norm": 9.632200241088867, "elapsed_seconds": 53.02}
+{"event": "validation", "step": 600, "mean_si_sdri_db": 11.849773585796356, "confusion_fraction": 0.0, "best_score": 11.849773585796356, "selection_split": "train_diagnostic"}

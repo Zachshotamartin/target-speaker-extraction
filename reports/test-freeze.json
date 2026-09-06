@@ -1,0 +1,13 @@
+{
+  "selection": {
+    "selected": "augmented",
+    "rule": "Prefer augmentation only with positive average mismatch gain, <=0.5 dB clean degradation, and no clean confusion regression",
+    "selection_split": "dev",
+    "test_used_for_selection": false,
+    "step_budget": 5000
+  },
+  "case_manifest_sha256": "a06c84af1b766391c65b82789d85616159831c4c65e8eef2e426b7887fe51a60",
+  "control_checkpoint_sha256": "af2173b7b1b5ae27a4808c69e489ef9ef1fbabf23eb718ab6af55dd02482c845",
+  "augmented_checkpoint_sha256": "44346f83254cd4cec293478340b3ef5933a49278f1c019574c95b9f0c4a908fa",
+  "note": "Written before final test evaluation; checkpoint selection used development data only."
+}

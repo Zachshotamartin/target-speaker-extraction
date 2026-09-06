@@ -27,6 +27,8 @@ node_modules/
 
 # Large or private ML artifacts
 data/
+!metadata/data/
+!metadata/data/*.json
 artifacts/
 checkpoints/
 runs/

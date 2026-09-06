@@ -1,0 +1,7 @@
+{
+  "selected": "augmented",
+  "rule": "Prefer augmentation only with positive average mismatch gain, <=0.5 dB clean degradation, and no clean confusion regression",
+  "selection_split": "dev",
+  "test_used_for_selection": false,
+  "step_budget": 5000
+}

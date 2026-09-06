@@ -1,6 +1,6 @@
 # Delivery roadmap
 
-The core system is implemented. The first paired training study and final release measurements are being completed; the model card will record their measured outcome.
+The first experimental release is complete: independent implementation, two trained models, frozen evaluation, local app, listening gallery, reproducible records, and measured CPU/MPS delivery. The [model card](MODEL_CARD.md) records both gains and limitations.
 
 | Milestone | State | Evidence |
 | --- | --- | --- |
@@ -9,9 +9,9 @@ The core system is implemented. The first paired training study and final releas
 | M2 · Data and metrics | Complete | Bounded public acquisition, source hashes, speaker audit, deterministic paired recipes, signal tests |
 | M3 · Model and tiny-set learning | Complete | Independent 1.22M-parameter model; 11.85 dB improvement and zero confusion on 16 fixed training cases |
 | M4 · Clean-reference control | Complete | 5,000-update run; 400-case development report |
-| M5 · Controlled robustness study | Running | Matched augmentation training, paired comparison and reference diagnostics |
-| M6 · Local product | Implemented | Real-speech browser workflow, validated API, context-based long-file inference, CPU container and clean wheel installation |
-| M7 · Measured release | Running | Frozen-test runner, report generator, model-card generation and final device profiling |
+| M5 · Controlled robustness study | Complete | Two 5,000-update runs; paired test gain +0.22 dB across mismatch conditions, with one-seed limitations |
+| M6 · Local product | Complete | Real browser uploads, validated API, 20-request gallery, 10/30/60-second CPU/MPS measurements, CPU container and clean wheel |
+| M7 · Measured experimental release | Complete | 1,000 frozen test requests, delivered-path evaluation, source/artifact hashes, figures, model card and case study |
 
 ## Implemented acceptance checks
 
@@ -29,11 +29,11 @@ The core system is implemented. The first paired training study and final releas
 - Local waveform preview, real example loading, synchronized comparison, error/loading states, and output download.
 - CPU container recipe, noneditable wheel verification, code checks and Linux CI.
 
-## Release evidence still being collected
+## Release evidence
 
-The first study uses one paired seed at 5,000 updates per model, 80 development selection cases, 400 development reporting cases, and 1,000 reserved test cases. Final evidence includes both learned models, the exact delivered file-processing path, 10/30/60-second CPU/MPS timing, chunk/whole agreement, artifact hashes, a model card and a technical case study.
+The first study uses one paired seed at 5,000 updates per model, 80 development selection cases, 400 development reporting cases, and 1,000 reserved test cases. Evidence covers both learned models, the exact delivered file-processing path, 10/30/60-second CPU/MPS timing, chunk/whole agreement, artifact hashes, a model card and a technical case study. The selected artifact scores 1.73 dB mean improvement; the delivered path has 29.1% negative-improvement cases and 14.6% confusion.
 
-The original proposed 5 dB quality target, broad real-microphone robustness, three training seeds, and subjective/intelligibility evaluation are not assumed achieved. A complete research project can produce a negative or limited result; its documentation must say so.
+The proposed 5 dB quality target was not reached. Broad real-microphone robustness, three-seed replication, and subjective/intelligibility evaluation remain research work. Completing the pipeline and experiment does not establish those capabilities.
 
 ## Research extensions
 

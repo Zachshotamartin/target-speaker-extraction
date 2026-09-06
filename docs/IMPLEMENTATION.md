@@ -20,6 +20,8 @@ The downloader takes the first requested speakers and utterances in each officia
 
 The acquired inventory contains 60 training speakers (2,974 usable utterances, 10.784 hours), 40 development speakers (1,186, 2.5742 hours), and 40 test speakers (1,187, 2.7218 hours). Inventory rejects utterances shorter than two seconds. The experiment further requires clips long enough for its crops and at least three eligible utterances per speaker. Inventory hours describe the source pool, not exactly the hours sampled during training. Manifests are authoritative; historical planning fields such as `pilot_speakers_target` do not select downloaded files.
 
+After crop filtering, the eligible training pool contains 2,826 utterances and 10.636 hours from all 60 speakers; development/test contain 752/762 utterances. Each main run draws 40,000 two-second mixture requests with source reuse. See [eligible data](../reports/eligible-data.json).
+
 Mixtures use distinct speakers, fully overlapping clean crops, a uniform −5 to +5 dB level ratio, and a common anti-clipping gain. Targets remain at mixture scale. References come from distinct utterances, preferably another chapter. IDs and sample offsets are explicit. Each evaluation pair shares exactly one mixture and reverses the target/reference assignment.
 
 Training uses 2-second mixtures and 5-second references on demand. Evaluation uses 4-second mixtures and 5-second references. The development checkpoint-selection set has 80 cases; its reporting set has 400. The reserved test has 1,000 extraction requests, corresponding to 500 underlying mixture pairs. Repeated speakers create dependence. Approximate target-speaker cluster confidence intervals do not fully capture shared-interferer dependence.

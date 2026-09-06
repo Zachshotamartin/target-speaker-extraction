@@ -27,6 +27,12 @@ def interval(values: list[float]) -> str:
     return f"[{values[0]:.2f}, {values[1]:.2f}]"
 
 
+def save_figure(figure, path: Path) -> None:
+    figure.savefig(path, dpi=170)
+    if path.suffix == ".svg":
+        path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
+
+
 def main() -> None:
     control = read("reports/control-test.json")
     augmented = read("reports/augmented-test.json")
@@ -144,7 +150,7 @@ def main() -> None:
         "Checkpoint-selection set · 80 paired extraction requests · one training seed", fontsize=11
     )
     for extension in ("png", "svg"):
-        fig.savefig(figures / f"learning-curves.{extension}", dpi=170)
+        save_figure(fig, figures / f"learning-curves.{extension}")
     plt.close(fig)
     fig, ax = plt.subplots(figsize=(9, 4.8), layout="constrained")
     positions = np.arange(len(conditions))
@@ -175,13 +181,22 @@ def main() -> None:
         title="Frozen test · 1,000 paired extraction requests per condition",
     )
     ax.axhline(0, color="#aaa", linewidth=0.8)
+    ax.set_ylim(
+        0,
+        max(
+            report["summaries"][name]["mean_ci95_db"][1]
+            for report in (control, augmented)
+            for name in conditions
+        )
+        + 0.55,
+    )
     ax.legend(frameon=False, fontsize=9)
     fig.supxlabel(
         "Bars: point estimates. Whiskers: approximate target-speaker cluster 95% intervals.",
         fontsize=8,
     )
     for extension in ("png", "svg"):
-        fig.savefig(figures / f"test-conditions.{extension}", dpi=170)
+        save_figure(fig, figures / f"test-conditions.{extension}")
     plt.close(fig)
     clean = selected["summaries"]["clean"]
     delivered_clean = delivered["summary"]
@@ -191,7 +206,7 @@ def main() -> None:
     for seconds, result in diagnostics["reference_duration_seconds"].items():
         if result["eligible_cases"]:
             duration_lines.append(
-                f"- {seconds} seconds: {result['summary']['mean_si_sdri_db']:.2f} dB across {result['eligible_cases']} eligible cases; {result['excluded_cases']} excluded."
+                f"- {seconds} {'second' if seconds == '1' else 'seconds'}: {result['summary']['mean_si_sdri_db']:.2f} dB across {result['eligible_cases']} eligible cases; {result['excluded_cases']} excluded."
             )
     card = f"""# Model card · One voice 0.1
 
@@ -225,7 +240,7 @@ Equal-weight augmentation gain across the four mismatch conditions: **{paired["e
 
 Selected model, clean condition: mean **{clean["mean_si_sdri_db"]:.2f} dB**, median {clean["median_si_sdri_db"]:.2f} dB, 10th percentile {clean["p10_si_sdri_db"]:.2f} dB, mean interval {interval(clean["mean_ci95_db"])}; {percent(clean["negative_improvement_fraction"])} of cases have negative improvement and {percent(clean["confusion_fraction"])} meet the 3 dB wrong-speaker confusion proxy. Near-silent outputs: {percent(clean["near_silent_fraction"])}. Normalized waveform L1: {clean["mean_normalized_l1"]:.3f}.
 
-The app's exact shared WAV processing path achieves **{delivered_clean["mean_si_sdri_db"]:.2f} dB** on the same clean test cases, with {percent(delivered_clean["confusion_fraction"])} confusion. It includes decoding, normalization, model execution, inverse gain, WAV encoding, and decoding for scoring; HTTP behavior is separately integration-tested. Raw results: [control](../reports/control-test.json), [augmentation](../reports/augmented-test.json), [paired comparison](../reports/test-comparison.json), [delivered path](../reports/delivered-test.json).
+The app's exact shared WAV processing path achieves **{delivered_clean["mean_si_sdri_db"]:.2f} dB** on the same clean test cases, with {percent(delivered_clean["confusion_fraction"])} confusion and {percent(delivered_clean["negative_improvement_fraction"])} negative-improvement cases. It includes decoding, normalization, model execution, inverse gain, WAV encoding, and decoding for scoring; HTTP behavior is separately integration-tested. Raw results: [control](../reports/control-test.json), [augmentation](../reports/augmented-test.json), [paired comparison](../reports/test-comparison.json), [delivered path](../reports/delivered-test.json).
 
 ![Frozen reference-condition results](../reports/figures/test-conditions.png)
 
@@ -253,7 +268,7 @@ Apple M3 Pro, 18 GiB unified memory, PyTorch 2.14.0. Five warm repetitions per l
 
 {chr(10).join(timing_table)}
 
-Model-load time: CPU {profiles["cpu"]["model_load_seconds"]:.3f} s; MPS {profiles["mps"]["model_load_seconds"]:.3f} s. Process peak RSS, including whole-file comparison: CPU {profiles["cpu"]["process_peak_rss_gib"]:.3f} GiB; MPS {profiles["mps"]["process_peak_rss_gib"]:.3f} GiB. MPS driver counters are reported separately in JSON; unified-memory counters must not be summed. Maximum absolute chunk/whole difference across tested lengths: CPU {max(r["chunk_whole_max_error"] for r in profiles["cpu"]["rows"]):.3g}; MPS {max(r["chunk_whole_max_error"] for r in profiles["mps"]["rows"]):.3g}. These checks establish numeric alignment for this artifact, not natural long-conversation quality or live latency.
+Model-load time: CPU {profiles["cpu"]["model_load_seconds"]:.3f} s; MPS {profiles["mps"]["model_load_seconds"]:.3f} s. Process peak RSS, including whole-file comparison: CPU {profiles["cpu"]["process_peak_rss_gib"]:.3f} GiB; MPS {profiles["mps"]["process_peak_rss_gib"]:.3f} GiB. The MPS driver allocation at the end of profiling is {profiles["mps"]["mps_driver_gib"]:.3f} GiB, an end counter rather than a peak. Unified-memory counters overlap and must not be summed. Maximum absolute chunk/whole difference across tested lengths: CPU {max(r["chunk_whole_max_error"] for r in profiles["cpu"]["rows"]):.3g}; MPS {max(r["chunk_whole_max_error"] for r in profiles["mps"]["rows"]):.3g}. These checks establish numeric alignment for this artifact, not natural long-conversation quality or live latency.
 
 Full runtime protocols and samples: [CPU](../reports/delivery-cpu.json), [MPS](../reports/delivery-mps.json). [Reproduce the project](REPRODUCING.md).
 
@@ -261,7 +276,7 @@ Full runtime protocols and samples: [CPU](../reports/delivery-cpu.json), [MPS](.
 
 Code, manifests and reports are public. Raw recordings and model weights remain in the local workspace and are not committed. A license for original code/model redistribution has not been selected. Public visibility is not an open-source license; data and dependencies retain their own licenses. Generated local speech examples include source attribution and describe their cropping/mixing transformations.
 
-The first release is a complete local research pipeline with measured limitations. It does not meet a production-quality guarantee. Further development should use fresh held-out data after test-driven changes and replicate across training seeds.
+The first release is a complete local research pipeline with measured limitations. The proposed 5 dB quality target was not reached. Further development should use fresh held-out data after test-driven changes and replicate across training seeds.
 """
     Path("docs/MODEL_CARD.md").write_text(card)
     study = f"""# Case study · Keeping one voice

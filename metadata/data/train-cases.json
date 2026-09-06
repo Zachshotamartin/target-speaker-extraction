@@ -1,0 +1,505 @@
+{
+  "schema_version": 1,
+  "protocol": "custom-librispeech-tse-v1",
+  "source_manifest_sha256": "ec48066f2e6ccc80e01478b91cb2657ee502e320a0e4da27e3394d22f56162b7",
+  "split": "train",
+  "seed": 44000,
+  "cases": [
+    {
+      "case_id": "train-44000",
+      "split": "train",
+      "seed": 44000,
+      "sources": [
+        {
+          "id": "103-1240-0017",
+          "offset": 171290
+        },
+        {
+          "id": "8238-283452-0011",
+          "offset": 87562
+        }
+      ],
+      "references": [
+        {
+          "id": "103-1240-0001",
+          "offset": 43332
+        },
+        {
+          "id": "8238-274553-0058",
+          "offset": 7992
+        }
+      ],
+      "target_index": 0,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -2.308940059703523,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44000-swap",
+      "split": "train",
+      "seed": 44000,
+      "sources": [
+        {
+          "id": "103-1240-0017",
+          "offset": 171290
+        },
+        {
+          "id": "8238-283452-0011",
+          "offset": 87562
+        }
+      ],
+      "references": [
+        {
+          "id": "103-1240-0001",
+          "offset": 43332
+        },
+        {
+          "id": "8238-274553-0058",
+          "offset": 7992
+        }
+      ],
+      "target_index": 1,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -2.308940059703523,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44001",
+      "split": "train",
+      "seed": 44001,
+      "sources": [
+        {
+          "id": "1069-133699-0041",
+          "offset": 15405
+        },
+        {
+          "id": "7078-271888-0112",
+          "offset": 86457
+        }
+      ],
+      "references": [
+        {
+          "id": "1069-133699-0032",
+          "offset": 9746
+        },
+        {
+          "id": "7078-271888-0043",
+          "offset": 60399
+        }
+      ],
+      "target_index": 0,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": 1.0586915378744244,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44001-swap",
+      "split": "train",
+      "seed": 44001,
+      "sources": [
+        {
+          "id": "1069-133699-0041",
+          "offset": 15405
+        },
+        {
+          "id": "7078-271888-0112",
+          "offset": 86457
+        }
+      ],
+      "references": [
+        {
+          "id": "1069-133699-0032",
+          "offset": 9746
+        },
+        {
+          "id": "7078-271888-0043",
+          "offset": 60399
+        }
+      ],
+      "target_index": 1,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": 1.0586915378744244,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44002",
+      "split": "train",
+      "seed": 44002,
+      "sources": [
+        {
+          "id": "1088-129236-0011",
+          "offset": 14739
+        },
+        {
+          "id": "3214-167607-0039",
+          "offset": 29943
+        }
+      ],
+      "references": [
+        {
+          "id": "1088-134318-0004",
+          "offset": 13135
+        },
+        {
+          "id": "3214-167602-0000",
+          "offset": 129594
+        }
+      ],
+      "target_index": 0,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -3.065011635692686,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44002-swap",
+      "split": "train",
+      "seed": 44002,
+      "sources": [
+        {
+          "id": "1088-129236-0011",
+          "offset": 14739
+        },
+        {
+          "id": "3214-167607-0039",
+          "offset": 29943
+        }
+      ],
+      "references": [
+        {
+          "id": "1088-134318-0004",
+          "offset": 13135
+        },
+        {
+          "id": "3214-167602-0000",
+          "offset": 129594
+        }
+      ],
+      "target_index": 1,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -3.065011635692686,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44003",
+      "split": "train",
+      "seed": 44003,
+      "sources": [
+        {
+          "id": "1183-133255-0003",
+          "offset": 22509
+        },
+        {
+          "id": "6476-57446-0021",
+          "offset": 83580
+        }
+      ],
+      "references": [
+        {
+          "id": "1183-128659-0005",
+          "offset": 14047
+        },
+        {
+          "id": "6476-57446-0023",
+          "offset": 73609
+        }
+      ],
+      "target_index": 0,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": 2.6803379830938043,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44003-swap",
+      "split": "train",
+      "seed": 44003,
+      "sources": [
+        {
+          "id": "1183-133255-0003",
+          "offset": 22509
+        },
+        {
+          "id": "6476-57446-0021",
+          "offset": 83580
+        }
+      ],
+      "references": [
+        {
+          "id": "1183-128659-0005",
+          "offset": 14047
+        },
+        {
+          "id": "6476-57446-0023",
+          "offset": 73609
+        }
+      ],
+      "target_index": 1,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": 2.6803379830938043,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44004",
+      "split": "train",
+      "seed": 44004,
+      "sources": [
+        {
+          "id": "1246-124548-0002",
+          "offset": 47141
+        },
+        {
+          "id": "8238-283452-0010",
+          "offset": 217948
+        }
+      ],
+      "references": [
+        {
+          "id": "1246-124548-0021",
+          "offset": 63246
+        },
+        {
+          "id": "8238-274553-0058",
+          "offset": 9926
+        }
+      ],
+      "target_index": 0,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -0.43181693537361454,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44004-swap",
+      "split": "train",
+      "seed": 44004,
+      "sources": [
+        {
+          "id": "1246-124548-0002",
+          "offset": 47141
+        },
+        {
+          "id": "8238-283452-0010",
+          "offset": 217948
+        }
+      ],
+      "references": [
+        {
+          "id": "1246-124548-0021",
+          "offset": 63246
+        },
+        {
+          "id": "8238-274553-0058",
+          "offset": 9926
+        }
+      ],
+      "target_index": 1,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -0.43181693537361454,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44005",
+      "split": "train",
+      "seed": 44005,
+      "sources": [
+        {
+          "id": "1263-141777-0039",
+          "offset": 64327
+        },
+        {
+          "id": "6563-63821-0024",
+          "offset": 151900
+        }
+      ],
+      "references": [
+        {
+          "id": "1263-139804-0029",
+          "offset": 124688
+        },
+        {
+          "id": "6563-285357-0016",
+          "offset": 105877
+        }
+      ],
+      "target_index": 0,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": 4.624358361857398,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44005-swap",
+      "split": "train",
+      "seed": 44005,
+      "sources": [
+        {
+          "id": "1263-141777-0039",
+          "offset": 64327
+        },
+        {
+          "id": "6563-63821-0024",
+          "offset": 151900
+        }
+      ],
+      "references": [
+        {
+          "id": "1263-139804-0029",
+          "offset": 124688
+        },
+        {
+          "id": "6563-285357-0016",
+          "offset": 105877
+        }
+      ],
+      "target_index": 1,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": 4.624358361857398,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44006",
+      "split": "train",
+      "seed": 44006,
+      "sources": [
+        {
+          "id": "150-126107-0028",
+          "offset": 133715
+        },
+        {
+          "id": "426-122819-0029",
+          "offset": 148160
+        }
+      ],
+      "references": [
+        {
+          "id": "150-126112-0022",
+          "offset": 23306
+        },
+        {
+          "id": "426-122821-0028",
+          "offset": 1022
+        }
+      ],
+      "target_index": 0,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -1.377586435140673,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44006-swap",
+      "split": "train",
+      "seed": 44006,
+      "sources": [
+        {
+          "id": "150-126107-0028",
+          "offset": 133715
+        },
+        {
+          "id": "426-122819-0029",
+          "offset": 148160
+        }
+      ],
+      "references": [
+        {
+          "id": "150-126112-0022",
+          "offset": 23306
+        },
+        {
+          "id": "426-122821-0028",
+          "offset": 1022
+        }
+      ],
+      "target_index": 1,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -1.377586435140673,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44007",
+      "split": "train",
+      "seed": 44007,
+      "sources": [
+        {
+          "id": "1624-142933-0030",
+          "offset": 199762
+        },
+        {
+          "id": "103-1240-0037",
+          "offset": 86624
+        }
+      ],
+      "references": [
+        {
+          "id": "1624-168623-0002",
+          "offset": 37342
+        },
+        {
+          "id": "103-1240-0025",
+          "offset": 6959
+        }
+      ],
+      "target_index": 0,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -3.1149040625942073,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "train-44007-swap",
+      "split": "train",
+      "seed": 44007,
+      "sources": [
+        {
+          "id": "1624-142933-0030",
+          "offset": 199762
+        },
+        {
+          "id": "103-1240-0037",
+          "offset": 86624
+        }
+      ],
+      "references": [
+        {
+          "id": "1624-168623-0002",
+          "offset": 37342
+        },
+        {
+          "id": "103-1240-0025",
+          "offset": 6959
+        }
+      ],
+      "target_index": 1,
+      "samples": 32000,
+      "reference_samples": 80000,
+      "ratio_db": -3.1149040625942073,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    }
+  ]
+}

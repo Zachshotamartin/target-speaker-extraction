@@ -1,0 +1,24 @@
+{
+  "train": {
+    "eligible_speakers": 60,
+    "eligible_utterances": 2826,
+    "eligible_source_hours": 10.63561095486111,
+    "mixture_crop_seconds": 2,
+    "reference_seconds": 5
+  },
+  "dev": {
+    "eligible_speakers": 40,
+    "eligible_utterances": 752,
+    "eligible_source_hours": 2.150009809027778,
+    "mixture_crop_seconds": 4,
+    "reference_seconds": 5
+  },
+  "test": {
+    "eligible_speakers": 40,
+    "eligible_utterances": 762,
+    "eligible_source_hours": 2.3064014236111112,
+    "mixture_crop_seconds": 4,
+    "reference_seconds": 5
+  },
+  "note": "Eligible pool after crop-length and three-utterance speaker filtering; not unique hours consumed. Each main run draws 40,000 training requests, or 22.22 hours of two-second mixture crops with source reuse."
+}
