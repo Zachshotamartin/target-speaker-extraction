@@ -54,11 +54,15 @@ def evaluate_delivery(
                 "target_speaker": batch["speakers"][0],
                 "condition": "clean",
                 "processing_seconds": metadata["processing_seconds"],
+                "raw_output_peak": metadata["raw_output_peak"],
+                "output_peak": metadata["output_peak"],
+                "playback_gain": metadata["playback_gain"],
                 **score,
             }
         )
     result = {
         "checkpoint_sha256": sha256(checkpoint),
+        "processing_version": extractor.info()["processing_version"],
         "source_manifest_sha256": sha256(manifest),
         "case_manifest_sha256": sha256(cases_path),
         "split": protocol["split"],

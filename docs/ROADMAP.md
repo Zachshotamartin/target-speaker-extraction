@@ -37,6 +37,8 @@ The proposed 5 dB quality target was not reached. Broad real-microphone robustne
 
 ## Research extensions
 
+The first quality follow-up fixes output sample overflow and measures two modest spectral cleanup candidates on development data. [The quality improvement plan](QUALITY_IMPROVEMENT.md) prioritizes reconstruction loss, speaker identity supervision and training scale; these model changes are not yet implemented or trained.
+
 - Improve unseen-speaker generalization with more speaker diversity and a measured longer training budget.
 - Repeat the clean/augmented comparison across three or more paired seeds.
 - Test real microphone/room recordings and separately held-out corruption severities.

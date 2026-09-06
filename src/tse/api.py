@@ -86,7 +86,7 @@ def create_app(
         yield
         app.state.extractor = None
 
-    app = FastAPI(title="Target Speaker Extraction", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="Target Speaker Extraction", version="0.1.1", lifespan=lifespan)
     app.state.gate = gate
     app.add_middleware(UploadLimitMiddleware)
     app.add_middleware(

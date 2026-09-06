@@ -14,6 +14,8 @@ from tse.config import ExperimentConfig
 from tse.engine import load_model, synchronize
 from tse.utils import sha256
 
+PROCESSING_VERSION = "sample-peak-guard-v1"
+
 
 class Extractor:
     def __init__(self, checkpoint: Path, device: str = "cpu"):
@@ -35,6 +37,7 @@ class Extractor:
             "ready": True,
             "model_id": self.checkpoint_hash[:12],
             "checkpoint_sha256": self.checkpoint_hash,
+            "processing_version": PROCESSING_VERSION,
             "training_updates": self.payload["step"],
             "training_experiment": self.config.experiment,
             "parameters": sum(p.numel() for p in self.model.parameters()),
@@ -98,17 +101,25 @@ class Extractor:
         output = self.extract_array(mixture, reference)
         synchronize(self.device)
         model_seconds = time.perf_counter() - model_started
+        raw_peak = float(np.max(np.abs(output)))
+        # Uniform attenuation prevents sample overflow in playback while preserving
+        # the waveform shape and relative speaker levels. Never boost quiet output.
+        playback_gain = min(1.0, 0.98 / max(raw_peak, 1e-8))
+        output = output * playback_gain
         encoded = wav_bytes(output)
         elapsed = time.perf_counter() - started
         duration = len(mixture) / 16000
         metadata = {
             "model_id": self.checkpoint_hash[:12],
+            "processing_version": PROCESSING_VERSION,
             "sample_rate": 16000,
             "duration_seconds": duration,
             "processing_seconds": round(elapsed, 4),
             "model_seconds": round(model_seconds, 4),
             "real_time_factor": round(elapsed / duration, 4),
             "output_peak": float(np.max(np.abs(output))),
+            "raw_output_peak": raw_peak,
+            "playback_gain": playback_gain,
             "training_updates": self.payload["step"],
         }
         return encoded, metadata

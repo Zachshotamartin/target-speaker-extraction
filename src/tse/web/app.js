@@ -221,7 +221,9 @@ $("extraction-form").addEventListener("submit", async (event) => {
     $("download").hidden = false;
     $("result-timing").textContent = `${Number(metadata.processing_seconds).toFixed(2)} seconds to process · 16 kHz WAV · model ${metadata.model_id}`;
     await chooseVersion("isolated");
-    message("Your audio is ready. Listen to both versions to assess the extraction.", "success");
+    message(metadata.playback_gain < 1
+      ? "Your audio is ready. Output volume was reduced to prevent playback clipping. Listen to both versions to assess the extraction."
+      : "Your audio is ready. Listen to both versions to assess the extraction.", "success");
   } catch (error) {
     message(error.name === "AbortError" ? "Processing took too long. Try a shorter recording." : error.message, "error");
   } finally {

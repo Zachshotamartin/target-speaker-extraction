@@ -1,4 +1,5 @@
 import io
+import json
 
 import numpy as np
 import pytest
@@ -113,3 +114,25 @@ def test_chunked_inference_preserves_length_and_context(checkpoint):
     chunked = extractor.extract_array(mixture, reference, chunked=True)
     assert whole.shape == chunked.shape == mixture.shape
     np.testing.assert_allclose(whole, chunked, atol=2e-6, rtol=2e-4)
+
+
+@pytest.mark.parametrize("amplitude", [0.4, 1.4])
+def test_download_preserves_shape_without_playback_overflow(checkpoint, monkeypatch, amplitude):
+    raw = sound(1) * (amplitude / 0.15)
+    before = raw.copy()
+    with TestClient(create_app(checkpoint, "cpu")) as client:
+        # Isolate the delivery contract from stochastic model predictions.
+        monkeypatch.setattr(client.app.state.extractor, "extract_array", lambda *args: raw)
+        response = client.post("/extract", files=uploads())
+        assert response.status_code == 200
+        delivered = read_audio(io.BytesIO(response.content))
+        metadata = json.loads(response.headers["X-TSE-Metadata"])
+        assert metadata["processing_version"] == "sample-peak-guard-v1"
+        assert np.max(np.abs(delivered)) <= 0.980001
+        assert 0 < metadata["playback_gain"] <= 1
+        np.testing.assert_allclose(delivered, before * metadata["playback_gain"], atol=1e-7)
+        np.testing.assert_array_equal(raw, before)
+        if amplitude < 0.98:
+            np.testing.assert_array_equal(delivered, before)
+        else:
+            assert metadata["playback_gain"] < 1 and metadata["raw_output_peak"] > 1
