@@ -63,7 +63,9 @@ class UploadLimitMiddleware:
         await self.app(scope, bounded_receive, send)
 
 
-def create_app(checkpoint: Path | None = None, device: str = "cpu") -> FastAPI:
+def create_app(
+    checkpoint: Path | None = None, device: str = "cpu", examples_root: Path | None = None
+) -> FastAPI:
     checkpoint = checkpoint or Path(os.environ.get("TSE_CHECKPOINT", "artifacts/releases/model.pt"))
     gate = threading.Lock()
 
@@ -145,6 +147,18 @@ def create_app(checkpoint: Path | None = None, device: str = "cpu") -> FastAPI:
             mixture.file.close()
             reference.file.close()
             gate.release()
+
+    examples_root = examples_root or Path("artifacts/examples")
+
+    @app.get("/examples")
+    def examples():
+        index = examples_root / "index.json"
+        if not index.is_file():
+            return {"items": []}
+        return json.loads(index.read_text())
+
+    if examples_root.is_dir():
+        app.mount("/example-audio", StaticFiles(directory=examples_root), name="example-audio")
 
     static = Path(__file__).parent / "web"
     if static.is_dir():

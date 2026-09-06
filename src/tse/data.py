@@ -299,6 +299,8 @@ def build_cases(corpus: SpeechCorpus, count: int, seed: int, output: Path) -> di
 
 def load_cases(path: Path, corpus: SpeechCorpus) -> list[dict]:
     payload = json.loads(path.read_text())
+    if len({case["case_id"] for case in payload["cases"]}) != len(payload["cases"]):
+        raise ValueError("Duplicate evaluation case identifiers")
     if payload["source_manifest_sha256"] != corpus.manifest_hash:
         raise ValueError("Case manifest refers to a different source inventory")
     if payload["split"] != corpus.split:

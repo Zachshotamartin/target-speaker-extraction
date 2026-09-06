@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Isolate a chosen voice from overlapping speech, locally on your computer.">
+    <title>One voice · Target Speaker Extraction</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="One voice home">
+          <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><path d="M5 13h3v6H5zm5-6h3v18h-3zm5-4h3v26h-3zm5 5h3v16h-3zm5 5h3v6h-3z" fill="currentColor"/></svg>
+          <span>one voice<span class="brand-dot">.</span></span>
+        </a>
+        <nav aria-label="Main navigation"><span class="current">Workspace</span><a href="https://github.com/Zachshotamartin/target-speaker-extraction" target="_blank" rel="noreferrer">The project <span aria-hidden="true">↗</span></a></nav>
+      </header>
+
+      <main>
+        <section class="introduction">
+          <div><p class="eyebrow">TARGET SPEAKER EXTRACTION / RESEARCH PREVIEW</p><h1>Keep one voice.</h1><p class="intro-copy">A conversation has many voices. Give us a recording and a separate sample of the person you want to hear.</p></div>
+          <div class="local-note"><span class="status-dot" id="status-dot"></span><span id="model-status">Connecting to local model</span><small>Your recordings stay on this computer.</small></div>
+        </section>
+
+        <form id="extraction-form" novalidate>
+          <div class="inputs-grid">
+            <section class="input-panel" id="mixture-zone" aria-labelledby="mixture-heading">
+              <div class="panel-heading"><span class="number">01</span><h2 id="mixture-heading">The conversation</h2><span class="file-kind">WAV / FLAC</span></div>
+              <p class="panel-description">The recording with overlapping voices.</p>
+              <label class="upload-area" for="mixture-file"><span class="upload-symbol" aria-hidden="true">+</span><strong id="mixture-name">Choose a recording</strong><span id="mixture-description">or drop an audio file here · up to 60 seconds</span></label>
+              <input class="visually-hidden" id="mixture-file" type="file" accept=".wav,.flac,audio/wav,audio/flac" aria-describedby="mixture-description">
+              <div class="source-preview" id="mixture-preview" hidden><button class="icon-button" type="button" id="mixture-play" aria-label="Play conversation">▶</button><canvas id="mixture-wave" aria-label="Conversation waveform"></canvas><span class="duration" id="mixture-duration"></span></div>
+            </section>
+
+            <section class="input-panel reference-panel" id="reference-zone" aria-labelledby="reference-heading">
+              <div class="panel-heading"><span class="number">02</span><h2 id="reference-heading">The voice to keep</h2><span class="file-kind">3–10 SEC</span></div>
+              <p class="panel-description">A separate clip of that person speaking alone.</p>
+              <label class="upload-area" for="reference-file"><span class="upload-symbol" aria-hidden="true">+</span><strong id="reference-name">Choose a voice sample</strong><span id="reference-description">or drop an audio file here · around 5 seconds is ideal</span></label>
+              <input class="visually-hidden" id="reference-file" type="file" accept=".wav,.flac,audio/wav,audio/flac" aria-describedby="reference-description">
+              <div class="source-preview" id="reference-preview" hidden><button class="icon-button" type="button" id="reference-play" aria-label="Play voice sample">▶</button><canvas id="reference-wave" aria-label="Reference voice waveform"></canvas><span class="duration" id="reference-duration"></span></div>
+            </section>
+          </div>
+
+          <div class="action-row"><div class="examples" id="examples" hidden><span>Start with an example</span><div id="example-buttons"></div></div><button id="extract-button" class="primary-button" type="submit" disabled><span id="extract-label">Isolate this voice</span><span aria-hidden="true">→</span></button></div>
+          <p class="message" id="message" role="status" aria-live="polite">Add both recordings to begin.</p>
+        </form>
+
+        <section class="result-panel" aria-labelledby="result-heading">
+          <div class="result-header"><div><p class="eyebrow">THE RESULT</p><h2 id="result-heading">A little more room to listen.</h2></div><a id="download" class="text-button" download="isolated-voice.wav" hidden>Download WAV <span aria-hidden="true">↓</span></a></div>
+          <div id="result-empty" class="result-empty"><div class="empty-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><p>Your extracted voice will appear here.</p><span>Compare it with the original at the same moment in the recording.</span></div>
+          <div id="result-ready" hidden>
+            <div class="comparison-controls"><div class="segmented" role="group" aria-label="Playback source"><button type="button" id="select-original" aria-pressed="false">Original</button><button type="button" id="select-isolated" class="selected" aria-pressed="true">Isolated voice</button></div><span class="result-badge">READY TO LISTEN</span></div>
+            <div class="main-player"><button type="button" class="large-play" id="result-play" aria-label="Play comparison audio">▶</button><div class="result-wave-container"><canvas id="result-wave" aria-label="Extracted audio waveform"></canvas><input id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek through recording"></div><span class="playback-time" id="playback-time">0:00 / 0:00</span></div>
+            <div class="result-footnote"><span id="result-timing"></span><span>Switch between versions while playing to hear the difference.</span></div>
+          </div>
+        </section>
+
+        <section class="notes-grid"><div><span class="note-index">A</span><h3>Start with a clear reference.</h3><p>A few seconds of one person speaking gives the model a voice to follow. Use a different clip from the conversation.</p></div><div><span class="note-index">B</span><h3>Listen for what remains.</h3><p>This experimental model estimates the selected voice. Difficult overlaps may leave competing speech or introduce artifacts.</p></div><div><span class="note-index">C</span><h3>Keep your recordings local.</h3><p>Audio is processed by the model running on this computer. Uploads are discarded after processing.</p></div></section>
+
+        <details class="model-details"><summary>About this model and the example recordings <span aria-hidden="true">+</span></summary><div><p id="model-details">Model details will appear when the local service is ready.</p><p>The example recordings use public LibriSpeech audio, attributed to Vassil Panayotov, Guoguo Chen, Daniel Povey and Sanjeev Khudanpur. Audio is provided under CC BY 4.0 and mixed for this demonstration. <a href="https://www.openslr.org/12" target="_blank" rel="noreferrer">View the source dataset ↗</a></p><p>The model is independently implemented and trained from scratch. Read the repository’s evaluation report for measured quality and limitations.</p></div></details>
+      </main>
+
+      <footer><span>ONE VOICE / AN INDEPENDENT AUDIO ML PROJECT</span><span>Made to be heard.</span></footer>
+    </div>
+  </body>
+</html>

@@ -77,6 +77,29 @@ def main() -> int:
     serve.add_argument("--checkpoint", type=Path, default=Path("artifacts/releases/model.pt"))
     serve.add_argument("--device", choices=["cpu", "mps"], default="mps")
     serve.add_argument("--port", type=int, default=8000)
+    comparison = commands.add_parser(
+        "compare", help="Compare paired clean and augmented experiments"
+    )
+    comparison.add_argument("--control", type=Path, required=True)
+    comparison.add_argument("--treatment", type=Path, required=True)
+    comparison.add_argument("--output", type=Path, required=True)
+
+    examples = commands.add_parser("examples", help="Create attributed local demonstration audio")
+    examples.add_argument("--root", type=Path, default=Path("data/raw"))
+    examples.add_argument("--manifest", type=Path, default=Path("data/manifests/inventory.json"))
+    examples.add_argument("--cases", type=Path, default=Path("data/manifests/dev-cases.json"))
+    examples.add_argument("--output", type=Path, default=Path("artifacts/examples"))
+
+    diagnostic = commands.add_parser(
+        "diagnose", help="Measure reference duration and target absence"
+    )
+    diagnostic.add_argument("--checkpoint", type=Path, required=True)
+    diagnostic.add_argument("--root", type=Path, default=Path("data/raw"))
+    diagnostic.add_argument("--manifest", type=Path, default=Path("data/manifests/inventory.json"))
+    diagnostic.add_argument("--cases", type=Path, default=Path("data/manifests/dev-cases.json"))
+    diagnostic.add_argument("--output", type=Path, required=True)
+    diagnostic.add_argument("--device", choices=["cpu", "mps"], default="mps")
+    diagnostic.add_argument("--limit", type=int, default=80)
     args = parser.parse_args()
     try:
         if args.command == "data":
@@ -151,6 +174,28 @@ def main() -> int:
                     },
                 )
                 print(json.dumps({"output": str(args.output), "sha256": sha256(args.output)}))
+        elif args.command == "compare":
+            from tse.reporting import compare
+
+            result = compare(args.control, args.treatment, args.output)
+            print(json.dumps(result, indent=2))
+        elif args.command == "examples":
+            from tse.reporting import make_examples
+
+            result = make_examples(args.root, args.manifest, args.cases, args.output)
+            print(json.dumps({"examples": len(result["items"]), "output": str(args.output)}))
+        elif args.command == "diagnose":
+            from tse.diagnostics import diagnose
+
+            diagnose(
+                args.checkpoint,
+                args.root,
+                args.manifest,
+                args.cases,
+                args.output,
+                args.device,
+                args.limit,
+            )
         elif args.command == "extract":
             from tse.inference import Extractor
 
