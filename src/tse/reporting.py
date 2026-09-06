@@ -17,7 +17,7 @@ def compare(control_path: Path, treatment_path: Path, output: Path, replicates: 
     for key in ("case_manifest_sha256", "source_manifest_sha256", "split", "protocol"):
         if control[key] != treatment[key]:
             raise ValueError(f"Comparison requires matching {key}")
-    for key in ("model", "audio", "loss", "training", "data", "seed"):
+    for key in ("model", "audio", "loss", "training", "data", "evaluation", "seed"):
         if control["config"][key] != treatment["config"][key]:
             raise ValueError(f"Controlled augmentation comparison has different {key}")
     if (
@@ -66,11 +66,38 @@ def compare(control_path: Path, treatment_path: Path, output: Path, replicates: 
             "control_confusion_fraction": float(np.mean([a["confused"] for a, _ in pairs])),
             "treatment_confusion_fraction": float(np.mean([b["confused"] for _, b in pairs])),
         }
-    mismatch = [
-        groups[name]["mean_treatment_minus_control_db"]
-        for name in ("noise", "channel", "reverb", "combined")
-        if name in groups
-    ]
+    mismatch_names = [name for name in ("noise", "channel", "reverb", "combined") if name in groups]
+    mismatch = [groups[name]["mean_treatment_minus_control_db"] for name in mismatch_names]
+    mismatch_interval = None
+    if mismatch_names:
+        identities = {
+            condition: {case_id for case_id, name in left if name == condition}
+            for condition in mismatch_names
+        }
+        case_ids = identities[mismatch_names[0]]
+        if any(ids != case_ids for ids in identities.values()):
+            raise ValueError("Mismatch conditions must use the same underlying cases")
+        by_speaker = {}
+        for case_id in sorted(case_ids):
+            speaker = left[(case_id, mismatch_names[0])]["target_speaker"]
+            value = np.mean(
+                [
+                    right[(case_id, name)]["si_sdri_db"] - left[(case_id, name)]["si_sdri_db"]
+                    for name in mismatch_names
+                ]
+            )
+            by_speaker.setdefault(speaker, []).append(value)
+        clusters = [np.array(by_speaker[key]) for key in sorted(by_speaker)]
+        rng = np.random.default_rng(42)
+        samples = [
+            float(
+                np.concatenate(
+                    [clusters[index] for index in rng.integers(len(clusters), size=len(clusters))]
+                ).mean()
+            )
+            for _ in range(replicates)
+        ]
+        mismatch_interval = [float(value) for value in np.percentile(samples, [2.5, 97.5])]
     result = {
         "comparison": "reference_augmentation",
         "control_report_sha256": sha256(control_path),
@@ -84,6 +111,9 @@ def compare(control_path: Path, treatment_path: Path, output: Path, replicates: 
         "treatment_selected_step": treatment["training_step"],
         "conditions": groups,
         "equal_weight_mismatch_gain_db": float(np.mean(mismatch)) if mismatch else None,
+        "equal_weight_mismatch_ci95_db": mismatch_interval,
+        "mismatch_conditions": mismatch_names,
+        "mismatch_uncertainty_method": "Average condition differences within each case, then bootstrap target-speaker clusters jointly; preserves within-case condition dependence.",
         "uncertainty_note": "One training seed unless separate seed reports are supplied; target-speaker bootstrap intervals are approximate.",
     }
     atomic_json(output, result)

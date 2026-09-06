@@ -1,0 +1,17 @@
+{
+  "environment": "Fresh Python 3.12.11 virtual environment with frozen production requirements and noneditable wheel",
+  "working_directory": "/tmp",
+  "wheel_import_verified": true,
+  "packaged_web_assets_verified": true,
+  "real_speech_extract_verified": true,
+  "metadata": {
+    "model_id": "af2173b7b1b5",
+    "sample_rate": 16000,
+    "duration_seconds": 4.0,
+    "processing_seconds": 0.1679,
+    "model_seconds": 0.1594,
+    "real_time_factor": 0.042,
+    "output_peak": 0.5290974974632263,
+    "training_updates": 5000
+  }
+}

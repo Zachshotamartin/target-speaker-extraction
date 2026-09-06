@@ -39,7 +39,9 @@ def test_paired_comparison_rejects_uncontrolled_changes(tiny_config, tmp_path):
     a, b, result = tmp_path / "a.json", tmp_path / "b.json", tmp_path / "comparison.json"
     atomic_json(a, control)
     atomic_json(b, treatment)
-    assert compare(a, b, result, 10)["equal_weight_mismatch_gain_db"] == 1.0
+    paired = compare(a, b, result, 10)
+    assert paired["equal_weight_mismatch_gain_db"] == 1.0
+    assert paired["equal_weight_mismatch_ci95_db"] == [1.0, 1.0]
     treatment["config"]["training"]["learning_rate"] *= 2
     atomic_json(b, treatment)
     with pytest.raises(ValueError, match="different training"):
