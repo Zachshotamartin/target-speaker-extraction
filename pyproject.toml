@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "target-speaker-extraction"
+version = "0.1.0"
+description = "Independent reference-conditioned speech extraction and reproducible audio experiments"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "torch>=2.5,<3",
+  "numpy>=2,<3",
+  "scipy>=1.14,<2",
+  "soundfile>=0.13,<1",
+  "pydantic>=2.10,<3",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "python-multipart>=0.0.20",
+]
+
+[project.scripts]
+tse = "tse.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "httpx>=0.28,<1", "ruff>=0.12,<1"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tse"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]

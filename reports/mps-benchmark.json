@@ -1,0 +1,147 @@
+{
+  "device": "mps",
+  "torch_version": "2.14.0",
+  "parameters": 1223296,
+  "warmup_steps": 20,
+  "measured_steps": 100,
+  "median_microstep_seconds": 0.06124422902939841,
+  "p95_microstep_seconds": 0.062168222258333114,
+  "estimated_1000_updates_seconds": 244.97691611759365,
+  "rss_peak_gib": 0.5655517578125,
+  "config": {
+    "schema_version": 1,
+    "status": "proposal",
+    "experiment": "E02-clean-reference-pilot",
+    "seed": 42,
+    "audio": {
+      "sample_rate": 16000,
+      "channels": 1,
+      "crop_seconds": 2.0,
+      "reference_seconds": 5.0
+    },
+    "data": {
+      "protocol": "custom-librispeech-tse-v1",
+      "training_source": "LibriSpeech/train-clean-100",
+      "development_source": "LibriSpeech/dev-clean",
+      "test_source": "LibriSpeech/test-clean",
+      "pilot_speakers_target": 30,
+      "minimum_utterances_per_speaker": 20,
+      "mixtures_on_demand": true,
+      "distinct_reference_utterance": true,
+      "prefer_different_reference_chapter": true,
+      "target_to_interferer_db": [
+        -5.0,
+        5.0
+      ],
+      "overlap_fraction": 1.0,
+      "target_present": true
+    },
+    "model": {
+      "family": "reference_conditioned_tcn",
+      "weights": "random_initialization",
+      "encoder_channels": 128,
+      "encoder_kernel_samples": 32,
+      "encoder_stride_samples": 16,
+      "bottleneck_channels": 64,
+      "hidden_channels": 128,
+      "skip_channels": 64,
+      "temporal_kernel": 3,
+      "dilations": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "repeats": 2,
+      "conditioning": "feature_wise_affine",
+      "mask_activation": "relu",
+      "causal": false,
+      "parameter_budget": 3000000,
+      "reference_encoder": {
+        "channels": 128,
+        "kernel_samples": 160,
+        "stride_samples": 80,
+        "dilations": [
+          1,
+          2,
+          4
+        ],
+        "pooling": "masked_mean_std",
+        "embedding_dim": 128,
+        "shared_with_mixture_encoder": false
+      }
+    },
+    "training": {
+      "optimizer": "adamw",
+      "learning_rate": 0.0003,
+      "weight_decay": 0.0001,
+      "microbatch_size": 2,
+      "gradient_accumulation": 4,
+      "gradient_clip_norm": 5.0,
+      "max_optimizer_updates": 1000,
+      "validation_interval_updates": 250,
+      "precision": "float32",
+      "learning_rate_schedule": "none",
+      "num_workers": 0,
+      "retain_checkpoints": [
+        "best",
+        "latest"
+      ]
+    },
+    "loss": {
+      "primary": "negative_si_sdr",
+      "epsilon": 1e-08,
+      "mask_padding": true,
+      "zero_mean": true,
+      "speaker_classification_weight": 0.0,
+      "waveform_weight": 0.1,
+      "absent_target_si_sdr": "unsupported"
+    },
+    "augmentation": {
+      "reference_enabled": false,
+      "mixture_noise_enabled": false,
+      "independent_random_streams": true
+    },
+    "evaluation": {
+      "development_cases_target": 400,
+      "final_test_cases_target": 1000,
+      "mixture_seconds": 4.0,
+      "reference_seconds": 5.0,
+      "confusion_margin_db": 3.0,
+      "bootstrap_target_speaker_clusters": true,
+      "bootstrap_replicates": 1000,
+      "training_seeds_final_target": 3
+    },
+    "runtime": {
+      "preferred_device": "mps",
+      "cpu_path_required": true,
+      "allow_implicit_cpu_fallback_in_benchmarks": false,
+      "benchmark_warmup_steps": 20,
+      "benchmark_measured_steps": 100
+    },
+    "resources": {
+      "minimum_free_disk_gib": 15.0,
+      "persistent_artifact_budget_gib": 20.0,
+      "process_rss_target_gib": 10.0
+    },
+    "inference": {
+      "mode": "offline",
+      "maximum_mixture_seconds": 60.0,
+      "minimum_reference_seconds": 3.0,
+      "maximum_reference_seconds": 10.0,
+      "input_formats": [
+        "wav",
+        "flac"
+      ],
+      "maximum_concurrent_extractions": 1,
+      "report_confidence": false
+    }
+  },
+  "note": "Random-tensor operator/training benchmark. Does not measure data loading or model quality.",
+  "mps_allocated_gib": 0.018970966339111328,
+  "mps_driver_gib": 0.460540771484375
+}

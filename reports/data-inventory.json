@@ -1,0 +1,22 @@
+{
+  "source": "LibriSpeech / OpenSLR SLR12",
+  "license": "CC-BY-4.0",
+  "audit": {
+    "train": {
+      "speakers": 60,
+      "utterances": 2974,
+      "hours": 10.784
+    },
+    "dev": {
+      "speakers": 40,
+      "utterances": 1186,
+      "hours": 2.5742
+    },
+    "test": {
+      "speakers": 40,
+      "utterances": 1187,
+      "hours": 2.7218
+    }
+  },
+  "rejected": 29
+}
