@@ -23,8 +23,8 @@ The total is approximately 80–120 focused hours after allowing for overlap and
 - [x] Inspect the local machine, disk and workspace.
 - [x] Initialize a local repository on `main`.
 - [x] Document product scope, data, model, evaluation and implementation sequence.
-- [ ] Validate repository contents and create the first commit.
-- [ ] Create the requested public GitHub repository and verify the pushed commit.
+- [x] Validate repository contents and create the first commit.
+- [x] Create the requested public GitHub repository and verify the pushed commit.
 
 ## M1 — Environment and compute feasibility
 

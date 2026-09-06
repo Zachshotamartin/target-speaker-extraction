@@ -6,6 +6,8 @@ The practical focus is reference quality: a voice sample recorded on a phone sho
 
 **Status: project plan and repository foundation. No audio model has been implemented or trained, and no performance results are available.**
 
+Public repository: [Zachshotamartin/target-speaker-extraction](https://github.com/Zachshotamartin/target-speaker-extraction).
+
 ## What we are building
 
 Inputs:
