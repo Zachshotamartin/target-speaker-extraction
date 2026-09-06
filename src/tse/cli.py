@@ -114,6 +114,16 @@ def main() -> int:
     profile.add_argument("--output", type=Path, required=True)
     profile.add_argument("--device", choices=["cpu", "mps"], default="cpu")
     profile.add_argument("--repeats", type=int, default=5)
+    gallery = commands.add_parser(
+        "gallery", help="Build an attributed development listening gallery"
+    )
+    gallery.add_argument("--checkpoint", type=Path, default=Path("artifacts/releases/model.pt"))
+    gallery.add_argument("--root", type=Path, default=Path("data/raw"))
+    gallery.add_argument("--manifest", type=Path, default=Path("data/manifests/inventory.json"))
+    gallery.add_argument("--cases", type=Path, default=Path("data/manifests/dev-cases.json"))
+    gallery.add_argument("--output", type=Path, default=Path("artifacts/gallery"))
+    gallery.add_argument("--device", choices=["cpu", "mps"], default="cpu")
+    gallery.add_argument("--count", type=int, default=20)
     args = parser.parse_args()
     try:
         if args.command == "data":
@@ -238,6 +248,19 @@ def main() -> int:
                 args.repeats,
             )
             print(json.dumps(result["rows"], indent=2))
+        elif args.command == "gallery":
+            from tse.gallery import make_gallery
+
+            result = make_gallery(
+                args.checkpoint,
+                args.root,
+                args.manifest,
+                args.cases,
+                args.output,
+                args.device,
+                args.count,
+            )
+            print(json.dumps({"output": str(args.output), "items": len(result["items"])}))
         elif args.command == "serve":
             import uvicorn
 

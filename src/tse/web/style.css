@@ -5,3 +5,7 @@
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 /* The native file input is a sibling of its visible label. */
 .input-panel:has(input[type="file"]:focus-visible) .upload-area{outline:2px solid var(--green);outline-offset:5px}
+/* Development listening records use the same quiet, flat visual system. */
+.gallery-intro{max-width:900px;font-size:13px;color:var(--muted);margin:0 0 36px}.gallery-card{padding:28px 0;border-top:1px solid var(--line)}.gallery-heading{display:flex;justify-content:space-between;gap:20px;align-items:baseline}.gallery-heading h2{font:normal 23px var(--serif);margin:0}.gallery-heading>span{font:11px var(--mono);color:var(--green)}.gallery-caption{font-size:11px;color:var(--muted);margin:12px 0}.gallery-tracks{display:grid;grid-template-columns:1fr 1fr;gap:20px 36px;margin:24px 0}.gallery-track>span{display:block;font-size:12px;margin-bottom:10px}.gallery-track audio{width:100%;height:40px}@media(max-width:640px){.gallery-heading{display:block}.gallery-heading>span{display:block;margin-top:10px}.gallery-tracks{grid-template-columns:1fr}}
+@media(max-width:600px){.topbar{gap:16px}nav{max-width:210px;flex-wrap:wrap;justify-content:flex-end;gap:5px 14px}}
+.brand{white-space:nowrap;flex-shrink:0}

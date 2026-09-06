@@ -146,6 +146,7 @@ def main() -> int:
     checkpoint = f"artifacts/runs/{selected_name}/best.pt"
     run("export", "--checkpoint", checkpoint)
     run("examples")
+    run("gallery", "--device", args.device)
     run(
         "evaluate-delivery",
         "--cases",

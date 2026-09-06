@@ -31,6 +31,10 @@ def main() -> None:
     if release.exists():
         shutil.copyfile(release, destination / "model.json")
         index[str(destination / "model.json")] = sha256(destination / "model.json")
+    gallery = Path("artifacts/gallery/index.json")
+    if gallery.exists():
+        shutil.copyfile(gallery, destination / "gallery.json")
+        index[str(destination / "gallery.json")] = sha256(destination / "gallery.json")
     atomic_json(
         destination / "checksums.json",
         {

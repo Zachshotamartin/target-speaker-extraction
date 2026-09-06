@@ -248,6 +248,7 @@ async function initialize() {
     const response = await fetch("/examples");
     if (!response.ok) return;
     const examples = await response.json();
+    $("gallery-link").hidden = !examples.gallery_available;
     for (const example of examples.items || []) {
       const button = document.createElement("button");
       button.type = "button";

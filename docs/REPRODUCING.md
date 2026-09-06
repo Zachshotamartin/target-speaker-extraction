@@ -69,6 +69,7 @@ The study exports the model selected on development data. For an explicitly chos
 ```sh
 uv run tse export --checkpoint artifacts/runs/control/best.pt
 uv run tse examples
+uv run tse gallery
 uv run tse serve --device cpu
 ```
 
@@ -81,6 +82,8 @@ curl -f -F mixture=@conversation.wav -F reference=@voice.wav http://127.0.0.1:80
 ```
 
 The local web app offers two references for the first fixed development mixture. Examples are selected by manifest order, not by quality score, and are attributed to LibriSpeech/CC BY 4.0.
+
+The [local listening gallery](http://127.0.0.1:8000/gallery/) contains the first 20 development requests, with original/reference/known-target/model audio and per-case metrics. Build it before starting the service; the API mounts the gallery when its directory exists. The gallery remains local and uses no uploaded private recordings.
 
 ## Delivery checks
 
@@ -99,6 +102,15 @@ uv run tse profile-delivery --mixture artifacts/examples/voice-1-mixture.wav --r
 ```
 
 Run one device at a time without concurrent training. Profiles distinguish model load, first request, repeated warm end-to-end processing, and model-only time. They exclude browser/network/HTTP parsing. Repeated audio tests length-dependent runtime and numeric chunk agreement, not real long-conversation quality. Process RSS includes whole-clip diagnostic memory.
+
+After the frozen test and both device profiles are complete, regenerate the published records and figures:
+
+```sh
+uv run python scripts/snapshot_metadata.py
+uv run python scripts/build_report.py
+```
+
+The report builder verifies that test, export, and runtime reports identify the same artifact before writing `docs/MODEL_CARD.md`, `docs/CASE_STUDY.md`, and `reports/figures/`. This release report describes the measured Mac and requires its CPU and MPS profiles; CPU-only training/evaluation remains available independently.
 
 ## CPU container
 

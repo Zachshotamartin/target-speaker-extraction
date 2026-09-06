@@ -151,16 +151,19 @@ def create_app(
             gate.release()
 
     examples_root = examples_root or Path("artifacts/examples")
+    gallery = Path("artifacts/gallery")
 
     @app.get("/examples")
     def examples():
         index = examples_root / "index.json"
-        if not index.is_file():
-            return {"items": []}
-        return json.loads(index.read_text())
+        result = json.loads(index.read_text()) if index.is_file() else {"items": []}
+        return {**result, "gallery_available": (gallery / "index.html").is_file()}
 
     if examples_root.is_dir():
         app.mount("/example-audio", StaticFiles(directory=examples_root), name="example-audio")
+
+    if gallery.is_dir():
+        app.mount("/gallery", StaticFiles(directory=gallery, html=True), name="gallery")
 
     static = Path(__file__).parent / "web"
     if static.is_dir():
