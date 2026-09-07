@@ -128,7 +128,8 @@ class TrainingConfig(StrictModel):
     max_optimizer_updates: int = Field(default=1000, ge=1)
     validation_interval_updates: int = Field(default=250, ge=1)
     precision: Literal["float32"] = "float32"
-    learning_rate_schedule: Literal["none", "plateau"] = "none"
+    learning_rate_schedule: Literal["none", "plateau", "cosine"] = "none"
+    schedule_decay_updates: int = Field(default=5000, ge=1)
     scheduler_patience_validations: int = Field(default=4, ge=1)
     scheduler_factor: float = Field(default=0.5, gt=0, lt=1)
     minimum_learning_rate: float = Field(default=0.00001, gt=0)

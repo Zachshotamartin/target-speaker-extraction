@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 import resource
 import shutil
@@ -24,6 +25,32 @@ from tse.utils import atomic_json, git_state, sha256, source_digest
 def synchronize(device: torch.device) -> None:
     if device.type == "mps":
         torch.mps.synchronize()
+
+
+def make_scheduler(optimizer, config):
+    training = config.training
+    if training.learning_rate_schedule == "plateau":
+        return torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer,
+            mode="max",
+            factor=training.scheduler_factor,
+            patience=training.scheduler_patience_validations,
+            min_lr=training.minimum_learning_rate,
+        )
+    if training.learning_rate_schedule == "cosine":
+        if training.minimum_learning_rate > training.learning_rate:
+            raise ValueError("Cosine minimum cannot exceed the initial learning rate")
+        floor = training.minimum_learning_rate / training.learning_rate
+        return torch.optim.lr_scheduler.LambdaLR(
+            optimizer,
+            lambda step: (
+                floor
+                + (1 - floor)
+                * 0.5
+                * (1 + math.cos(math.pi * min(step / training.schedule_decay_updates, 1)))
+            ),
+        )
+    return None
 
 
 def save_checkpoint(path: Path, payload: dict) -> None:
@@ -255,17 +282,7 @@ def train(
         lr=config.training.learning_rate,
         weight_decay=config.training.weight_decay,
     )
-    scheduler = (
-        torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer,
-            mode="max",
-            factor=config.training.scheduler_factor,
-            patience=config.training.scheduler_patience_validations,
-            min_lr=config.training.minimum_learning_rate,
-        )
-        if config.training.learning_rate_schedule == "plateau"
-        else None
-    )
+    scheduler = make_scheduler(optimizer, config)
     best_score = -float("inf")
     start_step = 0
     if resume:
@@ -286,7 +303,7 @@ def train(
             raise ValueError("Resume fixed-case protocol differs from the saved run")
         model.load_state_dict(payload["model"])
         optimizer.load_state_dict(payload["optimizer"])
-        if scheduler is not None:
+        if scheduler is not None and payload.get("scheduler") is not None:
             scheduler.load_state_dict(payload["scheduler"])
         initialization = payload["provenance"].get("initialization")
         # Optimizer moments loaded from CPU need the model's active device.
@@ -312,6 +329,7 @@ def train(
         "train_speakers": corpus.speakers,
         "experiment_type": "tiny_set_diagnostic" if fixed_cases else "held_out_speaker_training",
         "initialization": initialization,
+        "continuation": payload["provenance"].get("continuation") if resume else None,
         "input_prefetch": "one_optimizer_batch_cpu_thread" if prefetch else "disabled",
         "temporal_compiler": "inductor_mps_layout_optimization_false"
         if compile_blocks
@@ -352,10 +370,10 @@ def train(
         ),
         flush=True,
     )
-    if initialization_path is not None:
+    if initialization_path is not None or (resume and payload.get("validate_fork_start")):
         baseline_rows = evaluate_model(model, development, dev_cases, batch_size=microbatch)
         best_score = float(np.mean([row["si_sdri_db"] for row in baseline_rows]))
-        save_checkpoint(run_dir / "best.pt", checkpoint(0))
+        save_checkpoint(run_dir / "best.pt", checkpoint(start_step))
         atomic_json(
             run_dir / "initial_validation.json", {"score": best_score, "rows": baseline_rows}
         )
@@ -402,6 +420,8 @@ def train(
                 model.parameters(), config.training.gradient_clip_norm, error_if_nonfinite=True
             )
             optimizer.step()
+            if config.training.learning_rate_schedule == "cosine":
+                scheduler.step()
             last_step = step + 1
             if last_step == 1 or last_step % 25 == 0:
                 entry = {
@@ -433,7 +453,7 @@ def train(
                 improved = score > best_score
                 if improved:
                     best_score = score
-                if scheduler is not None:
+                if config.training.learning_rate_schedule == "plateau":
                     scheduler.step(score)
                 state = checkpoint(last_step)
                 save_checkpoint(run_dir / "latest.pt", state)

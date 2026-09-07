@@ -1,0 +1,62 @@
+{
+  "created_at_utc": "2026-09-07T03:09:26.121296+00:00",
+  "baseline_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+  "status": "predeclared_before_v3_experiments",
+  "schedule_comparison": {
+    "source": "artifacts/quality-checkpoints/trajectory/step-20000.pt",
+    "source_sha256": "dc60a25fdb7b677428bf0d6f1cd3333d798b3c44f8a21d5eea1082f33310d0d8",
+    "additional_updates_per_arm": 5000,
+    "arms": [
+      "existing_plateau_policy",
+      "cosine_0.001_to_0.00003"
+    ],
+    "preserve": [
+      "model",
+      "speaker_head",
+      "optimizer_moments",
+      "RNG",
+      "sample_seeds"
+    ]
+  },
+  "architecture_comparison": {
+    "independent_band_split_separator": true,
+    "pilots": [
+      "real_mask_existing_reference",
+      "complex_mask_existing_reference",
+      "complex_mask_scaled_resnet34_reference"
+    ],
+    "pilot_updates_each": 4000,
+    "selected_architecture_total_updates": 10000,
+    "scale": "Mac-feasible adaptation, not a faithful paper reproduction",
+    "selection": "Development SI-SDRi, ESTOI, confusion, artifact and runtime tradeoffs; one seed exploratory"
+  },
+  "realism": {
+    "paired_clean_and_augmented_updates_each": 3000,
+    "conditions": [
+      "clean",
+      "noise",
+      "reverb",
+      "partial_overlap",
+      "pauses",
+      "target_absent",
+      "combined"
+    ],
+    "speech_target": "Aligned reverberant target; suppression is distinct from dereverberation",
+    "noise_source": "OpenSLR28 pointsource_noises",
+    "rir_source": "OpenSLR28 simulated_rirs",
+    "resource_split": "RIR room groups and noise recording identities separated across train/dev/test"
+  },
+  "evaluation": {
+    "training_speech": "Existing 231 identities unchanged",
+    "development": "Existing dev-clean and unused dev-other",
+    "fresh_test": "Unused test-other identities; freeze exact candidate and recipe before scoring",
+    "old_tests": "Historical only; never relabeled unseen",
+    "listening": "Blind order, shared playback headroom, separate competing voice / target damage / static ratings; human input required for subjective conclusions"
+  },
+  "sources": [
+    "https://arxiv.org/html/2409.09589v1",
+    "https://arxiv.org/abs/2211.12433",
+    "https://www.openslr.org/12/",
+    "https://www.openslr.org/28/"
+  ]
+}

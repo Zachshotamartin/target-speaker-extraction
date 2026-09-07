@@ -1,0 +1,6 @@
+{
+  "source_sha256": "dc60a25fdb7b677428bf0d6f1cd3333d798b3c44f8a21d5eea1082f33310d0d8",
+  "initial_model_optimizer_rng_exactly_equal": true,
+  "source_step": 20000,
+  "additional_updates_per_arm": 5000
+}

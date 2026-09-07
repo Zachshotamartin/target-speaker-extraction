@@ -5,7 +5,7 @@ from tse.data import SpeechCorpus, build_cases
 from tse.engine import load_model, train
 
 
-@pytest.mark.parametrize("schedule", ["none", "plateau"])
+@pytest.mark.parametrize("schedule", ["none", "plateau", "cosine"])
 @pytest.mark.parametrize("prefetch", [False, True])
 def test_resume_matches_uninterrupted_training(
     corpus_files, tiny_config, tmp_path, schedule, prefetch
