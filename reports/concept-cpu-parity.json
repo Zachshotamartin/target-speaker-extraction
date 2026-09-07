@@ -1,0 +1,10 @@
+{
+  "checkpoint_sha256": "b2177a29289f3d146d99e8c7bda72fc4207a2e619c733a7152886003debcdbcd",
+  "step": 0,
+  "source_tree_sha256": "69ae4687d6ac7c9283a6130db76f9ab04995e9d39ca5846064d3860b9d5185b5",
+  "cases": 32,
+  "cpu_mean_si_sdri_db": -2.5199102931655943,
+  "mps_mean_si_sdri_db": -2.5199099564924836,
+  "max_per_case_absolute_si_sdri_difference_db": 4.291534423828125e-06,
+  "status": "CPU and MPS development measurements agree; initialization still has poor quality."
+}

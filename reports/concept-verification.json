@@ -19,5 +19,22 @@
     "/experiments/concept/status": 200,
     "/experiments/reference/": 200
   },
-  "quality": "Pending real development evaluation; code tests are not quality evidence."
+  "quality": "First 100 updates improved development SI-SDRi to 0.86 dB; targets not yet met. See concept-first-100.json. No listening or final-test claim.",
+  "ci": {
+    "status": "passed",
+    "url": "https://github.com/Zachshotamartin/target-speaker-extraction/actions/runs/34092807482",
+    "commit": "98d86be095e032cd1c1c48918e623381211fcc7d"
+  },
+  "gallery": {
+    "tracks": 32,
+    "http_success": true,
+    "finite_samples": true,
+    "absolute_sample_peak_maximum": 0.98,
+    "sample_rate": 16000
+  },
+  "browser": {
+    "progress_page": "verified in the in-app browser",
+    "status_and_counts": "visible with actual training state"
+  },
+  "cpu_mps_parity": "reports/concept-cpu-parity.json"
 }

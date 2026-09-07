@@ -15,6 +15,8 @@ The [discarded speed probe](../reports/concept-reuse-profile.json) measured five
 
 The concept trainer uses update and time limits, not the generic configuration schema's unused `epochs` field. Its development targets are at least 6 dB mean SI-SDR improvement, 3 dB at the 25th percentile, 90% of requests improving over the mixture and 90% preferring the requested source. Two successive evaluations passing these targets stop training early. They are engineering targets, not paper results or a substitute for listening. Completing 600 updates without passing them is reported honestly.
 
+The [first 100 real updates](../reports/concept-first-100.json) completed in 258 seconds before validation, with logged MPS driver allocation below 5.87 GiB. Development mean SI-SDRi improved from −2.52 to +0.86 dB; 23/32 requests improved over the mixture and 21/32 preferred the requested source. This is an early improvement and still below the development targets. The bounded session was continuing when this snapshot was recorded. [CPU/MPS measurements](../reports/concept-cpu-parity.json) agreed on the initial checkpoint within 0.000005 dB per case. Neither numerical agreement nor a speedup establishes satisfactory listening quality.
+
 ## Reused learning and reserved recordings
 
 Initialization is our own full-size model's best 224-update learning-check checkpoint. Transfer retains the first three separator blocks and every other matching weight, including the speaker encoder and classifier. No externally trained weights or extraction implementation are imported. Removing later blocks can initially damage performance; adaptation and evaluation determine whether it recovers.
