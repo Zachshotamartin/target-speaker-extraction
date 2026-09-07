@@ -1,0 +1,29 @@
+{
+  "stage": "development-only; before capture of these steps",
+  "capture_steps": [
+    8000,
+    10000,
+    12000,
+    14000,
+    16000,
+    18000,
+    20000
+  ],
+  "averages_to_compare": [
+    [
+      16000,
+      18000,
+      20000
+    ],
+    [
+      12000,
+      14000,
+      16000,
+      18000,
+      20000
+    ]
+  ],
+  "comparison": "Compare these two fixed averages with the best single checkpoint using development SI-SDRi, ESTOI, confusion and listening. No final-test access until one candidate is frozen. The means are exploratory post-training averages, not a reproduction of the SWA paper training schedule.",
+  "source": "https://arxiv.org/abs/1803.05407",
+  "config_sha256": "710485ae52191472eccb0439e9478917ab083622abe7dec310fd7be579d69734"
+}
