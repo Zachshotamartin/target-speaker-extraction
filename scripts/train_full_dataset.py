@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train complete Libri2Mix epochs in user-started sessions of at most eight hours."""
+"""Train complete Libri2Mix epochs until completion or manual pause."""
 
 import argparse
 from pathlib import Path
@@ -13,7 +13,9 @@ if __name__ == "__main__":
     parser.add_argument("--config", type=Path, default=Path("configs/full-data-efficient.json"))
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--device", choices=["cpu", "mps"], default="mps")
-    parser.add_argument("--minutes", type=float, default=480)
+    parser.add_argument(
+        "--minutes", type=float, help="Optional time limit; omitted means unlimited"
+    )
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     train_full(

@@ -1,4 +1,4 @@
-"""Full Libri2Mix passes with bounded sessions and recoverable development evaluation."""
+"""Full Libri2Mix passes with manual pause and recoverable development evaluation."""
 
 import copy
 import fcntl
@@ -142,11 +142,11 @@ def train_full(
     run,
     device_name="mps",
     resume=False,
-    minutes=480,
+    minutes=None,
     stop_after_updates=None,
 ):
-    if not 0 < minutes <= 480:
-        raise ValueError("Session duration must be between zero and 480 minutes")
+    if minutes is not None and (not math.isfinite(minutes) or minutes <= 0):
+        raise ValueError("An optional session duration must be finite and positive")
     run = Path(run)
     with run_lock(run):
         return _train(
@@ -253,7 +253,7 @@ def _train(config_path, root, manifest, run, device_name, resume, minutes, stop_
         nonlocal pause_reason
         if interrupted or (run / "pause.request").exists():
             pause_reason = "requested"
-        elif time.monotonic() - started >= minutes * 60:
+        elif minutes is not None and time.monotonic() - started >= minutes * 60:
             pause_reason = "session_time_limit"
         elif stop_after_updates is not None and step >= stop_after_updates:
             pause_reason = "requested_update_limit"

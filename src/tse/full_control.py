@@ -88,9 +88,10 @@ def control(action, workspace=Path(".")):
             str(run),
             "--device",
             pointer["device"],
-            "--minutes",
-            "480",
         ]
+        minutes = pointer.get("session_minutes")
+        if minutes is not None:
+            command.extend(["--minutes", str(minutes)])
         if (run / "latest.pt").exists():
             command.append("--resume")
         with (run / "process.log").open("ab") as log:
@@ -108,7 +109,7 @@ def control(action, workspace=Path(".")):
             # Idle sleep only, scoped to the trainer; closing the lid can still suspend the Mac.
             with (run / "caffeinate.log").open("ab") as log:
                 helper = subprocess.Popen(
-                    ["caffeinate", "-i", "-t", "28800", "-w", str(worker.pid)],
+                    ["caffeinate", "-i", "-w", str(worker.pid)],
                     stdout=log,
                     stderr=log,
                     start_new_session=True,

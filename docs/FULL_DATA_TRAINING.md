@@ -9,15 +9,15 @@ The efficient architecture keeps three BSRNN blocks, the ResNet34 enrollment enc
 - 100 complete epochs; effective batch 8 (separator microbatch 2, accumulation 4).
 - 3,475 optimizer updates per epoch; **347,500 updates total**.
 - Adam, initial learning rate 0.001, exponential decay toward 0.000025 over the complete schedule. No learning-rate reset or compressed schedule at a session boundary.
-- An explicitly started session lasts at most eight hours, including evaluation. It can pause earlier. Reaching the time limit does not schedule another session.
+- No session time limit by default. Training continues through the full schedule until completion or a manual pause. An optional positive `--minutes` value can still bound a command-line session when desired.
 - Checkpoints every 50 updates, before evaluation, at each epoch end, and on a requested pause.
 - The MPS allocator limit is 60% of recommended working-set memory; activation checkpointing is disabled and fixed-size enrollment crops avoid variable-shape training overhead.
 
-Open [full-data progress](http://127.0.0.1:8000/experiments/full/). **Pause and save** requests a stop after the current complete optimizer update or evaluation request. Wait for **Paused and saved** before disconnecting the SSD. **Resume · up to 8 hours** begins a new bounded session. Neither button changes the dataset, configuration or schedule.
+Open [full-data progress](http://127.0.0.1:8000/experiments/full/). **Pause and save** requests a stop after the current complete optimizer update or evaluation request. Wait for **Paused and saved** before disconnecting the SSD. **Resume training** continues without a session time limit. Neither button changes the dataset, configuration or schedule.
 
 Before creating this run, `scripts/prepare_full_data_training.py` freezes a separate local manifest. A metadata audit found 49 of the source mapping's 6,000 development references reused the target utterance. The new manifest replaces only those references with deterministic different utterances by the same speaker; training mixtures and all test mappings stay unchanged. The original manifest remains intact. The detailed replacement table stays local, and `reports/full-data-enrollment-audit.json` records the counts and hashes. The new development protocol therefore differs from the source mapping for those 49 cases. Startup now validates every development enrollment before model creation.
 
-The registered run is local-only in `artifacts/full-training-active.json`. The API accepts only a pause/resume action for this fixed registration, rejects extra parameters and cross-origin requests, and prevents duplicate launches. An exclusive trainer lock also prevents concurrent command-line workers from writing the same run. On macOS, idle-sleep prevention is tied to the trainer PID and capped at eight hours; it does not override lid sleep or change permanent power settings.
+The registered run is local-only in `artifacts/full-training-active.json`. The API accepts only a pause/resume action for this fixed registration, rejects extra parameters and cross-origin requests, and prevents duplicate launches. An exclusive trainer lock also prevents concurrent command-line workers from writing the same run. On macOS, idle-sleep prevention is tied to the trainer PID and ends when that process exits; it does not override lid sleep or change permanent power settings.
 
 Command-line equivalent (substitute the dataset root and a new run directory):
 
@@ -26,7 +26,7 @@ Command-line equivalent (substitute the dataset root and a new run directory):
   --root "$DATASET_ROOT" \
   --manifest data/full-training/manifest.json \
   --config configs/full-data-efficient.json \
-  --run "$TRAINING_RUN" --device mps --minutes 480
+  --run "$TRAINING_RUN" --device mps
 ```
 
 Add `--resume` for an existing checkpoint. A command-line pause is SIGINT/SIGTERM or a `pause.request` file in the run directory. Remove that request file before a command-line resume; the interface handles this automatically.
@@ -59,3 +59,5 @@ The eight-voice continuation was safely paused at update **6,000** on September 
 Automated checks compare uninterrupted training with a pause mid-epoch and a pause mid-development evaluation. They require exact CPU equality of final weights, optimizer state, random state, learning-rate progression and best scores. Additional checks cover balanced development selection, split leakage rejection, incomplete evaluation recovery, earlier-best retention, session expiry, duplicate trainer exclusion and fixed-run API controls. A real MPS pause/resume check is recorded separately after launch; CPU bitwise equivalence does not promise bitwise equality of every MPS kernel across processes.
 
 The September 7 live MPS check saved after update 11 and resumed from exactly that update, continuing past update 20 with all 570 Adam parameter states at the saved step and the full learning-rate schedule intact. All 72 automated tests passed. The live evaluation recovery check preserved 27 completed cases across a process restart. See `reports/full-data-live-verification.json` for the run identity and scope of each verification.
+
+The eight-hour limit used for the initial launch was subsequently removed at the user's request. The existing training state was migrated with a preserved backup and an explicit source-identity record; model tensors, optimizer, random state, best scores and the epoch schedule were retained.

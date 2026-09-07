@@ -186,7 +186,11 @@ def test_session_expiry_and_double_trainer_protection(full_fixture):
     assert torch.load(run / "latest.pt", weights_only=True)["step"] == 0
 
 
-def test_controls_are_fixed_and_duplicate_resume_is_idempotent(tmp_path, monkeypatch):
+@pytest.mark.parametrize("platform", ["linux", "darwin"])
+@pytest.mark.parametrize("session_minutes", [None, 60])
+def test_controls_are_fixed_and_duplicate_resume_is_idempotent(
+    tmp_path, monkeypatch, session_minutes, platform
+):
     import tse.full_control as controls
 
     run = tmp_path / "run"
@@ -199,6 +203,7 @@ def test_controls_are_fixed_and_duplicate_resume_is_idempotent(tmp_path, monkeyp
             "manifest": "manifest.json",
             "config": "config.json",
             "device": "cpu",
+            "session_minutes": session_minutes,
         },
     )
     launches = []
@@ -213,11 +218,17 @@ def test_controls_are_fixed_and_duplicate_resume_is_idempotent(tmp_path, monkeyp
             return None
 
     monkeypatch.setattr(controls.subprocess, "Popen", Worker)
-    monkeypatch.setattr(controls.sys, "platform", "linux")
+    monkeypatch.setattr(controls.sys, "platform", platform)
     monkeypatch.setattr(controls, "_WORKERS", {})
     assert control("resume", tmp_path)["status"] == "started"
     assert control("resume", tmp_path)["status"] == "already_running"
-    assert len(launches) == 1 and launches[0][-1] == "480"
+    assert len(launches) == (2 if platform == "darwin" else 1)
+    if platform == "darwin":
+        assert launches[1] == ["caffeinate", "-i", "-w", "123456"]
+    if session_minutes is None:
+        assert "--minutes" not in launches[0]
+    else:
+        assert launches[0][-2:] == ["--minutes", str(session_minutes)]
     assert control("pause", tmp_path)["status"] == "pause_requested"
     assert (run / "pause.request").exists()
     monkeypatch.chdir(tmp_path)
@@ -286,3 +297,35 @@ def test_preflight_rejects_same_utterance_reference_and_repair_preserves_mixture
     assert repaired["splits"] == payload["splits"]
     assert repaired["enrollments"]["dev"]["0:0"] == "dev/1-s0.wav"
     assert development_plan(train, LibriMixCorpus(root, output, "dev"), 4)
+
+
+def test_unlimited_session_survives_more_than_eight_hours_and_still_pauses(
+    full_fixture, monkeypatch
+):
+    from types import SimpleNamespace
+
+    import tse.full_training as training
+
+    calls = 0
+
+    def clock():
+        nonlocal calls
+        calls += 1
+        return 0.0 if calls == 1 else 9 * 3600.0 + calls
+
+    config, root, manifest = full_fixture
+    monkeypatch.setattr(training, "time", SimpleNamespace(monotonic=clock))
+    run = root / "unlimited"
+    train_full(config, root, manifest, run, "cpu", stop_after_updates=1)
+    state = json.loads((run / "status.json").read_text())
+    assert state["session_minutes"] is None
+    assert state["session_elapsed_seconds"] > 8 * 3600
+    assert state["status"] == "paused" and state["pause_reason"] == "requested_update_limit"
+    assert torch.load(run / "latest.pt", weights_only=True)["step"] == 1
+
+
+@pytest.mark.parametrize("minutes", [0, -1, float("nan"), float("inf")])
+def test_explicit_time_limits_must_be_finite_and_positive(full_fixture, minutes):
+    config, root, manifest = full_fixture
+    with pytest.raises(ValueError, match="finite and positive"):
+        train_full(config, root, manifest, root / "invalid-limit", "cpu", minutes=minutes)
