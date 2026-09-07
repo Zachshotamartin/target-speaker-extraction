@@ -1,0 +1,111 @@
+{
+  "requested_steps": [
+    8000,
+    10000,
+    12000,
+    14000,
+    16000,
+    18000,
+    20000
+  ],
+  "records": [
+    {
+      "step": 8000,
+      "checkpoint_sha256": "638d8e8c79e5a1e8b0801d11ab7dc9032906d96a0bd622dcbb2bae41051079a0",
+      "path": "artifacts/quality-checkpoints/trajectory/step-8000.pt",
+      "validation": {
+        "event": "validation",
+        "step": 8000,
+        "mean_si_sdri_db": 3.2478135623037816,
+        "confusion_fraction": 0.125,
+        "best_score": 3.5012148946523665,
+        "learning_rate": 0.001,
+        "selection_split": "dev"
+      }
+    },
+    {
+      "step": 10000,
+      "checkpoint_sha256": "6b9de526455c68be1234c95fea0709630b97d190818d930564ee00b121e8ef65",
+      "path": "artifacts/quality-checkpoints/trajectory/step-10000.pt",
+      "validation": {
+        "event": "validation",
+        "step": 10000,
+        "mean_si_sdri_db": 3.7658493258059025,
+        "confusion_fraction": 0.1375,
+        "best_score": 3.7658493258059025,
+        "learning_rate": 0.001,
+        "selection_split": "dev"
+      }
+    },
+    {
+      "step": 12000,
+      "checkpoint_sha256": "5d757feac2903eda3c14e7338557defc33f9ac124ab5f3eb9e76bb743c48aaed",
+      "path": "artifacts/quality-checkpoints/trajectory/step-12000.pt",
+      "validation": {
+        "event": "validation",
+        "step": 12000,
+        "mean_si_sdri_db": 3.964561876654625,
+        "confusion_fraction": 0.0875,
+        "best_score": 3.9959696866571903,
+        "learning_rate": 0.001,
+        "selection_split": "dev"
+      }
+    },
+    {
+      "step": 14000,
+      "checkpoint_sha256": "ba72eed790396f20ea9ab5e5981a2da2f3938a2df05f9fdb1fa244166dff11f3",
+      "path": "artifacts/quality-checkpoints/trajectory/step-14000.pt",
+      "validation": {
+        "event": "validation",
+        "step": 14000,
+        "mean_si_sdri_db": 3.9945114843547342,
+        "confusion_fraction": 0.1125,
+        "best_score": 4.215824725478887,
+        "learning_rate": 0.001,
+        "selection_split": "dev"
+      }
+    },
+    {
+      "step": 16000,
+      "checkpoint_sha256": "9b454d53c7baaad11fcf03d90726c52120dbd38c3f9997bdd9a56794924a0776",
+      "path": "artifacts/quality-checkpoints/trajectory/step-16000.pt",
+      "validation": {
+        "event": "validation",
+        "step": 16000,
+        "mean_si_sdri_db": 3.7988427259027957,
+        "confusion_fraction": 0.125,
+        "best_score": 4.3837699078023435,
+        "learning_rate": 0.001,
+        "selection_split": "dev"
+      }
+    },
+    {
+      "step": 18000,
+      "checkpoint_sha256": "5cc9af2fab8e95fd3857d2ff45c31d22d54f4fe2ee547fd310810f3c097b05f4",
+      "path": "artifacts/quality-checkpoints/trajectory/step-18000.pt",
+      "validation": {
+        "event": "validation",
+        "step": 18000,
+        "mean_si_sdri_db": 4.457027645409108,
+        "confusion_fraction": 0.0625,
+        "best_score": 4.624524709209799,
+        "learning_rate": 0.001,
+        "selection_split": "dev"
+      }
+    },
+    {
+      "step": 20000,
+      "checkpoint_sha256": "dc60a25fdb7b677428bf0d6f1cd3333d798b3c44f8a21d5eea1082f33310d0d8",
+      "path": "artifacts/quality-checkpoints/trajectory/step-20000.pt",
+      "validation": {
+        "event": "validation",
+        "step": 20000,
+        "mean_si_sdri_db": 4.45556861013174,
+        "confusion_fraction": 0.1125,
+        "best_score": 4.820404563099146,
+        "learning_rate": 0.001,
+        "selection_split": "dev"
+      }
+    }
+  ]
+}

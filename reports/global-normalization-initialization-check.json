@@ -1,0 +1,9 @@
+{
+  "source_checkpoint_sha256": "8317ee4624cba6041b429a90da7b40ef053b8337562603ad6d4f188e921e1a66",
+  "control_checkpoint_sha256": "445474ccae9da8a62567700b1b15596f4760ba05a0f29bd401722eb91a2de85c",
+  "seed": 168,
+  "parameters": 2260586,
+  "initial_parameter_tensors_exactly_equal": true,
+  "fresh_classifier_tensors_exactly_equal": true,
+  "intervention": "Only separator normalization calculation changes; reference encoder and initial parameter tensors are identical. This reconstructs initialization under current code, not a claim that trained outputs will match."
+}
