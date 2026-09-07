@@ -1,0 +1,32 @@
+{
+  "status": "implementation_checks_passed",
+  "checked_at_utc": "2026-09-07T06:00:15.939322+00:00",
+  "source_tree_sha256": "405b3218c701250a89f64c32cd8c46c2df16143a546d593972009c5cdd297460",
+  "pytest": {
+    "passed": 59,
+    "failed": 0,
+    "warnings": 2,
+    "warning_scope": "Existing Starlette/httpx and AnyIO API deprecations"
+  },
+  "ruff": {
+    "lint": "passed",
+    "format": "passed"
+  },
+  "build": {
+    "wheel": "passed",
+    "sdist": "passed",
+    "version": "0.2.0",
+    "note": "Package version retained; no new model release"
+  },
+  "contracts": [
+    "PCM16 rendering agrees with libsndfile and mixes before quantization",
+    "Full enrollment features use deterministic evaluation and utterance CMN",
+    "Recomputed reference gradients and BatchNorm buffers match ordinary joint-batch CPU float64 training",
+    "Interrupted CPU training resumes with identical final model state",
+    "App extraction exactly matches direct full-sequence reference-model CPU inference"
+  ],
+  "frontend_numeric_report": "reference-fbank-parity.json",
+  "data_preparation_report": "reference-data-preparation.json",
+  "served_checkpoint_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+  "interpretation": "Implementation checks only. Full training, held-out quality, listening and release acceptance are separate."
+}

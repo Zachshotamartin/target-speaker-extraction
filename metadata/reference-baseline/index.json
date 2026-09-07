@@ -1,0 +1,10 @@
+{
+  "protocol": "libri2mix-16k-min-clean",
+  "complete_local_manifest_sha256": "b80ecd46adf5062823748eed290b5415e7cc5542001bc90845b06af59244f640",
+  "public_metadata_snapshot": "mixture-source-manifest.json",
+  "public_metadata_snapshot_sha256": "fb88bc49a33e3d484c40928b04c8745fda356246263680eb88bc54bb9565042b",
+  "contents": "Mixture/source identities and source hashes; no audio, model weights or redistributed SpeakerBeam enrollment tables.",
+  "source_attribution": "LibriSpeech (Panayotov et al., CC-BY-4.0); LibriMix metadata (Cosentino et al., MIT notice included). SpeakerBeam enrollment tables remain local; pinned upstream locations and hashes are recorded for reproducibility.",
+  "license_source": "https://raw.githubusercontent.com/JorisCos/LibriMix/b898ca375c03e4039cdb3dbe3dd485aad58ec7d1/LICENSE",
+  "license_sha256": "d70af943e2aee36fa7f58cc2898b2d19930f5a823a98745b6607686757529128"
+}

@@ -189,6 +189,15 @@ def train(
     compile_blocks: bool = False,
     initialize_normalization_transfer: bool = False,
 ) -> dict:
+    if (
+        config.model.family == "reference_bsrnn"
+        or config.data.protocol != "custom-librispeech-tse-v1"
+        or config.training.optimizer != "adamw"
+        or config.training.learning_rate_schedule == "exponential"
+    ):
+        raise ValueError(
+            "Use scripts/train_reference_baseline.py for the official reference recipe"
+        )
     if config.training.preserve_initialized_classifier and initialize_from is None and not resume:
         raise ValueError("Classifier preservation requires whole-model initialization or resume")
     if initialize_normalization_transfer and (initialize_from is None or resume):

@@ -17,6 +17,7 @@ Primary sources checked on 2026-09-06. These references support the task, public
 - [Dataset paper](https://arxiv.org/abs/2005.11262)
 - Benchmark resource for speech mixtures, including noisy variants.
 - Its default generator creates several large configurations. Our initial custom protocol is separate from official benchmark results.
+- The full reference baseline now uses pinned official mixture metadata, independently rendered locally. The [public snapshot and notice](../metadata/reference-baseline/index.json) identify the metadata source and its MIT license.
 - The repository's code license does not replace the licenses or attribution of constituent audio sources. Check the exact assets used, including any WHAM noise, before acquisition or redistribution.
 
 ## Model and evaluation literature
@@ -26,6 +27,7 @@ Primary sources checked on 2026-09-06. These references support the task, public
 - [Authors' implementation and paper references](https://github.com/BUTSpeechFIT/speakerbeam)
 - Prior work on extracting a target voice using an enrollment utterance.
 - Research reference only for our core model: no implementation or weights are being imported.
+- The new official benchmark obtains the published enrollment tables for local evaluation. The repository's [custom evaluation license](https://github.com/BUTSpeechFIT/speakerbeam/blob/91af02cc617afa35fedfbdbf32533012cd0a8672/LICENSE.txt) is recorded; table contents are omitted from this public repository. Exact source locations and checksums are included in the preparation report.
 
 ### Conv-TasNet
 
@@ -53,7 +55,7 @@ Primary sources checked on 2026-09-06. These references support the task, public
 
 - [On the effectiveness of enrollment speech augmentation for Target Speaker Extraction](https://arxiv.org/abs/2409.09589)
 - Prior research on changing reference audio during training.
-- This establishes that the topic is not new. Our contribution is an independent local implementation and measured robustness/efficiency experiments. The paper's ResNet34/BSRNN system, training and augmentation recipe have not been reproduced here.
+- This establishes that the topic is not new. Our contribution is an independent local implementation and measured robustness/efficiency experiments. A [full-size ResNet34/BSRNN baseline](REFERENCE_BASELINE.md) is now implemented, with explicitly documented paper/configuration discrepancies. Full training and benchmark results remain pending; the augmentation study has not been reproduced.
 
 ## Runtime
 

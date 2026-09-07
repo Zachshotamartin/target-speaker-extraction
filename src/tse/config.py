@@ -20,10 +20,13 @@ class AudioConfig(StrictModel):
     channels: Literal[1] = 1
     crop_seconds: float = Field(default=2, ge=0.25, le=10)
     reference_seconds: float = Field(default=5, ge=0.25, le=10)
+    reference_mode: Literal["crop", "full_utterance"] = "crop"
 
 
 class DataConfig(StrictModel):
-    protocol: Literal["custom-librispeech-tse-v1"] = "custom-librispeech-tse-v1"
+    protocol: Literal["custom-librispeech-tse-v1", "libri2mix-16k-min-clean"] = (
+        "custom-librispeech-tse-v1"
+    )
     training_source: Literal["LibriSpeech/train-clean-100"] = "LibriSpeech/train-clean-100"
     development_source: Literal["LibriSpeech/dev-clean", "LibriSpeech/dev-clean+dev-other"] = (
         "LibriSpeech/dev-clean"
@@ -37,7 +40,7 @@ class DataConfig(StrictModel):
     minimum_utterances_per_speaker: int = Field(default=3, ge=3)
     mixtures_on_demand: Literal[True] = True
     distinct_reference_utterance: Literal[True] = True
-    prefer_different_reference_chapter: Literal[True] = True
+    prefer_different_reference_chapter: bool = True
     target_to_interferer_db: tuple[float, float] = (-5, 5)
     overlap_fraction: Literal[1.0, "variable"] = 1.0
     target_present: Literal[True, "mixed"] = True
@@ -52,7 +55,7 @@ class DataConfig(StrictModel):
 
 
 class ReferenceConfig(StrictModel):
-    family: Literal["waveform_tcn", "scaled_resnet34"] = "waveform_tcn"
+    family: Literal["waveform_tcn", "scaled_resnet34", "resnet34_fbank"] = "waveform_tcn"
     resnet_base_channels: int = Field(default=16, ge=4, le=64)
     channels: int = Field(default=128, ge=8, le=512)
     kernel_samples: int = Field(default=160, ge=4)
@@ -65,7 +68,10 @@ class ReferenceConfig(StrictModel):
 
 class ModelConfig(StrictModel):
     family: Literal[
-        "reference_conditioned_tcn", "reference_conditioned_stft_tcn", "reference_conditioned_bsrnn"
+        "reference_conditioned_tcn",
+        "reference_conditioned_stft_tcn",
+        "reference_conditioned_bsrnn",
+        "reference_bsrnn",
     ] = "reference_conditioned_tcn"
     weights: Literal["random_initialization", "project_checkpoint", "project_reference"] = (
         "random_initialization"
@@ -81,12 +87,12 @@ class ModelConfig(StrictModel):
         default_factory=lambda: [1, 2, 4, 8, 16, 32, 64, 128], min_length=1
     )
     repeats: int = Field(default=2, ge=1, le=8)
-    conditioning: Literal["feature_wise_affine"] = "feature_wise_affine"
-    mask_activation: Literal["relu", "sigmoid"] = "relu"
+    conditioning: Literal["feature_wise_affine", "multiply_once"] = "feature_wise_affine"
+    mask_activation: Literal["relu", "sigmoid", "gated_complex"] = "relu"
     separation_normalization: Literal["per_frame", "global"] = "per_frame"
     stft_fft_samples: int = Field(default=512, ge=64, le=2048)
     stft_hop_samples: int = Field(default=128, ge=16, le=512)
-    spectral_mask: Literal["real", "complex"] = "real"
+    spectral_mask: Literal["real", "complex", "gated_complex"] = "real"
     band_widths: list[int] = Field(default_factory=lambda: [8] * 8 + [16] * 8 + [32, 33])
     band_channels: int = Field(default=48, ge=8, le=128)
     band_hidden_channels: int = Field(default=64, ge=8, le=256)
@@ -97,6 +103,31 @@ class ModelConfig(StrictModel):
 
     @model_validator(mode="after")
     def check_architecture(self):
+        if self.family != "reference_bsrnn" and (
+            self.reference_encoder.family == "resnet34_fbank"
+            or self.spectral_mask == "gated_complex"
+            or self.mask_activation == "gated_complex"
+            or self.conditioning == "multiply_once"
+        ):
+            raise ValueError("Published reference components require the reference_bsrnn family")
+        if self.family == "reference_bsrnn":
+            if (
+                self.mask_activation != "gated_complex"
+                or self.spectral_mask != "gated_complex"
+                or self.conditioning != "multiply_once"
+                or self.separation_normalization != "global"
+                or self.reference_encoder.family != "resnet34_fbank"
+                or self.reference_encoder.embedding_dim != 256
+                or self.stft_fft_samples != 512
+                or self.stft_hop_samples != 128
+                or self.encoder_channels != 257
+                or min(self.band_widths) < 1
+                or sum(self.band_widths) != 257
+            ):
+                raise ValueError(
+                    "Reference BSRNN requires its explicit complex, global-normalization, ResNet34 contract"
+                )
+            return self
         if self.family in {"reference_conditioned_stft_tcn", "reference_conditioned_bsrnn"}:
             if (
                 self.mask_activation != "sigmoid"
@@ -136,7 +167,7 @@ class ModelConfig(StrictModel):
 
 
 class TrainingConfig(StrictModel):
-    optimizer: Literal["adamw"] = "adamw"
+    optimizer: Literal["adamw", "adam"] = "adamw"
     learning_rate: float = Field(default=0.0003, gt=0, le=0.1)
     weight_decay: float = Field(default=0.0001, ge=0)
     microbatch_size: int = Field(default=2, ge=1, le=128)
@@ -145,7 +176,10 @@ class TrainingConfig(StrictModel):
     max_optimizer_updates: int = Field(default=1000, ge=1)
     validation_interval_updates: int = Field(default=250, ge=1)
     precision: Literal["float32"] = "float32"
-    learning_rate_schedule: Literal["none", "plateau", "cosine"] = "none"
+    learning_rate_schedule: Literal["none", "plateau", "cosine", "exponential"] = "none"
+    epochs: int = Field(default=100, ge=1)
+    checkpoint_interval_updates: int = Field(default=100, ge=1)
+    activation_checkpointing: bool = False
     schedule_decay_updates: int = Field(default=5000, ge=1)
     preserve_initialized_classifier: bool = False
     scheduler_patience_validations: int = Field(default=4, ge=1)
@@ -162,6 +196,7 @@ class LossConfig(StrictModel):
     epsilon: float = Field(default=1e-8, gt=0)
     mask_padding: Literal[True] = True
     zero_mean: Literal[True] = True
+    separation_weight: float = Field(default=1, gt=0, le=1)
     speaker_classification_weight: float = Field(default=0, ge=0, le=1)
     speaker_logit_scale: float = Field(default=1, ge=1, le=30)
     waveform_weight: float = Field(default=0.1, ge=0, le=10)
@@ -216,6 +251,7 @@ class RuntimeConfig(StrictModel):
     allow_implicit_cpu_fallback_in_benchmarks: Literal[False] = False
     benchmark_warmup_steps: int = Field(default=20, ge=1)
     benchmark_measured_steps: int = Field(default=100, ge=1)
+    mps_memory_fraction: float = Field(default=0.6, gt=0, le=0.8)
 
 
 class ResourceConfig(StrictModel):

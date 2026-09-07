@@ -111,6 +111,18 @@ def create_app(
             Path(__file__).parent / "web" / "v3.html", headers={"Cache-Control": "no-cache"}
         )
 
+    @app.get("/experiments/reference/status")
+    def reference_status():
+        from tse.progress import reference_progress
+
+        return JSONResponse(reference_progress(), headers={"Cache-Control": "no-store"})
+
+    @app.get("/experiments/reference/", include_in_schema=False)
+    def reference_page():
+        return FileResponse(
+            Path(__file__).parent / "web" / "reference.html", headers={"Cache-Control": "no-cache"}
+        )
+
     @app.get("/ready")
     def ready():
         if app.state.extractor is None:

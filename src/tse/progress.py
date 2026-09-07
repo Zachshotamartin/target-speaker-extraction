@@ -9,6 +9,40 @@ def read_json(path):
     return json.loads(path.read_text()) if path.is_file() else {}
 
 
+def reference_progress(root=Path(".")):
+    pointer = read_json(root / "artifacts/reference-active.json")
+    run = Path(pointer["run"]) if pointer.get("run") else None
+    status = read_json(run / "status.json") if run else {}
+    validation = read_json(run / "latest-validation.json") if run else {}
+    config = read_json(run / "config.json") if run else {}
+    alive = False
+    if pointer.get("pid"):
+        try:
+            os.kill(pointer["pid"], 0)
+            alive = True
+        except ProcessLookupError:
+            pass
+    profile = read_json(root / "reports/reference-training-profile.json")
+    return {
+        "stage": pointer.get("stage", "preparing"),
+        "process_alive": alive,
+        "status": status.get("status", "waiting"),
+        "updates": status.get("step", 0),
+        "total_updates": status.get("total_updates", 0),
+        "epochs": status.get("epoch", 0),
+        "planned_epochs": config.get("training", {}).get("epochs"),
+        "last_si_sdri_db": validation.get("mean_si_sdri_db"),
+        "last_confusion_fraction": validation.get("confusion_fraction"),
+        "initial_estimate_training_hours": profile.get("estimated_training_only_hours_100_epochs"),
+        "parameters": profile.get("parameters"),
+        "data_prepared": (root / "reports/reference-data-preparation.json").exists(),
+        "learning_gate": read_json(root / "reports/reference-learning-gate.json").get(
+            "status", "pending"
+        ),
+        "note": "The fixed-set diagnostic proves basic learning only. Main training starts from random weights. The served release changes only after separate quality and delivery verification.",
+    }
+
+
 def experiment_progress(root=Path(".")):
     suite = read_json(root / "artifacts/verification/v3-suite-status.json")
     selection = read_json(root / "reports/v3-architecture-selection.json")

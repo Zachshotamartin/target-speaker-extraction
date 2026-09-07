@@ -1,0 +1,9 @@
+{
+  "reason": "User authorized replacing the compact research substitutions with a published-scale independent baseline.",
+  "previous_runner_pid": 85880,
+  "action": "Parent experiment scheduler suspended; active complex pilot may finish its unchanged 4000-update budget. Remaining v3 jobs preserved for later resumption.",
+  "active_child_pid": 94483,
+  "baseline_default": "v0.2.0 preserved",
+  "new_experiment": "reference-libri2mix-clean-100",
+  "existing_test_warning": "All 251 train-clean-100 speakers will train the official baseline; the old custom 20-speaker test will no longer be held out for this new model."
+}

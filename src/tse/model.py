@@ -276,6 +276,10 @@ class SpectralTargetExtractor(nn.Module):
 
 
 def make_model(config: ModelConfig, speaker_classes: int = 0) -> nn.Module:
+    if config.family == "reference_bsrnn":
+        from tse.reference_model import ReferenceBSRNN
+
+        return ReferenceBSRNN(config, speaker_classes)
     if config.family == "reference_conditioned_bsrnn":
         from tse.advanced_models import BandSplitExtractor
 

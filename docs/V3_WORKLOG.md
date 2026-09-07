@@ -4,6 +4,8 @@ The user authorized the complete follow-up: learning-rate continuation, a strong
 
 The follow-up [research-gap audit](V3_RESEARCH_GAPS.md) compares our actual training and model with the paper and a pinned authors' implementation. The v3 candidates are compact adaptations, not a reproduced baseline. The audit records the concrete architecture/exposure differences, the paper-versus-current-config discrepancy, and why neither pretraining nor phase correction alone explains the quality gap.
 
+**Direction update:** The user subsequently authorized addressing those gaps directly. The active complex pilot finished its unchanged 4,000-update budget (best selection SI-SDRi 2.138 dB) and its checkpoint is preserved. Remaining compact experiments are paused while the [full reference baseline](REFERENCE_BASELINE.md) is implemented and validated. Their unfinished budgets are not reported as completed. The v0.2.0 default and all existing comparisons remain intact.
+
 ## Experimental contracts
 
 - [Predeclared plan](../reports/v3-plan.json): two 5,000-update continuation arms; three 4,000-update architecture pilots; continue the selected architecture to 10,000 updates; paired 3,000-update clean/realistic adaptation.

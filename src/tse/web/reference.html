@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reference baseline · One voice</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .baseline-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:36px 0}.baseline-facts div{border-top:1px solid var(--line,#ccc);padding-top:16px}.baseline-facts dt{font-size:.9rem}.baseline-facts dd{font-size:2rem;margin:10px 0}progress{display:block;width:100%;height:12px;margin:24px 0;accent-color:#3c6247}.baseline-note{max-width:760px;line-height:1.6}.baseline-links{display:flex;gap:24px;flex-wrap:wrap;margin:32px 0}@media(max-width:600px){.baseline-facts{grid-template-columns:1fr;gap:12px}.baseline-facts dd{font-size:1.6rem}}
+  </style>
+</head>
+<body><div class="page">
+  <header class="topbar"><a class="brand" href="/">one voice.</a><a href="/gallery/">Listen to the current release</a></header>
+  <main>
+    <section class="introduction"><div><p class="eyebrow">FULL REFERENCE BASELINE</p><h1>A stronger foundation for separation.</h1><p class="intro-copy">An independently implemented, full-size model trained on official Libri2Mix mixtures. We first verify that it learns to select either voice, then train on all 251 training speakers.</p></div></section>
+    <p id="state" role="status">Reading training progress…</p>
+    <progress id="bar" max="1" value="0" aria-label="Current training stage progress"></progress>
+    <dl class="baseline-facts"><div><dt>Current stage</dt><dd id="stage">—</dd></div><div><dt>Completed updates</dt><dd id="updates">—</dd></div><div><dt>Completed epochs</dt><dd id="epochs">—</dd></div></dl>
+    <p id="validation" class="baseline-note"></p>
+    <p id="estimate" class="baseline-note"></p>
+    <p class="baseline-note">The initial learning check uses fixed training examples. Its score does not measure new-speaker quality. The main run starts again from random weights and uses separate development audio. A full training run still needs listening and delivery checks.</p>
+    <p id="model" class="baseline-note"></p>
+    <nav class="baseline-links"><a href="/experiments/v3/">Previous experiment record</a><a href="/gallery/v3-continuation-listening/">Preserved listening comparison</a></nav>
+    <p id="updated" class="gallery-caption"></p>
+  </main>
+</div>
+<script>
+async function refresh(){
+  try{
+    const response=await fetch('/experiments/reference/status',{cache:'no-store'});
+    if(!response.ok)throw new Error('Progress is temporarily unavailable.');
+    const data=await response.json();
+    document.getElementById('state').textContent=data.process_alive?'Training is active on this Mac.':data.status==='failed'?'The run needs attention. Saved checkpoints are preserved.':'No active training process detected. Saved progress is shown.';
+    document.getElementById('stage').textContent=data.stage==='tiny_learning'?'Learning check':data.stage==='main_training'?'Full training':data.stage.replaceAll('_',' ');
+    document.getElementById('updates').textContent=data.updates.toLocaleString()+' / '+data.total_updates.toLocaleString();
+    document.getElementById('epochs').textContent=Number(data.epochs).toFixed(2)+' / '+(data.planned_epochs??'—');
+    const bar=document.getElementById('bar');bar.max=Math.max(1,data.total_updates);bar.value=data.updates;
+    document.getElementById('validation').textContent=data.last_si_sdri_db===null?'The first completed learning evaluation is pending.':'Last '+(data.stage==='tiny_learning'?'fixed training-set':'development')+' evaluation: '+data.last_si_sdri_db.toFixed(2)+' dB SI-SDR improvement. Learning gate: '+data.learning_gate+'.';
+    document.getElementById('estimate').textContent=data.initial_estimate_training_hours?'Initial estimate for the full 100-epoch recipe: about '+Math.round(data.initial_estimate_training_hours)+' training hours. This short benchmark excludes evaluation and is not a completion-time guarantee.':'';
+    const modelResponse=await fetch('/model',{cache:'no-store'});if(modelResponse.ok){const model=await modelResponse.json();document.getElementById('model').textContent='The listening app currently serves '+model.training_experiment+' (model '+model.model_id+'). Training this baseline does not replace that model.';}
+    document.getElementById('updated').textContent='Updated '+new Date().toLocaleTimeString()+'. Refreshes every 15 seconds.';
+  }catch(error){document.getElementById('state').textContent=error.message;}
+}
+refresh();setInterval(refresh,15000);
+</script>
+</body></html>

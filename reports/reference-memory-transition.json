@@ -1,0 +1,8 @@
+{
+  "source_checkpoint_sha256": "cf2458a3bc922ecbd49bb28c931d0d4fdb84032c5b55facc5449c981db381f5c",
+  "source_step": 74,
+  "previous_source_tree_sha256": "74a2fa743a2fea68df4769a1dbf566bb44576a7626c86790c5569a10bd2f2e07",
+  "current_source_tree_sha256": "405b3218c701250a89f64c32cd8c46c2df16143a546d593972009c5cdd297460",
+  "changes": "MPS memory cap 0.6 to 0.75 of recommended memory; cache release and evaluation cache handling; API/config validation additions. Model architecture, loss, data, schedule, saved tensors, optimizer and RNG are retained. Explicit runtime migration, not an assertion of bit-identical implementation.",
+  "run": "tiny-learning-memory"
+}

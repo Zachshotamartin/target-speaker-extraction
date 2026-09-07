@@ -1,0 +1,169 @@
+{
+  "status": "Measured numerical agreement; not bit-identical",
+  "reference_library": "torchaudio 2.11.0",
+  "reference_file_sha256": "5cbea1a584ddea748f6f68a621d794e13334e88d9faa1d40986f7af32f196d29",
+  "cases": [
+    {
+      "case": 0,
+      "dither": 0,
+      "shape": [
+        80,
+        690
+      ],
+      "max_abs_error_log_units": 0.00019407272338867188,
+      "mean_abs_error_log_units": 4.6313757593452465e-06
+    },
+    {
+      "case": 1,
+      "dither": 0,
+      "shape": [
+        80,
+        1316
+      ],
+      "max_abs_error_log_units": 0.0002117156982421875,
+      "mean_abs_error_log_units": 4.293667643651133e-06
+    },
+    {
+      "case": 2,
+      "dither": 0,
+      "shape": [
+        80,
+        1249
+      ],
+      "max_abs_error_log_units": 0.00021457672119140625,
+      "mean_abs_error_log_units": 4.34905859947321e-06
+    },
+    {
+      "case": 3,
+      "dither": 0,
+      "shape": [
+        80,
+        352
+      ],
+      "max_abs_error_log_units": 0.00010013580322265625,
+      "mean_abs_error_log_units": 3.9443034438590985e-06
+    },
+    {
+      "case": 4,
+      "dither": 0,
+      "shape": [
+        80,
+        1535
+      ],
+      "max_abs_error_log_units": 0.00022125244140625,
+      "mean_abs_error_log_units": 4.499378064792836e-06
+    },
+    {
+      "case": 5,
+      "dither": 0,
+      "shape": [
+        80,
+        1291
+      ],
+      "max_abs_error_log_units": 0.000213623046875,
+      "mean_abs_error_log_units": 4.391874426801223e-06
+    },
+    {
+      "case": 6,
+      "dither": 0,
+      "shape": [
+        80,
+        1540
+      ],
+      "max_abs_error_log_units": 0.00022983551025390625,
+      "mean_abs_error_log_units": 3.645272954599932e-06
+    },
+    {
+      "case": 7,
+      "dither": 0,
+      "shape": [
+        80,
+        1040
+      ],
+      "max_abs_error_log_units": 0.0002307891845703125,
+      "mean_abs_error_log_units": 3.748418521354324e-06
+    },
+    {
+      "case": 0,
+      "dither": 1,
+      "shape": [
+        80,
+        690
+      ],
+      "max_abs_error_log_units": 0.00021791458129882812,
+      "mean_abs_error_log_units": 4.623566837835824e-06
+    },
+    {
+      "case": 1,
+      "dither": 1,
+      "shape": [
+        80,
+        1316
+      ],
+      "max_abs_error_log_units": 0.000209808349609375,
+      "mean_abs_error_log_units": 4.2903930079774e-06
+    },
+    {
+      "case": 2,
+      "dither": 1,
+      "shape": [
+        80,
+        1249
+      ],
+      "max_abs_error_log_units": 0.00021457672119140625,
+      "mean_abs_error_log_units": 4.314274065109203e-06
+    },
+    {
+      "case": 3,
+      "dither": 1,
+      "shape": [
+        80,
+        352
+      ],
+      "max_abs_error_log_units": 9.918212890625e-05,
+      "mean_abs_error_log_units": 3.8899311221030075e-06
+    },
+    {
+      "case": 4,
+      "dither": 1,
+      "shape": [
+        80,
+        1535
+      ],
+      "max_abs_error_log_units": 0.00022029876708984375,
+      "mean_abs_error_log_units": 4.519876711128745e-06
+    },
+    {
+      "case": 5,
+      "dither": 1,
+      "shape": [
+        80,
+        1291
+      ],
+      "max_abs_error_log_units": 0.00021266937255859375,
+      "mean_abs_error_log_units": 4.3564346015045885e-06
+    },
+    {
+      "case": 6,
+      "dither": 1,
+      "shape": [
+        80,
+        1540
+      ],
+      "max_abs_error_log_units": 0.0002307891845703125,
+      "mean_abs_error_log_units": 3.644762045951211e-06
+    },
+    {
+      "case": 7,
+      "dither": 1,
+      "shape": [
+        80,
+        1040
+      ],
+      "max_abs_error_log_units": 0.0002307891845703125,
+      "mean_abs_error_log_units": 3.7747479382232996e-06
+    }
+  ],
+  "manifest_sha256": "b80ecd46adf5062823748eed290b5415e7cc5542001bc90845b06af59244f640",
+  "scope": "Standard signal-processing verification only. The external verification library is not a runtime dependency or speaker-extraction model implementation."
+}

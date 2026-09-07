@@ -75,11 +75,16 @@ class Extractor:
             raise ValueError("Expected mono waveform arrays")
         speech_check(mixture)
         speech_check(reference)
-        original = mixture.astype(np.float32) - float(mixture.mean())
-        gain = 0.14 / max(float(np.sqrt(np.mean(original**2))), 1e-4)
+        preserve_scale = getattr(self.model, "preserve_input_scale", False)
+        original = mixture.astype(np.float32)
+        if not preserve_scale:
+            original = original - float(mixture.mean())
+        gain = 1.0 if preserve_scale else 0.14 / max(float(np.sqrt(np.mean(original**2))), 1e-4)
         normalized = original * gain
-        ref = reference.astype(np.float32) - float(reference.mean())
-        ref *= 0.1 / max(float(np.sqrt(np.mean(ref**2))), 1e-4)
+        ref = reference.astype(np.float32)
+        if not preserve_scale:
+            ref = ref - float(reference.mean())
+            ref *= 0.1 / max(float(np.sqrt(np.mean(ref**2))), 1e-4)
         tensor = torch.from_numpy(ref[None, None]).to(self.device)
         embedding = self.model.reference_encoder(tensor)
         core = 32000

@@ -6,7 +6,7 @@ An independently implemented PyTorch system that estimates one person's voice fr
 
 The current experiment improves speaker separation after the first model left competing speech and audible artifacts. It combines an independently implemented spectral separator, speaker supervision, a larger training corpus and checkpoint averaging. There is no SpeakerBeam source, checkpoint, or dependency. The original controlled reference-augmentation experiment remains available in the [v0.1.0 case study](docs/CASE_STUDY_V0_1.md).
 
-The [v3 improvement experiments](docs/V3_WORKLOG.md) are underway: matched learning-rate continuation, band-split time/frequency modeling, phase correction, a ResNet reference encoder, and realistic acoustic adaptation. The released model remains v0.2.0 while candidates are trained and evaluated. On the project Mac, [live progress](http://127.0.0.1:8000/experiments/v3/) shows the current runs and served model identity.
+The active research direction is a [full-size independent reference baseline](docs/REFERENCE_BASELINE.md): a 28.1M-parameter BSRNN/ResNet34 model, official Libri2Mix mixtures, a simpler objective and explicit epoch-based training. A separate fixed-set learning check must pass before the full run. The initial Mac estimate for 100 epochs is roughly 800 training hours, excluding evaluation. [Live reference progress](http://127.0.0.1:8000/experiments/reference/) shows the current stage and served model identity. The [compact v3 experiments](docs/V3_WORKLOG.md) are preserved and their remaining queue is paused. The app still serves v0.2.0; no full-baseline quality improvement is claimed yet.
 
 ## Frozen v0.2.0 results
 
