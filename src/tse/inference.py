@@ -41,6 +41,7 @@ class Extractor:
             "training_updates": self.payload["step"],
             "training_updates_scope": "This training run; initialization may include earlier project training",
             "initialization": self.payload.get("provenance", {}).get("initialization"),
+            "checkpoint_average": self.payload.get("provenance", {}).get("checkpoint_average"),
             "architecture": self.config.model.family,
             "separation_normalization": self.config.model.separation_normalization,
             "inference_strategy": "whole_clip_global_normalization"

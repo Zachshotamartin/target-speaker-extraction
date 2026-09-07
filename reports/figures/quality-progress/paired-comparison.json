@@ -1,6 +1,6 @@
 {
   "baseline_report_sha256": "9d9ec8450c1fc45bc762532270b8cfbb376feea122fbec56a2e6c0a725710468",
-  "candidate_report_sha256": "678ca1c38b0c117389c09849fcab12045ae92ddc9361289b9f730619e945c458",
+  "candidate_report_sha256": "e556eb94578da3ac8132ce365ac9bb653bc35b74414bf334d9705a9d5f2c39f1",
   "case_manifest_sha256": "a1c53c0effb5ce5c0ae884307584e745a938cb12aabdb684b442c5c7cabd80c5",
   "source_manifest_sha256": "ec48066f2e6ccc80e01478b91cb2657ee502e320a0e4da27e3394d22f56162b7",
   "cases": 400,
@@ -8,34 +8,34 @@
   "metrics": {
     "si_sdri_db": {
       "paired_cases": 400,
-      "mean_candidate_minus_baseline": 2.8278660743311046,
+      "mean_candidate_minus_baseline": 3.983586954511702,
       "paired_ci95": [
-        2.164592809984239,
-        3.440886849852382
+        3.237868676641845,
+        4.687250170861028
       ]
     },
     "estoi": {
       "paired_cases": 400,
-      "mean_candidate_minus_baseline": 0.08360582549762181,
+      "mean_candidate_minus_baseline": 0.11231111798353086,
       "paired_ci95": [
-        0.0712320177628534,
-        0.0946570939756872
+        0.09456967313620837,
+        0.1264850420843118
       ]
     },
     "artifact_proxy_fraction": {
       "paired_cases": 400,
-      "mean_candidate_minus_baseline": -0.010925229919449336,
+      "mean_candidate_minus_baseline": -0.008751877639643324,
       "paired_ci95": [
-        -0.022231143935592765,
-        -0.0002681660435952206
+        -0.020734827742376026,
+        0.005775813192289719
       ]
     },
     "confused": {
       "paired_cases": 400,
-      "mean_candidate_minus_baseline": -0.035,
+      "mean_candidate_minus_baseline": -0.0675,
       "paired_ci95": [
-        -0.07765900735294118,
-        0.0072124094202898545
+        -0.10843753803091152,
+        -0.02378535170413345
       ]
     }
   },
