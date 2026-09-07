@@ -1,5 +1,6 @@
 """Full Libri2Mix passes with bounded sessions and recoverable development evaluation."""
 
+import copy
 import fcntl
 import hashlib
 import json
@@ -189,6 +190,7 @@ def _train(config_path, root, manifest, run, device_name, resume, minutes, stop_
         "source_tree_sha256": source_digest(),
         "torch_version": str(torch.__version__),
         "device": str(device),
+        "evaluation_device": "cpu",
         "initialization": "fresh_random_weights",
         "train_speakers": train.speakers,
         "development_speakers": dev.speakers,
@@ -341,8 +343,14 @@ def _train(config_path, root, manifest, run, device_name, resume, minutes, stop_
                     validation_done=0,
                     validation_total=len(indices),
                 )
+                # Variable-length MPS recurrent workspaces can exceed the Mac memory cap.
+                # A CPU clone preserves whole-recording evaluation without temporal chunking.
+                model.eval()
+                evaluation_model = copy.deepcopy(model).cpu() if device.type == "mps" else model
+                if device.type == "mps":
+                    torch.mps.empty_cache()
                 result = resumable_validation(
-                    model,
+                    evaluation_model,
                     dev,
                     indices,
                     int(config.audio.reference_seconds * 16000),
@@ -356,12 +364,14 @@ def _train(config_path, root, manifest, run, device_name, resume, minutes, stop_
                         validation_total=total,
                     ),
                 )
+                del evaluation_model
                 if result is None:
                     break
                 result.update(
                     step=step,
                     epoch=step / epoch_steps,
                     kind=kind,
+                    evaluation_device="cpu",
                     manifest_sha256=train.manifest_hash,
                     monitor_sha256=plan_hash,
                 )
