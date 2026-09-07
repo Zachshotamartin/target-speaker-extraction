@@ -1,5 +1,7 @@
 # Reproducing One voice
 
+This records the original v0.1.0 study. For the later expanded-data model and frozen fresh test, see [quality reproduction](REPRODUCING_QUALITY.md).
+
 Run commands from the repository root. Python 3.12 is pinned by the project, and `uv.lock` pins dependencies. Apple Silicon uses native PyTorch/MPS; Linux uses the explicit PyTorch CPU wheel index. CUDA training is not configured by this lock.
 
 ## Setup and verification
@@ -111,7 +113,7 @@ uv run python scripts/snapshot_metadata.py
 uv run python scripts/build_report.py
 ```
 
-The report builder verifies that test, export, and runtime reports identify the same artifact before writing `docs/MODEL_CARD.md`, `docs/CASE_STUDY.md`, and `reports/figures/`. This release report describes the measured Mac and requires its CPU and MPS profiles; CPU-only training/evaluation remains available independently.
+The report builder verifies that test, export, and runtime reports identify the same artifact before writing `docs/MODEL_CARD_V0_1.md`, `docs/CASE_STUDY_V0_1.md`, and `reports/figures/`. This release report describes the measured Mac and requires its CPU and MPS profiles; CPU-only training/evaluation remains available independently.
 
 ## CPU container
 

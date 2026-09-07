@@ -20,6 +20,7 @@ def main():
     parser.add_argument("--baseline", type=Path, default=Path("artifacts/releases/v0.1.0/model.pt"))
     parser.add_argument("--output", type=Path, default=Path("artifacts/gallery/quality-progress"))
     parser.add_argument("--count", type=int, default=6)
+    parser.add_argument("--stage", choices=["training", "release"], default="training")
     args = parser.parse_args()
     if args.count < 2 or args.count > 20 or args.count % 2:
         raise ValueError("Use an even count from 2 through 20")
@@ -41,7 +42,7 @@ def main():
         "mixture": "Original mixture",
         "target": "Known clean target",
         "baseline": "Original model",
-        "candidate": "Training candidate",
+        "candidate": "Updated model" if args.stage == "release" else "Training candidate",
         "reference": "Separate voice sample",
     }
     cards, records = [], []
@@ -83,6 +84,7 @@ def main():
             f'<section class="gallery-card"><h2>Request {number:02d} · voice {html.escape(signals["speaker"])}</h2><p class="gallery-caption">{html.escape(case["case_id"])}</p><div class="gallery-tracks">{"".join(players)}</div></section>'
         )
     index = {
+        "stage": args.stage,
         "models": {name: model.info() for name, model in models.items()},
         "case_manifest_sha256": sha256(cases_path),
         "source_manifest_sha256": sha256(manifest),
@@ -92,8 +94,18 @@ def main():
         "items": records,
     }
     atomic_json(args.output / "index.json", index)
+    status = (
+        "DEVELOPMENT / RELEASE COMPARISON"
+        if args.stage == "release"
+        else "DEVELOPMENT / TRAINING IN PROGRESS"
+    )
+    introduction = (
+        "The original model and the selected updated model, beside the known clean voice. These are development examples; final-test results are reported separately."
+        if args.stage == "release"
+        else "The original model and a newer training checkpoint, beside the known clean voice. This is a progress comparison; training and selection continue."
+    )
     page = (
-        '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Training comparison · One voice</title><link rel="stylesheet" href="/assets/style.css"></head><body><div class="page"><header class="topbar"><a class="brand" href="/">one voice.</a><a href="/gallery/">Original gallery</a></header><main><section class="introduction"><div><p class="eyebrow">DEVELOPMENT / TRAINING IN PROGRESS</p><h1>Hear the difference.</h1><p class="intro-copy">The original model and a newer training checkpoint, beside the known clean voice. This is a progress comparison; training and selection continue.</p></div></section><p class="gallery-intro">Consecutive pairs keep different voices from the same mixture. These are the first development examples, selected independently of scores.</p><label class="gallery-intro"><input type="checkbox" id="match" checked> Match listening volume</label><p class="gallery-caption">Matching adjusts average signal power for comparison, with shared headroom. Turn it off to hear the original output levels.</p>'
+        f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Model comparison · One voice</title><link rel="stylesheet" href="/assets/style.css"></head><body><div class="page"><header class="topbar"><a class="brand" href="/">one voice.</a><a href="/gallery/">Listening gallery</a></header><main><section class="introduction"><div><p class="eyebrow">{status}</p><h1>Hear the difference.</h1><p class="intro-copy">{introduction}</p></div></section><p class="gallery-intro">Consecutive pairs keep different voices from the same mixture. These are the first development examples, selected independently of scores.</p><label class="gallery-intro"><input type="checkbox" id="match" checked> Match listening volume</label><p class="gallery-caption">Matching adjusts average signal power for comparison, with shared headroom. Turn it off to hear the original output levels.</p>'
         + "".join(cards)
         + '<p class="gallery-intro">Speech: <a href="https://www.openslr.org/12">LibriSpeech</a>, Panayotov et al. (2015), <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. <a href="index.json">Source identities, model hashes and transformations</a>.</p></main></div><script>document.addEventListener("play",e=>{if(e.target.tagName==="AUDIO")document.querySelectorAll("audio").forEach(a=>{if(a!==e.target)a.pause()})},true);document.getElementById("match").addEventListener("change",e=>document.querySelectorAll("audio").forEach(a=>{a.pause();a.src=e.target.checked?a.dataset.matched:a.dataset.raw}));</script></body></html>'
     )
