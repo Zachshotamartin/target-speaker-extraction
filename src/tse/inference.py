@@ -42,6 +42,10 @@ class Extractor:
             "training_updates_scope": "This training run; initialization may include earlier project training",
             "initialization": self.payload.get("provenance", {}).get("initialization"),
             "architecture": self.config.model.family,
+            "separation_normalization": self.config.model.separation_normalization,
+            "inference_strategy": "whole_clip_global_normalization"
+            if self.config.model.separation_normalization == "global"
+            else "finite_context_chunks",
             "training_experiment": self.config.experiment,
             "parameters": sum(p.numel() for p in self.model.parameters()),
             "device": str(self.device),
@@ -76,7 +80,11 @@ class Extractor:
         core = 32000
         context = getattr(self.model, "context_samples", 16000)
         output = np.empty(len(mixture), dtype=np.float32)
-        if not chunked or len(mixture) <= 64000:
+        if (
+            not chunked
+            or len(mixture) <= 64000
+            or self.config.model.separation_normalization == "global"
+        ):
             x = torch.from_numpy(normalized[None, None]).to(self.device)
             output[:] = self.model.extract(x, embedding)[0, 0].cpu().numpy()
         else:

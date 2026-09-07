@@ -1,0 +1,11 @@
+{
+  "status": "Predeclared development pilot before its training",
+  "config_sha256": "0f037bc37ae6132401f29be75d1c9bb94816a008fb170979504095d2849ef360",
+  "initialization_checkpoint_sha256": "8317ee4624cba6041b429a90da7b40ef053b8337562603ad6d4f188e921e1a66",
+  "control_checkpoint_sha256": "445474ccae9da8a62567700b1b15596f4760ba05a0f29bd401722eb91a2de85c",
+  "control_report": "reports/quality-stft-expanded-fastlr-2000.json",
+  "intervention": "Replace separator input/block per-frame channel normalization with global channel/time normalization. Keep reference encoder unchanged.",
+  "matched": "Same pilot checkpoint tensors, seed 168, fresh 231-label classifier, 2000 updates, effective batch 8, mixture schedule, loss, optimizer and 500-update validation schedule. Both use eager MPS training; CPU prefetch does not alter batches.",
+  "limitations": "Short adaptation from weights trained with per-frame normalization; not a from-scratch comparison or a published recipe reproduction. New variant requires whole-clip inference, and long-duration deployment must be profiled before promotion.",
+  "selection": "Development only. No fresh-test access before a selected model and protocol are frozen."
+}

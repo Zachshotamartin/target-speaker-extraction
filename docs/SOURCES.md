@@ -1,6 +1,6 @@
 # Sources, attribution and data origin
 
-Primary sources checked on 2026-09-06. These references support the task, public data and established methods; they do not establish performance of this untrained project.
+Primary sources checked on 2026-09-06. These references support the task, public data and established methods; the project's own reports establish its measured performance. The [research alignment audit](RESEARCH_AUDIT.md) distinguishes published recipes from our independent architecture and experimental substitutions.
 
 ## Public data
 
@@ -38,6 +38,11 @@ Primary sources checked on 2026-09-06. These references support the task, public
 - [Perez et al.: FiLM, a general conditioning layer](https://arxiv.org/abs/1709.07871)
 - Prior work informing feature-wise affine modulation from a conditioning vector.
 
+### SpEx
+
+- [SpEx: Multi-Scale Time Domain Speaker Extraction Network](https://arxiv.org/abs/2004.08326)
+- Prior work supporting joint speaker supervision and target extraction. Our reference encoder and separation architecture differ.
+
 ### SI-SDR
 
 - [Le Roux et al.: SDR — half-baked or well done?](https://arxiv.org/abs/1811.02508)
@@ -48,7 +53,7 @@ Primary sources checked on 2026-09-06. These references support the task, public
 
 - [On the effectiveness of enrollment speech augmentation for Target Speaker Extraction](https://arxiv.org/abs/2409.09589)
 - Prior research on changing reference audio during training.
-- This establishes that the topic is not new. Our proposed contribution is an independent local implementation and a controlled robustness/efficiency study, with results still to be measured.
+- This establishes that the topic is not new. Our contribution is an independent local implementation and measured robustness/efficiency experiments. The paper's ResNet34/BSRNN system, training and augmentation recipe have not been reproduced here.
 
 ## Runtime
 

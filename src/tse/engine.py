@@ -155,7 +155,10 @@ def train(
     initialize_reference_from: Path | None = None,
     prefetch: bool = False,
     compile_blocks: bool = False,
+    initialize_normalization_transfer: bool = False,
 ) -> dict:
+    if initialize_normalization_transfer and (initialize_from is None or resume):
+        raise ValueError("Normalization transfer requires a new whole-model initialization")
     if initialize_from is not None and initialize_reference_from is not None:
         raise ValueError("Choose whole-model or reference-only initialization")
     if resume and (initialize_from is not None or initialize_reference_from is not None):
@@ -204,6 +207,11 @@ def train(
         for architecture in (before, after):
             architecture.pop("weights")
             architecture.pop("parameter_budget")
+        if initialize_normalization_transfer:
+            if before["separation_normalization"] == after["separation_normalization"]:
+                raise ValueError("Normalization transfer must change the normalization setting")
+            before.pop("separation_normalization")
+            after.pop("separation_normalization")
         if initialize_from is not None and before != after:
             raise ValueError("Initialization requires identical extraction/reference architecture")
         if initialize_reference_from is not None:
@@ -232,6 +240,12 @@ def train(
             "source_step": initial["step"],
             "source_training_speakers": initial.get("provenance", {}).get("train_speakers", []),
             "classifier": "Fresh classifier for this run's training labels",
+            "normalization_transfer": {
+                "from": original.model.separation_normalization,
+                "to": config.model.separation_normalization,
+            }
+            if initialize_normalization_transfer
+            else None,
         }
         held_out = {row["speaker"] for row in corpus.records.values() if row["split"] != "train"}
         if held_out & set(initialization["source_training_speakers"]):

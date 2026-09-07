@@ -22,6 +22,22 @@ class ChannelNorm(nn.Module):
         return (x - mean) * torch.rsqrt(variance + 1e-5) * self.weight + self.bias
 
 
+class GlobalNorm(ChannelNorm):
+    """Per-example channel/time statistics for fully valid, offline mixture crops."""
+
+    def forward(self, x: Tensor) -> Tensor:
+        variance, mean = torch.var_mean(x, dim=(1, 2), keepdim=True, correction=0)
+        return (x - mean) * torch.rsqrt(variance + 1e-5) * self.weight + self.bias
+
+
+def separator_norm(channels: int, config: ModelConfig) -> nn.Module:
+    return (
+        GlobalNorm(channels)
+        if config.separation_normalization == "global"
+        else ChannelNorm(channels)
+    )
+
+
 class ReferenceBlock(nn.Module):
     def __init__(self, channels: int, dilation: int):
         super().__init__()
@@ -81,7 +97,7 @@ class ConditionedBlock(nn.Module):
         super().__init__()
         hidden = config.hidden_channels
         self.in_projection = nn.Conv1d(config.bottleneck_channels, hidden, 1)
-        self.norm1 = ChannelNorm(hidden)
+        self.norm1 = separator_norm(hidden, config)
         self.activation1 = nn.PReLU(hidden)
         self.condition = nn.Linear(config.reference_encoder.embedding_dim, hidden * 2)
         self.depthwise = nn.Conv1d(
@@ -93,7 +109,7 @@ class ConditionedBlock(nn.Module):
             groups=hidden,
         )
         self.activation2 = nn.PReLU(hidden)
-        self.norm2 = ChannelNorm(hidden)
+        self.norm2 = separator_norm(hidden, config)
         self.residual = nn.Conv1d(hidden, config.bottleneck_channels, 1)
         self.skip = nn.Conv1d(hidden, config.skip_channels, 1)
 
@@ -117,7 +133,7 @@ class TargetExtractor(nn.Module):
             stride=config.encoder_stride_samples,
             bias=False,
         )
-        self.input_norm = ChannelNorm(config.encoder_channels)
+        self.input_norm = separator_norm(config.encoder_channels, config)
         self.bottleneck = nn.Conv1d(config.encoder_channels, config.bottleneck_channels, 1)
         self.blocks = nn.ModuleList(
             ConditionedBlock(config, dilation)
@@ -185,7 +201,7 @@ class SpectralTargetExtractor(nn.Module):
         self.config = config
         self.reference_encoder = ReferenceEncoder(config)
         self.register_buffer("window", torch.hann_window(config.stft_fft_samples), persistent=False)
-        self.input_norm = ChannelNorm(config.encoder_channels)
+        self.input_norm = separator_norm(config.encoder_channels, config)
         self.bottleneck = nn.Conv1d(config.encoder_channels, config.bottleneck_channels, 1)
         self.blocks = nn.ModuleList(
             ConditionedBlock(config, dilation)

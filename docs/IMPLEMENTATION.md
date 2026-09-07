@@ -1,6 +1,6 @@
 # Implemented system
 
-This describes the delivered code. Original design documents retain the proposal; measured reports and the model card describe results.
+This records the v0.1.0 implementation. Later playback corrections and model experiments are documented in the [quality worklog](QUALITY_WORKLOG.md); the [research audit](RESEARCH_AUDIT.md) explains differences from the published methods. Original design documents retain the proposal; measured reports and the model card describe results.
 
 ## Model and loss
 

@@ -53,6 +53,11 @@ def main() -> int:
     train.add_argument("--initialize-from", type=Path)
     train.add_argument("--initialize-reference-from", type=Path)
     train.add_argument(
+        "--initialize-normalization-transfer",
+        action="store_true",
+        help="Explicit experiment: retain weights while changing separator normalization",
+    )
+    train.add_argument(
         "--compile-blocks", action="store_true", help="Compile real-valued temporal blocks on MPS"
     )
     train.add_argument(
@@ -188,6 +193,7 @@ def main() -> int:
                     args.initialize_reference_from,
                     args.prefetch,
                     args.compile_blocks,
+                    args.initialize_normalization_transfer,
                 )
             elif args.command == "evaluate":
                 engine.evaluate(
@@ -203,7 +209,7 @@ def main() -> int:
                 from tse.utils import atomic_json, sha256
 
                 _, payload = engine.load_model(args.checkpoint)
-                for key in ("optimizer", "torch_rng", "mps_rng"):
+                for key in ("optimizer", "scheduler", "torch_rng", "mps_rng"):
                     payload.pop(key, None)
                 engine.save_checkpoint(args.output, payload)
                 atomic_json(

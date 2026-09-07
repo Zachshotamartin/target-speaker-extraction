@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the final model card, case study and figures from completed local reports."""
+"""Rebuild the frozen v0.1.0 report from historical artifacts, never a new release."""
 
 from __future__ import annotations
 
@@ -40,7 +40,7 @@ def main() -> None:
     development = read("reports/development-comparison.json")
     selection = read("reports/model-selection.json")
     freeze = read("reports/test-freeze.json")
-    release = read("artifacts/releases/model.json")
+    release = read("metadata/model.json")
     delivered = read("reports/delivered-test.json")
     diagnostics = read("reports/reference-diagnostics.json")
     profiles = {device: read(f"reports/delivery-{device}.json") for device in ("cpu", "mps")}
@@ -278,7 +278,7 @@ Code, manifests and reports are public. Raw recordings and model weights remain 
 
 The first release is a complete local research pipeline with measured limitations. The proposed 5 dB quality target was not reached. Further development should use fresh held-out data after test-driven changes and replicate across training seeds.
 """
-    Path("docs/MODEL_CARD.md").write_text(card)
+    Path("docs/MODEL_CARD_V0_1.md").write_text(card)
     study = f"""# Case study · Keeping one voice
 
 The product accepts an overlapping recording and a separate sample of the person the user wants to hear. A useful system must both separate speech and follow that reference when the same mixture is requested twice with different speakers. This requires learned waveform processing, not a language-model wrapper.
@@ -295,7 +295,7 @@ The tiny 16-case paired diagnostic reaches {overfit["best_development_si_sdri_db
 
 ![Training curves on unseen development speakers](../reports/figures/learning-curves.png)
 
-On the 400-case development report, reference augmentation changes equally weighted mismatch improvement by {development["equal_weight_mismatch_gain_db"]:+.2f} dB. The predeclared rule selects **{selection["selected"]}** for delivery. On the reserved test, the corresponding augmentation change is {paired["equal_weight_mismatch_gain_db"]:+.2f} dB. The selected model's clean mean is {clean["mean_si_sdri_db"]:.2f} dB, with {percent(clean["negative_improvement_fraction"])} negative-improvement cases and {percent(clean["confusion_fraction"])} confusion. The complete tables, paired intervals, and exact artifact identities are in the [model card](MODEL_CARD.md).
+On the 400-case development report, reference augmentation changes equally weighted mismatch improvement by {development["equal_weight_mismatch_gain_db"]:+.2f} dB. The predeclared rule selects **{selection["selected"]}** for delivery. On the reserved test, the corresponding augmentation change is {paired["equal_weight_mismatch_gain_db"]:+.2f} dB. The selected model's clean mean is {clean["mean_si_sdri_db"]:.2f} dB, with {percent(clean["negative_improvement_fraction"])} negative-improvement cases and {percent(clean["confusion_fraction"])} confusion. The complete tables, paired intervals, and exact artifact identities are in the [model card](MODEL_CARD_V0_1.md).
 
 The difference between tiny-set learning and unseen-speaker quality is a central finding. A working loss and a convincing single example are insufficient release evidence. This pilot uses one training seed and a small archive-order speech selection. Its results support a bounded experimental system; they do not establish general state-of-the-art speech extraction or a robust augmentation gain.
 
@@ -318,7 +318,7 @@ The app's default examples are the first development mixture with both reference
 
 The measured generalization gap motivates more speaker diversity and longer training, with multiple paired seeds before claiming an augmentation effect. Reference corruption should also be tested on separately acquired real microphone/room recordings with appropriate consent. A calibrated target-presence objective is needed before absent-speaker use. Streaming would require a causal architecture and a separate latency/quality study. These are research extensions, not concealed capabilities of this release.
 """
-    Path("docs/CASE_STUDY.md").write_text(study)
+    Path("docs/CASE_STUDY_V0_1.md").write_text(study)
     print(
         "Wrote model card, technical case study, and learning/test figures from measured reports."
     )

@@ -60,3 +60,11 @@ PyTorch documents [compilation and recompilation controls](https://docs.pytorch.
 The trajectory collector preserves fixed steps 8,000 through 20,000 every 2,000 updates. Two fixed arithmetic averages will be compared on development: the final three and final five snapshots. These are a low-cost hypothesis, not guaranteed improvements or a reproduction of the stochastic-weight-averaging paper's optimizer schedule. The [plan](../reports/checkpoint-averaging-plan.json) was written before the first of these snapshots. The approach is motivated by [Izmailov et al.](https://arxiv.org/abs/1803.05407); all averaged weights remain from this project.
 
 The collector verifies exact checkpoint steps and preserves hashes. Averaging requires matching configurations, training labels, initializations and tensor shapes, and drops optimizer/RNG state. A regression test verifies the arithmetic, retained source files and mismatch rejection. No averaged model is eligible for final testing until it is scored and selected on development.
+
+## Research cross-check and 10,000-update measurement
+
+The fixed 10,000-update checkpoint reaches 4.890 dB SI-SDRi, 0.6223 ESTOI, 9.75% confusion and 15.75% negative improvements on 400 development requests. These remain exploratory development results. [Report](../reports/quality-stft-expanded-fastlr-10000.json).
+
+The [research alignment audit](RESEARCH_AUDIT.md) records important differences from SpeakerBeam, SpEx and the enrollment-augmentation guide. In particular, per-frame channel normalization was a custom inference convenience, not a validated substitute for the global normalization in noncausal Conv-TasNet. A controlled 2,000-update global-normalization pilot is planned after the current run, using identical pilot initialization/data/optimizer to the existing 2,000-update expanded control. The reference encoder is unchanged. Whole-clip inference is required for the variant; current served models preserve their existing behavior.
+
+A clean-source mask diagnostic reaches 14.559 dB with the same bounded real-mask representation. This is unavailable-ground-truth reconstruction, never a learned result or application path. It demonstrates representational headroom but cannot promise that a network will learn those masks. [Diagnostic](../reports/mask-capacity-development.json).

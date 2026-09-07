@@ -77,6 +77,7 @@ class ModelConfig(StrictModel):
     repeats: int = Field(default=2, ge=1, le=8)
     conditioning: Literal["feature_wise_affine"] = "feature_wise_affine"
     mask_activation: Literal["relu", "sigmoid"] = "relu"
+    separation_normalization: Literal["per_frame", "global"] = "per_frame"
     stft_fft_samples: int = Field(default=512, ge=64, le=2048)
     stft_hop_samples: int = Field(default=128, ge=16, le=512)
     causal: Literal[False] = False
