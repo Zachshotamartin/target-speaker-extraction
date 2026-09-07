@@ -23,7 +23,7 @@
     "epochs": 100,
     "updates_per_epoch": 3475,
     "total_updates": 347500,
-    "maximum_session_hours": 8,
+    "maximum_session_hours": null,
     "separator_blocks": 3,
     "enrollment_crop_seconds": 3,
     "model_transferred_from_previous_run": false,
@@ -33,5 +33,6 @@
     "first_monitor_update": 500
   },
   "default_release_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
-  "verification_report": "reports/full-data-live-verification.json"
+  "verification_report": "reports/full-data-live-verification.json",
+  "session_policy_update": "reports/full-data-unlimited-session.json"
 }

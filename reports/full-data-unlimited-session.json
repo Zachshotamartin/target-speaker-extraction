@@ -1,0 +1,22 @@
+{
+  "change": "Remove session time limit; preserve the complete learning state",
+  "requested_by_user": true,
+  "from_source_tree_sha256": "2b984f5f1ee899612d1fd7305b059b85b1d2d9efcbe19f2fd90b47d356397a2d",
+  "to_source_tree_sha256": "9013b04cf14355c88032e404efd222bda0c5d7be20f771ceaa72658c7086805d",
+  "source_commit": "166e465490da04cb861772bf1e2acd1d12b436f0",
+  "original_checkpoint_sha256": "ea2aa7a22300a222307c489d94efe2ff14818299931429e7d75ea7a6bd9f15dc",
+  "step": 119,
+  "session_minutes_before": 480,
+  "session_minutes_after": null,
+  "recorded_at": "2026-09-07T22:54:48.534607+00:00",
+  "migrated_checkpoint_sha256": "d94db349b6b0b829c413547571a3e40c128c80abeb6bb4cd8ae4d7905229a158",
+  "all_non_provenance_checkpoint_fields_exactly_equal": true,
+  "preserved_backup": "latest-before-unlimited.pt",
+  "status": "running_without_session_limit",
+  "resumed_from_step": 119,
+  "verified_live_step": 140,
+  "session_minutes": null,
+  "launcher_has_time_limit": false,
+  "sleep_prevention_has_time_limit": false,
+  "automated_tests_passed": 80
+}
