@@ -1,6 +1,6 @@
 {
   "date": "2026-09-07",
-  "status": "prepared_before_launch",
+  "status": "launched_and_starting_state_verified",
   "user_authorized_duration_hours": 8,
   "start_step": 600,
   "additional_update_target": 12000,
@@ -16,5 +16,7 @@
   "parent_checkpoint_sha256": "1b078a06e386916d341ae6f842bdb9bd336777c03873f0673b0340ddc5a54879",
   "initial_development_si_sdri_db": 3.2379172760993242,
   "reserved_test_opened": false,
-  "automatic_followup_session": false
+  "automatic_followup_session": false,
+  "started_utc": "2026-09-07T18:17:08.983895+00:00",
+  "latest_expected_finish_utc": "2026-09-08T02:17:08.983895+00:00"
 }

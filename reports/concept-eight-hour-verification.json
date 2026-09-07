@@ -15,5 +15,50 @@
     "incompatible data changes rejected",
     "completed parent checkpoint unchanged"
   ],
-  "real_continuation": "Pending launch and matching starting development evaluation"
+  "real_continuation": {
+    "status": "running",
+    "starting_validation": {
+      "event": "validation",
+      "step": 600,
+      "cases": 32,
+      "mean_si_sdri_db": 3.2379172760993242,
+      "p25_si_sdri_db": 1.0934391617774963,
+      "positive_improvement_fraction": 0.90625,
+      "correct_source_fraction": 0.96875
+    },
+    "latest_verified_training": {
+      "event": "train",
+      "step": 630,
+      "learning_rate": 9.999870307852637e-05,
+      "gradient_norm": 9.742185592651367,
+      "elapsed_seconds": 1546.7633474989561,
+      "mps_driver_gib": 5.456085205078125,
+      "loss": -3.0095636676996946,
+      "si_sdr_db": 3.3583887219429016,
+      "speaker_accuracy": 1.0
+    },
+    "parent_result_reproduced_exactly": true,
+    "original_600_update_gallery_preserved": true,
+    "browser_shows_8_hour_limit_and_12600_update_target": true,
+    "continuation": {
+      "parent_checkpoint_sha256": "1b078a06e386916d341ae6f842bdb9bd336777c03873f0673b0340ddc5a54879",
+      "parent_config_sha256": "bf4a9d2cad97d4d420168a3ceeb6092e9c351e6617d3f6bbd677e976b080357b",
+      "parent_commit": "98d86be095e032cd1c1c48918e623381211fcc7d",
+      "parent_source_tree_sha256": "69ae4687d6ac7c9283a6130db76f9ab04995e9d39ca5846064d3860b9d5185b5",
+      "source_step": 600,
+      "source_elapsed_seconds": 1449.9223004159285,
+      "budget_seconds": 28800.0,
+      "stop_on_development_goal": false,
+      "optimizer_rng_and_weights_preserved": true,
+      "schedule": "New cosine phase from the selected checkpoint; sample step continues",
+      "transition": "Explicit continuation under the current recorded trainer; no claim of an identical original schedule"
+    },
+    "started_utc": "2026-09-07T18:17:08.983895+00:00",
+    "latest_expected_finish_utc": "2026-09-08T02:17:08.983895+00:00"
+  },
+  "ci": {
+    "status": "passed",
+    "commit": "18ed1cc922e83c789bfa610232f08d41b731c908",
+    "url": "https://github.com/Zachshotamartin/target-speaker-extraction/actions/runs/34150973358"
+  }
 }
