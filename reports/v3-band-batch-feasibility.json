@@ -1,0 +1,18 @@
+{
+  "rows": [
+    {
+      "microbatch": 4,
+      "times_seconds": [
+        3.335329958004877,
+        0.4008350420044735,
+        0.35558104200754315
+      ],
+      "mps_driver_gib": 2.39501953125
+    },
+    {
+      "microbatch": 8,
+      "error": "MPS backend out of memory (MPS allocated: 2.16 GiB, other allocations: 3.16 GiB, max allowed: 5.33 GiB). Tried to allocate 13.25 MiB on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure)."
+    }
+  ],
+  "scope": "Concurrent training; approximate feasibility and memory only, not an isolated performance comparison"
+}

@@ -92,6 +92,14 @@ class ReferenceEncoder(nn.Module):
         return F.normalize(self.projection(summary), dim=1, eps=1e-6)
 
 
+def make_reference_encoder(config: ModelConfig) -> nn.Module:
+    if config.reference_encoder.family == "scaled_resnet34":
+        from tse.advanced_models import ResNetReferenceEncoder
+
+        return ResNetReferenceEncoder(config)
+    return ReferenceEncoder(config)
+
+
 class ConditionedBlock(nn.Module):
     def __init__(self, config: ModelConfig, dilation: int):
         super().__init__()
@@ -125,7 +133,7 @@ class TargetExtractor(nn.Module):
     def __init__(self, config: ModelConfig, speaker_classes: int = 0):
         super().__init__()
         self.config = config
-        self.reference_encoder = ReferenceEncoder(config)
+        self.reference_encoder = make_reference_encoder(config)
         self.encoder = nn.Conv1d(
             1,
             config.encoder_channels,
@@ -199,7 +207,7 @@ class SpectralTargetExtractor(nn.Module):
     def __init__(self, config: ModelConfig, speaker_classes: int = 0):
         super().__init__()
         self.config = config
-        self.reference_encoder = ReferenceEncoder(config)
+        self.reference_encoder = make_reference_encoder(config)
         self.register_buffer("window", torch.hann_window(config.stft_fft_samples), persistent=False)
         self.input_norm = separator_norm(config.encoder_channels, config)
         self.bottleneck = nn.Conv1d(config.encoder_channels, config.bottleneck_channels, 1)
@@ -268,6 +276,10 @@ class SpectralTargetExtractor(nn.Module):
 
 
 def make_model(config: ModelConfig, speaker_classes: int = 0) -> nn.Module:
+    if config.family == "reference_conditioned_bsrnn":
+        from tse.advanced_models import BandSplitExtractor
+
+        return BandSplitExtractor(config, speaker_classes)
     if config.family == "reference_conditioned_stft_tcn":
         return SpectralTargetExtractor(config, speaker_classes)
     return TargetExtractor(config, speaker_classes)

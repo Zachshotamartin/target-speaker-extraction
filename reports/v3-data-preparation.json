@@ -1,0 +1,54 @@
+{
+  "speech_acquisition": [
+    {
+      "archive": "dev-other.tar.gz",
+      "url": "https://openslr.trmal.net/resources/12/dev-other.tar.gz",
+      "md5": "c8d0bcc9cca99d4f8b62fcc847357931",
+      "publisher_md5_verified": true,
+      "sha256": "12661c48e8c3fe1de2c1caa4c3e135193bfb1811584f11f569dd12645aa84365"
+    },
+    {
+      "archive": "test-other.tar.gz",
+      "url": "https://openslr.trmal.net/resources/12/test-other.tar.gz",
+      "md5": "fb5a50374b501bb3bac4815ee91d3135",
+      "publisher_md5_verified": true,
+      "sha256": "d09c181bba5cf717b3dee7d4d592af11a3ee3a09e08ae025c5506f6ebe961c29"
+    }
+  ],
+  "speech_audit": {
+    "train": {
+      "speakers": 231,
+      "utterances": 26135,
+      "hours": 92.3288
+    },
+    "dev": {
+      "speakers": 73,
+      "utterances": 3994,
+      "hours": 7.6681
+    },
+    "test": {
+      "speakers": 33,
+      "utterances": 2889,
+      "hours": 5.3162
+    }
+  },
+  "speech_manifest_sha256": "2bdcf858bbd0271f16dab63d256b7e9a93b71a08a7c324705de00d18646b3c8a",
+  "environment_manifest_sha256": "9e4cf49efd6d41766a4c36d0b639b689d78ae942f8862fa000ae39f59e3a2425",
+  "acoustic_counts": {
+    "train": {
+      "noise": 661,
+      "rir": 1880
+    },
+    "dev": {
+      "noise": 87,
+      "rir": 276
+    },
+    "test": {
+      "noise": 78,
+      "rir": 244
+    }
+  },
+  "fresh_test_cases_sha256": "08a0135d88b492fde44f20c5876b0c8f41b975b9bf8bbe5abe79c8f9417c7841",
+  "fresh_test_status": "Prepared before model selection; not scored",
+  "noise_license_text": "All selected recordings were marked as in the Public Domain\non Free Sound (url: https://www.freesound.org/).\n"
+}

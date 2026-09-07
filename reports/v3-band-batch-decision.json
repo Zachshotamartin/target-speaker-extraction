@@ -1,0 +1,8 @@
+{
+  "status": "Before architecture training",
+  "choice": "microbatch4_accumulation2",
+  "effective_batch": 8,
+  "reason": "Microbatch four passed operator/memory feasibility. Eight exceeded the deliberately imposed 5.33 GiB allocation budget. All three arms retain identical effective batch and source sequence. Concurrent timing is not a speedup claim.",
+  "source_report": "reports/v3-band-batch-feasibility.json",
+  "initializer_note": "Initializer files retain the initial preparation config; train configs record this execution partition and corrected dev-other/test-other metadata. Model, classifier and reference tensors are unchanged."
+}

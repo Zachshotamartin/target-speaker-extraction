@@ -18,6 +18,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from tse import __version__
 from tse.inference import Extractor
+from tse.listening import ListeningRating, save_rating
 
 LOGGER = logging.getLogger("tse.api")
 MAX_UPLOAD = 24 * 1024**2
@@ -109,6 +110,15 @@ def create_app(
         if app.state.extractor is None:
             return JSONResponse({"ready": False, "detail": app.state.load_error}, status_code=503)
         return app.state.extractor.info()
+
+    @app.post("/listening/{study}/ratings")
+    def listening_rating(study: str, rating: ListeningRating):
+        try:
+            return save_rating(Path("artifacts/listening"), study, rating)
+        except FileNotFoundError as error:
+            raise HTTPException(404, str(error)) from error
+        except ValueError as error:
+            raise HTTPException(422, str(error)) from error
 
     @app.post("/extract", response_class=Response)
     def extract(mixture: Annotated[UploadFile, File()], reference: Annotated[UploadFile, File()]):

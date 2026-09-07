@@ -93,3 +93,39 @@ def test_spectral_objective_penalizes_gain_and_noise_with_finite_gradients():
     loss.backward()
     assert loss.item() > 0 and torch.isfinite(estimate.grad).all()
     assert estimate.grad.abs().sum().item() > 0
+
+
+def test_classifier_preservation_requires_matching_labels(corpus_files, tiny_config, tmp_path):
+    from tse.engine import save_checkpoint
+
+    root, manifest = corpus_files
+    cases = tmp_path / "dev.json"
+    build_cases(SpeechCorpus(root, manifest, "dev", 0.25, 0.25), 2, 800, cases)
+    tiny_config.loss.speaker_classification_weight = 0.2
+    source = tmp_path / "source"
+    train(tiny_config, root, manifest, cases, source, "cpu")
+    before, payload = load_model(source / "latest.pt")
+    config = tiny_config.model_copy(deep=True)
+    config.model.weights = "project_checkpoint"
+    config.training.preserve_initialized_classifier = True
+    config.training.max_optimizer_updates = 1
+    config.training.learning_rate = 1e-8
+    destination = tmp_path / "initialized"
+    train(config, root, manifest, cases, destination, "cpu", initialize_from=source / "latest.pt")
+    after, _ = load_model(destination / "latest.pt")
+    torch.testing.assert_close(
+        before.speaker_head.weight, after.speaker_head.weight, atol=1e-6, rtol=0
+    )
+    payload["provenance"]["train_speakers"].reverse()
+    wrong_labels = tmp_path / "wrong-labels.pt"
+    save_checkpoint(wrong_labels, payload)
+    with pytest.raises(ValueError, match="identical speaker labels"):
+        train(
+            config,
+            root,
+            manifest,
+            cases,
+            tmp_path / "rejected",
+            "cpu",
+            initialize_from=wrong_labels,
+        )

@@ -1,0 +1,41 @@
+{
+  "mps_band_complex_forward_backward": "passed",
+  "acoustic_rendering": [
+    {
+      "scenario": "clean",
+      "peak": 0.8999999761581421,
+      "target_present": true
+    },
+    {
+      "scenario": "noise",
+      "peak": 0.9000000357627869,
+      "target_present": true
+    },
+    {
+      "scenario": "reverb",
+      "peak": 0.7371305823326111,
+      "target_present": true
+    },
+    {
+      "scenario": "partial_overlap",
+      "peak": 0.7501424551010132,
+      "target_present": true
+    },
+    {
+      "scenario": "pauses",
+      "peak": 0.8999999165534973,
+      "target_present": true
+    },
+    {
+      "scenario": "target_absent",
+      "peak": 0.5081610679626465,
+      "target_present": false
+    },
+    {
+      "scenario": "combined",
+      "peak": 0.9000000357627869,
+      "target_present": true
+    }
+  ],
+  "timing_note": "Operator smoke only; concurrent training invalidates performance timing"
+}

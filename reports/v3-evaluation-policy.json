@@ -1,0 +1,27 @@
+{
+  "status": "Recorded before v3 acoustic development scoring",
+  "baseline_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+  "development_clean_cases": 400,
+  "development_acoustic_cases": 350,
+  "fresh_test_acoustic_cases": 700,
+  "fresh_test_speakers": 33,
+  "acoustic_conditions": [
+    "clean",
+    "noise",
+    "reverb",
+    "partial_overlap",
+    "pauses",
+    "target_absent",
+    "combined"
+  ],
+  "selection": "Rank candidates using mean SI-SDRi across target-present acoustic development conditions; inspect ESTOI, confusion and absence suppression separately. Prefer candidates retaining clean quality. No single metric establishes perceived static.",
+  "automatic_promotion_gates": {
+    "minimum_acoustic_mean_si_sdri_gain_db": 0.3,
+    "maximum_clean_si_sdri_regression_db": 0.5,
+    "maximum_clean_estoi_regression": 0.01,
+    "maximum_clean_confusion_increase": 0.01
+  },
+  "fallback": "If no candidate meets all gates, preserve v0.2.0 as default and expose experimental comparisons with their failures. Do not silently lower gates after scoring.",
+  "listening": "Blind A/B form with separate 1..5 ratings: competing speech, target damage, static. If no human ratings arrive, explicitly report subjective assessment as pending.",
+  "new_test": "Bind selected checkpoint, source, cases and acoustic hashes before evaluation; the test cannot determine model selection."
+}

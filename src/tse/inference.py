@@ -44,7 +44,11 @@ class Extractor:
             "checkpoint_average": self.payload.get("provenance", {}).get("checkpoint_average"),
             "architecture": self.config.model.family,
             "separation_normalization": self.config.model.separation_normalization,
-            "inference_strategy": "whole_clip_global_normalization"
+            "spectral_mask": self.config.model.spectral_mask,
+            "reference_encoder": self.config.model.reference_encoder.family,
+            "inference_strategy": "whole_clip_sequence_model"
+            if getattr(self.model, "requires_whole_clip", False)
+            else "whole_clip_global_normalization"
             if self.config.model.separation_normalization == "global"
             else "finite_context_chunks",
             "training_experiment": self.config.experiment,
@@ -85,6 +89,7 @@ class Extractor:
             not chunked
             or len(mixture) <= 64000
             or self.config.model.separation_normalization == "global"
+            or getattr(self.model, "requires_whole_clip", False)
         ):
             x = torch.from_numpy(normalized[None, None]).to(self.device)
             output[:] = self.model.extract(x, embedding)[0, 0].cpu().numpy()

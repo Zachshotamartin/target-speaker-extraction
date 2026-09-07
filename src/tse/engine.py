@@ -158,7 +158,12 @@ def compile_temporal_blocks(model) -> None:
     """Compile real-valued temporal blocks, keeping STFT operators in eager mode."""
     if next(model.parameters()).device.type != "mps":
         raise ValueError("Temporal compilation has been validated for MPS only")
-    for block in [*model.blocks, *model.reference_encoder.blocks]:
+    blocks = (
+        [*model.band_encoders, *model.mask_heads]
+        if model.config.family == "reference_conditioned_bsrnn"
+        else [*model.blocks, *model.reference_encoder.blocks]
+    )
+    for block in blocks:
         # Six dilation shapes each need training and evaluation graphs. The
         # default eight-entry cache is too small for this intentional family.
         block.compile(
@@ -184,6 +189,8 @@ def train(
     compile_blocks: bool = False,
     initialize_normalization_transfer: bool = False,
 ) -> dict:
+    if config.training.preserve_initialized_classifier and initialize_from is None and not resume:
+        raise ValueError("Classifier preservation requires whole-model initialization or resume")
     if initialize_normalization_transfer and (initialize_from is None or resume):
         raise ValueError("Normalization transfer requires a new whole-model initialization")
     if initialize_from is not None and initialize_reference_from is not None:
@@ -212,12 +219,46 @@ def train(
     corpus = SpeechCorpus(
         root, manifest, "train", config.audio.crop_seconds, config.audio.reference_seconds
     )
+    if config.augmentation.realistic_enabled:
+        from tse.realistic import RealisticCorpus
+
+        corpus = RealisticCorpus(
+            root,
+            manifest,
+            "train",
+            config.audio.crop_seconds,
+            config.audio.reference_seconds,
+            config.augmentation.environment_root,
+            config.augmentation.environment_manifest,
+            augment_training=True,
+        )
     development = SpeechCorpus(
         root,
         manifest,
         "dev",
         config.evaluation.mixture_seconds,
         config.evaluation.reference_seconds,
+    )
+    if config.evaluation.realistic_validation:
+        from tse.realistic import RealisticCorpus
+
+        if not config.augmentation.environment_root or not config.augmentation.environment_manifest:
+            raise ValueError("Realistic validation requires explicit acoustic resources")
+        development = RealisticCorpus(
+            root,
+            manifest,
+            "dev",
+            config.evaluation.mixture_seconds,
+            config.evaluation.reference_seconds,
+            config.augmentation.environment_root,
+            config.augmentation.environment_manifest,
+        )
+    environment_hash = (
+        development.acoustics.manifest_hash
+        if config.evaluation.realistic_validation
+        else corpus.acoustics.manifest_hash
+        if config.augmentation.realistic_enabled
+        else None
     )
     dev_cases = load_cases(dev_cases_path, development)
     fixed_cases = load_cases(fixed_cases_path, corpus) if fixed_cases_path else None
@@ -251,6 +292,13 @@ def train(
                     if key.startswith("reference_encoder.")
                 }
             )
+        elif config.training.preserve_initialized_classifier:
+            if (
+                initial.get("speaker_classes") != classes
+                or initial.get("provenance", {}).get("train_speakers") != corpus.speakers
+            ):
+                raise ValueError("Classifier preservation requires identical speaker labels")
+            model.load_state_dict(initial["model"])
         else:
             state = {
                 key: value
@@ -266,7 +314,10 @@ def train(
             "scope": "reference_encoder" if initialize_reference_from else "whole_extractor",
             "source_step": initial["step"],
             "source_training_speakers": initial.get("provenance", {}).get("train_speakers", []),
-            "classifier": "Fresh classifier for this run's training labels",
+            "classifier": "Preserved classifier with identical labels"
+            if config.training.preserve_initialized_classifier
+            else "Fresh classifier for this run's training labels",
+            "source_initialization": initial.get("provenance", {}).get("initialization"),
             "normalization_transfer": {
                 "from": original.model.separation_normalization,
                 "to": config.model.separation_normalization,
@@ -301,6 +352,8 @@ def train(
             sha256(fixed_cases_path) if fixed_cases_path else None
         ):
             raise ValueError("Resume fixed-case protocol differs from the saved run")
+        if payload["provenance"].get("environment_manifest_sha256") != environment_hash:
+            raise ValueError("Resume acoustic resources differ from the saved run")
         model.load_state_dict(payload["model"])
         optimizer.load_state_dict(payload["optimizer"])
         if scheduler is not None and payload.get("scheduler") is not None:
@@ -321,6 +374,7 @@ def train(
         "source_tree_sha256": source_digest(),
         "torch_version": str(torch.__version__),
         "manifest_sha256": corpus.manifest_hash,
+        "environment_manifest_sha256": environment_hash,
         "dev_cases_sha256": sha256(dev_cases_path),
         "fixed_cases_sha256": sha256(fixed_cases_path) if fixed_cases_path else None,
         "config_sha256": config.digest(),
@@ -331,7 +385,11 @@ def train(
         "initialization": initialization,
         "continuation": payload["provenance"].get("continuation") if resume else None,
         "input_prefetch": "one_optimizer_batch_cpu_thread" if prefetch else "disabled",
-        "temporal_compiler": "inductor_mps_layout_optimization_false"
+        "temporal_compiler": (
+            "band_projections_only_inductor_mps_layout_optimization_false"
+            if config.model.family == "reference_conditioned_bsrnn"
+            else "inductor_mps_layout_optimization_false"
+        )
         if compile_blocks
         else "disabled",
     }
@@ -396,12 +454,19 @@ def train(
                 }
                 embedding = model.reference_encoder(batch["reference"])
                 output = model.extract(batch["mixture"], embedding)
-                loss = -si_sdr(output, batch["target"], epsilon=config.loss.epsilon).mean()
-                loss = loss + config.loss.waveform_weight * waveform_loss(output, batch["target"])
-                if config.loss.spectral_weight:
-                    loss = loss + config.loss.spectral_weight * spectral_loss(
-                        output, batch["target"], config.loss.spectral_fft_sizes
+                if config.augmentation.realistic_enabled:
+                    from tse.realistic import extraction_loss
+
+                    loss = extraction_loss(output, batch["target"], batch["mixture"], config.loss)
+                else:
+                    loss = -si_sdr(output, batch["target"], epsilon=config.loss.epsilon).mean()
+                    loss = loss + config.loss.waveform_weight * waveform_loss(
+                        output, batch["target"]
                     )
+                    if config.loss.spectral_weight:
+                        loss = loss + config.loss.spectral_weight * spectral_loss(
+                            output, batch["target"], config.loss.spectral_fft_sizes
+                        )
                 if classes:
                     logits = model.speaker_head(embedding) * config.loss.speaker_logit_scale
                     loss = loss + config.loss.speaker_classification_weight * F.cross_entropy(

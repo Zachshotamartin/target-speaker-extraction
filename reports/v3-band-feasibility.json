@@ -1,0 +1,14 @@
+{
+  "microbatch_seconds": [
+    5.741556957946159,
+    0.37208000000100583,
+    0.2962955420371145
+  ],
+  "microbatch": 2,
+  "accumulation": 4,
+  "mixture_seconds": 4,
+  "parameters": 1011437,
+  "mps_driver_gib": 1.68994140625,
+  "process_peak_rss_gib": 0.4175567626953125,
+  "scope": "Feasibility only: concurrent training/evaluation can affect timings, not a serving or speedup benchmark"
+}

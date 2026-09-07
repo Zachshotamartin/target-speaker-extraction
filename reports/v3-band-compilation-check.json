@@ -1,0 +1,5 @@
+{
+  "forward_max_error": 2.2351741790771484e-08,
+  "gradient_relative_l2_error": 1.4278092374470787e-07,
+  "scope": "Compile only real band projections and mask heads; LSTMs, references and STFT remain eager; numerical smoke with concurrent training, not a speed benchmark"
+}

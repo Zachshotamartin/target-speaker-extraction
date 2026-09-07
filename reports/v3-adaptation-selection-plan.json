@@ -1,0 +1,6 @@
+{
+  "created_before_adaptation": true,
+  "case_manifest_sha256": "ef82f9ccec7f91709aadd0f601b1da2c035c1d6d7eaf10f9839862c022a93d98",
+  "cases": 140,
+  "policy": "Both clean and realistic adaptation arms use the same composite validation; final comparison still applies all predeclared clean and acoustic promotion gates. Target absence is evaluated with suppression metrics separately."
+}

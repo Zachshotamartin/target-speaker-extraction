@@ -46,6 +46,8 @@ def validate_evaluation(
     frozen = json.loads(freeze.read_text())
     if frozen.get("status") != "frozen_before_fresh_test":
         raise ValueError("Expected a selection frozen before fresh-test scoring")
+    if frozen.get("evaluation_source_tree_sha256") not in (None, source_digest()):
+        raise ValueError("Evaluation source differs from the frozen implementation")
     for key, path in (("case_manifest_sha256", cases_path), ("source_manifest_sha256", manifest)):
         if frozen.get(key) != sha256(path):
             raise ValueError(f"Frozen evaluation differs from {key}")

@@ -1,3 +1,5 @@
+import json
+
 import numpy as np
 import pytest
 
@@ -24,6 +26,11 @@ def test_test_scoring_requires_exact_frozen_artifacts(tmp_path):
         },
     )
     assert validate_evaluation(checkpoint, cases, manifest, freeze) == "test"
+    frozen = json.loads(freeze.read_text())
+    atomic_json(freeze, {**frozen, "evaluation_source_tree_sha256": "different source"})
+    with pytest.raises(ValueError, match="frozen implementation"):
+        validate_evaluation(checkpoint, cases, manifest, freeze)
+    atomic_json(freeze, frozen)
     checkpoint.write_bytes(b"different checkpoint")
     with pytest.raises(ValueError, match="not in the frozen"):
         validate_evaluation(checkpoint, cases, manifest, freeze)

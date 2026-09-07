@@ -25,9 +25,13 @@ class AudioConfig(StrictModel):
 class DataConfig(StrictModel):
     protocol: Literal["custom-librispeech-tse-v1"] = "custom-librispeech-tse-v1"
     training_source: Literal["LibriSpeech/train-clean-100"] = "LibriSpeech/train-clean-100"
-    development_source: Literal["LibriSpeech/dev-clean"] = "LibriSpeech/dev-clean"
+    development_source: Literal["LibriSpeech/dev-clean", "LibriSpeech/dev-clean+dev-other"] = (
+        "LibriSpeech/dev-clean"
+    )
     test_source: Literal[
-        "LibriSpeech/test-clean", "LibriSpeech/train-clean-100/reserved-identities"
+        "LibriSpeech/test-clean",
+        "LibriSpeech/train-clean-100/reserved-identities",
+        "LibriSpeech/test-other",
     ] = "LibriSpeech/test-clean"
     pilot_speakers_target: int = Field(default=60, ge=2)
     minimum_utterances_per_speaker: int = Field(default=3, ge=3)
@@ -35,8 +39,8 @@ class DataConfig(StrictModel):
     distinct_reference_utterance: Literal[True] = True
     prefer_different_reference_chapter: Literal[True] = True
     target_to_interferer_db: tuple[float, float] = (-5, 5)
-    overlap_fraction: Literal[1.0] = 1.0
-    target_present: Literal[True] = True
+    overlap_fraction: Literal[1.0, "variable"] = 1.0
+    target_present: Literal[True, "mixed"] = True
 
     @model_validator(mode="after")
     def check_ratio(self):
@@ -48,6 +52,8 @@ class DataConfig(StrictModel):
 
 
 class ReferenceConfig(StrictModel):
+    family: Literal["waveform_tcn", "scaled_resnet34"] = "waveform_tcn"
+    resnet_base_channels: int = Field(default=16, ge=4, le=64)
     channels: int = Field(default=128, ge=8, le=512)
     kernel_samples: int = Field(default=160, ge=4)
     stride_samples: int = Field(default=80, ge=1)
@@ -58,9 +64,9 @@ class ReferenceConfig(StrictModel):
 
 
 class ModelConfig(StrictModel):
-    family: Literal["reference_conditioned_tcn", "reference_conditioned_stft_tcn"] = (
-        "reference_conditioned_tcn"
-    )
+    family: Literal[
+        "reference_conditioned_tcn", "reference_conditioned_stft_tcn", "reference_conditioned_bsrnn"
+    ] = "reference_conditioned_tcn"
     weights: Literal["random_initialization", "project_checkpoint", "project_reference"] = (
         "random_initialization"
     )
@@ -80,13 +86,18 @@ class ModelConfig(StrictModel):
     separation_normalization: Literal["per_frame", "global"] = "per_frame"
     stft_fft_samples: int = Field(default=512, ge=64, le=2048)
     stft_hop_samples: int = Field(default=128, ge=16, le=512)
+    spectral_mask: Literal["real", "complex"] = "real"
+    band_widths: list[int] = Field(default_factory=lambda: [8] * 8 + [16] * 8 + [32, 33])
+    band_channels: int = Field(default=48, ge=8, le=128)
+    band_hidden_channels: int = Field(default=64, ge=8, le=256)
+    band_blocks: int = Field(default=4, ge=1, le=8)
     causal: Literal[False] = False
     parameter_budget: int = Field(default=3000000, ge=1)
     reference_encoder: ReferenceConfig = Field(default_factory=ReferenceConfig)
 
     @model_validator(mode="after")
     def check_architecture(self):
-        if self.family == "reference_conditioned_stft_tcn":
+        if self.family in {"reference_conditioned_stft_tcn", "reference_conditioned_bsrnn"}:
             if (
                 self.mask_activation != "sigmoid"
                 or self.encoder_channels != self.stft_fft_samples // 2 + 1
@@ -103,8 +114,14 @@ class ModelConfig(StrictModel):
                 raise ValueError(
                     "STFT hop must overlap and align with the two-second inference core"
                 )
+            if self.family == "reference_conditioned_bsrnn" and (
+                min(self.band_widths) < 1 or sum(self.band_widths) != self.encoder_channels
+            ):
+                raise ValueError("Band widths must partition every STFT frequency exactly once")
         elif self.mask_activation != "relu":
             raise ValueError("Learned waveform filterbank requires its declared ReLU mask")
+        if self.spectral_mask == "complex" and self.family != "reference_conditioned_bsrnn":
+            raise ValueError("Complex masks are implemented for the band-split family")
         if self.temporal_kernel % 2 != 1:
             raise ValueError("Temporal kernel must be odd")
         if min(self.dilations + self.reference_encoder.dilations) < 1:
@@ -130,6 +147,7 @@ class TrainingConfig(StrictModel):
     precision: Literal["float32"] = "float32"
     learning_rate_schedule: Literal["none", "plateau", "cosine"] = "none"
     schedule_decay_updates: int = Field(default=5000, ge=1)
+    preserve_initialized_classifier: bool = False
     scheduler_patience_validations: int = Field(default=4, ge=1)
     scheduler_factor: float = Field(default=0.5, gt=0, lt=1)
     minimum_learning_rate: float = Field(default=0.00001, gt=0)
@@ -150,6 +168,7 @@ class LossConfig(StrictModel):
     spectral_weight: float = Field(default=0, ge=0, le=10)
     spectral_fft_sizes: list[int] = Field(default_factory=lambda: [256, 512, 1024], min_length=1)
     absent_target_si_sdr: Literal["unsupported"] = "unsupported"
+    absent_target_weight: float = Field(default=10, ge=0)
 
     @model_validator(mode="after")
     def check_spectral_sizes(self):
@@ -160,11 +179,27 @@ class LossConfig(StrictModel):
 
 class AugmentationConfig(StrictModel):
     reference_enabled: bool = False
-    mixture_noise_enabled: Literal[False] = False
+    mixture_noise_enabled: bool = False
     independent_random_streams: Literal[True] = True
+    realistic_enabled: bool = False
+    environment_root: str | None = None
+    environment_manifest: str | None = None
+
+    @model_validator(mode="after")
+    def check_realism(self):
+        if self.mixture_noise_enabled and not self.realistic_enabled:
+            raise ValueError("Mixture noise requires the declared realistic rendering pipeline")
+        if self.realistic_enabled and (
+            not self.environment_root or not self.environment_manifest or self.reference_enabled
+        ):
+            raise ValueError(
+                "Realistic training needs explicit resources and replaces the legacy reference augmentation"
+            )
+        return self
 
 
 class EvaluationConfig(StrictModel):
+    realistic_validation: bool = False
     development_cases_target: int = Field(default=400, ge=2)
     final_test_cases_target: int = Field(default=1000, ge=2)
     mixture_seconds: float = Field(default=4, ge=0.25, le=60)
