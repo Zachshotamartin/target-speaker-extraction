@@ -1,0 +1,45 @@
+{
+  "checked_at_utc": "2026-09-07T02:42:22.196077+00:00",
+  "browser": "Codex in-app browser",
+  "model_id": "c814d937b587",
+  "checkpoint_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+  "workspace": {
+    "example_voice_1": {
+      "loaded_mixture_seconds": 4,
+      "loaded_reference_seconds": 5,
+      "extraction_ready": true,
+      "playback_reached_end": true
+    },
+    "example_voice_2": {
+      "loaded_mixture_seconds": 4,
+      "loaded_reference_seconds": 5,
+      "extraction_ready": true,
+      "playback_reached_end": true
+    },
+    "displayed_model_id_matches_export": true
+  },
+  "gallery": {
+    "page_refreshed": true,
+    "displayed_model_id_matches_export": true,
+    "first_estimate_decoded_seconds": 4,
+    "first_estimate_playback_ended": true,
+    "first_estimate_media_error": null,
+    "cache_key_contains_model_id": true
+  },
+  "comparison": {
+    "page_refreshed": true,
+    "release_labels_verified": true,
+    "matched_volume_enabled": true
+  },
+  "download": {
+    "button_clicked": true,
+    "browser_event_wait": "Timed out; completion independently verified from the newly saved Downloads file",
+    "modified_at_utc": "2026-09-07T02:40:28.135794+00:00",
+    "sha256": "148ce97be7091ec7c3516c59401cca4e9a989518a2f8df5f7433a83bce312a02",
+    "samples": 64000,
+    "sample_rate": 16000,
+    "subtype": "FLOAT",
+    "exact_decoded_sample_equality_to_api_voice_1": true
+  },
+  "listening_scope": "Playback and decoding were exercised. No subjective human quality rating is asserted."
+}

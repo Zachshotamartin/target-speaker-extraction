@@ -1,38 +1,46 @@
-# Case study · Keeping one voice
+# Improving target-speaker extraction on one Mac
 
-The product accepts an overlapping recording and a separate sample of the person the user wants to hear. A useful system must both separate speech and follow that reference when the same mixture is requested twice with different speakers. This requires learned waveform processing, not a language-model wrapper.
+The first One voice release had a working training/evaluation/API pipeline, but weak separation and audible artifacts. The user heard the competing voice become quieter without being adequately removed. The quality follow-up's frozen fresh test measures **5.887 dB mean SI-SDR improvement**, versus 1.453 dB for the original model on the same requests. Remaining failures are part of the result: 13.90% of requests worsen and 7.60% trigger the confusion proxy.
 
-## What was built
+## Diagnose the signal path before redesigning the model
 
-The project implements its own 1.22M-parameter reference encoder and conditioned temporal separator in PyTorch, trains from random initialization, and delivers an aligned audio estimate through a local API and browser comparison workspace. Data acquisition, auditable mixture recipes, metrics, checkpoint recovery, CPU/MPS execution, and packaging are part of the system. Research ideas are attributed; SpeakerBeam code and pretrained weights are not dependencies.
+A development audit found 58 of 400 original predictions above sample magnitude one. A uniform attenuation guard fixes that playback risk without changing relative speaker levels. However, the first 20 original gallery outputs were already below full scale. Four-second gallery requests bypass chunking, float WAV round-trips preserved samples, and a CPU/MPS comparison was numerically close. Those checks did not support treating clipping or serialization as the sole explanation for the reported static. [Audio diagnosis](QUALITY_IMPROVEMENT.md).
 
-The main engineering question was whether independent reference corruption during training improves mismatch robustness. Clean and augmented runs use identical architecture, seed, source/crop schedule, effective batch, and 5,000-update budget. The four mismatch families are weighted equally. Checkpoint and product selection use development data; hashes identify both frozen artifacts before final test evaluation.
+Fixed cleanup filters and a matched additional-training comparison with spectral loss produced modest gains. Increasing mask strength suppressed more interference while damaging intelligibility. These experiments discouraged treating quieter background audio as sufficient evidence of better extraction.
 
-## Evidence and result
+## Rebuild the learning experiment and preserve an independent test
 
-The tiny 16-case paired diagnostic reaches 11.85 dB improvement, showing that the network can learn the task. It is not evidence of generalization. Held-out evaluation is substantially harder.
+The new candidate uses independently implemented reference-conditioned temporal convolutions over an STFT, with a bounded real mask and inverse transform. Its reference encoder is learned within this project. Joint speaker classification, waveform and multi-resolution spectral objectives supplement target-specific SI-SDR. Expanded training draws from 231 speakers and 90.582 eligible source hours, using four-second mixtures and separate five-second references.
 
-![Training curves on unseen development speakers](../reports/figures/learning-curves.png)
+The original test had already been opened. Twenty previously unused train-clean-100 identities were therefore reserved before expanded training, while the same 40 dev-clean identities continued to guide development. Final selection binds exact model, inventory and recipe hashes before the new 1,000-request test. These are custom LibriSpeech mixtures, not official Libri2Mix results.
 
-On the 400-case development report, reference augmentation changes equally weighted mismatch improvement by +0.25 dB. The predeclared rule selects **augmented** for delivery. On the reserved test, the corresponding augmentation change is +0.22 dB. The selected model's clean mean is 1.73 dB, with 29.0% negative-improvement cases and 14.6% confusion. The complete tables, paired intervals, and exact artifact identities are in the [model card](MODEL_CARD.md).
+The principal development changes combine architecture, speaker supervision, crop length, data diversity and training exposure. Their aggregate improvement cannot be attributed to one component. A model small enough for local experiments remains a hypothesis, not evidence that the published research recipe has been reproduced.
 
-The difference between tiny-set learning and unseen-speaker quality is a central finding. A working loss and a convincing single example are insufficient release evidence. This pilot uses one training seed and a small archive-order speech selection. Its results support a bounded experimental system; they do not establish general state-of-the-art speech extraction or a robust augmentation gain.
+## Check the research assumptions explicitly
 
-## Decisions that mattered
+The [research audit](RESEARCH_AUDIT.md) compares the implementation with SpeakerBeam, SpEx, Conv-TasNet and the enrollment-augmentation study. It identifies substantial substitutions, including the small reference encoder, per-frame separator normalization, real mixture-phase masks, custom augmentation and much shorter training schedule. No external model weights or SpeakerBeam implementation enter the core.
 
-1. **Separate reference utterances and paired requests.** These prevent direct waveform reuse and reveal a separator that consistently chooses only the easier voice.
-2. **A gain-sensitive loss alongside SI-SDR.** Waveform L1 anchors amplitude; test reports retain both separation and gain-sensitive metrics.
-3. **Per-frame normalization and bounded context.** Padding does not affect global statistics, and long-file processing can be checked numerically against whole-file output.
-4. **Independent augmentation RNG.** Treatment changes the reference while retaining the control's mixture schedule, enabling paired comparisons.
-5. **A real delivery-path evaluation.** The final artifact is scored after the same decoding, normalization and WAV output operations used by the app.
-6. **Explicit target-absence failure.** Energy diagnostics expose emitted competing speech when the desired speaker is missing, without fabricating a confidence score.
+A source-informed diagnostic reaches 14.559 dB with the same bounded-mask format. This uses unavailable clean targets, so it is not deployable performance or a guaranteed learning ceiling. It demonstrates representational headroom and helps distinguish output-format restrictions from imperfect mask prediction.
 
-## What a reviewer can run
+A separate 2,000-update normalization adaptation matches initialization tensors, fresh classifier, seed, data sequence, losses and optimizer. Changing only separator normalization gives 3.673 dB / 0.5916 ESTOI, versus 3.484 dB / 0.5852 for the matched per-frame control on 400 development requests. The starting weights were already trained with per-frame normalization, so this short comparison cannot settle which architecture is better when trained from scratch. The global variant also requires whole-clip inference because its statistics span time.
 
-The [reproduction guide](REPRODUCING.md) provides setup, training, evaluation, export, serving and recovery commands. The [metadata directory](../metadata/) preserves public utterance IDs, hashes, frozen case recipes and training records. Tests exercise signal invariants, reference gradients, checkpoint resume, API errors, and long-file alignment. A fresh noneditable wheel and CPU container were exercised locally; GitHub Actions checks the CPU code path.
+The main expanded run completed 20,000 updates. The predeclared final-three and final-five checkpoint averages were scored alongside its best single checkpoint. Final selection and all compared report identities are retained in the [freeze](../reports/quality-v2-selection.json). Uniformly averaged project checkpoints at expanded-data steps 16000, 18000, 20000. Source hashes are retained in the exported provenance.
 
-The app's default examples are the first development mixture with both references, selected by manifest order rather than score. Per-case test scores remain available for inspecting failures. There was no formal human listening study.
+## Measure the delivered result
 
-## Next research decisions
+| Metric | Original model | Updated model |
+| --- | ---: | ---: |
+| Mean SI-SDR improvement | 1.453 dB | 5.887 dB |
+| Median SI-SDR improvement | 1.656 dB | 6.270 dB |
+| ESTOI intelligibility proxy | 0.5457 | 0.6534 |
+| Requests worse than mixture | 30.80% | 13.90% |
+| Speaker confusion proxy | 17.30% | 7.60% |
+| Scalar distortion proxy | 11.58% | 11.20% |
 
-The measured generalization gap motivates more speaker diversity and longer training, with multiple paired seeds before claiming an augmentation effect. Reference corruption should also be tested on separately acquired real microphone/room recordings with appropriate consent. A calibrated target-presence objective is needed before absent-speaker use. Streaming would require a causal architecture and a separate latency/quality study. These are research extensions, not concealed capabilities of this release.
+The paired separation gain is +4.434 dB, with approximate 95% interval [3.455, 5.529]. The [model card](MODEL_CARD.md) specifies metrics, uncertainty, failure slices, runtime and artifact identities. The original [case study](CASE_STUDY_V0_1.md) remains available separately; its opened test was not relabeled as unseen.
+
+The service and evaluator share decoding, normalization, prediction, peak handling and float-WAV output. Long-file checks verify duration and the applicable inference strategy. Training uses deterministic sample seeds, atomic resumable checkpoints and provenance records; compiled temporal layers were numerically checked before use on MPS. Exact CPU resume has regression coverage. Code and metadata are public, while audio and weights remain local.
+
+The [comparison gallery](http://127.0.0.1:8000/gallery/quality-progress/) contains examples chosen by manifest order and separately labeled matched-RMS playback. ESTOI predicts intelligibility and the distortion projection is a proxy; neither constitutes a human judgment that static is gone. The model remains experimental for two target-present voices in recorded audio. Real microphones, reverberation, background noise, target absence and broader language/domain transfer require their own evidence.
+
+[Reproduce the quality experiments](REPRODUCING_QUALITY.md).

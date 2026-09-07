@@ -1,0 +1,224 @@
+{
+  "report_sha256": "b6d2c3cff274f67d03e093cacdfb3c4fcfd4a622408588a00c99a8ab8ad4fbe2",
+  "case_manifest_sha256": "b1d59e876b9cad3e1c2ec8cacd03d7980dbe94353533da566911d58ffe9ab7b3",
+  "source_manifest_sha256": "78397e2a51d56224b60b8f66d24cf9bae068649a6281be3fafdadee1015e10fd",
+  "split": "test",
+  "confusion_margin_db": 3.0,
+  "conditions": {
+    "clean": {
+      "level_group": {
+        "louder_target": {
+          "cases": 312,
+          "mean_si_sdri_db": 4.192762554838107,
+          "negative_improvement_fraction": 0.18269230769230768,
+          "confusion_fraction": 0.028846153846153848,
+          "mixture_baseline_confusion_fraction": 0.0,
+          "baseline_paired_cases": 312
+        },
+        "quieter_target": {
+          "cases": 312,
+          "mean_si_sdri_db": 7.247070766030213,
+          "negative_improvement_fraction": 0.11217948717948718,
+          "confusion_fraction": 0.14102564102564102,
+          "mixture_baseline_confusion_fraction": 1.0,
+          "baseline_paired_cases": 312
+        },
+        "similar_levels": {
+          "cases": 376,
+          "mean_si_sdri_db": 6.164439900520634,
+          "negative_improvement_fraction": 0.125,
+          "confusion_fraction": 0.061170212765957445,
+          "mixture_baseline_confusion_fraction": 0.1196808510638298,
+          "baseline_paired_cases": 376
+        }
+      },
+      "reference_chapter_group": {
+        "different_chapter": {
+          "cases": 855,
+          "mean_si_sdri_db": 5.797269377757234,
+          "negative_improvement_fraction": 0.1415204678362573,
+          "confusion_fraction": 0.0783625730994152,
+          "mixture_baseline_confusion_fraction": 0.36257309941520466,
+          "baseline_paired_cases": 855
+        },
+        "same_chapter": {
+          "cases": 145,
+          "mean_si_sdri_db": 6.41649710844303,
+          "negative_improvement_fraction": 0.12413793103448276,
+          "confusion_fraction": 0.06206896551724138,
+          "mixture_baseline_confusion_fraction": 0.32413793103448274,
+          "baseline_paired_cases": 145
+        }
+      },
+      "target_speaker": {
+        "1081": {
+          "cases": 55,
+          "mean_si_sdri_db": 6.696136582439596,
+          "negative_improvement_fraction": 0.10909090909090909,
+          "confusion_fraction": 0.05454545454545454,
+          "mixture_baseline_confusion_fraction": 0.2909090909090909,
+          "baseline_paired_cases": 55
+        },
+        "1502": {
+          "cases": 49,
+          "mean_si_sdri_db": 6.55401315007891,
+          "negative_improvement_fraction": 0.12244897959183673,
+          "confusion_fraction": 0.08163265306122448,
+          "mixture_baseline_confusion_fraction": 0.5306122448979592,
+          "baseline_paired_cases": 49
+        },
+        "1553": {
+          "cases": 53,
+          "mean_si_sdri_db": 4.611142702260107,
+          "negative_improvement_fraction": 0.3018867924528302,
+          "confusion_fraction": 0.1320754716981132,
+          "mixture_baseline_confusion_fraction": 0.3584905660377358,
+          "baseline_paired_cases": 53
+        },
+        "1723": {
+          "cases": 44,
+          "mean_si_sdri_db": 8.35969655080275,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.29545454545454547,
+          "baseline_paired_cases": 44
+        },
+        "1963": {
+          "cases": 55,
+          "mean_si_sdri_db": 6.70960110317577,
+          "negative_improvement_fraction": 0.03636363636363636,
+          "confusion_fraction": 0.01818181818181818,
+          "mixture_baseline_confusion_fraction": 0.4,
+          "baseline_paired_cases": 55
+        },
+        "1970": {
+          "cases": 44,
+          "mean_si_sdri_db": 5.896848811344667,
+          "negative_improvement_fraction": 0.045454545454545456,
+          "confusion_fraction": 0.045454545454545456,
+          "mixture_baseline_confusion_fraction": 0.4318181818181818,
+          "baseline_paired_cases": 44
+        },
+        "198": {
+          "cases": 49,
+          "mean_si_sdri_db": 5.4140956645109215,
+          "negative_improvement_fraction": 0.1836734693877551,
+          "confusion_fraction": 0.10204081632653061,
+          "mixture_baseline_confusion_fraction": 0.30612244897959184,
+          "baseline_paired_cases": 49
+        },
+        "200": {
+          "cases": 46,
+          "mean_si_sdri_db": 3.3662188571432363,
+          "negative_improvement_fraction": 0.2608695652173913,
+          "confusion_fraction": 0.17391304347826086,
+          "mixture_baseline_confusion_fraction": 0.391304347826087,
+          "baseline_paired_cases": 46
+        },
+        "2182": {
+          "cases": 63,
+          "mean_si_sdri_db": 2.663315606495691,
+          "negative_improvement_fraction": 0.2857142857142857,
+          "confusion_fraction": 0.1111111111111111,
+          "mixture_baseline_confusion_fraction": 0.2698412698412698,
+          "baseline_paired_cases": 63
+        },
+        "4051": {
+          "cases": 52,
+          "mean_si_sdri_db": 5.348320332857279,
+          "negative_improvement_fraction": 0.057692307692307696,
+          "confusion_fraction": 0.07692307692307693,
+          "mixture_baseline_confusion_fraction": 0.3269230769230769,
+          "baseline_paired_cases": 52
+        },
+        "4680": {
+          "cases": 51,
+          "mean_si_sdri_db": 5.381055350397148,
+          "negative_improvement_fraction": 0.17647058823529413,
+          "confusion_fraction": 0.11764705882352941,
+          "mixture_baseline_confusion_fraction": 0.45098039215686275,
+          "baseline_paired_cases": 51
+        },
+        "4898": {
+          "cases": 54,
+          "mean_si_sdri_db": 9.317508960211718,
+          "negative_improvement_fraction": 0.07407407407407407,
+          "confusion_fraction": 0.018518518518518517,
+          "mixture_baseline_confusion_fraction": 0.3888888888888889,
+          "baseline_paired_cases": 54
+        },
+        "5652": {
+          "cases": 51,
+          "mean_si_sdri_db": 4.278011449996163,
+          "negative_improvement_fraction": 0.23529411764705882,
+          "confusion_fraction": 0.13725490196078433,
+          "mixture_baseline_confusion_fraction": 0.35294117647058826,
+          "baseline_paired_cases": 51
+        },
+        "5688": {
+          "cases": 45,
+          "mean_si_sdri_db": 4.646517239676582,
+          "negative_improvement_fraction": 0.13333333333333333,
+          "confusion_fraction": 0.044444444444444446,
+          "mixture_baseline_confusion_fraction": 0.2222222222222222,
+          "baseline_paired_cases": 45
+        },
+        "5867": {
+          "cases": 53,
+          "mean_si_sdri_db": 6.030703161122664,
+          "negative_improvement_fraction": 0.1320754716981132,
+          "confusion_fraction": 0.05660377358490566,
+          "mixture_baseline_confusion_fraction": 0.3018867924528302,
+          "baseline_paired_cases": 53
+        },
+        "6415": {
+          "cases": 48,
+          "mean_si_sdri_db": 3.975614388783773,
+          "negative_improvement_fraction": 0.1875,
+          "confusion_fraction": 0.125,
+          "mixture_baseline_confusion_fraction": 0.4583333333333333,
+          "baseline_paired_cases": 48
+        },
+        "7264": {
+          "cases": 51,
+          "mean_si_sdri_db": 6.241742086176779,
+          "negative_improvement_fraction": 0.11764705882352941,
+          "confusion_fraction": 0.058823529411764705,
+          "mixture_baseline_confusion_fraction": 0.3333333333333333,
+          "baseline_paired_cases": 51
+        },
+        "7780": {
+          "cases": 48,
+          "mean_si_sdri_db": 5.061211769779523,
+          "negative_improvement_fraction": 0.22916666666666666,
+          "confusion_fraction": 0.125,
+          "mixture_baseline_confusion_fraction": 0.375,
+          "baseline_paired_cases": 48
+        },
+        "78": {
+          "cases": 46,
+          "mean_si_sdri_db": 9.42476226972497,
+          "negative_improvement_fraction": 0.021739130434782608,
+          "confusion_fraction": 0.021739130434782608,
+          "mixture_baseline_confusion_fraction": 0.30434782608695654,
+          "baseline_paired_cases": 46
+        },
+        "8419": {
+          "cases": 43,
+          "mean_si_sdri_db": 8.854984338893447,
+          "negative_improvement_fraction": 0.0,
+          "confusion_fraction": 0.0,
+          "mixture_baseline_confusion_fraction": 0.37209302325581395,
+          "baseline_paired_cases": 43
+        }
+      },
+      "paired_requests": {
+        "complete_pairs": 500,
+        "excluded_groups": 0,
+        "both_targets_improved_fraction": 0.762,
+        "either_target_confused_fraction": 0.148
+      }
+    }
+  },
+  "interpretation": "Descriptive post-evaluation slices. Level bins are fixed at -2/+2 dB; chapter groups use source metadata. No demographic attributes are inferred. Small groups and shared mixtures limit precision. Do not use final-test slices to retune this release."
+}

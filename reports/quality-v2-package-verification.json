@@ -1,0 +1,75 @@
+{
+  "version": "0.2.0",
+  "checkpoint_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+  "noneditable_module_path": "/Users/zacharymartin/Desktop/portfolio_projects/ML/artifacts/verification/wheel-v0.2.0/tse/__init__.py",
+  "dependency_environment": "Existing locked project environment; wheel installed separately with --no-deps into a target directory",
+  "cpu": [
+    {
+      "model_id": "c814d937b587",
+      "processing_version": "sample-peak-guard-v1",
+      "sample_rate": 16000,
+      "duration_seconds": 4.0,
+      "processing_seconds": 0.2434,
+      "model_seconds": 0.2353,
+      "real_time_factor": 0.0609,
+      "output_peak": 0.39195364713668823,
+      "raw_output_peak": 0.39195364713668823,
+      "playback_gain": 1.0,
+      "training_updates": 20000
+    },
+    {
+      "model_id": "c814d937b587",
+      "processing_version": "sample-peak-guard-v1",
+      "sample_rate": 16000,
+      "duration_seconds": 4.0,
+      "processing_seconds": 0.2412,
+      "model_seconds": 0.2396,
+      "real_time_factor": 0.0603,
+      "output_peak": 0.7391318678855896,
+      "raw_output_peak": 0.7391318678855896,
+      "playback_gain": 1.0,
+      "training_updates": 20000
+    }
+  ],
+  "mps": [
+    {
+      "model_id": "c814d937b587",
+      "processing_version": "sample-peak-guard-v1",
+      "sample_rate": 16000,
+      "duration_seconds": 4.0,
+      "processing_seconds": 0.6522,
+      "model_seconds": 0.6503,
+      "real_time_factor": 0.1631,
+      "output_peak": 0.3919534981250763,
+      "raw_output_peak": 0.3919534981250763,
+      "playback_gain": 1.0,
+      "training_updates": 20000
+    },
+    {
+      "model_id": "c814d937b587",
+      "processing_version": "sample-peak-guard-v1",
+      "sample_rate": 16000,
+      "duration_seconds": 4.0,
+      "processing_seconds": 0.0442,
+      "model_seconds": 0.0433,
+      "real_time_factor": 0.0111,
+      "output_peak": 0.7391320466995239,
+      "raw_output_peak": 0.7391320466995239,
+      "playback_gain": 1.0,
+      "training_updates": 20000
+    }
+  ],
+  "cpu_mps_parity": [
+    {
+      "voice": 1,
+      "maximum_absolute_error": 1.7881393432617188e-07,
+      "rms_error": 1.7652347139573976e-08
+    },
+    {
+      "voice": 2,
+      "maximum_absolute_error": 3.5762786865234375e-07,
+      "rms_error": 1.9554823538214805e-08
+    }
+  ],
+  "runtime_profile_assertions_passed": true
+}

@@ -4,6 +4,8 @@ Checked on 2026-09-06 after listening feedback and the user's request to verify 
 
 The local [model-design guide](MODEL_DESIGN.md) is our original proposal, not an external recipe. The external references include the [SpeakerBeam authors' tutorial repository](https://github.com/BUTSpeechFIT/speakerbeam) and the [enrollment-augmentation study](https://arxiv.org/html/2409.09589v1). No SpeakerBeam implementation or checkpoints are imported. Independent implementation can follow established mathematical methods; it does not make those methods new.
 
+**Completion note:** The corrective sequence below was subsequently completed: 20,000 main updates, development comparisons of the final-three/final-five averages, and a matched 2,000-update global-normalization adaptation. The final-three average was frozen before the fresh 1,000-request test and promoted as v0.2.0. It scores 5.887 dB SI-SDRi versus 1.453 dB for the original model on that same test. The normalization pilot showed a modest tradeoff and was not selected. [Full development record](QUALITY_WORKLOG.md), [current model card](MODEL_CARD.md). The following diagnosis and proposed sequence retain the context at the time of the audit; the research-reproduction caveats still apply.
+
 ## What matches, and what differs
 
 | Component | Research reference | Actual project choice and implication |

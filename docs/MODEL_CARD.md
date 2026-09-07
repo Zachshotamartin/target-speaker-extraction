@@ -1,89 +1,67 @@
-# Model card · One voice 0.1
+# One voice — v0.2.0 model card
 
-An experimental, independently implemented reference-conditioned speech extractor. The selected artifact is **augmented**, chosen using development data before opening the reserved test. All weights were trained from random initialization; no SpeakerBeam code or checkpoints were used.
+Experimental, independently implemented target-speaker extraction for two overlapping voices. A separate recording identifies the desired speaker. The updated model achieves **5.887 dB mean SI-SDR improvement** on the frozen fresh test. It still worsens 13.90% of requests and triggers the speaker-confusion proxy on 7.60%. These results do not establish production speech quality.
 
-## Identity and intended use
+## Artifact and intended use
 
-- Parameters: 1,223,296; 16 kHz mono; float32; noncausal.
-- Selected training update: 5,000; matched experiment budget: 5,000 updates per model; seed 42.
-- Export SHA-256: `f3271f1decf7ec0e8e9b0f1fab578a693f51c4a1d1778adeeb9109a5e64a5c20`.
-- Source training checkpoint: `44346f83254cd4cec293478340b3ef5933a49278f1c019574c95b9f0c4a908fa`.
-- Test case manifest: `a06c84af1b766391c65b82789d85616159831c4c65e8eef2e426b7887fe51a60`.
-- Artifact location: `artifacts/releases/model.pt`; accompanying config/provenance: `artifacts/releases/model.json`.
-- Intended use: local research, engineering demonstration, and exploratory target-present two-speaker recordings with a separate 3–10 second reference. Maximum mixture duration: 60 seconds.
+- Exported SHA-256: `c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e`.
+- Architecture: `reference_conditioned_stft_tcn`; separator normalization: `per_frame`.
+- Parameters loaded: 2,260,586, including any training speaker head retained in the checkpoint. Inference selects speech from the reference embedding, not the head's identity labels.
+- Uniformly averaged project checkpoints at expanded-data steps 16000, 18000, 20000. Source hashes are retained in the exported provenance. Initialization includes earlier training within this project; the displayed update count is not the complete training history.
+- No external pretrained speaker or separator weights. Original model: [v0.1.0 card](MODEL_CARD_V0_1.md).
 
-The model is an audio estimator, not an identity verifier, presence detector, or speech-transcription system. Do not interpret retained audio as proof that a particular person spoke. The app labels it as experimental.
+Inputs are WAV/FLAC, up to 60 seconds of mixture and 3–10 seconds of separate reference. Output is mono 16 kHz with the exact mixture timeline. The requested speaker must be present. The system is offline and noncausal; faster-than-duration processing is not live-call latency.
 
-## Data and training
+## Fresh held-out evaluation
 
-Public [LibriSpeech](https://www.openslr.org/12), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), attributed to Panayotov, Chen, Povey and Khudanpur (2015). A bounded archive-order selection provides 60 training speakers and 10.784 hours in the acquired usable inventory. Development/test each use 40 different speakers from their official clean partitions. Crop eligibility further filters the pool. English read speech and synthetic complete overlap limit generalization to spontaneous conversation, accents, languages, and recording conditions.
+The fresh test contains 1,000 extraction requests from 20 reserved identities, paired by swapping targets in the same mixture. These identities were withheld before expanded training and never trained in the original model. The original opened test-clean evaluation remains historical. This is a custom LibriSpeech split, not the official Libri2Mix benchmark.
 
-Training uses on-demand 2-second mixtures, 5-second distinct-utterance references, levels from −5 to +5 dB, AdamW, batch 2 with four-step accumulation, and negative SI-SDR plus 0.1 normalized L1. See [implementation](IMPLEMENTATION.md) for initialization, augmentation severity, and acquisition integrity limits. Data identities and recipes are retained in [metadata](../metadata/).
+Selection used development data, then bound exact checkpoint, source-inventory and test-recipe hashes before test scoring. [Selection record](../reports/quality-v2-selection.json). Both models use the same file decoding, preprocessing, peak guard and float-WAV delivery path.
 
-## Frozen test results
+| Metric | Original model | Updated model |
+| --- | ---: | ---: |
+| Mean SI-SDR improvement | 1.453 dB | 5.887 dB |
+| Median SI-SDR improvement | 1.656 dB | 6.270 dB |
+| ESTOI intelligibility proxy | 0.5457 | 0.6534 |
+| Requests worse than mixture | 30.80% | 13.90% |
+| Speaker confusion proxy | 17.30% | 7.60% |
+| Scalar distortion proxy | 11.58% | 11.20% |
 
-Each condition has 1,000 extraction requests (500 shared-mixture target pairs) from 40 target speakers. B0 returns the mixture and has zero SI-SDR improvement by definition. Outputs are scored against the requested target, without permutation matching.
+The paired mean separation gain is +4.434 dB, with approximate 95% target-speaker-cluster interval [3.455, 5.529]. The updated mean's corresponding interval is [5.072, 6.741] dB. Resampling uses 1,000 replicates and seed 42; shared-interferer dependence remains. These are one-run comparisons with combined model/data/training changes, not a causal estimate of any single change.
 
-| Reference | Control SI-SDRi | Augmented SI-SDRi | Paired gain [approx. 95% CI] | Confusion, control / augmented |
-| --- | ---: | ---: | ---: | ---: |
-| Clean | 1.53 dB | 1.73 dB | +0.20 dB [0.03, 0.39] | 15.3% / 14.6% |
-| Noise | 1.53 dB | 1.73 dB | +0.20 dB [0.03, 0.38] | 15.0% / 14.9% |
-| Channel | 1.48 dB | 1.74 dB | +0.25 dB [0.09, 0.44] | 15.6% / 14.3% |
-| Reverb | 1.49 dB | 1.69 dB | +0.21 dB [0.05, 0.39] | 15.8% / 14.8% |
-| Combined | 1.44 dB | 1.67 dB | +0.23 dB [0.09, 0.40] | 15.8% / 14.8% |
+Both targets improve in 76.20% of complete mixture pairs. See [failure slices](../reports/quality-v2-test-failures.json), [per-request results](../reports/quality-v2-selected-test.json), and [paired comparison](../reports/quality-v2-test-comparison.json).
 
-Equal-weight augmentation gain across the four mismatch conditions: **+0.22 dB**, approximate joint interval **[0.07, 0.39]**. Conditions are averaged within each paired case before jointly resampling target-speaker clusters. This is one paired training seed. The intervals approximate target-speaker sampling uncertainty and do not include training-seed variability or fully account for shared interferers. Neither positive point estimates nor model selection alone establish a robust augmentation benefit.
+ESTOI predicts intelligibility; it is not word accuracy or a human rating. The scalar distortion proxy includes filtering, phase and envelope errors and is not perceived static. Confusion means the estimate's SI-SDR against the interferer exceeds its SI-SDR against the target by more than three dB. None of these measures proves that every voice sounds clean.
 
-Selected model, clean condition: mean **1.73 dB**, median 1.79 dB, 10th percentile -1.80 dB, mean interval [1.12, 2.28]; 29.0% of cases have negative improvement and 14.6% meet the 3 dB wrong-speaker confusion proxy. Near-silent outputs: 0.0%. Normalized waveform L1: 0.470.
+## Training and research alignment
 
-The app's exact shared WAV processing path achieves **1.73 dB** on the same clean test cases, with 14.6% confusion and 29.1% negative-improvement cases. It includes decoding, normalization, model execution, inverse gain, WAV encoding, and decoding for scoring; HTTP behavior is separately integration-tested. Raw results: [control](../reports/control-test.json), [augmentation](../reports/augmented-test.json), [paired comparison](../reports/test-comparison.json), [delivered path](../reports/delivered-test.json).
+The expanded pool contains 231 speakers and 90.582 eligible hours of clean LibriSpeech source recordings. Mixtures are generated on demand, with distinct speakers, complete overlap, ratios between −5 and +5 dB, and a different reference utterance, preferably another chapter. Forty dev-clean identities supply development data. Source hours are not mixture hours or training epochs.
 
-![Frozen reference-condition results](../reports/figures/test-conditions.png)
+The spectral separator uses a 512-sample Hann STFT with a 128-sample hop, reference-conditioned temporal convolutions and a real sigmoid mask. It retains mixture phase. Its own convolutional reference encoder learns jointly with extraction. Losses combine target-specific SI-SDR, normalized waveform L1, multi-resolution spectral reconstruction and training-speaker classification. Full settings and provenance accompany the export.
 
-## Failure diagnostics
+This custom system is informed by SpeakerBeam, SpEx, Conv-TasNet and enrollment-augmentation research. It does not reproduce their published recipes. The [research audit](RESEARCH_AUDIT.md) documents substitutions, normalization experiments and source-informed mask diagnostics. Oracle diagnostics use clean targets and are never model estimates.
 
-The delivered clean test path, grouped by target level:
+## Delivery and runtime
 
-| Target level relative to interferer | Cases | SI-SDRi | Model confusion | Mixture-baseline confusion |
-| --- | ---: | ---: | ---: | ---: |
-| Below −2 dB | 300 | 2.52 dB | 34.0% | 100.0% |
-| −2 to +2 dB | 400 | 1.86 dB | 8.5% | 12.2% |
-| Above +2 dB | 300 | 0.78 dB | 3.3% | 0.0% |
+The service removes DC, normalizes inputs, predicts and restores mixture gain. Outputs exceeding sample peak 0.98 receive uniform attenuation. Quiet outputs are never boosted and samples are never hard-clipped. This guard does not remove interference. Model information and response metadata identify the checkpoint and processing version.
 
-The mixture-baseline confusion proxy is recovered from the two target scores for each identical mixture. It exposes the proxy's dependence on relative level. Across 500 complete mixture pairs, both requested targets improve in 55.0%; at least one target triggers confusion in 28.6%. These are descriptive slices, not independently randomized comparisons. Chapter and individual-speaker summaries are in [failure analysis](../reports/selected-test-failures.json).
+| Device | Recording | Warm median / p95 | Exact sample count |
+| --- | ---: | ---: | --- |
+| CPU | 10 s | 1.131 / 1.290 s | True |
+| CPU | 30 s | 3.202 / 3.393 s | True |
+| CPU | 60 s | 5.948 / 6.416 s | True |
+| MPS | 10 s | 0.122 / 0.149 s | True |
+| MPS | 30 s | 0.307 / 0.339 s | True |
+| MPS | 60 s | 0.465 / 0.511 s | True |
 
-On 80 development requests with a third, absent speaker's reference, output energy exceeds −20 dB relative to mixture in **100.0%** of cases. Mean output/mixture energy is -5.84 dB. Target absence is unsupported; the system can emit another voice. No SI-SDR against a zero target is reported.
+Measured on this Apple M3 Pro Mac without concurrent training. Each device runs in its own process. End-to-end time includes file decode, inference and WAV encode, excluding browser/network/HTTP overhead. The profiler repeats a development clip to 10/30/60 seconds; this is throughput and alignment evidence, not natural long-conversation quality. [CPU protocol](../reports/quality-v2-delivery-cpu.json), [MPS protocol](../reports/quality-v2-delivery-mps.json).
 
-Replacing the selected model's reference embedding with zeros yields -1.72 dB on the 80-case development diagnostic. This is an inference intervention outside training distribution, not a trained baseline.
+## Limits, use and origin
 
-Reference duration diagnostic:
+The test covers clean, read English speech mixed synthetically. Microphones, noisy/reverberant rooms, spontaneous conversation, music, more than two speakers and out-of-domain languages are not established capabilities. Target absence has no calibrated detector or confidence score. The selected run uses clean references; the original augmentation study's robustness findings cannot simply be transferred to this model. No claim is made that static is eliminated or that output is suitable for forensic conclusions.
 
-- 1 second: 1.44 dB across 80 eligible cases; 0 excluded.
-- 3 seconds: 1.90 dB across 80 eligible cases; 0 excluded.
-- 5 seconds: 1.76 dB across 80 eligible cases; 0 excluded.
-- 10 seconds: 1.48 dB across 4 eligible cases; 76 excluded.
+The [local gallery](http://127.0.0.1:8000/gallery/) uses the first 20 development requests, chosen independently of scores. A [matched-volume comparison](http://127.0.0.1:8000/gallery/quality-progress/) retains the original model for comparison. Playback matching is clearly labeled and does not alter normal inference.
 
-Longer-reference subsets can differ. Eligible IDs and per-case values are preserved; these figures alone are not causal duration comparisons. Synthetic noise/channel/reverb robustness does not establish real-phone or real-room robustness. No formal listening study, word-preservation measure, or multilingual/three-speaker evaluation was performed.
+Speech is from [LibriSpeech / OpenSLR 12](https://www.openslr.org/12), Panayotov et al. (2015), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Local examples are cropped, normalized and mixed derivatives with attribution. Per-file hashes and source identities are retained; the streaming acquisition did not verify the publisher's complete archive checksum. Raw audio and weights stay outside Git. Original project code has no selected reuse license.
 
-## Runtime on the project Mac
-
-Apple M3 Pro, 18 GiB unified memory, PyTorch 2.14.0. Five warm repetitions per length, following one first request. Audio is a repeated development clip. Processing includes decode, shared inference and WAV encode, excluding browser/network/HTTP parsing. No training runs concurrently with these measurements.
-
-| Device | Audio | Warm median / p95 | Median real-time factor | Exact samples |
-| --- | ---: | ---: | ---: | ---: |
-| CPU | 10 s | 0.401 / 0.435 s | 0.0401 | 160,000 |
-| CPU | 30 s | 1.258 / 1.394 s | 0.0419 | 480,000 |
-| CPU | 60 s | 2.679 / 2.937 s | 0.0446 | 960,000 |
-| MPS | 10 s | 0.070 / 0.072 s | 0.0070 | 160,000 |
-| MPS | 30 s | 0.221 / 0.240 s | 0.0074 | 480,000 |
-| MPS | 60 s | 0.448 / 0.457 s | 0.0075 | 960,000 |
-
-Model-load time: CPU 0.038 s; MPS 0.139 s. Process peak RSS, including whole-file comparison: CPU 0.453 GiB; MPS 0.479 GiB. The MPS driver allocation at the end of profiling is 1.082 GiB, an end counter rather than a peak. Unified-memory counters overlap and must not be summed. Maximum absolute chunk/whole difference across tested lengths: CPU 1.49e-07; MPS 1.79e-07. These checks establish numeric alignment for this artifact, not natural long-conversation quality or live latency.
-
-Full runtime protocols and samples: [CPU](../reports/delivery-cpu.json), [MPS](../reports/delivery-mps.json). [Reproduce the project](REPRODUCING.md).
-
-## Distribution and limitations
-
-Code, manifests and reports are public. Raw recordings and model weights remain in the local workspace and are not committed. A license for original code/model redistribution has not been selected. Public visibility is not an open-source license; data and dependencies retain their own licenses. Generated local speech examples include source attribution and describe their cropping/mixing transformations.
-
-The first release is a complete local research pipeline with measured limitations. The proposed 5 dB quality target was not reached. Further development should use fresh held-out data after test-driven changes and replicate across training seeds.
+See [quality reproduction](REPRODUCING_QUALITY.md) and the [development worklog](QUALITY_WORKLOG.md). The test freeze must remain immutable; subsequent test-informed changes need a new generalization protocol.

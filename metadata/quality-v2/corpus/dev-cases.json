@@ -1,0 +1,2489 @@
+{
+  "schema_version": 1,
+  "protocol": "custom-librispeech-tse-v1",
+  "source_manifest_sha256": "78397e2a51d56224b60b8f66d24cf9bae068649a6281be3fafdadee1015e10fd",
+  "split": "dev",
+  "seed": 88000,
+  "cases": [
+    {
+      "case_id": "dev-88000",
+      "split": "dev",
+      "seed": 88000,
+      "sources": [
+        {
+          "id": "1272-128104-0000",
+          "offset": 6663
+        },
+        {
+          "id": "8842-304647-0008",
+          "offset": 43308
+        }
+      ],
+      "references": [
+        {
+          "id": "1272-135031-0010",
+          "offset": 46758
+        },
+        {
+          "id": "8842-302196-0004",
+          "offset": 11319
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.009948255887827218,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88000-swap",
+      "split": "dev",
+      "seed": 88000,
+      "sources": [
+        {
+          "id": "1272-128104-0000",
+          "offset": 6663
+        },
+        {
+          "id": "8842-304647-0008",
+          "offset": 43308
+        }
+      ],
+      "references": [
+        {
+          "id": "1272-135031-0010",
+          "offset": 46758
+        },
+        {
+          "id": "8842-302196-0004",
+          "offset": 11319
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.009948255887827218,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88001",
+      "split": "dev",
+      "seed": 88001,
+      "sources": [
+        {
+          "id": "1462-170138-0010",
+          "offset": 59115
+        },
+        {
+          "id": "777-126732-0065",
+          "offset": 10783
+        }
+      ],
+      "references": [
+        {
+          "id": "1462-170138-0027",
+          "offset": 73
+        },
+        {
+          "id": "777-126732-0003",
+          "offset": 15800
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.5789335230541126,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88001-swap",
+      "split": "dev",
+      "seed": 88001,
+      "sources": [
+        {
+          "id": "1462-170138-0010",
+          "offset": 59115
+        },
+        {
+          "id": "777-126732-0065",
+          "offset": 10783
+        }
+      ],
+      "references": [
+        {
+          "id": "1462-170138-0027",
+          "offset": 73
+        },
+        {
+          "id": "777-126732-0003",
+          "offset": 15800
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.5789335230541126,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88002",
+      "split": "dev",
+      "seed": 88002,
+      "sources": [
+        {
+          "id": "1673-143396-0015",
+          "offset": 1092
+        },
+        {
+          "id": "84-121123-0020",
+          "offset": 19947
+        }
+      ],
+      "references": [
+        {
+          "id": "1673-143397-0010",
+          "offset": 110698
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 27347
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.7852807250517984,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88002-swap",
+      "split": "dev",
+      "seed": 88002,
+      "sources": [
+        {
+          "id": "1673-143396-0015",
+          "offset": 1092
+        },
+        {
+          "id": "84-121123-0020",
+          "offset": 19947
+        }
+      ],
+      "references": [
+        {
+          "id": "1673-143397-0010",
+          "offset": 110698
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 27347
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.7852807250517984,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88003",
+      "split": "dev",
+      "seed": 88003,
+      "sources": [
+        {
+          "id": "174-50561-0008",
+          "offset": 159511
+        },
+        {
+          "id": "5895-34629-0033",
+          "offset": 34373
+        }
+      ],
+      "references": [
+        {
+          "id": "174-84280-0002",
+          "offset": 19577
+        },
+        {
+          "id": "5895-34629-0026",
+          "offset": 27193
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.7596331734036674,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88003-swap",
+      "split": "dev",
+      "seed": 88003,
+      "sources": [
+        {
+          "id": "174-50561-0008",
+          "offset": 159511
+        },
+        {
+          "id": "5895-34629-0033",
+          "offset": 34373
+        }
+      ],
+      "references": [
+        {
+          "id": "174-84280-0002",
+          "offset": 19577
+        },
+        {
+          "id": "5895-34629-0026",
+          "offset": 27193
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.7596331734036674,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88004",
+      "split": "dev",
+      "seed": 88004,
+      "sources": [
+        {
+          "id": "1919-142785-0027",
+          "offset": 85328
+        },
+        {
+          "id": "84-121123-0020",
+          "offset": 21555
+        }
+      ],
+      "references": [
+        {
+          "id": "1919-142785-0009",
+          "offset": 6076
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 16090
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -1.2150568559259822,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88004-swap",
+      "split": "dev",
+      "seed": 88004,
+      "sources": [
+        {
+          "id": "1919-142785-0027",
+          "offset": 85328
+        },
+        {
+          "id": "84-121123-0020",
+          "offset": 21555
+        }
+      ],
+      "references": [
+        {
+          "id": "1919-142785-0009",
+          "offset": 6076
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 16090
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -1.2150568559259822,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88005",
+      "split": "dev",
+      "seed": 88005,
+      "sources": [
+        {
+          "id": "1988-147956-0026",
+          "offset": 32808
+        },
+        {
+          "id": "6313-66125-0015",
+          "offset": 56952
+        }
+      ],
+      "references": [
+        {
+          "id": "1988-147956-0029",
+          "offset": 6158
+        },
+        {
+          "id": "6313-66125-0023",
+          "offset": 53516
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.441096076537225,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88005-swap",
+      "split": "dev",
+      "seed": 88005,
+      "sources": [
+        {
+          "id": "1988-147956-0026",
+          "offset": 32808
+        },
+        {
+          "id": "6313-66125-0015",
+          "offset": 56952
+        }
+      ],
+      "references": [
+        {
+          "id": "1988-147956-0029",
+          "offset": 6158
+        },
+        {
+          "id": "6313-66125-0023",
+          "offset": 53516
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.441096076537225,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88006",
+      "split": "dev",
+      "seed": 88006,
+      "sources": [
+        {
+          "id": "1993-147149-0002",
+          "offset": 17160
+        },
+        {
+          "id": "3853-163249-0037",
+          "offset": 10754
+        }
+      ],
+      "references": [
+        {
+          "id": "1993-147964-0009",
+          "offset": 15345
+        },
+        {
+          "id": "3853-163249-0002",
+          "offset": 23742
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 2.9292388462513674,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88006-swap",
+      "split": "dev",
+      "seed": 88006,
+      "sources": [
+        {
+          "id": "1993-147149-0002",
+          "offset": 17160
+        },
+        {
+          "id": "3853-163249-0037",
+          "offset": 10754
+        }
+      ],
+      "references": [
+        {
+          "id": "1993-147964-0009",
+          "offset": 15345
+        },
+        {
+          "id": "3853-163249-0002",
+          "offset": 23742
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 2.9292388462513674,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88007",
+      "split": "dev",
+      "seed": 88007,
+      "sources": [
+        {
+          "id": "2035-147960-0002",
+          "offset": 20255
+        },
+        {
+          "id": "6345-93302-0014",
+          "offset": 31219
+        }
+      ],
+      "references": [
+        {
+          "id": "2035-152373-0017",
+          "offset": 9212
+        },
+        {
+          "id": "6345-93302-0002",
+          "offset": 38703
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.7934360601450217,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88007-swap",
+      "split": "dev",
+      "seed": 88007,
+      "sources": [
+        {
+          "id": "2035-147960-0002",
+          "offset": 20255
+        },
+        {
+          "id": "6345-93302-0014",
+          "offset": 31219
+        }
+      ],
+      "references": [
+        {
+          "id": "2035-152373-0017",
+          "offset": 9212
+        },
+        {
+          "id": "6345-93302-0002",
+          "offset": 38703
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.7934360601450217,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88008",
+      "split": "dev",
+      "seed": 88008,
+      "sources": [
+        {
+          "id": "2078-142845-0014",
+          "offset": 7349
+        },
+        {
+          "id": "2412-153948-0004",
+          "offset": 76381
+        }
+      ],
+      "references": [
+        {
+          "id": "2078-142845-0037",
+          "offset": 106326
+        },
+        {
+          "id": "2412-153954-0019",
+          "offset": 35490
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.1788814395072276,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88008-swap",
+      "split": "dev",
+      "seed": 88008,
+      "sources": [
+        {
+          "id": "2078-142845-0014",
+          "offset": 7349
+        },
+        {
+          "id": "2412-153948-0004",
+          "offset": 76381
+        }
+      ],
+      "references": [
+        {
+          "id": "2078-142845-0037",
+          "offset": 106326
+        },
+        {
+          "id": "2412-153954-0019",
+          "offset": 35490
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.1788814395072276,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88009",
+      "split": "dev",
+      "seed": 88009,
+      "sources": [
+        {
+          "id": "2086-149220-0030",
+          "offset": 47427
+        },
+        {
+          "id": "84-121123-0024",
+          "offset": 9679
+        }
+      ],
+      "references": [
+        {
+          "id": "2086-149214-0000",
+          "offset": 38891
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 16838
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.817228496025132,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88009-swap",
+      "split": "dev",
+      "seed": 88009,
+      "sources": [
+        {
+          "id": "2086-149220-0030",
+          "offset": 47427
+        },
+        {
+          "id": "84-121123-0024",
+          "offset": 9679
+        }
+      ],
+      "references": [
+        {
+          "id": "2086-149214-0000",
+          "offset": 38891
+        },
+        {
+          "id": "84-121550-0023",
+          "offset": 16838
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.817228496025132,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88010",
+      "split": "dev",
+      "seed": 88010,
+      "sources": [
+        {
+          "id": "2277-149896-0005",
+          "offset": 18752
+        },
+        {
+          "id": "2803-161169-0008",
+          "offset": 66637
+        }
+      ],
+      "references": [
+        {
+          "id": "2277-149896-0013",
+          "offset": 2040
+        },
+        {
+          "id": "2803-154320-0014",
+          "offset": 3266
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.0199262138685015,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88010-swap",
+      "split": "dev",
+      "seed": 88010,
+      "sources": [
+        {
+          "id": "2277-149896-0005",
+          "offset": 18752
+        },
+        {
+          "id": "2803-161169-0008",
+          "offset": 66637
+        }
+      ],
+      "references": [
+        {
+          "id": "2277-149896-0013",
+          "offset": 2040
+        },
+        {
+          "id": "2803-154320-0014",
+          "offset": 3266
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.0199262138685015,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88011",
+      "split": "dev",
+      "seed": 88011,
+      "sources": [
+        {
+          "id": "2412-153948-0004",
+          "offset": 140510
+        },
+        {
+          "id": "8842-302196-0012",
+          "offset": 13343
+        }
+      ],
+      "references": [
+        {
+          "id": "2412-153954-0003",
+          "offset": 4650
+        },
+        {
+          "id": "8842-304647-0006",
+          "offset": 101813
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -3.9339158354795236,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88011-swap",
+      "split": "dev",
+      "seed": 88011,
+      "sources": [
+        {
+          "id": "2412-153948-0004",
+          "offset": 140510
+        },
+        {
+          "id": "8842-302196-0012",
+          "offset": 13343
+        }
+      ],
+      "references": [
+        {
+          "id": "2412-153954-0003",
+          "offset": 4650
+        },
+        {
+          "id": "8842-304647-0006",
+          "offset": 101813
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -3.9339158354795236,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88012",
+      "split": "dev",
+      "seed": 88012,
+      "sources": [
+        {
+          "id": "2428-83705-0028",
+          "offset": 64575
+        },
+        {
+          "id": "2086-149214-0000",
+          "offset": 61948
+        }
+      ],
+      "references": [
+        {
+          "id": "2428-83705-0043",
+          "offset": 11743
+        },
+        {
+          "id": "2086-149220-0000",
+          "offset": 21750
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.131979181948653,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88012-swap",
+      "split": "dev",
+      "seed": 88012,
+      "sources": [
+        {
+          "id": "2428-83705-0028",
+          "offset": 64575
+        },
+        {
+          "id": "2086-149214-0000",
+          "offset": 61948
+        }
+      ],
+      "references": [
+        {
+          "id": "2428-83705-0043",
+          "offset": 11743
+        },
+        {
+          "id": "2086-149220-0000",
+          "offset": 21750
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.131979181948653,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88013",
+      "split": "dev",
+      "seed": 88013,
+      "sources": [
+        {
+          "id": "251-136532-0002",
+          "offset": 3044
+        },
+        {
+          "id": "2078-142845-0007",
+          "offset": 190939
+        }
+      ],
+      "references": [
+        {
+          "id": "251-137823-0018",
+          "offset": 33921
+        },
+        {
+          "id": "2078-142845-0025",
+          "offset": 64011
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.60227424343926,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88013-swap",
+      "split": "dev",
+      "seed": 88013,
+      "sources": [
+        {
+          "id": "251-136532-0002",
+          "offset": 3044
+        },
+        {
+          "id": "2078-142845-0007",
+          "offset": 190939
+        }
+      ],
+      "references": [
+        {
+          "id": "251-137823-0018",
+          "offset": 33921
+        },
+        {
+          "id": "2078-142845-0025",
+          "offset": 64011
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.60227424343926,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88014",
+      "split": "dev",
+      "seed": 88014,
+      "sources": [
+        {
+          "id": "2803-161169-0010",
+          "offset": 9715
+        },
+        {
+          "id": "5536-43358-0003",
+          "offset": 3649
+        }
+      ],
+      "references": [
+        {
+          "id": "2803-154320-0004",
+          "offset": 41720
+        },
+        {
+          "id": "5536-43359-0011",
+          "offset": 126092
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 2.460457918092116,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88014-swap",
+      "split": "dev",
+      "seed": 88014,
+      "sources": [
+        {
+          "id": "2803-161169-0010",
+          "offset": 9715
+        },
+        {
+          "id": "5536-43358-0003",
+          "offset": 3649
+        }
+      ],
+      "references": [
+        {
+          "id": "2803-154320-0004",
+          "offset": 41720
+        },
+        {
+          "id": "5536-43359-0011",
+          "offset": 126092
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 2.460457918092116,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88015",
+      "split": "dev",
+      "seed": 88015,
+      "sources": [
+        {
+          "id": "2902-9006-0015",
+          "offset": 88974
+        },
+        {
+          "id": "7976-110124-0015",
+          "offset": 3329
+        }
+      ],
+      "references": [
+        {
+          "id": "2902-9008-0006",
+          "offset": 179887
+        },
+        {
+          "id": "7976-105575-0025",
+          "offset": 166
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -1.2019737945261177,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88015-swap",
+      "split": "dev",
+      "seed": 88015,
+      "sources": [
+        {
+          "id": "2902-9006-0015",
+          "offset": 88974
+        },
+        {
+          "id": "7976-110124-0015",
+          "offset": 3329
+        }
+      ],
+      "references": [
+        {
+          "id": "2902-9008-0006",
+          "offset": 179887
+        },
+        {
+          "id": "7976-105575-0025",
+          "offset": 166
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -1.2019737945261177,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88016",
+      "split": "dev",
+      "seed": 88016,
+      "sources": [
+        {
+          "id": "3000-15664-0034",
+          "offset": 52974
+        },
+        {
+          "id": "1272-128104-0002",
+          "offset": 112915
+        }
+      ],
+      "references": [
+        {
+          "id": "3000-15664-0040",
+          "offset": 49508
+        },
+        {
+          "id": "1272-135031-0000",
+          "offset": 25621
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.395148153671423,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88016-swap",
+      "split": "dev",
+      "seed": 88016,
+      "sources": [
+        {
+          "id": "3000-15664-0034",
+          "offset": 52974
+        },
+        {
+          "id": "1272-128104-0002",
+          "offset": 112915
+        }
+      ],
+      "references": [
+        {
+          "id": "3000-15664-0040",
+          "offset": 49508
+        },
+        {
+          "id": "1272-135031-0000",
+          "offset": 25621
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.395148153671423,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88017",
+      "split": "dev",
+      "seed": 88017,
+      "sources": [
+        {
+          "id": "3081-166546-0087",
+          "offset": 79772
+        },
+        {
+          "id": "1272-128104-0002",
+          "offset": 38671
+        }
+      ],
+      "references": [
+        {
+          "id": "3081-166546-0070",
+          "offset": 87050
+        },
+        {
+          "id": "1272-135031-0010",
+          "offset": 42775
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -1.3458969204025795,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88017-swap",
+      "split": "dev",
+      "seed": 88017,
+      "sources": [
+        {
+          "id": "3081-166546-0087",
+          "offset": 79772
+        },
+        {
+          "id": "1272-128104-0002",
+          "offset": 38671
+        }
+      ],
+      "references": [
+        {
+          "id": "3081-166546-0070",
+          "offset": 87050
+        },
+        {
+          "id": "1272-135031-0010",
+          "offset": 42775
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -1.3458969204025795,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88018",
+      "split": "dev",
+      "seed": 88018,
+      "sources": [
+        {
+          "id": "3170-137482-0043",
+          "offset": 64561
+        },
+        {
+          "id": "2277-149896-0007",
+          "offset": 20472
+        }
+      ],
+      "references": [
+        {
+          "id": "3170-137482-0035",
+          "offset": 51481
+        },
+        {
+          "id": "2277-149896-0010",
+          "offset": 396
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.6858842333105972,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88018-swap",
+      "split": "dev",
+      "seed": 88018,
+      "sources": [
+        {
+          "id": "3170-137482-0043",
+          "offset": 64561
+        },
+        {
+          "id": "2277-149896-0007",
+          "offset": 20472
+        }
+      ],
+      "references": [
+        {
+          "id": "3170-137482-0035",
+          "offset": 51481
+        },
+        {
+          "id": "2277-149896-0010",
+          "offset": 396
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.6858842333105972,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88019",
+      "split": "dev",
+      "seed": 88019,
+      "sources": [
+        {
+          "id": "3536-8226-0005",
+          "offset": 107878
+        },
+        {
+          "id": "6345-93302-0005",
+          "offset": 26307
+        }
+      ],
+      "references": [
+        {
+          "id": "3536-8226-0010",
+          "offset": 19751
+        },
+        {
+          "id": "6345-93302-0029",
+          "offset": 92044
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.438930149540818,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88019-swap",
+      "split": "dev",
+      "seed": 88019,
+      "sources": [
+        {
+          "id": "3536-8226-0005",
+          "offset": 107878
+        },
+        {
+          "id": "6345-93302-0005",
+          "offset": 26307
+        }
+      ],
+      "references": [
+        {
+          "id": "3536-8226-0010",
+          "offset": 19751
+        },
+        {
+          "id": "6345-93302-0029",
+          "offset": 92044
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.438930149540818,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88020",
+      "split": "dev",
+      "seed": 88020,
+      "sources": [
+        {
+          "id": "3576-138058-0036",
+          "offset": 191991
+        },
+        {
+          "id": "174-50561-0011",
+          "offset": 22084
+        }
+      ],
+      "references": [
+        {
+          "id": "3576-138058-0014",
+          "offset": 78484
+        },
+        {
+          "id": "174-84280-0001",
+          "offset": 34448
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -4.181107222049229,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88020-swap",
+      "split": "dev",
+      "seed": 88020,
+      "sources": [
+        {
+          "id": "3576-138058-0036",
+          "offset": 191991
+        },
+        {
+          "id": "174-50561-0011",
+          "offset": 22084
+        }
+      ],
+      "references": [
+        {
+          "id": "3576-138058-0014",
+          "offset": 78484
+        },
+        {
+          "id": "174-84280-0001",
+          "offset": 34448
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -4.181107222049229,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88021",
+      "split": "dev",
+      "seed": 88021,
+      "sources": [
+        {
+          "id": "3752-4943-0022",
+          "offset": 9243
+        },
+        {
+          "id": "1993-147965-0007",
+          "offset": 23944
+        }
+      ],
+      "references": [
+        {
+          "id": "3752-4943-0024",
+          "offset": 8164
+        },
+        {
+          "id": "1993-147149-0027",
+          "offset": 14694
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.3534662137907938,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88021-swap",
+      "split": "dev",
+      "seed": 88021,
+      "sources": [
+        {
+          "id": "3752-4943-0022",
+          "offset": 9243
+        },
+        {
+          "id": "1993-147965-0007",
+          "offset": 23944
+        }
+      ],
+      "references": [
+        {
+          "id": "3752-4943-0024",
+          "offset": 8164
+        },
+        {
+          "id": "1993-147149-0027",
+          "offset": 14694
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.3534662137907938,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88022",
+      "split": "dev",
+      "seed": 88022,
+      "sources": [
+        {
+          "id": "3853-163249-0049",
+          "offset": 85750
+        },
+        {
+          "id": "8842-302196-0000",
+          "offset": 53318
+        }
+      ],
+      "references": [
+        {
+          "id": "3853-163249-0017",
+          "offset": 84139
+        },
+        {
+          "id": "8842-304647-0004",
+          "offset": 17631
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -0.8852153471716118,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88022-swap",
+      "split": "dev",
+      "seed": 88022,
+      "sources": [
+        {
+          "id": "3853-163249-0049",
+          "offset": 85750
+        },
+        {
+          "id": "8842-302196-0000",
+          "offset": 53318
+        }
+      ],
+      "references": [
+        {
+          "id": "3853-163249-0017",
+          "offset": 84139
+        },
+        {
+          "id": "8842-304647-0004",
+          "offset": 17631
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -0.8852153471716118,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88023",
+      "split": "dev",
+      "seed": 88023,
+      "sources": [
+        {
+          "id": "422-122949-0003",
+          "offset": 227808
+        },
+        {
+          "id": "1673-143396-0011",
+          "offset": 42635
+        }
+      ],
+      "references": [
+        {
+          "id": "422-122949-0025",
+          "offset": 43596
+        },
+        {
+          "id": "1673-143397-0010",
+          "offset": 89185
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 2.3754087330657905,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88023-swap",
+      "split": "dev",
+      "seed": 88023,
+      "sources": [
+        {
+          "id": "422-122949-0003",
+          "offset": 227808
+        },
+        {
+          "id": "1673-143396-0011",
+          "offset": 42635
+        }
+      ],
+      "references": [
+        {
+          "id": "422-122949-0025",
+          "offset": 43596
+        },
+        {
+          "id": "1673-143397-0010",
+          "offset": 89185
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 2.3754087330657905,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88024",
+      "split": "dev",
+      "seed": 88024,
+      "sources": [
+        {
+          "id": "5338-284437-0005",
+          "offset": 10462
+        },
+        {
+          "id": "6319-64726-0000",
+          "offset": 10859
+        }
+      ],
+      "references": [
+        {
+          "id": "5338-284437-0001",
+          "offset": 25455
+        },
+        {
+          "id": "6319-57405-0002",
+          "offset": 16645
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.8665413180600157,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88024-swap",
+      "split": "dev",
+      "seed": 88024,
+      "sources": [
+        {
+          "id": "5338-284437-0005",
+          "offset": 10462
+        },
+        {
+          "id": "6319-64726-0000",
+          "offset": 10859
+        }
+      ],
+      "references": [
+        {
+          "id": "5338-284437-0001",
+          "offset": 25455
+        },
+        {
+          "id": "6319-57405-0002",
+          "offset": 16645
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.8665413180600157,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88025",
+      "split": "dev",
+      "seed": 88025,
+      "sources": [
+        {
+          "id": "5536-43358-0009",
+          "offset": 37960
+        },
+        {
+          "id": "6313-66125-0017",
+          "offset": 185
+        }
+      ],
+      "references": [
+        {
+          "id": "5536-43359-0017",
+          "offset": 6280
+        },
+        {
+          "id": "6313-66125-0022",
+          "offset": 40190
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.37972873857761047,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88025-swap",
+      "split": "dev",
+      "seed": 88025,
+      "sources": [
+        {
+          "id": "5536-43358-0009",
+          "offset": 37960
+        },
+        {
+          "id": "6313-66125-0017",
+          "offset": 185
+        }
+      ],
+      "references": [
+        {
+          "id": "5536-43359-0017",
+          "offset": 6280
+        },
+        {
+          "id": "6313-66125-0022",
+          "offset": 40190
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.37972873857761047,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88026",
+      "split": "dev",
+      "seed": 88026,
+      "sources": [
+        {
+          "id": "5694-64029-0031",
+          "offset": 5417
+        },
+        {
+          "id": "777-126732-0070",
+          "offset": 3906
+        }
+      ],
+      "references": [
+        {
+          "id": "5694-64029-0020",
+          "offset": 88048
+        },
+        {
+          "id": "777-126732-0050",
+          "offset": 4384
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -4.6314786591892245,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88026-swap",
+      "split": "dev",
+      "seed": 88026,
+      "sources": [
+        {
+          "id": "5694-64029-0031",
+          "offset": 5417
+        },
+        {
+          "id": "777-126732-0070",
+          "offset": 3906
+        }
+      ],
+      "references": [
+        {
+          "id": "5694-64029-0020",
+          "offset": 88048
+        },
+        {
+          "id": "777-126732-0050",
+          "offset": 4384
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -4.6314786591892245,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88027",
+      "split": "dev",
+      "seed": 88027,
+      "sources": [
+        {
+          "id": "5895-34629-0006",
+          "offset": 3080
+        },
+        {
+          "id": "3853-163249-0026",
+          "offset": 18257
+        }
+      ],
+      "references": [
+        {
+          "id": "5895-34629-0033",
+          "offset": 21981
+        },
+        {
+          "id": "3853-163249-0037",
+          "offset": 19508
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.7008750237178987,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88027-swap",
+      "split": "dev",
+      "seed": 88027,
+      "sources": [
+        {
+          "id": "5895-34629-0006",
+          "offset": 3080
+        },
+        {
+          "id": "3853-163249-0026",
+          "offset": 18257
+        }
+      ],
+      "references": [
+        {
+          "id": "5895-34629-0033",
+          "offset": 21981
+        },
+        {
+          "id": "3853-163249-0037",
+          "offset": 19508
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.7008750237178987,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88028",
+      "split": "dev",
+      "seed": 88028,
+      "sources": [
+        {
+          "id": "6241-66616-0000",
+          "offset": 68284
+        },
+        {
+          "id": "8842-302201-0011",
+          "offset": 10414
+        }
+      ],
+      "references": [
+        {
+          "id": "6241-61946-0011",
+          "offset": 13876
+        },
+        {
+          "id": "8842-302196-0009",
+          "offset": 18960
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.1734432914265467,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88028-swap",
+      "split": "dev",
+      "seed": 88028,
+      "sources": [
+        {
+          "id": "6241-66616-0000",
+          "offset": 68284
+        },
+        {
+          "id": "8842-302201-0011",
+          "offset": 10414
+        }
+      ],
+      "references": [
+        {
+          "id": "6241-61946-0011",
+          "offset": 13876
+        },
+        {
+          "id": "8842-302196-0009",
+          "offset": 18960
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.1734432914265467,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88029",
+      "split": "dev",
+      "seed": 88029,
+      "sources": [
+        {
+          "id": "6295-244435-0022",
+          "offset": 49580
+        },
+        {
+          "id": "2428-83705-0018",
+          "offset": 21504
+        }
+      ],
+      "references": [
+        {
+          "id": "6295-244435-0001",
+          "offset": 7367
+        },
+        {
+          "id": "2428-83705-0001",
+          "offset": 3393
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.148481470503368,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88029-swap",
+      "split": "dev",
+      "seed": 88029,
+      "sources": [
+        {
+          "id": "6295-244435-0022",
+          "offset": 49580
+        },
+        {
+          "id": "2428-83705-0018",
+          "offset": 21504
+        }
+      ],
+      "references": [
+        {
+          "id": "6295-244435-0001",
+          "offset": 7367
+        },
+        {
+          "id": "2428-83705-0001",
+          "offset": 3393
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 3.148481470503368,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88030",
+      "split": "dev",
+      "seed": 88030,
+      "sources": [
+        {
+          "id": "6313-66125-0017",
+          "offset": 15390
+        },
+        {
+          "id": "6345-93302-0016",
+          "offset": 38365
+        }
+      ],
+      "references": [
+        {
+          "id": "6313-66125-0015",
+          "offset": 4262
+        },
+        {
+          "id": "6345-93302-0017",
+          "offset": 7417
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -0.03047844823929169,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88030-swap",
+      "split": "dev",
+      "seed": 88030,
+      "sources": [
+        {
+          "id": "6313-66125-0017",
+          "offset": 15390
+        },
+        {
+          "id": "6345-93302-0016",
+          "offset": 38365
+        }
+      ],
+      "references": [
+        {
+          "id": "6313-66125-0015",
+          "offset": 4262
+        },
+        {
+          "id": "6345-93302-0017",
+          "offset": 7417
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -0.03047844823929169,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88031",
+      "split": "dev",
+      "seed": 88031,
+      "sources": [
+        {
+          "id": "6319-64726-0001",
+          "offset": 45908
+        },
+        {
+          "id": "3576-138058-0015",
+          "offset": 42600
+        }
+      ],
+      "references": [
+        {
+          "id": "6319-57405-0005",
+          "offset": 15046
+        },
+        {
+          "id": "3576-138058-0012",
+          "offset": 6716
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -0.5316465375898638,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88031-swap",
+      "split": "dev",
+      "seed": 88031,
+      "sources": [
+        {
+          "id": "6319-64726-0001",
+          "offset": 45908
+        },
+        {
+          "id": "3576-138058-0015",
+          "offset": 42600
+        }
+      ],
+      "references": [
+        {
+          "id": "6319-57405-0005",
+          "offset": 15046
+        },
+        {
+          "id": "3576-138058-0012",
+          "offset": 6716
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -0.5316465375898638,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88032",
+      "split": "dev",
+      "seed": 88032,
+      "sources": [
+        {
+          "id": "6345-93302-0012",
+          "offset": 18431
+        },
+        {
+          "id": "2035-152373-0012",
+          "offset": 45492
+        }
+      ],
+      "references": [
+        {
+          "id": "6345-93302-0002",
+          "offset": 19459
+        },
+        {
+          "id": "2035-147960-0000",
+          "offset": 45883
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -0.7448348838784358,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88032-swap",
+      "split": "dev",
+      "seed": 88032,
+      "sources": [
+        {
+          "id": "6345-93302-0012",
+          "offset": 18431
+        },
+        {
+          "id": "2035-152373-0012",
+          "offset": 45492
+        }
+      ],
+      "references": [
+        {
+          "id": "6345-93302-0002",
+          "offset": 19459
+        },
+        {
+          "id": "2035-147960-0000",
+          "offset": 45883
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -0.7448348838784358,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88033",
+      "split": "dev",
+      "seed": 88033,
+      "sources": [
+        {
+          "id": "652-130726-0005",
+          "offset": 54396
+        },
+        {
+          "id": "1462-170138-0011",
+          "offset": 45354
+        }
+      ],
+      "references": [
+        {
+          "id": "652-130726-0024",
+          "offset": 35017
+        },
+        {
+          "id": "1462-170138-0021",
+          "offset": 22776
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.4575674158798135,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88033-swap",
+      "split": "dev",
+      "seed": 88033,
+      "sources": [
+        {
+          "id": "652-130726-0005",
+          "offset": 54396
+        },
+        {
+          "id": "1462-170138-0011",
+          "offset": 45354
+        }
+      ],
+      "references": [
+        {
+          "id": "652-130726-0024",
+          "offset": 35017
+        },
+        {
+          "id": "1462-170138-0021",
+          "offset": 22776
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 1.4575674158798135,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88034",
+      "split": "dev",
+      "seed": 88034,
+      "sources": [
+        {
+          "id": "777-126732-0065",
+          "offset": 8597
+        },
+        {
+          "id": "6295-244435-0030",
+          "offset": 7506
+        }
+      ],
+      "references": [
+        {
+          "id": "777-126732-0079",
+          "offset": 58126
+        },
+        {
+          "id": "6295-244435-0025",
+          "offset": 5477
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 4.875422085182509,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88034-swap",
+      "split": "dev",
+      "seed": 88034,
+      "sources": [
+        {
+          "id": "777-126732-0065",
+          "offset": 8597
+        },
+        {
+          "id": "6295-244435-0030",
+          "offset": 7506
+        }
+      ],
+      "references": [
+        {
+          "id": "777-126732-0079",
+          "offset": 58126
+        },
+        {
+          "id": "6295-244435-0025",
+          "offset": 5477
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 4.875422085182509,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88035",
+      "split": "dev",
+      "seed": 88035,
+      "sources": [
+        {
+          "id": "7850-73752-0010",
+          "offset": 151186
+        },
+        {
+          "id": "5694-64029-0028",
+          "offset": 784
+        }
+      ],
+      "references": [
+        {
+          "id": "7850-111771-0008",
+          "offset": 21085
+        },
+        {
+          "id": "5694-64029-0023",
+          "offset": 18686
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 4.590933203105375,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88035-swap",
+      "split": "dev",
+      "seed": 88035,
+      "sources": [
+        {
+          "id": "7850-73752-0010",
+          "offset": 151186
+        },
+        {
+          "id": "5694-64029-0028",
+          "offset": 784
+        }
+      ],
+      "references": [
+        {
+          "id": "7850-111771-0008",
+          "offset": 21085
+        },
+        {
+          "id": "5694-64029-0023",
+          "offset": 18686
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 4.590933203105375,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88036",
+      "split": "dev",
+      "seed": 88036,
+      "sources": [
+        {
+          "id": "7976-110124-0015",
+          "offset": 10108
+        },
+        {
+          "id": "5536-43359-0017",
+          "offset": 5484
+        }
+      ],
+      "references": [
+        {
+          "id": "7976-105575-0025",
+          "offset": 2417
+        },
+        {
+          "id": "5536-43358-0010",
+          "offset": 38200
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.7214715405574044,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88036-swap",
+      "split": "dev",
+      "seed": 88036,
+      "sources": [
+        {
+          "id": "7976-110124-0015",
+          "offset": 10108
+        },
+        {
+          "id": "5536-43359-0017",
+          "offset": 5484
+        }
+      ],
+      "references": [
+        {
+          "id": "7976-105575-0025",
+          "offset": 2417
+        },
+        {
+          "id": "5536-43358-0010",
+          "offset": 38200
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.7214715405574044,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88037",
+      "split": "dev",
+      "seed": 88037,
+      "sources": [
+        {
+          "id": "8297-275156-0011",
+          "offset": 12014
+        },
+        {
+          "id": "2803-154320-0001",
+          "offset": 92286
+        }
+      ],
+      "references": [
+        {
+          "id": "8297-275154-0001",
+          "offset": 70207
+        },
+        {
+          "id": "2803-161169-0014",
+          "offset": 107464
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.9930762813777587,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88037-swap",
+      "split": "dev",
+      "seed": 88037,
+      "sources": [
+        {
+          "id": "8297-275156-0011",
+          "offset": 12014
+        },
+        {
+          "id": "2803-154320-0001",
+          "offset": 92286
+        }
+      ],
+      "references": [
+        {
+          "id": "8297-275154-0001",
+          "offset": 70207
+        },
+        {
+          "id": "2803-161169-0014",
+          "offset": 107464
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -2.9930762813777587,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88038",
+      "split": "dev",
+      "seed": 88038,
+      "sources": [
+        {
+          "id": "84-121123-0020",
+          "offset": 19123
+        },
+        {
+          "id": "3576-138058-0024",
+          "offset": 267580
+        }
+      ],
+      "references": [
+        {
+          "id": "84-121550-0023",
+          "offset": 16139
+        },
+        {
+          "id": "3576-138058-0009",
+          "offset": 85284
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.8171492966159166,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88038-swap",
+      "split": "dev",
+      "seed": 88038,
+      "sources": [
+        {
+          "id": "84-121123-0020",
+          "offset": 19123
+        },
+        {
+          "id": "3576-138058-0024",
+          "offset": 267580
+        }
+      ],
+      "references": [
+        {
+          "id": "84-121550-0023",
+          "offset": 16139
+        },
+        {
+          "id": "3576-138058-0009",
+          "offset": 85284
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": 0.8171492966159166,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88039",
+      "split": "dev",
+      "seed": 88039,
+      "sources": [
+        {
+          "id": "8842-304647-0009",
+          "offset": 75216
+        },
+        {
+          "id": "3853-163249-0019",
+          "offset": 23850
+        }
+      ],
+      "references": [
+        {
+          "id": "8842-302201-0011",
+          "offset": 1155
+        },
+        {
+          "id": "3853-163249-0003",
+          "offset": 21879
+        }
+      ],
+      "target_index": 0,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -4.330248013644472,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    },
+    {
+      "case_id": "dev-88039-swap",
+      "split": "dev",
+      "seed": 88039,
+      "sources": [
+        {
+          "id": "8842-304647-0009",
+          "offset": 75216
+        },
+        {
+          "id": "3853-163249-0019",
+          "offset": 23850
+        }
+      ],
+      "references": [
+        {
+          "id": "8842-302201-0011",
+          "offset": 1155
+        },
+        {
+          "id": "3853-163249-0003",
+          "offset": 21879
+        }
+      ],
+      "target_index": 1,
+      "samples": 64000,
+      "reference_samples": 80000,
+      "ratio_db": -4.330248013644472,
+      "condition": "clean",
+      "protocol": "custom-librispeech-tse-v1"
+    }
+  ]
+}

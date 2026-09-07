@@ -4,25 +4,28 @@ An independently implemented PyTorch system that estimates one person's voice fr
 
 **Experimental research software.** It can select the wrong speaker and distort speech. The requested speaker must be present. Live microphone use and production speech quality are outside this release's claims.
 
-The central experiment asks whether corrupting the reference during training improves extraction with a different channel or simulated room. Clean and augmented models share the architecture, initialization seed, mixture schedule, and training budget. There is no SpeakerBeam source, checkpoint, or dependency.
+The current experiment improves speaker separation after the first model left competing speech and audible artifacts. It combines an independently implemented spectral separator, speaker supervision, a larger training corpus and checkpoint averaging. There is no SpeakerBeam source, checkpoint, or dependency. The original controlled reference-augmentation experiment remains available in the [v0.1.0 case study](docs/CASE_STUDY_V0_1.md).
 
-## Audio quality follow-up
+## Frozen v0.2.0 results
 
-Version 0.1.1 adds uniform output attenuation to keep sample peaks at or below 0.98 before WAV playback. A development audit found 58 of 400 raw outputs above full scale. This prevents output sample overflow; it does not improve speaker selection or remove model-generated artifacts. The network weights are unchanged. [Diagnosis, cleanup experiment and next training steps](docs/QUALITY_IMPROVEMENT.md).
+The selected model achieves **5.89 dB mean SI-SDR improvement** on 1,000 fresh test requests from 20 reserved speaker identities, versus **1.45 dB** for the original model on the same requests. The paired gain is 4.43 dB, with an approximate 95% target-speaker-cluster interval of 3.46–5.53 dB. Selection was frozen before scoring this test.
 
-An independently implemented STFT-mask model is now training on 231 speakers and 90.582 eligible source hours. At 10,000 updates, it scores 4.890 dB mean SI-SDR improvement and 0.6223 ESTOI on 400 development requests, versus 2.062 dB and 0.5387 for the original model. The app still serves the original weights pending final selection. [Quality development record](docs/QUALITY_WORKLOG.md).
+| Metric on the same fresh test | Original model | v0.2.0 |
+| --- | ---: | ---: |
+| Mean SI-SDR improvement | 1.45 dB | 5.89 dB |
+| ESTOI intelligibility proxy | 0.5457 | 0.6534 |
+| Requests worse than the mixture | 30.8% | 13.9% |
+| Speaker confusion proxy | 17.3% | 7.6% |
+
+These results show stronger extraction while retaining substantial failures. ESTOI is not word accuracy or a human listening rating; static is not established to be eliminated. The [model card](docs/MODEL_CARD.md) specifies uncertainty, metric definitions, artifact hashes and limits. The [case study](docs/CASE_STUDY.md) explains the diagnosis and experiments.
+
+The main run completed 20,000 updates using 231 speakers and 90.582 eligible source hours. The release averages its 16,000-, 18,000- and 20,000-update checkpoints and initializes from earlier training within this project. A separate matched 2,000-update normalization comparison was completed and not selected. [Development record](docs/QUALITY_WORKLOG.md), [selection freeze](reports/quality-v2-selection.json).
 
 The [research alignment audit](docs/RESEARCH_AUDIT.md) compares our implementation with SpeakerBeam, SpEx, Conv-TasNet and the enrollment-augmentation paper. This is a custom system informed by research, not a reproduction of their published architectures or training recipes.
 
-## Frozen v0.1.0 results
+Warm processing of a repeated 60-second development recording takes **0.47 seconds on MPS** or **5.95 seconds on CPU** on the Apple M3 Pro, including file decode and WAV encode. This is offline throughput, not live latency or a natural long-conversation quality result. Exact output length and agreement with whole-recording processing were verified at 10/30/60 seconds.
 
-Two models were trained for 5,000 updates each on an Apple M3 Pro. The selected model achieves **1.73 dB mean SI-SDR improvement** on 1,000 reserved test requests from 40 unseen speakers. Reference augmentation adds **0.22 dB** across mismatch conditions (approximate paired 95% interval: 0.07–0.39 dB; one training seed).
-
-The delivered path worsens 29.1% of cases and triggers the speaker-confusion proxy in 14.6%; the original 5 dB quality target was not reached. This is a completed experimental pipeline with a modest measured gain. See the [model card](docs/MODEL_CARD.md) and [technical case study](docs/CASE_STUDY.md) for the full findings.
-
-Warm processing of a repeated 60-second development recording takes **0.45 seconds on MPS** or **2.68 seconds on CPU**, including file decode and WAV encode. This is offline throughput, not live latency. Exact output length and agreement with whole-recording processing were verified at 10/30/60 seconds.
-
-![Frozen test results](reports/figures/test-conditions.png)
+![Fresh test comparison](reports/figures/quality-v2/quality-comparison.png)
 
 ## Run locally
 
@@ -37,25 +40,24 @@ Open <http://127.0.0.1:8000>. Select the development examples or supply a WAV/FL
 
 Use `--device cpu` without Apple MPS. The [local listening gallery](http://127.0.0.1:8000/gallery/) includes 20 fixed development requests with mixture, reference, known target, and model output, including successes and failures.
 
+The [matched-volume comparison](http://127.0.0.1:8000/gallery/quality-progress/) puts the original and updated estimates beside the known target. Matching is a labeled listening aid; normal inference only attenuates sample peaks above 0.98 and never boosts quiet estimates.
+
 Serving requires `artifacts/releases/model.pt`, created by the study or export command. A fresh clone contains source and reports; raw audio and weights are not stored in Git. A missing model produces a not-ready state.
 
-## Reproduce the study
+## Reproduce the experiments
 
-```sh
-uv sync --frozen
-uv run python scripts/run_study.py --download --steps 5000 --device mps --evaluate-test
-```
+Follow the [quality reproduction guide](docs/REPRODUCING_QUALITY.md) for the v0.2.0 data reservation, initialization lineage, training, averaging, frozen evaluation and export commands. Public source identities, mixture recipes, training records and checksums are in [`metadata/quality-v2/`](metadata/quality-v2/). The main run's 20,000 updates do not include earlier project training used for initialization.
 
-Use `--device cpu` without Apple MPS. The command downloads a bounded official LibriSpeech selection, audits splits, builds deterministic cases, checks learning on 16 fixed training cases, trains two models, compares them on development data, exports the selected model, and evaluates the reserved test. Omit `--evaluate-test` while developing. The runner refuses to silently repeat an already opened final test.
+The original paired reference-augmentation study has its own [historical reproduction guide](docs/REPRODUCING.md) and [model card](docs/MODEL_CARD_V0_1.md). Its 1.73 dB result comes from a different, already opened test and must not be substituted for the paired fresh-test baseline above.
 
-Training resumes from atomic checkpoints. The first execution requires substantial time and network access. The recorded machine is an Apple M3 Pro with 18 GiB memory. See the [reproduction guide](docs/REPRODUCING.md) for individual commands and recovery.
+Training resumes from atomic checkpoints. Reproduction requires substantial time and network access. The recorded machine is an Apple M3 Pro with 18 GiB memory. Once a test is opened, use a new generalization protocol for subsequent test-informed development.
 
 ## What is implemented
 
 - Audited public audio acquisition, SHA-256 manifests, speaker-disjoint splits, distinct reference utterances, and deterministic paired mixtures.
-- A 1,223,296-parameter convolutional network with a reference encoder, feature-wise affine conditioning, a temporal separator, and learned analysis/synthesis filters. All weights start from random initialization.
+- A spectral separator with a learned reference encoder, 18 conditioned temporal blocks, bounded real masks and inverse STFT. The selected checkpoint loads 2,260,586 parameters, including its training speaker head. All weights originate from this project's training.
 - AdamW training, accumulation, clipping, explicit CPU/MPS devices, development checkpoint selection, verified CPU resume, and structured provenance.
-- Target-specific SI-SDR improvement, speaker confusion, waveform error, five reference conditions, paired clustered uncertainty, duration/absence diagnostics, and reserved test cases.
+- Target-specific SI-SDR improvement, ESTOI, speaker confusion, artifact diagnostics, paired clustered uncertainty and reserved test cases. The original study additionally evaluates five reference conditions and duration/absence diagnostics.
 - Bounded long-file inference, input validation, a local multipart API, and a responsive audio workspace.
 - A dependency lock, automated tests, Linux CPU CI, wheel packaging, and a CPU container recipe.
 
@@ -68,13 +70,13 @@ flowchart LR
     R[Separate voice reference] --> RE[Convolutional reference encoder]
     RE --> P[Masked mean and standard deviation]
     P --> E[128-dimensional voice representation]
-    M[Overlapping waveform] --> A[Learned analysis filters]
-    A --> T[16 conditioned temporal blocks]
+    M[Overlapping waveform] --> A[STFT: magnitude and phase]
+    A --> T[18 conditioned temporal blocks]
     E --> T
-    T --> K[Nonnegative mask]
+    T --> K[Real mask between zero and one]
     A --> X[Apply mask]
     K --> X
-    X --> D[Learned synthesis filters]
+    X --> D[Inverse STFT with mixture phase]
     D --> O[Aligned target estimate]
 ```
 
@@ -100,7 +102,8 @@ The API exposes `GET /health`, `GET /ready`, `GET /model`, and `POST /extract` w
 | --- | --- |
 | [Model card](docs/MODEL_CARD.md) | Frozen test results, artifact identity, runtime and limitations |
 | [Technical case study](docs/CASE_STUDY.md) | Research question, implementation choices and findings |
-| [Reproduction guide](docs/REPRODUCING.md) | Data, training, inference, recovery and verification |
+| [Quality reproduction guide](docs/REPRODUCING_QUALITY.md) | Current data, training, selection, inference and verification |
+| [Research audit](docs/RESEARCH_AUDIT.md) | Primary-source comparison and limits of research alignment |
 | [Implementation record](docs/IMPLEMENTATION.md) | Actual decisions and differences from the initial proposal |
 | [Roadmap](docs/ROADMAP.md) | Delivery evidence and remaining research |
 | [Original project plan](docs/PROJECT_PLAN.md) | Scope, hypotheses and proposed success criteria |
@@ -109,7 +112,7 @@ The API exposes `GET /health`, `GET /ready`, `GET /model`, and `POST /extract` w
 
 Machine-readable results live in [`reports/`](reports/). Targets in the original proposal are not measured results. Quality claims must identify their split, checkpoint, and report.
 
-Public source identities, frozen recipes and training records are in [`metadata/`](metadata/). Automated tests run locally and in Linux CPU CI. The v0.1.0 release also has a fresh noneditable wheel installation and real browser extraction through a non-root CPU container recorded in its verification reports.
+Public source identities, frozen recipes and training records are in [`metadata/`](metadata/). Automated tests run locally and in Linux CPU CI. The v0.2.0 wheel was installed separately and exercised with the selected export on CPU and MPS using the locked project dependencies. The v0.1.0 release additionally records real browser extraction through a non-root CPU container; that historical container check is not a new v0.2.0 execution.
 
 ## Data and licensing
 

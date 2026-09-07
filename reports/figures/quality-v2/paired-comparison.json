@@ -1,0 +1,43 @@
+{
+  "baseline_report_sha256": "8de97ba55cf68b4b881c910661601b5995d2607b8b4a0dd4879bd78e93b531ab",
+  "candidate_report_sha256": "b6d2c3cff274f67d03e093cacdfb3c4fcfd4a622408588a00c99a8ab8ad4fbe2",
+  "case_manifest_sha256": "b1d59e876b9cad3e1c2ec8cacd03d7980dbe94353533da566911d58ffe9ab7b3",
+  "source_manifest_sha256": "78397e2a51d56224b60b8f66d24cf9bae068649a6281be3fafdadee1015e10fd",
+  "cases": 1000,
+  "target_speakers": 20,
+  "metrics": {
+    "si_sdri_db": {
+      "paired_cases": 1000,
+      "mean_candidate_minus_baseline": 4.434102151572704,
+      "paired_ci95": [
+        3.4550597867353363,
+        5.528579645678329
+      ]
+    },
+    "estoi": {
+      "paired_cases": 1000,
+      "mean_candidate_minus_baseline": 0.10769678540398707,
+      "paired_ci95": [
+        0.08977981675682223,
+        0.1273429587370416
+      ]
+    },
+    "artifact_proxy_fraction": {
+      "paired_cases": 1000,
+      "mean_candidate_minus_baseline": -0.003778180611019664,
+      "paired_ci95": [
+        -0.01311961606291947,
+        0.005436717513727022
+      ]
+    },
+    "confused": {
+      "paired_cases": 1000,
+      "mean_candidate_minus_baseline": -0.097,
+      "paired_ci95": [
+        -0.1743814624153429,
+        -0.03939393939393939
+      ]
+    }
+  },
+  "interpretation": "Paired candidate-minus-baseline differences. Higher SI-SDRi/ESTOI and lower distortion proxy/confusion are favorable. Approximate target-speaker cluster bootstrap, 1000 replicates, seed 42; shared-interferer dependence remains. Model/data/training changes are combined, not a single-factor causal ablation. ESTOI and scalar distortion are proxies, not subjective listening ratings."
+}
