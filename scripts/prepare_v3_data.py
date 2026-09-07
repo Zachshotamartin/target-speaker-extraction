@@ -34,6 +34,24 @@ def write_immutable(path, value):
         atomic_json(path, value)
 
 
+def prepare_adaptation_cases(output):
+    clean = json.loads((output / "dev-cases.json").read_text())
+    acoustic = json.loads((output / "dev-realistic-cases.json").read_text())
+    cases = list(clean["cases"])
+    for condition in SCENARIOS:
+        if condition != "target_absent":
+            cases.extend([case for case in acoustic["cases"] if case["scenario"] == condition][:10])
+    write_immutable(
+        output / "dev-adaptation-cases.json",
+        {
+            **clean,
+            "cases": cases,
+            "rendering_protocol": "realistic-tse-v1",
+            "note": "80 original clean selection requests plus first 10 requests in each of six target-present acoustic development conditions. No absent-target SI-SDR.",
+        },
+    )
+
+
 def prepare(archives, speech_root, output, environment_root):
     old = json.loads(Path("data/expanded/manifests/inventory.json").read_text())
     records = [row for row in old["records"] if row["split"] in {"train", "dev"}]
@@ -136,6 +154,7 @@ def prepare(archives, speech_root, output, environment_root):
             },
         )
 
+    prepare_adaptation_cases(output)
     env_archive = archives / "rirs_noises.zip"
     with zipfile.ZipFile(env_archive) as archive:
         rooms = defaultdict(list)

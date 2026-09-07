@@ -6,6 +6,8 @@ An independently implemented PyTorch system that estimates one person's voice fr
 
 The current experiment improves speaker separation after the first model left competing speech and audible artifacts. It combines an independently implemented spectral separator, speaker supervision, a larger training corpus and checkpoint averaging. There is no SpeakerBeam source, checkpoint, or dependency. The original controlled reference-augmentation experiment remains available in the [v0.1.0 case study](docs/CASE_STUDY_V0_1.md).
 
+The [v3 improvement experiments](docs/V3_WORKLOG.md) are underway: matched learning-rate continuation, band-split time/frequency modeling, phase correction, a ResNet reference encoder, and realistic acoustic adaptation. The released model remains v0.2.0 while candidates are trained and evaluated. On the project Mac, [live progress](http://127.0.0.1:8000/experiments/v3/) shows the current runs and served model identity.
+
 ## Frozen v0.2.0 results
 
 The selected model achieves **5.89 dB mean SI-SDR improvement** on 1,000 fresh test requests from 20 reserved speaker identities, versus **1.45 dB** for the original model on the same requests. The paired gain is 4.43 dB, with an approximate 95% target-speaker-cluster interval of 3.46–5.53 dB. Selection was frozen before scoring this test.

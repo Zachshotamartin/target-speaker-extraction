@@ -1,0 +1,3635 @@
+{
+  "status": "Source-informed development diagnostic; NOT a trained model estimate",
+  "case_manifest_sha256": "4873feb93dc364727146f6e09b26afc8c9e7e94ae7cd4e49af95b9d545ef20d4",
+  "source_manifest_sha256": "2bdcf858bbd0271f16dab63d256b7e9a93b71a08a7c324705de00d18646b3c8a",
+  "environment_manifest_sha256": "9e4cf49efd6d41766a4c36d0b639b689d78ae942f8862fa000ae39f59e3a2425",
+  "conditions": {
+    "clean": {
+      "bounded_real_truth_mask": 14.390225114226341,
+      "bounded_complex_truth_mask": 22.65031025826931
+    },
+    "combined": {
+      "bounded_real_truth_mask": 18.546970470547677,
+      "bounded_complex_truth_mask": 26.397698524594308
+    },
+    "noise": {
+      "bounded_real_truth_mask": 14.750449800491333,
+      "bounded_complex_truth_mask": 23.159257097244264
+    },
+    "partial_overlap": {
+      "bounded_real_truth_mask": 17.037393770217896,
+      "bounded_complex_truth_mask": 25.087264833450316
+    },
+    "pauses": {
+      "bounded_real_truth_mask": 15.299253904223441,
+      "bounded_complex_truth_mask": 23.500499421954157
+    },
+    "reverb": {
+      "bounded_real_truth_mask": 14.026420286819338,
+      "bounded_complex_truth_mask": 22.009811609908937
+    }
+  },
+  "interpretation": "These reconstructions use the known target spectrum. They minimize per-bin complex squared error inside each mask's allowed rectangle, not waveform SI-SDR globally. They are neither strict SI-SDR upper bounds nor guaranteed learnable performance. The complex variant permits real [0,1] and imaginary [-1,1], matching the experiment; it cannot represent arbitrary complex ratios. Target-absent requests are excluded from SI-SDR. No source-informed mask is used by the app or listening candidates.",
+  "rows": [
+    {
+      "case_id": "dev-2026090700-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.795591831207275
+    },
+    {
+      "case_id": "dev-2026090700-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.936191082000732
+    },
+    {
+      "case_id": "dev-2026090700-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.06638753414154
+    },
+    {
+      "case_id": "dev-2026090700-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.43737256526947
+    },
+    {
+      "case_id": "dev-2026090701-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.457902669906616
+    },
+    {
+      "case_id": "dev-2026090701-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.92633891105652
+    },
+    {
+      "case_id": "dev-2026090701-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.60706377029419
+    },
+    {
+      "case_id": "dev-2026090701-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.928711414337158
+    },
+    {
+      "case_id": "dev-2026090702-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.644212812185287
+    },
+    {
+      "case_id": "dev-2026090702-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.521991819143295
+    },
+    {
+      "case_id": "dev-2026090702-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.526293098926544
+    },
+    {
+      "case_id": "dev-2026090702-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.41679698228836
+    },
+    {
+      "case_id": "dev-2026090703-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.371524810791016
+    },
+    {
+      "case_id": "dev-2026090703-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.814239501953125
+    },
+    {
+      "case_id": "dev-2026090703-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.40647840499878
+    },
+    {
+      "case_id": "dev-2026090703-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.883723735809326
+    },
+    {
+      "case_id": "dev-2026090704-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.601401805877686
+    },
+    {
+      "case_id": "dev-2026090704-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.152623653411865
+    },
+    {
+      "case_id": "dev-2026090704-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.117769718170166
+    },
+    {
+      "case_id": "dev-2026090704-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.957388401031494
+    },
+    {
+      "case_id": "dev-2026090705-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.362546861171722
+    },
+    {
+      "case_id": "dev-2026090705-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.459012925624847
+    },
+    {
+      "case_id": "dev-2026090705-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.017674803733826
+    },
+    {
+      "case_id": "dev-2026090705-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.156203627586365
+    },
+    {
+      "case_id": "dev-2026090706-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.416851997375488
+    },
+    {
+      "case_id": "dev-2026090706-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.6830415725708
+    },
+    {
+      "case_id": "dev-2026090706-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.257774710655212
+    },
+    {
+      "case_id": "dev-2026090706-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.564210295677185
+    },
+    {
+      "case_id": "dev-2026090707-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.788210153579712
+    },
+    {
+      "case_id": "dev-2026090707-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.93884587287903
+    },
+    {
+      "case_id": "dev-2026090707-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.207980632781982
+    },
+    {
+      "case_id": "dev-2026090707-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.043057918548584
+    },
+    {
+      "case_id": "dev-2026090708-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.43108320236206
+    },
+    {
+      "case_id": "dev-2026090708-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.37371015548706
+    },
+    {
+      "case_id": "dev-2026090708-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.607333183288574
+    },
+    {
+      "case_id": "dev-2026090708-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.589868545532227
+    },
+    {
+      "case_id": "dev-2026090709-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.380488634109497
+    },
+    {
+      "case_id": "dev-2026090709-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.830015420913696
+    },
+    {
+      "case_id": "dev-2026090709-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.506593704223633
+    },
+    {
+      "case_id": "dev-2026090709-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.16303825378418
+    },
+    {
+      "case_id": "dev-2026090710-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.23100233078003
+    },
+    {
+      "case_id": "dev-2026090710-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.383469104766846
+    },
+    {
+      "case_id": "dev-2026090710-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.047679901123047
+    },
+    {
+      "case_id": "dev-2026090710-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.49032211303711
+    },
+    {
+      "case_id": "dev-2026090711-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.705458641052246
+    },
+    {
+      "case_id": "dev-2026090711-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.115055084228516
+    },
+    {
+      "case_id": "dev-2026090711-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.290334224700928
+    },
+    {
+      "case_id": "dev-2026090711-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.914605617523193
+    },
+    {
+      "case_id": "dev-2026090712-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.441218376159668
+    },
+    {
+      "case_id": "dev-2026090712-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.466240882873535
+    },
+    {
+      "case_id": "dev-2026090712-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.655221462249756
+    },
+    {
+      "case_id": "dev-2026090712-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.345740795135498
+    },
+    {
+      "case_id": "dev-2026090713-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.477456331253052
+    },
+    {
+      "case_id": "dev-2026090713-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.990391969680786
+    },
+    {
+      "case_id": "dev-2026090713-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.053820848464966
+    },
+    {
+      "case_id": "dev-2026090713-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.753298044204712
+    },
+    {
+      "case_id": "dev-2026090714-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.891347408294678
+    },
+    {
+      "case_id": "dev-2026090714-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.28899335861206
+    },
+    {
+      "case_id": "dev-2026090714-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.608384609222412
+    },
+    {
+      "case_id": "dev-2026090714-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.924137592315674
+    },
+    {
+      "case_id": "dev-2026090715-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.545280933380127
+    },
+    {
+      "case_id": "dev-2026090715-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.84225034713745
+    },
+    {
+      "case_id": "dev-2026090715-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 10.015466213226318
+    },
+    {
+      "case_id": "dev-2026090715-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 17.277650356292725
+    },
+    {
+      "case_id": "dev-2026090716-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.03200340270996
+    },
+    {
+      "case_id": "dev-2026090716-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.30389976501465
+    },
+    {
+      "case_id": "dev-2026090716-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.789337158203125
+    },
+    {
+      "case_id": "dev-2026090716-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.74848175048828
+    },
+    {
+      "case_id": "dev-2026090717-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.916934490203857
+    },
+    {
+      "case_id": "dev-2026090717-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.241490840911865
+    },
+    {
+      "case_id": "dev-2026090717-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.908577919006348
+    },
+    {
+      "case_id": "dev-2026090717-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.163846969604492
+    },
+    {
+      "case_id": "dev-2026090718-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.284013271331787
+    },
+    {
+      "case_id": "dev-2026090718-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.180819988250732
+    },
+    {
+      "case_id": "dev-2026090718-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.773167848587036
+    },
+    {
+      "case_id": "dev-2026090718-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.9641592502594
+    },
+    {
+      "case_id": "dev-2026090719-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.417250156402588
+    },
+    {
+      "case_id": "dev-2026090719-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.69594430923462
+    },
+    {
+      "case_id": "dev-2026090719-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.995295524597168
+    },
+    {
+      "case_id": "dev-2026090719-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.34159278869629
+    },
+    {
+      "case_id": "dev-2026090720-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.577531337738037
+    },
+    {
+      "case_id": "dev-2026090720-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.99611234664917
+    },
+    {
+      "case_id": "dev-2026090720-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.504135847091675
+    },
+    {
+      "case_id": "dev-2026090720-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.76337504386902
+    },
+    {
+      "case_id": "dev-2026090721-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.220498085021973
+    },
+    {
+      "case_id": "dev-2026090721-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.43812847137451
+    },
+    {
+      "case_id": "dev-2026090721-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.33439826965332
+    },
+    {
+      "case_id": "dev-2026090721-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.88503360748291
+    },
+    {
+      "case_id": "dev-2026090722-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.087786436080933
+    },
+    {
+      "case_id": "dev-2026090722-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.518693685531616
+    },
+    {
+      "case_id": "dev-2026090722-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.775806427001953
+    },
+    {
+      "case_id": "dev-2026090722-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.20094871520996
+    },
+    {
+      "case_id": "dev-2026090723-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.659987449645996
+    },
+    {
+      "case_id": "dev-2026090723-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.4191951751709
+    },
+    {
+      "case_id": "dev-2026090723-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.070519924163818
+    },
+    {
+      "case_id": "dev-2026090723-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.72162389755249
+    },
+    {
+      "case_id": "dev-2026090724-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.369389772415161
+    },
+    {
+      "case_id": "dev-2026090724-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.654149293899536
+    },
+    {
+      "case_id": "dev-2026090724-swap-clean",
+      "condition": "clean",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.260786771774292
+    },
+    {
+      "case_id": "dev-2026090724-swap-clean",
+      "condition": "clean",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.709479093551636
+    },
+    {
+      "case_id": "dev-2026090700-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.725293159484863
+    },
+    {
+      "case_id": "dev-2026090700-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.633623123168945
+    },
+    {
+      "case_id": "dev-2026090700-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.081313610076904
+    },
+    {
+      "case_id": "dev-2026090700-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.932968616485596
+    },
+    {
+      "case_id": "dev-2026090701-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.19542646408081
+    },
+    {
+      "case_id": "dev-2026090701-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.193297863006592
+    },
+    {
+      "case_id": "dev-2026090701-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.847914695739746
+    },
+    {
+      "case_id": "dev-2026090701-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.637282371520996
+    },
+    {
+      "case_id": "dev-2026090702-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.388237953186035
+    },
+    {
+      "case_id": "dev-2026090702-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.14236354827881
+    },
+    {
+      "case_id": "dev-2026090702-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.182049989700317
+    },
+    {
+      "case_id": "dev-2026090702-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.027251482009888
+    },
+    {
+      "case_id": "dev-2026090703-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.921846866607666
+    },
+    {
+      "case_id": "dev-2026090703-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.457879543304443
+    },
+    {
+      "case_id": "dev-2026090703-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.62680983543396
+    },
+    {
+      "case_id": "dev-2026090703-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.124953031539917
+    },
+    {
+      "case_id": "dev-2026090704-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.983075618743896
+    },
+    {
+      "case_id": "dev-2026090704-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.740814685821533
+    },
+    {
+      "case_id": "dev-2026090704-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.783454895019531
+    },
+    {
+      "case_id": "dev-2026090704-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.679073333740234
+    },
+    {
+      "case_id": "dev-2026090705-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.344808101654053
+    },
+    {
+      "case_id": "dev-2026090705-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.50352430343628
+    },
+    {
+      "case_id": "dev-2026090705-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.531742185354233
+    },
+    {
+      "case_id": "dev-2026090705-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.730074018239975
+    },
+    {
+      "case_id": "dev-2026090706-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.420159101486206
+    },
+    {
+      "case_id": "dev-2026090706-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.6711585521698
+    },
+    {
+      "case_id": "dev-2026090706-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.506390810012817
+    },
+    {
+      "case_id": "dev-2026090706-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.9200279712677
+    },
+    {
+      "case_id": "dev-2026090707-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.13111925125122
+    },
+    {
+      "case_id": "dev-2026090707-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.350584506988525
+    },
+    {
+      "case_id": "dev-2026090707-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.797563910484314
+    },
+    {
+      "case_id": "dev-2026090707-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.043440222740173
+    },
+    {
+      "case_id": "dev-2026090708-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.760124564170837
+    },
+    {
+      "case_id": "dev-2026090708-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.70990025997162
+    },
+    {
+      "case_id": "dev-2026090708-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.583458423614502
+    },
+    {
+      "case_id": "dev-2026090708-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.53800916671753
+    },
+    {
+      "case_id": "dev-2026090709-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.959778785705566
+    },
+    {
+      "case_id": "dev-2026090709-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.76951026916504
+    },
+    {
+      "case_id": "dev-2026090709-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.774766445159912
+    },
+    {
+      "case_id": "dev-2026090709-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.4780011177063
+    },
+    {
+      "case_id": "dev-2026090710-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.325902938842773
+    },
+    {
+      "case_id": "dev-2026090710-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.328977584838867
+    },
+    {
+      "case_id": "dev-2026090710-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.04709243774414
+    },
+    {
+      "case_id": "dev-2026090710-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.373348236083984
+    },
+    {
+      "case_id": "dev-2026090711-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.377343893051147
+    },
+    {
+      "case_id": "dev-2026090711-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.46308970451355
+    },
+    {
+      "case_id": "dev-2026090711-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.112980604171753
+    },
+    {
+      "case_id": "dev-2026090711-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.897699117660522
+    },
+    {
+      "case_id": "dev-2026090712-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.410287857055664
+    },
+    {
+      "case_id": "dev-2026090712-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.508015632629395
+    },
+    {
+      "case_id": "dev-2026090712-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.949195384979248
+    },
+    {
+      "case_id": "dev-2026090712-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.81209421157837
+    },
+    {
+      "case_id": "dev-2026090713-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.149923324584961
+    },
+    {
+      "case_id": "dev-2026090713-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.699541091918945
+    },
+    {
+      "case_id": "dev-2026090713-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.780226707458496
+    },
+    {
+      "case_id": "dev-2026090713-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.42812442779541
+    },
+    {
+      "case_id": "dev-2026090714-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.457300424575806
+    },
+    {
+      "case_id": "dev-2026090714-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.958446741104126
+    },
+    {
+      "case_id": "dev-2026090714-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.98592233657837
+    },
+    {
+      "case_id": "dev-2026090714-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.48576307296753
+    },
+    {
+      "case_id": "dev-2026090715-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.584752082824707
+    },
+    {
+      "case_id": "dev-2026090715-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.898216247558594
+    },
+    {
+      "case_id": "dev-2026090715-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 9.553890466690063
+    },
+    {
+      "case_id": "dev-2026090715-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 17.09686589241028
+    },
+    {
+      "case_id": "dev-2026090716-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.352272987365723
+    },
+    {
+      "case_id": "dev-2026090716-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.60431480407715
+    },
+    {
+      "case_id": "dev-2026090716-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.422240883111954
+    },
+    {
+      "case_id": "dev-2026090716-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.641271263360977
+    },
+    {
+      "case_id": "dev-2026090717-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.639079809188843
+    },
+    {
+      "case_id": "dev-2026090717-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.766780614852905
+    },
+    {
+      "case_id": "dev-2026090717-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.08335542678833
+    },
+    {
+      "case_id": "dev-2026090717-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.975505352020264
+    },
+    {
+      "case_id": "dev-2026090718-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.86195981502533
+    },
+    {
+      "case_id": "dev-2026090718-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.101171851158142
+    },
+    {
+      "case_id": "dev-2026090718-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.588361263275146
+    },
+    {
+      "case_id": "dev-2026090718-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.246963024139404
+    },
+    {
+      "case_id": "dev-2026090719-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.493650913238525
+    },
+    {
+      "case_id": "dev-2026090719-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.848782062530518
+    },
+    {
+      "case_id": "dev-2026090719-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.048904418945312
+    },
+    {
+      "case_id": "dev-2026090719-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.397603034973145
+    },
+    {
+      "case_id": "dev-2026090720-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.68008279800415
+    },
+    {
+      "case_id": "dev-2026090720-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.147194385528564
+    },
+    {
+      "case_id": "dev-2026090720-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.610270619392395
+    },
+    {
+      "case_id": "dev-2026090720-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.965561985969543
+    },
+    {
+      "case_id": "dev-2026090721-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.312687635421753
+    },
+    {
+      "case_id": "dev-2026090721-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.766128301620483
+    },
+    {
+      "case_id": "dev-2026090721-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.580979347229004
+    },
+    {
+      "case_id": "dev-2026090721-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.23367214202881
+    },
+    {
+      "case_id": "dev-2026090722-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.335038185119629
+    },
+    {
+      "case_id": "dev-2026090722-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.683096885681152
+    },
+    {
+      "case_id": "dev-2026090722-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.511181831359863
+    },
+    {
+      "case_id": "dev-2026090722-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.209542274475098
+    },
+    {
+      "case_id": "dev-2026090723-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.416980743408203
+    },
+    {
+      "case_id": "dev-2026090723-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.30021858215332
+    },
+    {
+      "case_id": "dev-2026090723-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.853813171386719
+    },
+    {
+      "case_id": "dev-2026090723-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.91350746154785
+    },
+    {
+      "case_id": "dev-2026090724-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.09420371055603
+    },
+    {
+      "case_id": "dev-2026090724-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.145376920700073
+    },
+    {
+      "case_id": "dev-2026090724-swap-noise",
+      "condition": "noise",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.35727334022522
+    },
+    {
+      "case_id": "dev-2026090724-swap-noise",
+      "condition": "noise",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.782243967056274
+    },
+    {
+      "case_id": "dev-2026090700-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.190603256225586
+    },
+    {
+      "case_id": "dev-2026090700-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.706987380981445
+    },
+    {
+      "case_id": "dev-2026090700-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.47078549861908
+    },
+    {
+      "case_id": "dev-2026090700-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.204129576683044
+    },
+    {
+      "case_id": "dev-2026090701-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.387156009674072
+    },
+    {
+      "case_id": "dev-2026090701-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.223540782928467
+    },
+    {
+      "case_id": "dev-2026090701-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.619241714477539
+    },
+    {
+      "case_id": "dev-2026090701-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.316761016845703
+    },
+    {
+      "case_id": "dev-2026090702-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.831421971321106
+    },
+    {
+      "case_id": "dev-2026090702-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 17.241082310676575
+    },
+    {
+      "case_id": "dev-2026090702-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.74999314174056
+    },
+    {
+      "case_id": "dev-2026090702-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 17.217932518571615
+    },
+    {
+      "case_id": "dev-2026090703-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.948771953582764
+    },
+    {
+      "case_id": "dev-2026090703-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.132915019989014
+    },
+    {
+      "case_id": "dev-2026090703-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.983108282089233
+    },
+    {
+      "case_id": "dev-2026090703-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.420222997665405
+    },
+    {
+      "case_id": "dev-2026090704-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.14587116241455
+    },
+    {
+      "case_id": "dev-2026090704-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.898906707763672
+    },
+    {
+      "case_id": "dev-2026090704-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.517408847808838
+    },
+    {
+      "case_id": "dev-2026090704-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.326591968536377
+    },
+    {
+      "case_id": "dev-2026090705-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.41144472360611
+    },
+    {
+      "case_id": "dev-2026090705-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.351090490818024
+    },
+    {
+      "case_id": "dev-2026090705-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.05372506380081
+    },
+    {
+      "case_id": "dev-2026090705-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.009190380573273
+    },
+    {
+      "case_id": "dev-2026090706-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.441962718963623
+    },
+    {
+      "case_id": "dev-2026090706-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.165786266326904
+    },
+    {
+      "case_id": "dev-2026090706-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.295195817947388
+    },
+    {
+      "case_id": "dev-2026090706-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.837146043777466
+    },
+    {
+      "case_id": "dev-2026090707-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.621548652648926
+    },
+    {
+      "case_id": "dev-2026090707-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.578508377075195
+    },
+    {
+      "case_id": "dev-2026090707-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 9.962180137634277
+    },
+    {
+      "case_id": "dev-2026090707-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 18.52007293701172
+    },
+    {
+      "case_id": "dev-2026090708-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.207593441009521
+    },
+    {
+      "case_id": "dev-2026090708-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.634816646575928
+    },
+    {
+      "case_id": "dev-2026090708-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.30804705619812
+    },
+    {
+      "case_id": "dev-2026090708-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.581815481185913
+    },
+    {
+      "case_id": "dev-2026090709-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.071792840957642
+    },
+    {
+      "case_id": "dev-2026090709-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.276703119277954
+    },
+    {
+      "case_id": "dev-2026090709-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.18010425567627
+    },
+    {
+      "case_id": "dev-2026090709-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.682811737060547
+    },
+    {
+      "case_id": "dev-2026090710-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.23270559310913
+    },
+    {
+      "case_id": "dev-2026090710-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.49892568588257
+    },
+    {
+      "case_id": "dev-2026090710-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.860604286193848
+    },
+    {
+      "case_id": "dev-2026090710-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.31740665435791
+    },
+    {
+      "case_id": "dev-2026090711-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.657909154891968
+    },
+    {
+      "case_id": "dev-2026090711-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.559829473495483
+    },
+    {
+      "case_id": "dev-2026090711-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.11275029182434
+    },
+    {
+      "case_id": "dev-2026090711-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.95667004585266
+    },
+    {
+      "case_id": "dev-2026090712-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.443816661834717
+    },
+    {
+      "case_id": "dev-2026090712-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.772778034210205
+    },
+    {
+      "case_id": "dev-2026090712-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.70255708694458
+    },
+    {
+      "case_id": "dev-2026090712-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.649457454681396
+    },
+    {
+      "case_id": "dev-2026090713-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.204738855361938
+    },
+    {
+      "case_id": "dev-2026090713-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.77152371406555
+    },
+    {
+      "case_id": "dev-2026090713-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.843163967132568
+    },
+    {
+      "case_id": "dev-2026090713-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.73678731918335
+    },
+    {
+      "case_id": "dev-2026090714-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.547483444213867
+    },
+    {
+      "case_id": "dev-2026090714-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.41495132446289
+    },
+    {
+      "case_id": "dev-2026090714-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.1955509185791
+    },
+    {
+      "case_id": "dev-2026090714-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.992852210998535
+    },
+    {
+      "case_id": "dev-2026090715-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.972524642944336
+    },
+    {
+      "case_id": "dev-2026090715-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.40244483947754
+    },
+    {
+      "case_id": "dev-2026090715-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 10.58705735206604
+    },
+    {
+      "case_id": "dev-2026090715-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 17.90893578529358
+    },
+    {
+      "case_id": "dev-2026090716-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.676631450653076
+    },
+    {
+      "case_id": "dev-2026090716-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.78609800338745
+    },
+    {
+      "case_id": "dev-2026090716-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.33012056350708
+    },
+    {
+      "case_id": "dev-2026090716-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.26899003982544
+    },
+    {
+      "case_id": "dev-2026090717-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.398672819137573
+    },
+    {
+      "case_id": "dev-2026090717-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.646044492721558
+    },
+    {
+      "case_id": "dev-2026090717-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.359831690788269
+    },
+    {
+      "case_id": "dev-2026090717-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.502594828605652
+    },
+    {
+      "case_id": "dev-2026090718-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 10.839918851852417
+    },
+    {
+      "case_id": "dev-2026090718-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.15905261039734
+    },
+    {
+      "case_id": "dev-2026090718-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.210155010223389
+    },
+    {
+      "case_id": "dev-2026090718-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.348561763763428
+    },
+    {
+      "case_id": "dev-2026090719-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.011465072631836
+    },
+    {
+      "case_id": "dev-2026090719-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.991254806518555
+    },
+    {
+      "case_id": "dev-2026090719-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.7077317237854
+    },
+    {
+      "case_id": "dev-2026090719-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.419140338897705
+    },
+    {
+      "case_id": "dev-2026090720-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.678001999855042
+    },
+    {
+      "case_id": "dev-2026090720-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.354303002357483
+    },
+    {
+      "case_id": "dev-2026090720-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.714391708374023
+    },
+    {
+      "case_id": "dev-2026090720-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.073259353637695
+    },
+    {
+      "case_id": "dev-2026090721-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.593741416931152
+    },
+    {
+      "case_id": "dev-2026090721-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.767613410949707
+    },
+    {
+      "case_id": "dev-2026090721-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.759323120117188
+    },
+    {
+      "case_id": "dev-2026090721-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.450801849365234
+    },
+    {
+      "case_id": "dev-2026090722-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.049909114837646
+    },
+    {
+      "case_id": "dev-2026090722-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.769957065582275
+    },
+    {
+      "case_id": "dev-2026090722-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.740580558776855
+    },
+    {
+      "case_id": "dev-2026090722-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.416056632995605
+    },
+    {
+      "case_id": "dev-2026090723-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.980751514434814
+    },
+    {
+      "case_id": "dev-2026090723-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.620158672332764
+    },
+    {
+      "case_id": "dev-2026090723-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 10.352988719940186
+    },
+    {
+      "case_id": "dev-2026090723-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 18.662002086639404
+    },
+    {
+      "case_id": "dev-2026090724-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.630792140960693
+    },
+    {
+      "case_id": "dev-2026090724-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.536115169525146
+    },
+    {
+      "case_id": "dev-2026090724-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.527188062667847
+    },
+    {
+      "case_id": "dev-2026090724-swap-reverb",
+      "condition": "reverb",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.40900206565857
+    },
+    {
+      "case_id": "dev-2026090700-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.16641652584076
+    },
+    {
+      "case_id": "dev-2026090700-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.314127326011658
+    },
+    {
+      "case_id": "dev-2026090700-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.692997217178345
+    },
+    {
+      "case_id": "dev-2026090700-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.136451959609985
+    },
+    {
+      "case_id": "dev-2026090701-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 21.56264019012451
+    },
+    {
+      "case_id": "dev-2026090701-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 29.118008613586426
+    },
+    {
+      "case_id": "dev-2026090701-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.91731595993042
+    },
+    {
+      "case_id": "dev-2026090701-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.274158000946045
+    },
+    {
+      "case_id": "dev-2026090702-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.73636743426323
+    },
+    {
+      "case_id": "dev-2026090702-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.653592318296432
+    },
+    {
+      "case_id": "dev-2026090702-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.380105167627335
+    },
+    {
+      "case_id": "dev-2026090702-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.329937130212784
+    },
+    {
+      "case_id": "dev-2026090703-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.97434425354004
+    },
+    {
+      "case_id": "dev-2026090703-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.986345291137695
+    },
+    {
+      "case_id": "dev-2026090703-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 21.236061334609985
+    },
+    {
+      "case_id": "dev-2026090703-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 29.196850061416626
+    },
+    {
+      "case_id": "dev-2026090704-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.587170600891113
+    },
+    {
+      "case_id": "dev-2026090704-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.11497402191162
+    },
+    {
+      "case_id": "dev-2026090704-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.021666526794434
+    },
+    {
+      "case_id": "dev-2026090704-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.56251621246338
+    },
+    {
+      "case_id": "dev-2026090705-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 21.62298560142517
+    },
+    {
+      "case_id": "dev-2026090705-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 30.21350646018982
+    },
+    {
+      "case_id": "dev-2026090705-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 20.442844033241272
+    },
+    {
+      "case_id": "dev-2026090705-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 29.21278154850006
+    },
+    {
+      "case_id": "dev-2026090706-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.46876096725464
+    },
+    {
+      "case_id": "dev-2026090706-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.66743803024292
+    },
+    {
+      "case_id": "dev-2026090706-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 24.2694149017334
+    },
+    {
+      "case_id": "dev-2026090706-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 32.38553810119629
+    },
+    {
+      "case_id": "dev-2026090707-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.23685884475708
+    },
+    {
+      "case_id": "dev-2026090707-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.625133991241455
+    },
+    {
+      "case_id": "dev-2026090707-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.700170040130615
+    },
+    {
+      "case_id": "dev-2026090707-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.95444631576538
+    },
+    {
+      "case_id": "dev-2026090708-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.89552402496338
+    },
+    {
+      "case_id": "dev-2026090708-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.645710945129395
+    },
+    {
+      "case_id": "dev-2026090708-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.9335675239563
+    },
+    {
+      "case_id": "dev-2026090708-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.752521991729736
+    },
+    {
+      "case_id": "dev-2026090709-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.087212681770325
+    },
+    {
+      "case_id": "dev-2026090709-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.559413075447083
+    },
+    {
+      "case_id": "dev-2026090709-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.74753212928772
+    },
+    {
+      "case_id": "dev-2026090709-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.448278665542603
+    },
+    {
+      "case_id": "dev-2026090710-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.14858865737915
+    },
+    {
+      "case_id": "dev-2026090710-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.44469118118286
+    },
+    {
+      "case_id": "dev-2026090710-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.9874267578125
+    },
+    {
+      "case_id": "dev-2026090710-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.453250885009766
+    },
+    {
+      "case_id": "dev-2026090711-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.674032211303711
+    },
+    {
+      "case_id": "dev-2026090711-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.176862716674805
+    },
+    {
+      "case_id": "dev-2026090711-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.207496643066406
+    },
+    {
+      "case_id": "dev-2026090711-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.89927387237549
+    },
+    {
+      "case_id": "dev-2026090712-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.391162157058716
+    },
+    {
+      "case_id": "dev-2026090712-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.17255425453186
+    },
+    {
+      "case_id": "dev-2026090712-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.824601650238037
+    },
+    {
+      "case_id": "dev-2026090712-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.449313640594482
+    },
+    {
+      "case_id": "dev-2026090713-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 24.804967403411865
+    },
+    {
+      "case_id": "dev-2026090713-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 31.68355894088745
+    },
+    {
+      "case_id": "dev-2026090713-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 28.114976167678833
+    },
+    {
+      "case_id": "dev-2026090713-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 34.780144929885864
+    },
+    {
+      "case_id": "dev-2026090714-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.706038475036621
+    },
+    {
+      "case_id": "dev-2026090714-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.024622917175293
+    },
+    {
+      "case_id": "dev-2026090714-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.692113876342773
+    },
+    {
+      "case_id": "dev-2026090714-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.0126895904541
+    },
+    {
+      "case_id": "dev-2026090715-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.442375898361206
+    },
+    {
+      "case_id": "dev-2026090715-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.97457766532898
+    },
+    {
+      "case_id": "dev-2026090715-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.001250267028809
+    },
+    {
+      "case_id": "dev-2026090715-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.635642051696777
+    },
+    {
+      "case_id": "dev-2026090716-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.465259552001953
+    },
+    {
+      "case_id": "dev-2026090716-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.828911781311035
+    },
+    {
+      "case_id": "dev-2026090716-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.09478497505188
+    },
+    {
+      "case_id": "dev-2026090716-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.16096520423889
+    },
+    {
+      "case_id": "dev-2026090717-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.538296937942505
+    },
+    {
+      "case_id": "dev-2026090717-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.069310426712036
+    },
+    {
+      "case_id": "dev-2026090717-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.502354621887207
+    },
+    {
+      "case_id": "dev-2026090717-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.030245780944824
+    },
+    {
+      "case_id": "dev-2026090718-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.91699504852295
+    },
+    {
+      "case_id": "dev-2026090718-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.41099452972412
+    },
+    {
+      "case_id": "dev-2026090718-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.207648038864136
+    },
+    {
+      "case_id": "dev-2026090718-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.94147562980652
+    },
+    {
+      "case_id": "dev-2026090719-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.362322807312012
+    },
+    {
+      "case_id": "dev-2026090719-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.424992561340332
+    },
+    {
+      "case_id": "dev-2026090719-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.957642555236816
+    },
+    {
+      "case_id": "dev-2026090719-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.16950511932373
+    },
+    {
+      "case_id": "dev-2026090720-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.087054967880249
+    },
+    {
+      "case_id": "dev-2026090720-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.22905421257019
+    },
+    {
+      "case_id": "dev-2026090720-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.27013349533081
+    },
+    {
+      "case_id": "dev-2026090720-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.057640552520752
+    },
+    {
+      "case_id": "dev-2026090721-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.815410614013672
+    },
+    {
+      "case_id": "dev-2026090721-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.039705276489258
+    },
+    {
+      "case_id": "dev-2026090721-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 24.25651502609253
+    },
+    {
+      "case_id": "dev-2026090721-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 31.373265743255615
+    },
+    {
+      "case_id": "dev-2026090722-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.88248920440674
+    },
+    {
+      "case_id": "dev-2026090722-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.18104362487793
+    },
+    {
+      "case_id": "dev-2026090722-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.097783088684082
+    },
+    {
+      "case_id": "dev-2026090722-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.394600868225098
+    },
+    {
+      "case_id": "dev-2026090723-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.971519470214844
+    },
+    {
+      "case_id": "dev-2026090723-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.55841636657715
+    },
+    {
+      "case_id": "dev-2026090723-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.430864334106445
+    },
+    {
+      "case_id": "dev-2026090723-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 19.904863357543945
+    },
+    {
+      "case_id": "dev-2026090724-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.15902280807495
+    },
+    {
+      "case_id": "dev-2026090724-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.878751277923584
+    },
+    {
+      "case_id": "dev-2026090724-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.1786048412323
+    },
+    {
+      "case_id": "dev-2026090724-swap-partial_overlap",
+      "condition": "partial_overlap",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.850586652755737
+    },
+    {
+      "case_id": "dev-2026090700-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.288368701934814
+    },
+    {
+      "case_id": "dev-2026090700-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.587571620941162
+    },
+    {
+      "case_id": "dev-2026090700-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.00857663154602
+    },
+    {
+      "case_id": "dev-2026090700-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.38525891304016
+    },
+    {
+      "case_id": "dev-2026090701-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.229135036468506
+    },
+    {
+      "case_id": "dev-2026090701-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.457961559295654
+    },
+    {
+      "case_id": "dev-2026090701-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.146669626235962
+    },
+    {
+      "case_id": "dev-2026090701-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.407875299453735
+    },
+    {
+      "case_id": "dev-2026090702-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.04578185081482
+    },
+    {
+      "case_id": "dev-2026090702-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.00669264793396
+    },
+    {
+      "case_id": "dev-2026090702-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.23170381784439
+    },
+    {
+      "case_id": "dev-2026090702-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.139579832553864
+    },
+    {
+      "case_id": "dev-2026090703-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.57498025894165
+    },
+    {
+      "case_id": "dev-2026090703-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.709682941436768
+    },
+    {
+      "case_id": "dev-2026090703-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.16021192073822
+    },
+    {
+      "case_id": "dev-2026090703-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.37997567653656
+    },
+    {
+      "case_id": "dev-2026090704-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.549585819244385
+    },
+    {
+      "case_id": "dev-2026090704-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.900886058807373
+    },
+    {
+      "case_id": "dev-2026090704-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.178541660308838
+    },
+    {
+      "case_id": "dev-2026090704-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.854877948760986
+    },
+    {
+      "case_id": "dev-2026090705-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.732616901397705
+    },
+    {
+      "case_id": "dev-2026090705-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.597294330596924
+    },
+    {
+      "case_id": "dev-2026090705-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.198227763175964
+    },
+    {
+      "case_id": "dev-2026090705-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.0397709608078
+    },
+    {
+      "case_id": "dev-2026090706-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.489349842071533
+    },
+    {
+      "case_id": "dev-2026090706-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.663055896759033
+    },
+    {
+      "case_id": "dev-2026090706-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.793379068374634
+    },
+    {
+      "case_id": "dev-2026090706-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.05455231666565
+    },
+    {
+      "case_id": "dev-2026090707-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.974334478378296
+    },
+    {
+      "case_id": "dev-2026090707-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.0587375164032
+    },
+    {
+      "case_id": "dev-2026090707-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.615591764450073
+    },
+    {
+      "case_id": "dev-2026090707-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.376136541366577
+    },
+    {
+      "case_id": "dev-2026090708-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.32131814956665
+    },
+    {
+      "case_id": "dev-2026090708-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.645397663116455
+    },
+    {
+      "case_id": "dev-2026090708-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.265168190002441
+    },
+    {
+      "case_id": "dev-2026090708-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.55296230316162
+    },
+    {
+      "case_id": "dev-2026090709-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.604127407073975
+    },
+    {
+      "case_id": "dev-2026090709-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.275878429412842
+    },
+    {
+      "case_id": "dev-2026090709-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.013670921325684
+    },
+    {
+      "case_id": "dev-2026090709-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.780156135559082
+    },
+    {
+      "case_id": "dev-2026090710-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.846949577331543
+    },
+    {
+      "case_id": "dev-2026090710-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.44615077972412
+    },
+    {
+      "case_id": "dev-2026090710-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 20.50413489341736
+    },
+    {
+      "case_id": "dev-2026090710-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.227502584457397
+    },
+    {
+      "case_id": "dev-2026090711-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.47472858428955
+    },
+    {
+      "case_id": "dev-2026090711-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.633816719055176
+    },
+    {
+      "case_id": "dev-2026090711-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.488763332366943
+    },
+    {
+      "case_id": "dev-2026090711-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.80872678756714
+    },
+    {
+      "case_id": "dev-2026090712-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.874554753303528
+    },
+    {
+      "case_id": "dev-2026090712-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.52793800830841
+    },
+    {
+      "case_id": "dev-2026090712-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.16521430015564
+    },
+    {
+      "case_id": "dev-2026090712-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.54759192466736
+    },
+    {
+      "case_id": "dev-2026090713-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.33804154396057
+    },
+    {
+      "case_id": "dev-2026090713-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.200756311416626
+    },
+    {
+      "case_id": "dev-2026090713-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.37183165550232
+    },
+    {
+      "case_id": "dev-2026090713-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.40557837486267
+    },
+    {
+      "case_id": "dev-2026090714-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.180196762084961
+    },
+    {
+      "case_id": "dev-2026090714-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.610897064208984
+    },
+    {
+      "case_id": "dev-2026090714-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.185978889465332
+    },
+    {
+      "case_id": "dev-2026090714-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.444480895996094
+    },
+    {
+      "case_id": "dev-2026090715-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.232866764068604
+    },
+    {
+      "case_id": "dev-2026090715-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.081634998321533
+    },
+    {
+      "case_id": "dev-2026090715-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 9.969354152679443
+    },
+    {
+      "case_id": "dev-2026090715-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 16.661906719207764
+    },
+    {
+      "case_id": "dev-2026090716-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.58665180206299
+    },
+    {
+      "case_id": "dev-2026090716-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.37860870361328
+    },
+    {
+      "case_id": "dev-2026090716-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.839791297912598
+    },
+    {
+      "case_id": "dev-2026090716-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.577303886413574
+    },
+    {
+      "case_id": "dev-2026090717-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.73412251472473
+    },
+    {
+      "case_id": "dev-2026090717-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.042741060256958
+    },
+    {
+      "case_id": "dev-2026090717-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.09592905640602
+    },
+    {
+      "case_id": "dev-2026090717-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.42506495118141
+    },
+    {
+      "case_id": "dev-2026090718-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.949152946472168
+    },
+    {
+      "case_id": "dev-2026090718-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.05025005340576
+    },
+    {
+      "case_id": "dev-2026090718-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.941650867462158
+    },
+    {
+      "case_id": "dev-2026090718-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.313644886016846
+    },
+    {
+      "case_id": "dev-2026090719-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.428735733032227
+    },
+    {
+      "case_id": "dev-2026090719-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.342538833618164
+    },
+    {
+      "case_id": "dev-2026090719-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.73019027709961
+    },
+    {
+      "case_id": "dev-2026090719-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.60360622406006
+    },
+    {
+      "case_id": "dev-2026090720-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.043692350387573
+    },
+    {
+      "case_id": "dev-2026090720-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.833446264266968
+    },
+    {
+      "case_id": "dev-2026090720-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.924406290054321
+    },
+    {
+      "case_id": "dev-2026090720-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.7095787525177
+    },
+    {
+      "case_id": "dev-2026090721-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.226141929626465
+    },
+    {
+      "case_id": "dev-2026090721-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.60219669342041
+    },
+    {
+      "case_id": "dev-2026090721-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.747309684753418
+    },
+    {
+      "case_id": "dev-2026090721-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.689738273620605
+    },
+    {
+      "case_id": "dev-2026090722-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.85779070854187
+    },
+    {
+      "case_id": "dev-2026090722-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.99708342552185
+    },
+    {
+      "case_id": "dev-2026090722-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.374314546585083
+    },
+    {
+      "case_id": "dev-2026090722-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.5219566822052
+    },
+    {
+      "case_id": "dev-2026090723-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.101226329803467
+    },
+    {
+      "case_id": "dev-2026090723-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.4056134223938
+    },
+    {
+      "case_id": "dev-2026090723-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.575210094451904
+    },
+    {
+      "case_id": "dev-2026090723-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.828044414520264
+    },
+    {
+      "case_id": "dev-2026090724-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.794775009155273
+    },
+    {
+      "case_id": "dev-2026090724-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.96403694152832
+    },
+    {
+      "case_id": "dev-2026090724-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.957648754119873
+    },
+    {
+      "case_id": "dev-2026090724-swap-pauses",
+      "condition": "pauses",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.268231868743896
+    },
+    {
+      "case_id": "dev-2026090700-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.590899914503098
+    },
+    {
+      "case_id": "dev-2026090700-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.46041437983513
+    },
+    {
+      "case_id": "dev-2026090700-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.015463829040527
+    },
+    {
+      "case_id": "dev-2026090700-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.225892066955566
+    },
+    {
+      "case_id": "dev-2026090701-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 25.66146993637085
+    },
+    {
+      "case_id": "dev-2026090701-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 32.60681486129761
+    },
+    {
+      "case_id": "dev-2026090701-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.401101112365723
+    },
+    {
+      "case_id": "dev-2026090701-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.217143058776855
+    },
+    {
+      "case_id": "dev-2026090702-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.8522789478302
+    },
+    {
+      "case_id": "dev-2026090702-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 18.926929712295532
+    },
+    {
+      "case_id": "dev-2026090702-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.451196044683456
+    },
+    {
+      "case_id": "dev-2026090702-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 18.768955558538437
+    },
+    {
+      "case_id": "dev-2026090703-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.54843759536743
+    },
+    {
+      "case_id": "dev-2026090703-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.157572269439697
+    },
+    {
+      "case_id": "dev-2026090703-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.502169609069824
+    },
+    {
+      "case_id": "dev-2026090703-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.666027069091797
+    },
+    {
+      "case_id": "dev-2026090704-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 22.42560386657715
+    },
+    {
+      "case_id": "dev-2026090704-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 29.803677558898926
+    },
+    {
+      "case_id": "dev-2026090704-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.92228937149048
+    },
+    {
+      "case_id": "dev-2026090704-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.809134006500244
+    },
+    {
+      "case_id": "dev-2026090705-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.402592658996582
+    },
+    {
+      "case_id": "dev-2026090705-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.70853900909424
+    },
+    {
+      "case_id": "dev-2026090705-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 20.024251222610474
+    },
+    {
+      "case_id": "dev-2026090705-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.848798036575317
+    },
+    {
+      "case_id": "dev-2026090706-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.104909420013428
+    },
+    {
+      "case_id": "dev-2026090706-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 22.650636196136475
+    },
+    {
+      "case_id": "dev-2026090706-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.741477012634277
+    },
+    {
+      "case_id": "dev-2026090706-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.200881004333496
+    },
+    {
+      "case_id": "dev-2026090707-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.72217106819153
+    },
+    {
+      "case_id": "dev-2026090707-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.082616090774536
+    },
+    {
+      "case_id": "dev-2026090707-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.817023277282715
+    },
+    {
+      "case_id": "dev-2026090707-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.772924423217773
+    },
+    {
+      "case_id": "dev-2026090708-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.932430148124695
+    },
+    {
+      "case_id": "dev-2026090708-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.995534777641296
+    },
+    {
+      "case_id": "dev-2026090708-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.973899841308594
+    },
+    {
+      "case_id": "dev-2026090708-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.754379272460938
+    },
+    {
+      "case_id": "dev-2026090709-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.04846453666687
+    },
+    {
+      "case_id": "dev-2026090709-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.93634867668152
+    },
+    {
+      "case_id": "dev-2026090709-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 20.047496795654297
+    },
+    {
+      "case_id": "dev-2026090709-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.844287872314453
+    },
+    {
+      "case_id": "dev-2026090710-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.072917461395264
+    },
+    {
+      "case_id": "dev-2026090710-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.476544857025146
+    },
+    {
+      "case_id": "dev-2026090710-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 36.11227226257324
+    },
+    {
+      "case_id": "dev-2026090710-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 44.291114807128906
+    },
+    {
+      "case_id": "dev-2026090711-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 21.349966406822205
+    },
+    {
+      "case_id": "dev-2026090711-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 28.353527426719666
+    },
+    {
+      "case_id": "dev-2026090711-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 24.561955451965332
+    },
+    {
+      "case_id": "dev-2026090711-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 31.622462272644043
+    },
+    {
+      "case_id": "dev-2026090712-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.266626358032227
+    },
+    {
+      "case_id": "dev-2026090712-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.338659286499023
+    },
+    {
+      "case_id": "dev-2026090712-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.608670234680176
+    },
+    {
+      "case_id": "dev-2026090712-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.565648078918457
+    },
+    {
+      "case_id": "dev-2026090713-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 23.758022785186768
+    },
+    {
+      "case_id": "dev-2026090713-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 31.0811505317688
+    },
+    {
+      "case_id": "dev-2026090713-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 26.116111040115356
+    },
+    {
+      "case_id": "dev-2026090713-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 33.247798204422
+    },
+    {
+      "case_id": "dev-2026090714-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.438049554824829
+    },
+    {
+      "case_id": "dev-2026090714-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.481481790542603
+    },
+    {
+      "case_id": "dev-2026090714-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.76853656768799
+    },
+    {
+      "case_id": "dev-2026090714-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.7049503326416
+    },
+    {
+      "case_id": "dev-2026090715-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.90784454345703
+    },
+    {
+      "case_id": "dev-2026090715-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.23862648010254
+    },
+    {
+      "case_id": "dev-2026090715-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.478967905044556
+    },
+    {
+      "case_id": "dev-2026090715-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.551698923110962
+    },
+    {
+      "case_id": "dev-2026090716-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.128005027770996
+    },
+    {
+      "case_id": "dev-2026090716-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.498976707458496
+    },
+    {
+      "case_id": "dev-2026090716-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.063187956809998
+    },
+    {
+      "case_id": "dev-2026090716-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.13603913784027
+    },
+    {
+      "case_id": "dev-2026090717-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 13.605264544487
+    },
+    {
+      "case_id": "dev-2026090717-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 21.54315745830536
+    },
+    {
+      "case_id": "dev-2026090717-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.488885402679443
+    },
+    {
+      "case_id": "dev-2026090717-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.482326984405518
+    },
+    {
+      "case_id": "dev-2026090718-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.724397778511047
+    },
+    {
+      "case_id": "dev-2026090718-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.72402012348175
+    },
+    {
+      "case_id": "dev-2026090718-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 18.734397649765015
+    },
+    {
+      "case_id": "dev-2026090718-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.007866621017456
+    },
+    {
+      "case_id": "dev-2026090719-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 23.344605177640915
+    },
+    {
+      "case_id": "dev-2026090719-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 31.263542860746384
+    },
+    {
+      "case_id": "dev-2026090719-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 23.55724549293518
+    },
+    {
+      "case_id": "dev-2026090719-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 31.728782892227173
+    },
+    {
+      "case_id": "dev-2026090720-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 16.638349056243896
+    },
+    {
+      "case_id": "dev-2026090720-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.257697582244873
+    },
+    {
+      "case_id": "dev-2026090720-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 12.228764057159424
+    },
+    {
+      "case_id": "dev-2026090720-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.64537286758423
+    },
+    {
+      "case_id": "dev-2026090721-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 17.3819659948349
+    },
+    {
+      "case_id": "dev-2026090721-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 25.641167998313904
+    },
+    {
+      "case_id": "dev-2026090721-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 21.05461025238037
+    },
+    {
+      "case_id": "dev-2026090721-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.911511421203613
+    },
+    {
+      "case_id": "dev-2026090722-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 21.19040822982788
+    },
+    {
+      "case_id": "dev-2026090722-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 30.631469249725342
+    },
+    {
+      "case_id": "dev-2026090722-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 14.696776866912842
+    },
+    {
+      "case_id": "dev-2026090722-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 23.348735332489014
+    },
+    {
+      "case_id": "dev-2026090723-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 15.820569515228271
+    },
+    {
+      "case_id": "dev-2026090723-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 24.779329776763916
+    },
+    {
+      "case_id": "dev-2026090723-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 11.693600177764893
+    },
+    {
+      "case_id": "dev-2026090723-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 20.61702299118042
+    },
+    {
+      "case_id": "dev-2026090724-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.52634286880493
+    },
+    {
+      "case_id": "dev-2026090724-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 27.43987512588501
+    },
+    {
+      "case_id": "dev-2026090724-swap-combined",
+      "condition": "combined",
+      "method": "bounded_real_truth_mask",
+      "si_sdri_db": 19.84558069705963
+    },
+    {
+      "case_id": "dev-2026090724-swap-combined",
+      "condition": "combined",
+      "method": "bounded_complex_truth_mask",
+      "si_sdri_db": 26.836862206459045
+    }
+  ]
+}
