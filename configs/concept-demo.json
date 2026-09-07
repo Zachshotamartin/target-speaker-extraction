@@ -1,0 +1,94 @@
+{
+  "experiment": "concept-eight-voices",
+  "audio": {
+    "crop_seconds": 3.0,
+    "reference_seconds": 3.0
+  },
+  "data": {
+    "protocol": "known-voice-concept-v1",
+    "development_source": "LibriSpeech/train-clean-100/reserved-utterances",
+    "test_source": "LibriSpeech/train-clean-100/reserved-utterances",
+    "pilot_speakers_target": 8,
+    "prefer_different_reference_chapter": false,
+    "target_to_interferer_db": [
+      -3.0,
+      3.0
+    ]
+  },
+  "model": {
+    "family": "reference_bsrnn",
+    "weights": "project_checkpoint",
+    "encoder_channels": 257,
+    "conditioning": "multiply_once",
+    "mask_activation": "gated_complex",
+    "separation_normalization": "global",
+    "spectral_mask": "gated_complex",
+    "band_widths": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      16,
+      16,
+      16,
+      16,
+      16,
+      64,
+      8
+    ],
+    "band_channels": 128,
+    "band_hidden_channels": 256,
+    "band_blocks": 3,
+    "parameter_budget": 40000000,
+    "reference_encoder": {
+      "family": "resnet34_fbank",
+      "resnet_base_channels": 32,
+      "embedding_dim": 256
+    }
+  },
+  "training": {
+    "optimizer": "adam",
+    "max_optimizer_updates": 600,
+    "validation_interval_updates": 100,
+    "learning_rate_schedule": "cosine",
+    "checkpoint_interval_updates": 25,
+    "schedule_decay_updates": 600,
+    "minimum_learning_rate": 3e-05
+  },
+  "loss": {
+    "separation_weight": 0.9,
+    "speaker_classification_weight": 0.1,
+    "waveform_weight": 0.0
+  },
+  "evaluation": {
+    "development_cases_target": 32,
+    "final_test_cases_target": 64,
+    "reference_seconds": 3,
+    "training_seeds_final_target": 1
+  },
+  "inference": {
+    "maximum_mixture_seconds": 10,
+    "maximum_reference_seconds": 3
+  }
+}

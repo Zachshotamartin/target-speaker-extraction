@@ -1,8 +1,14 @@
-# Training without occupying the project Mac
+# Practical training budgets
 
 Decision recorded September 6, 2026: the user cannot dedicate this Mac to an approximately 800-hour run. The bounded learning check is complete. Full training is not started or queued, and paid compute has not been authorized.
 
-## Recommended next step
+## Current decision: a short local concept
+
+The user subsequently chose a useful concept demonstration over a full research reproduction. The active [concept recipe](CONCEPT_DEMO.md) caps training at 600 updates, with a default 30-minute session limit and safe resume. It uses eight familiar voices, reserved evaluation recordings, three separator blocks and three-second references. A short discarded profile measured about 2.57 seconds per update; that is approximately 26 training-only minutes for 600 updates. Evaluation and checkpoints add time, so the session can pause before 600. It does not extend itself or queue another session.
+
+Reducing full-data epochs alone would still leave roughly eight hours per epoch under the original estimate. The concept therefore changes the task size as well as the compute settings. It is explicitly not a full Libri2Mix benchmark reproduction. No paid compute is needed for this local plan.
+
+## Earlier full-reproduction option (on hold)
 
 Use a separate NVIDIA GPU for a short, capped pilot, then choose the training budget from measured throughput and development progress. The model and data stay the same; our independently implemented model still starts from random weights. A GPU speedup must be measured, not assumed from specifications or an LLM benchmark.
 

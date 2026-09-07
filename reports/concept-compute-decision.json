@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-06",
+  "status": "bounded_concept_recipe_prepared",
+  "reason": "User requested a practical concept, fewer epochs and less local compute; research-scale training is on hold.",
+  "scope": "Eight familiar voices, clean fully overlapping speech; development/test reserve different utterances, not different speakers. Initializer audio is excluded from every pool.",
+  "max_updates": 600,
+  "default_session_minutes": 30,
+  "automatic_extension": false,
+  "checkpoint_interval_updates": 25,
+  "validation_interval_updates": 100,
+  "development_goal": {
+    "mean_si_sdri_db": 6,
+    "p25_si_sdri_db": 3,
+    "positive_improvement_fraction": 0.9,
+    "correct_source_fraction": 0.9,
+    "consecutive_passes": 2
+  },
+  "initialization": {
+    "kind": "our own 224-update learning-check checkpoint, retaining the first 3 of 6 separator blocks",
+    "checkpoint_sha256": "6df899d5db3150c8fd419a3c969199d2d390e7a90a21754d4db96d466ab04a0a",
+    "external_weights": false
+  },
+  "parameters": 22995427,
+  "split_utterances": {
+    "train": 686,
+    "dev": 80,
+    "test": 80
+  },
+  "concept_manifest_sha256": "06dae561ce29995ae7ab7ca9ac28410ae4f27ff91618d33f4fc35fdefe6ab8d6",
+  "config_sha256": "4512b082fdc55ee56b3cc8f8123846910625e2ed0aa74d36b29bdb3a23e69049",
+  "profile": {
+    "report": "reports/concept-reuse-profile.json",
+    "warm_updates": 5,
+    "mean_seconds_per_update": 2.5695025997934864,
+    "estimated_training_only_minutes_600_updates": 25.695025997934863,
+    "maximum_observed_mps_driver_gib": 5.805694580078125,
+    "sustained_training_and_quality": "Not established by this short discarded speed probe."
+  },
+  "rejected_profile": {
+    "separator_microbatch": 4,
+    "full_six_blocks": true,
+    "longest_enrollment": true,
+    "result": "MPS out of memory on the first update; no quality result",
+    "log_sha256": "90e3dbbf719a4505e2344f7a06af69a6147cbd9d7165b7d83b2ecf14513635cb"
+  },
+  "full_reference_run": "not started or queued",
+  "paid_compute": "not provisioned",
+  "served_model_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e"
+}

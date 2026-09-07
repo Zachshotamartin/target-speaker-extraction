@@ -24,17 +24,20 @@ class AudioConfig(StrictModel):
 
 
 class DataConfig(StrictModel):
-    protocol: Literal["custom-librispeech-tse-v1", "libri2mix-16k-min-clean"] = (
-        "custom-librispeech-tse-v1"
-    )
+    protocol: Literal[
+        "custom-librispeech-tse-v1", "libri2mix-16k-min-clean", "known-voice-concept-v1"
+    ] = "custom-librispeech-tse-v1"
     training_source: Literal["LibriSpeech/train-clean-100"] = "LibriSpeech/train-clean-100"
-    development_source: Literal["LibriSpeech/dev-clean", "LibriSpeech/dev-clean+dev-other"] = (
-        "LibriSpeech/dev-clean"
-    )
+    development_source: Literal[
+        "LibriSpeech/dev-clean",
+        "LibriSpeech/dev-clean+dev-other",
+        "LibriSpeech/train-clean-100/reserved-utterances",
+    ] = "LibriSpeech/dev-clean"
     test_source: Literal[
         "LibriSpeech/test-clean",
         "LibriSpeech/train-clean-100/reserved-identities",
         "LibriSpeech/test-other",
+        "LibriSpeech/train-clean-100/reserved-utterances",
     ] = "LibriSpeech/test-clean"
     pilot_speakers_target: int = Field(default=60, ge=2)
     minimum_utterances_per_speaker: int = Field(default=3, ge=3)
@@ -49,7 +52,7 @@ class DataConfig(StrictModel):
     def check_ratio(self):
         if self.target_to_interferer_db[0] > self.target_to_interferer_db[1]:
             raise ValueError("Mixture ratio bounds are reversed")
-        if self.target_to_interferer_db != (-5, 5):
+        if self.protocol == "custom-librispeech-tse-v1" and self.target_to_interferer_db != (-5, 5):
             raise ValueError("The v1 mixture protocol fixes ratio bounds to [-5, 5] dB")
         return self
 

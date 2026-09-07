@@ -9,6 +9,32 @@ def read_json(path):
     return json.loads(path.read_text()) if path.is_file() else {}
 
 
+def concept_progress(root=Path(".")):
+    pointer = read_json(root / "artifacts/concept-active.json")
+    run = Path(pointer["run"]) if pointer.get("run") else None
+    status = read_json(run / "status.json") if run else {}
+    best = read_json(run / "best-validation.json") if run else {}
+    alive = False
+    if pointer.get("pid"):
+        try:
+            os.kill(pointer["pid"], 0)
+            alive = True
+        except ProcessLookupError:
+            pass
+    state = status.get("status", "not_started")
+    if not alive and state in {"starting", "training", "validating"}:
+        state = "interrupted"
+    return {
+        **status,
+        "status": state,
+        "process_alive": alive,
+        "best_validation": {key: value for key, value in best.items() if key != "rows"},
+        "gallery_available": (root / "artifacts/gallery/concept-demo/index.html").is_file(),
+        "scope": "Eight familiar voices, clean two-speaker mixtures, reserved recordings.",
+        "test_evaluated": False,
+    }
+
+
 def reference_progress(root=Path(".")):
     pointer = read_json(root / "artifacts/reference-active.json")
     run = Path(pointer["run"]) if pointer.get("run") else None

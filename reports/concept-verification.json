@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-06",
+  "source_tree_sha256": "69ae4687d6ac7c9283a6130db76f9ab04995e9d39ca5846064d3860b9d5185b5",
+  "ruff_check": "passed",
+  "ruff_format": "passed",
+  "pytest": {
+    "passed": 63,
+    "seconds": 22.0,
+    "warnings": "Two existing Starlette/httpx/anyio deprecation warnings"
+  },
+  "new_checks": [
+    "source/reference separation and no cross-partition utterance leakage",
+    "own-checkpoint depth transfer preserves retained weights and rejects width changes",
+    "interrupted/resumed CPU training matches uninterrupted model exactly",
+    "expired session saves a checkpoint before any updates"
+  ],
+  "http_routes": {
+    "/experiments/concept/": 200,
+    "/experiments/concept/status": 200,
+    "/experiments/reference/": 200
+  },
+  "quality": "Pending real development evaluation; code tests are not quality evidence."
+}

@@ -61,7 +61,7 @@ def full_reference_features(requests, training):
     return torch.stack([F.pad(feature, (0, longest - feature.shape[-1])) for feature in features])
 
 
-def backward_batch(model, requests, features, config):
+def backward_batch(model, requests, features, config, clear_mps_cache=True):
     """Exact full reference batch statistics with one separator microbatch at a time.
 
     Reference embeddings are recomputed once for their backward pass. This retains
@@ -70,13 +70,13 @@ def backward_batch(model, requests, features, config):
     against ordinary joint-batch backpropagation.
     """
     device = next(model.parameters()).device
-    if device.type == "mps":
+    if device.type == "mps" and clear_mps_cache:
         torch.mps.empty_cache()
     features = features.to(device)
     with torch.no_grad():
         vectors = model.reference_encoder.encode_features(features)
     vectors = vectors.detach().requires_grad_()
-    if device.type == "mps":
+    if device.type == "mps" and clear_mps_cache:
         torch.mps.empty_cache()
     labels = torch.tensor([r["label"] for r in requests], device=device)
     logits = model.speaker_head(vectors)
@@ -99,7 +99,7 @@ def backward_batch(model, requests, features, config):
         total_score += float(scores.detach().sum()) / len(requests)
     if vectors.grad is None or not torch.isfinite(vectors.grad).all():
         raise FloatingPointError("Reference conditioning received invalid gradients")
-    if device.type == "mps":
+    if device.type == "mps" and clear_mps_cache:
         # Recurrent workspace caches otherwise compete with the full enrollment
         # CNN's recomputation, especially for longer reference utterances.
         torch.mps.empty_cache()

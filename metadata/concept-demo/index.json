@@ -1,0 +1,9 @@
+{
+  "protocol": "known-voice-concept-v1",
+  "manifest_sha256": "06dae561ce29995ae7ab7ca9ac28410ae4f27ff91618d33f4fc35fdefe6ab8d6",
+  "source_manifest_sha256": "b80ecd46adf5062823748eed290b5415e7cc5542001bc90845b06af59244f640",
+  "initialization_sha256": "6df899d5db3150c8fd419a3c969199d2d390e7a90a21754d4db96d466ab04a0a",
+  "source": "LibriSpeech / OpenSLR 12; CC BY 4.0. Sources rendered independently using pinned LibriMix metadata; MIT notice in metadata/reference-baseline/LibriMix-LICENSE.txt.",
+  "contents": "Public source identities and split reservation; no audio, checkpoints or SpeakerBeam enrollment tables.",
+  "scope": "Eight familiar voices, clean fully overlapping speech; development/test reserve different utterances, not different speakers. Initializer audio is excluded from every pool."
+}

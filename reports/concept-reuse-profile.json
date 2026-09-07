@@ -1,0 +1,249 @@
+{
+  "status": "finite_training",
+  "config": {
+    "schema_version": 1,
+    "status": "active",
+    "experiment": "reference-libri2mix-clean-100",
+    "seed": 42,
+    "audio": {
+      "sample_rate": 16000,
+      "channels": 1,
+      "crop_seconds": 3.0,
+      "reference_seconds": 3.0,
+      "reference_mode": "crop"
+    },
+    "data": {
+      "protocol": "libri2mix-16k-min-clean",
+      "training_source": "LibriSpeech/train-clean-100",
+      "development_source": "LibriSpeech/dev-clean",
+      "test_source": "LibriSpeech/test-clean",
+      "pilot_speakers_target": 251,
+      "minimum_utterances_per_speaker": 3,
+      "mixtures_on_demand": true,
+      "distinct_reference_utterance": true,
+      "prefer_different_reference_chapter": false,
+      "target_to_interferer_db": [
+        -5.0,
+        5.0
+      ],
+      "overlap_fraction": 1.0,
+      "target_present": true
+    },
+    "model": {
+      "family": "reference_bsrnn",
+      "weights": "random_initialization",
+      "encoder_channels": 257,
+      "encoder_kernel_samples": 32,
+      "encoder_stride_samples": 16,
+      "bottleneck_channels": 64,
+      "hidden_channels": 128,
+      "skip_channels": 64,
+      "temporal_kernel": 3,
+      "dilations": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "repeats": 2,
+      "conditioning": "multiply_once",
+      "mask_activation": "gated_complex",
+      "separation_normalization": "global",
+      "stft_fft_samples": 512,
+      "stft_hop_samples": 128,
+      "spectral_mask": "gated_complex",
+      "band_widths": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        16,
+        16,
+        16,
+        16,
+        16,
+        64,
+        8
+      ],
+      "band_channels": 128,
+      "band_hidden_channels": 256,
+      "band_blocks": 3,
+      "causal": false,
+      "parameter_budget": 40000000,
+      "reference_encoder": {
+        "family": "resnet34_fbank",
+        "resnet_base_channels": 32,
+        "channels": 128,
+        "kernel_samples": 160,
+        "stride_samples": 80,
+        "dilations": [
+          1,
+          2,
+          4
+        ],
+        "pooling": "masked_mean_std",
+        "embedding_dim": 256,
+        "shared_with_mixture_encoder": false
+      }
+    },
+    "training": {
+      "optimizer": "adam",
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "microbatch_size": 2,
+      "gradient_accumulation": 4,
+      "gradient_clip_norm": 5.0,
+      "max_optimizer_updates": 347500,
+      "validation_interval_updates": 3475,
+      "precision": "float32",
+      "learning_rate_schedule": "exponential",
+      "epochs": 100,
+      "checkpoint_interval_updates": 100,
+      "activation_checkpointing": false,
+      "schedule_decay_updates": 347500,
+      "preserve_initialized_classifier": false,
+      "scheduler_patience_validations": 4,
+      "scheduler_factor": 0.5,
+      "minimum_learning_rate": 2.5e-05,
+      "num_workers": 0,
+      "retain_checkpoints": [
+        "best",
+        "latest"
+      ]
+    },
+    "loss": {
+      "primary": "negative_si_sdr",
+      "epsilon": 1e-08,
+      "mask_padding": true,
+      "zero_mean": true,
+      "separation_weight": 0.9,
+      "speaker_classification_weight": 0.1,
+      "speaker_logit_scale": 1.0,
+      "waveform_weight": 0.0,
+      "spectral_weight": 0.0,
+      "spectral_fft_sizes": [
+        256,
+        512,
+        1024
+      ],
+      "absent_target_si_sdr": "unsupported",
+      "absent_target_weight": 10.0
+    },
+    "augmentation": {
+      "reference_enabled": false,
+      "mixture_noise_enabled": false,
+      "independent_random_streams": true,
+      "realistic_enabled": false,
+      "environment_root": null,
+      "environment_manifest": null
+    },
+    "evaluation": {
+      "realistic_validation": false,
+      "development_cases_target": 400,
+      "final_test_cases_target": 1000,
+      "mixture_seconds": 4.0,
+      "reference_seconds": 5.0,
+      "confusion_margin_db": 3.0,
+      "bootstrap_target_speaker_clusters": true,
+      "bootstrap_replicates": 1000,
+      "training_seeds_final_target": 3
+    },
+    "runtime": {
+      "preferred_device": "mps",
+      "cpu_path_required": true,
+      "allow_implicit_cpu_fallback_in_benchmarks": false,
+      "benchmark_warmup_steps": 20,
+      "benchmark_measured_steps": 100,
+      "mps_memory_fraction": 0.6
+    },
+    "resources": {
+      "minimum_free_disk_gib": 15.0,
+      "persistent_artifact_budget_gib": 20.0,
+      "process_rss_target_gib": 10.0
+    },
+    "inference": {
+      "mode": "offline",
+      "maximum_mixture_seconds": 60.0,
+      "minimum_reference_seconds": 3.0,
+      "maximum_reference_seconds": 10.0,
+      "input_formats": [
+        "wav",
+        "flac"
+      ],
+      "maximum_concurrent_extractions": 1,
+      "report_confidence": false
+    }
+  },
+  "source_tree_sha256": "41f8a78adb4c6e8226b5b28572b2d623e61a16e8e61a313ac0501a6f1310ae73",
+  "parameters": 22995427,
+  "results": [
+    {
+      "loss": 20.614118099212646,
+      "si_sdr_db": -22.28109121322632,
+      "speaker_accuracy": 0.0,
+      "seconds": 4.579915374983102,
+      "driver_gib": 4.782257080078125
+    },
+    {
+      "loss": 20.09167456626892,
+      "si_sdr_db": -21.686660766601562,
+      "speaker_accuracy": 0.0,
+      "seconds": 2.597035790910013,
+      "driver_gib": 5.797882080078125
+    },
+    {
+      "loss": 8.45418963432312,
+      "si_sdr_db": -8.758097290992737,
+      "speaker_accuracy": 0.0,
+      "seconds": 2.487262500100769,
+      "driver_gib": 5.805694580078125
+    },
+    {
+      "loss": 5.319982981681823,
+      "si_sdr_db": -4.997738838195801,
+      "speaker_accuracy": 0.0,
+      "seconds": 2.519670124980621,
+      "driver_gib": 5.805694580078125
+    },
+    {
+      "loss": 4.827084171772003,
+      "si_sdr_db": -4.504870295524597,
+      "speaker_accuracy": 0.0,
+      "seconds": 2.5999885000055656,
+      "driver_gib": 5.776397705078125
+    },
+    {
+      "loss": 4.538765823841095,
+      "si_sdr_db": -4.093842506408691,
+      "speaker_accuracy": 0.0,
+      "seconds": 2.6435560829704627,
+      "driver_gib": 5.776397705078125
+    }
+  ],
+  "note": "Fixed-shape cache reuse, three blocks, three-second references, separator microbatch two, effective batch eight. Discarded speed probe; no quality or sustained-run claim."
+}

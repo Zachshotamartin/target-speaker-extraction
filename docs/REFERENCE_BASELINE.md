@@ -2,6 +2,8 @@
 
 This experiment addresses the [research gaps](V3_RESEARCH_GAPS.md) directly. The model is independently implemented from published architectural specifications; no SpeakerBeam/WeSep model implementation or externally trained weights are imported. Public mixture metadata and enrollment mappings are data inputs. Completed compact experiments and the v0.2.0 serving artifact remain preserved.
 
+**Current direction:** the user chose a [short known-voice concept demo](CONCEPT_DEMO.md) instead of the long main run described here. The concept adapts our own 224-update learning-check checkpoint, removes three separator blocks and reserves different recordings of eight familiar voices. It has a 600-update cap and a 30-minute default session limit. This is a separate experiment, not progress toward the 100-epoch baseline below.
+
 ## Architecture and objective
 
 The new model has **28,134,115 parameters**, including a 6,634,336-parameter speaker encoder. It uses 32 spectral bands, 128 band features, recurrent hidden width 256 and six time/frequency blocks. A 256-dimensional ResNet34 enrollment vector conditions the separator through one multiplicative fusion. Sequence-spanning normalization and unbounded gated complex coefficients replace the compact model's per-frame normalization and restricted coefficients. STFT/ISTFT uses a 512-sample Hann window and 128-sample hop at 16 kHz. Inference uses the whole clip.
@@ -44,7 +46,7 @@ Before the full run, a separate 256-update diagnostic repeats sixteen training r
 
 The diagnostic completed all **256 updates**. Its [learning gate passed](../reports/reference-learning-gate.json): the best checkpoint (update 224) achieved **15.42 dB SI-SDR improvement** and preferred the requested source in all sixteen cases. The final update scored 13.96 dB; the best-checkpoint result is identified explicitly. A [CPU check of update 192](../reports/reference-cpu-validation.json) matched the corresponding MPS per-case SI-SDRi values within 0.000004 dB. These are fixed training examples, not evidence of generalization or a new release.
 
-The user cannot dedicate this Mac to the projected month-long run. [Full training is on hold](../reports/reference-compute-decision.json), with no automatic main run queued and no paid GPU provisioned. The additional Mac throughput/microbatch stress profiles were prepared but not run after this constraint. [Compute options](COMPUTE_OPTIONS.md) describe a measured, budgeted next step. Repeated passes over sixteen diagnostic examples are distinct from the 27,800 requests in each full-data epoch.
+The user cannot dedicate this Mac to the projected month-long run. [Full training is on hold](../reports/reference-compute-decision.json), with no automatic main run queued and no paid GPU provisioned. Subsequent [concept efficiency measurements](../reports/concept-compute-decision.json) rejected a full-model microbatch of four after an out-of-memory failure, then measured a smaller fixed-shape configuration. [Compute options](COMPUTE_OPTIONS.md) record the new bounded local direction. Repeated passes over sixteen diagnostic examples are distinct from the 27,800 requests in each full-data epoch.
 
 ## Run and resume
 

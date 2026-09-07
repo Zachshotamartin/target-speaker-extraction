@@ -123,6 +123,18 @@ def create_app(
             Path(__file__).parent / "web" / "reference.html", headers={"Cache-Control": "no-cache"}
         )
 
+    @app.get("/experiments/concept/status")
+    def concept_status():
+        from tse.progress import concept_progress
+
+        return JSONResponse(concept_progress(), headers={"Cache-Control": "no-store"})
+
+    @app.get("/experiments/concept/", include_in_schema=False)
+    def concept_page():
+        return FileResponse(
+            Path(__file__).parent / "web" / "concept.html", headers={"Cache-Control": "no-cache"}
+        )
+
     @app.get("/ready")
     def ready():
         if app.state.extractor is None:
