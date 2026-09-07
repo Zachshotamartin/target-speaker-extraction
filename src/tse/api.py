@@ -16,6 +16,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
+from tse import __version__
 from tse.inference import Extractor
 
 LOGGER = logging.getLogger("tse.api")
@@ -86,7 +87,7 @@ def create_app(
         yield
         app.state.extractor = None
 
-    app = FastAPI(title="Target Speaker Extraction", version="0.1.1", lifespan=lifespan)
+    app = FastAPI(title="Target Speaker Extraction", version=__version__, lifespan=lifespan)
     app.state.gate = gate
     app.add_middleware(UploadLimitMiddleware)
     app.add_middleware(
