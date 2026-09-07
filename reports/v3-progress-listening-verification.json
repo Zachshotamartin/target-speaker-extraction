@@ -1,0 +1,16 @@
+{
+  "served_checkpoint_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+  "live_progress_stages": 8,
+  "listening_study": "v3-continuation-listening",
+  "browser_checks": {
+    "progress_counters_visible": true,
+    "served_model_identity_visible": true,
+    "blind_form_trials": 12,
+    "first_version_A_played_seconds": 4,
+    "audio_decode_error": null,
+    "horizontal_overflow": false,
+    "ratings_submitted_by_agent_in_real_study": 0
+  },
+  "api_checks": "HTTP rating save/missing-study/unknown-trial integration checks use temporary test directories only. Actual participant ratings are separate.",
+  "status": "Live page and anonymous playback verified; this is functional verification, not a perceived-quality rating."
+}

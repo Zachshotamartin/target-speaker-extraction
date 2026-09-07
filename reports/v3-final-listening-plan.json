@@ -1,0 +1,40 @@
+{
+  "status": "Declared before architecture pilot evaluation and final selection",
+  "conditions": [
+    "clean",
+    "noise",
+    "reverb",
+    "partial_overlap",
+    "pauses",
+    "combined"
+  ],
+  "request_indices_per_condition": {
+    "clean": [
+      0,
+      1
+    ],
+    "noise": [
+      8,
+      9
+    ],
+    "reverb": [
+      16,
+      17
+    ],
+    "partial_overlap": [
+      24,
+      25
+    ],
+    "pauses": [
+      32,
+      33
+    ],
+    "combined": [
+      40,
+      41
+    ]
+  },
+  "selection": "Fixed positions across the 50 acoustic development requests; paired target switching within each condition; six different source mixtures. Positions do not depend on any model score.",
+  "preserve": "The existing one-pair continuation study and its failures are immutable.",
+  "interpretation": "Small convenience listening comparison, not a population-level subjective test."
+}

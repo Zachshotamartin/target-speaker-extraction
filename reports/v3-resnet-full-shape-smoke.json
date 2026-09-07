@@ -1,0 +1,10 @@
+{
+  "microbatch": 4,
+  "mixture_samples": 64000,
+  "reference_samples": 80000,
+  "loss": 3.614009380340576,
+  "finite_gradients": true,
+  "reference_gradient_norm": 5.427204608917236,
+  "mps_driver_gib": 2.36602783203125,
+  "note": "One full-shape MPS forward/backward with real source dimensions during another run. Operator/memory feasibility only, not an isolated throughput benchmark."
+}

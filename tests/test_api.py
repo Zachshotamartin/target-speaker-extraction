@@ -63,6 +63,25 @@ def test_ready_interface_and_successful_extraction(checkpoint):
         assert output.shape == (16000,) and np.isfinite(output).all()
 
 
+def test_listening_http_ratings_are_local_to_the_declared_study(checkpoint, tmp_path, monkeypatch):
+    from tse.utils import atomic_json
+
+    monkeypatch.chdir(tmp_path)
+    study = tmp_path / "artifacts/listening/qa-study"
+    atomic_json(study / "key.json", {"trials": [{"id": "trial-01"}]})
+    scores = {"competing_speech": 2, "target_damage": 3, "static": 1}
+    payload = {"participant": "test-only", "trial": "trial-01", "A": scores, "B": scores}
+    with TestClient(create_app(checkpoint, "cpu")) as client:
+        response = client.post("/listening/qa-study/ratings", json=payload)
+        assert response.status_code == 200
+        assert response.json()["completed_trials"] == 1
+        assert client.post("/listening/missing-study/ratings", json=payload).status_code == 404
+        payload["trial"] = "unknown"
+        assert client.post("/listening/qa-study/ratings", json=payload).status_code == 422
+        assert client.get("/experiments/v3/status").json()["job_process_alive"] is False
+    assert len(json.loads((study / "ratings/test-only.json").read_text())["ratings"]) == 1
+
+
 def test_missing_model_and_invalid_reference(checkpoint, tmp_path):
     with TestClient(create_app(tmp_path / "missing.pt", "cpu")) as client:
         assert client.get("/ready").status_code == 503

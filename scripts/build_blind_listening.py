@@ -10,6 +10,7 @@ from pathlib import Path
 
 import numpy as np
 import soundfile as sf
+import torch
 
 from tse.audio import read_audio, wav_bytes
 from tse.inference import Extractor
@@ -17,7 +18,7 @@ from tse.realistic import SCENARIOS, RealisticCorpus
 from tse.utils import atomic_json, sha256
 
 
-def build(candidate, study, device, environment_root):
+def build(candidate, study, device, environment_root, selection_plan=None):
     if any(c not in "abcdefghijklmnopqrstuvwxyz0123456789-" for c in study) or not study:
         raise ValueError("Use a simple lowercase study identifier")
     output = Path("artifacts/gallery") / study
@@ -31,12 +32,16 @@ def build(candidate, study, device, environment_root):
         Path("data/expanded/raw"), manifest, "dev", 4, 5, environment_root, env_manifest
     )
     cases = json.loads(cases_path.read_text())["cases"]
-    selected = [
-        case
-        for scenario in SCENARIOS
-        if scenario != "target_absent"
-        for case in [c for c in cases if c["scenario"] == scenario][:2]
-    ]
+    plan = json.loads(selection_plan.read_text()) if selection_plan else None
+    selected = []
+    for scenario in SCENARIOS:
+        if scenario == "target_absent":
+            continue
+        current = [case for case in cases if case["scenario"] == scenario]
+        positions = plan["request_indices_per_condition"][scenario] if plan else [0, 1]
+        if len(positions) != 2 or len(set(positions)) != 2:
+            raise ValueError("Each condition requires two distinct predeclared request positions")
+        selected.extend(current[position] for position in positions)
     models = {
         "baseline": Extractor(Path("artifacts/releases/v0.2.0/model.pt"), device),
         "candidate": Extractor(candidate, device),
@@ -121,7 +126,10 @@ document.querySelectorAll('audio').forEach(player=>player.addEventListener('play
             "case_manifest_sha256": sha256(cases_path),
             "environment_manifest_sha256": sha256(env_manifest),
             "trials": trials,
-            "selection": "First two development requests in each target-present scenario, independent of scores",
+            "selection": plan["selection"]
+            if plan
+            else "First two development requests in each target-present scenario, independent of scores; one source pair reused under six conditions",
+            "selection_plan_sha256": sha256(selection_plan) if selection_plan else None,
             "playback": "Each waveform RMS matched to 0.1, then one shared attenuation keeps all peaks <=0.98",
         },
     )
@@ -134,5 +142,8 @@ if __name__ == "__main__":
     parser.add_argument("--study", required=True)
     parser.add_argument("--device", choices=["cpu", "mps"], default="mps")
     parser.add_argument("--environment-root", type=Path, required=True)
+    parser.add_argument("--cpu-threads", type=int, default=2)
+    parser.add_argument("--selection-plan", type=Path)
     args = parser.parse_args()
-    build(args.candidate, args.study, args.device, args.environment_root)
+    torch.set_num_threads(args.cpu_threads)
+    build(args.candidate, args.study, args.device, args.environment_root, args.selection_plan)

@@ -1,0 +1,40 @@
+{
+  "study": "v3-continuation-listening",
+  "feedback": "The reviewer reported that the conversation and both model versions sounded almost the same in nearly all presented cases.",
+  "aggregate_at_feedback": {
+    "study": "v3-continuation-listening",
+    "status": "Human ratings received",
+    "participants": 1,
+    "models": {
+      "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e": {
+        "ratings": 1,
+        "competing_speech": 5.0,
+        "target_damage": 1.0,
+        "static": 1.0
+      },
+      "50752121234f6f3700849de2c071c0f124ca80fe5ceca0649c05662325e8fa55": {
+        "ratings": 1,
+        "competing_speech": 5.0,
+        "target_damage": 1.0,
+        "static": 1.0
+      }
+    },
+    "interpretation": "Ordinal 1..5 severity ratings; lower is better. This convenience listening panel is not a population-level perceptual study."
+  },
+  "objective_checks": [
+    {
+      "checkpoint_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+      "cases": 12,
+      "mean_si_sdri_db": 0.4832429389158885,
+      "worse_than_mixture": 6
+    },
+    {
+      "checkpoint_sha256": "50752121234f6f3700849de2c071c0f124ca80fe5ceca0649c05662325e8fa55",
+      "cases": 12,
+      "mean_si_sdri_db": 1.0193918248017628,
+      "worse_than_mixture": 4
+    }
+  ],
+  "limitation": "The first two requests of each condition are the same paired source mixture with target switching. The 12 trials therefore cover one speaker pair under six conditions, not twelve independent conversations. This poor-performing pair remains preserved.",
+  "decision": "Do not claim a perceptible quality improvement from learning-rate continuation. Broaden the final listening sample by fixed, score-independent case positions while preserving this failure study."
+}

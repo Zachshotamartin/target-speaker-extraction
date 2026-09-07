@@ -99,6 +99,18 @@ def create_app(
     def health():
         return {"status": "alive"}
 
+    @app.get("/experiments/v3/status")
+    def v3_status():
+        from tse.progress import experiment_progress
+
+        return JSONResponse(experiment_progress(), headers={"Cache-Control": "no-store"})
+
+    @app.get("/experiments/v3/", include_in_schema=False)
+    def v3_page():
+        return FileResponse(
+            Path(__file__).parent / "web" / "v3.html", headers={"Cache-Control": "no-cache"}
+        )
+
     @app.get("/ready")
     def ready():
         if app.state.extractor is None:

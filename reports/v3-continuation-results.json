@@ -1,0 +1,84 @@
+{
+  "status": "Both arms completed; development only",
+  "arms": [
+    {
+      "arm": "control",
+      "additional_updates": 5000,
+      "final_updates": 25000,
+      "training_seconds": 949.6410427090013,
+      "checkpoint_sha256": "5b2b3f30e1e72d1f28d68b266c26c1f79827a4cff898a87803d19fa95681b64a",
+      "best_checkpoint_selection_si_sdri_db": 4.994887563586235,
+      "clean_development": {
+        "cases": 400,
+        "target_speakers": 40,
+        "mean_si_sdri_db": 6.385782984104008,
+        "median_si_sdri_db": 7.591431379318237,
+        "p10_si_sdri_db": -0.3144314706325517,
+        "negative_improvement_fraction": 0.115,
+        "confusion_fraction": 0.065,
+        "near_silent_fraction": 0.0,
+        "mean_normalized_l1": 0.27318469440564513,
+        "mean_ci95_db": [
+          5.706494627877285,
+          7.036357315208669
+        ],
+        "confidence_method": "Approximate target-speaker cluster bootstrap; shared-interferer dependence remains",
+        "bootstrap_seed": 42,
+        "bootstrap_replicates": 1000,
+        "estoi_valid_cases": 400,
+        "estoi_excluded_cases": 0,
+        "mean_estoi": 0.6564207728362623,
+        "mean_mixture_estoi": 0.5383340166142093,
+        "mean_estoi_improvement": 0.11808675622205314,
+        "mean_artifact_proxy_fraction": 0.11519920339983773,
+        "median_relative_interferer_attenuation_db": 13.98788018422492,
+        "maximum_output_peak": 0.904530942440033
+      },
+      "acoustic_development": 5.0683279803519445,
+      "report_sha256": {
+        "clean": "108db56645086a95d5ea3a90480caa5bf3f08a13e444f4500b13f3d84328c041",
+        "realistic": "0449e10d710bd73a0124ed31cc4cd0c790de9c749747810a38bbb32d31f8c93e"
+      }
+    },
+    {
+      "arm": "cosine",
+      "additional_updates": 5000,
+      "final_updates": 25000,
+      "training_seconds": 837.8404132080032,
+      "checkpoint_sha256": "50752121234f6f3700849de2c071c0f124ca80fe5ceca0649c05662325e8fa55",
+      "best_checkpoint_selection_si_sdri_db": 5.093790636211634,
+      "clean_development": {
+        "cases": 400,
+        "target_speakers": 40,
+        "mean_si_sdri_db": 6.589656287431717,
+        "median_si_sdri_db": 7.683578252792358,
+        "p10_si_sdri_db": -0.05245685577392468,
+        "negative_improvement_fraction": 0.1075,
+        "confusion_fraction": 0.055,
+        "near_silent_fraction": 0.0,
+        "mean_normalized_l1": 0.26912193922325967,
+        "mean_ci95_db": [
+          5.8388831128306755,
+          7.270835679205948
+        ],
+        "confidence_method": "Approximate target-speaker cluster bootstrap; shared-interferer dependence remains",
+        "bootstrap_seed": 42,
+        "bootstrap_replicates": 1000,
+        "estoi_valid_cases": 400,
+        "estoi_excluded_cases": 0,
+        "mean_estoi": 0.6622943799390631,
+        "mean_mixture_estoi": 0.5383340166142093,
+        "mean_estoi_improvement": 0.12396036332485387,
+        "mean_artifact_proxy_fraction": 0.1099752115419669,
+        "median_relative_interferer_attenuation_db": 14.235640921527553,
+        "maximum_output_peak": 0.9036457538604736
+      },
+      "acoustic_development": 5.3054118374983466,
+      "report_sha256": {
+        "clean": "842ade4a9dc4060ad03d5c4631ff479ffb89d9cdb4b8e1aa8d28129d7c5c7b36",
+        "realistic": "8972e3a6b72d41e8dd84e6c769188a75d15de8db45fda14c92bdde134e786b99"
+      }
+    }
+  ],
+  "interpretation": "Cosine improves both larger development comparisons over plateau. Against averaged v0.2.0, cosine improves clean SI-SDRi by 0.544 dB and acoustic SI-SDRi by 0.189 dB. The acoustic gain is below the predeclared +0.3 dB promotion gate. One matched training continuation, not a multi-seed estimate."
+}

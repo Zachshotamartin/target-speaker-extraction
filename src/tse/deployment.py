@@ -116,27 +116,37 @@ def profile_delivery(
         delivered = read_audio(io.BytesIO(prediction_bytes))
         # Compare like-for-like raw predictions; a delivery peak guard must not
         # be mistaken for a chunk-boundary error.
-        chunked = extractor.extract_array(waveform, reference)
+        chunk_comparison = extractor.info()["inference_strategy"] == "finite_context_chunks"
         whole = extractor.extract_array(waveform, reference, chunked=False)
-        difference = chunked - whole
-        boundaries = np.concatenate(
-            [difference[index - 160 : index + 160] for index in range(32000, len(whole), 32000)]
-        )
+        difference, boundaries = None, None
+        if chunk_comparison:
+            chunked = extractor.extract_array(waveform, reference)
+            difference = chunked - whole
+            boundaries = np.concatenate(
+                [difference[index - 160 : index + 160] for index in range(32000, len(whole), 32000)]
+            )
         rows.append(
             {
                 "duration_seconds": seconds,
-                "output_samples": len(chunked),
+                "output_samples": len(delivered),
                 "expected_samples": seconds * 16000,
-                "exact_length": len(chunked) == seconds * 16000,
+                "exact_length": len(delivered) == seconds * 16000,
                 "first_request_seconds": first_seconds,
                 "warm_repeats": repeats,
                 "warm_median_seconds": float(np.median(elapsed)),
                 "warm_p95_seconds": float(np.percentile(elapsed, 95)),
                 "warm_model_median_seconds": float(np.median(model_elapsed)),
                 "warm_median_real_time_factor": float(np.median(elapsed) / seconds),
-                "chunk_whole_rms_error": float(np.sqrt(np.mean(difference**2))),
-                "chunk_whole_max_error": float(np.max(np.abs(difference))),
-                "boundary_10ms_rms_error": float(np.sqrt(np.mean(boundaries**2))),
+                "chunk_comparison_applicable": chunk_comparison,
+                "chunk_whole_rms_error": float(np.sqrt(np.mean(difference**2)))
+                if chunk_comparison
+                else None,
+                "chunk_whole_max_error": float(np.max(np.abs(difference)))
+                if chunk_comparison
+                else None,
+                "boundary_10ms_rms_error": float(np.sqrt(np.mean(boundaries**2)))
+                if chunk_comparison
+                else None,
                 "whole_output_rms": float(np.sqrt(np.mean(whole**2))),
                 "delivered_peak": float(np.max(np.abs(delivered))),
                 "playback_gain": metadata["playback_gain"],

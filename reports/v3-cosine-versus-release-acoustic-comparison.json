@@ -1,0 +1,351 @@
+{
+  "baseline_report_sha256": "a0d24e7575194c3bd9d26c332abb78346014e88bba8a9218ec40f2206a0a89c4",
+  "candidate_report_sha256": "8972e3a6b72d41e8dd84e6c769188a75d15de8db45fda14c92bdde134e786b99",
+  "case_manifest_sha256": "4873feb93dc364727146f6e09b26afc8c9e7e94ae7cd4e49af95b9d545ef20d4",
+  "source_manifest_sha256": "2bdcf858bbd0271f16dab63d256b7e9a93b71a08a7c324705de00d18646b3c8a",
+  "environment_manifest_sha256": "9e4cf49efd6d41766a4c36d0b639b689d78ae942f8862fa000ae39f59e3a2425",
+  "split": "dev",
+  "protocol": "realistic-tse-v1",
+  "selection_freeze_sha256": null,
+  "baseline_checkpoint_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+  "candidate_checkpoint_sha256": "50752121234f6f3700849de2c071c0f124ca80fe5ceca0649c05662325e8fa55",
+  "requests": 350,
+  "conditions": {
+    "clean": {
+      "si_sdri_db": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 6.4977130031585695,
+        "candidate_mean": 6.835626754760742,
+        "mean_candidate_minus_baseline": 0.33791375160217285,
+        "paired_ci95": [
+          -0.04061362439043382,
+          0.7630698084831238
+        ]
+      },
+      "estoi": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.642795111005393,
+        "candidate_mean": 0.6506363307304109,
+        "mean_candidate_minus_baseline": 0.007841219725017945,
+        "paired_ci95": [
+          0.0010050384889694092,
+          0.014897414089995112
+        ]
+      },
+      "confused": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.1,
+        "candidate_mean": 0.06,
+        "mean_candidate_minus_baseline": -0.04000000000000001,
+        "paired_ci95": [
+          -0.10209396258503402,
+          0.0
+        ]
+      },
+      "artifact_proxy_fraction": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.1026687256285404,
+        "candidate_mean": 0.10798203165262096,
+        "mean_candidate_minus_baseline": 0.005313306024080561,
+        "paired_ci95": [
+          -0.005805201283712042,
+          0.01735376733677286
+        ]
+      }
+    },
+    "combined": {
+      "si_sdri_db": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 1.697190327644348,
+        "candidate_mean": 1.5848006987571717,
+        "mean_candidate_minus_baseline": -0.11238962888717641,
+        "paired_ci95": [
+          -0.6686842593391854,
+          0.4548056901198159
+        ]
+      },
+      "estoi": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.5152364052341776,
+        "candidate_mean": 0.5089911018329416,
+        "mean_candidate_minus_baseline": -0.006245303401235969,
+        "paired_ci95": [
+          -0.014365262789661808,
+          0.0017762536441939135
+        ]
+      },
+      "confused": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.16,
+        "candidate_mean": 0.2,
+        "mean_candidate_minus_baseline": 0.04000000000000001,
+        "paired_ci95": [
+          0.0,
+          0.09615384615384616
+        ]
+      },
+      "artifact_proxy_fraction": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.2550462921592869,
+        "candidate_mean": 0.26723241830617805,
+        "mean_candidate_minus_baseline": 0.01218612614689113,
+        "paired_ci95": [
+          -0.006597185860314512,
+          0.031901586808541646
+        ]
+      }
+    },
+    "noise": {
+      "si_sdri_db": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 5.021920809745788,
+        "candidate_mean": 5.005479464530945,
+        "mean_candidate_minus_baseline": -0.01644134521484375,
+        "paired_ci95": [
+          -0.27709951108229075,
+          0.21837867733615748
+        ]
+      },
+      "estoi": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.5122118226189877,
+        "candidate_mean": 0.514904788755682,
+        "mean_candidate_minus_baseline": 0.0026929661366943414,
+        "paired_ci95": [
+          -0.003642171885247546,
+          0.008563605900627696
+        ]
+      },
+      "confused": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.1,
+        "candidate_mean": 0.1,
+        "mean_candidate_minus_baseline": 0.0,
+        "paired_ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "artifact_proxy_fraction": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.2132788869306876,
+        "candidate_mean": 0.22072898987206088,
+        "mean_candidate_minus_baseline": 0.007450102941373271,
+        "paired_ci95": [
+          -0.006150642593586439,
+          0.019396529115452723
+        ]
+      }
+    },
+    "partial_overlap": {
+      "si_sdri_db": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 6.948809309005737,
+        "candidate_mean": 7.592130792140961,
+        "mean_candidate_minus_baseline": 0.6433214831352236,
+        "paired_ci95": [
+          0.2026238471750643,
+          1.135243443004787
+        ]
+      },
+      "estoi": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.7272131641640938,
+        "candidate_mean": 0.7352318629581339,
+        "mean_candidate_minus_baseline": 0.008018698794040158,
+        "paired_ci95": [
+          4.1400959564410166e-05,
+          0.017365264353914087
+        ]
+      },
+      "confused": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.1,
+        "candidate_mean": 0.08,
+        "mean_candidate_minus_baseline": -0.020000000000000004,
+        "paired_ci95": [
+          -0.06382978723404255,
+          0.0
+        ]
+      },
+      "artifact_proxy_fraction": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.10879857566939735,
+        "candidate_mean": 0.10828363200453144,
+        "mean_candidate_minus_baseline": -0.0005149436648659161,
+        "paired_ci95": [
+          -0.018435962411723815,
+          0.014252627357828654
+        ]
+      }
+    },
+    "pauses": {
+      "si_sdri_db": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 6.989212348461151,
+        "candidate_mean": 7.414166202545166,
+        "mean_candidate_minus_baseline": 0.4249538540840154,
+        "paired_ci95": [
+          0.05354750365806076,
+          0.7877789505496621
+        ]
+      },
+      "estoi": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.699161744341984,
+        "candidate_mean": 0.7089789253440881,
+        "mean_candidate_minus_baseline": 0.009817181002104158,
+        "paired_ci95": [
+          0.0027158190176294968,
+          0.017825869694542706
+        ]
+      },
+      "confused": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.1,
+        "candidate_mean": 0.06,
+        "mean_candidate_minus_baseline": -0.04000000000000001,
+        "paired_ci95": [
+          -0.10209396258503402,
+          0.0
+        ]
+      },
+      "artifact_proxy_fraction": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.09598615519662188,
+        "candidate_mean": 0.09875176453188943,
+        "mean_candidate_minus_baseline": 0.002765609335267552,
+        "paired_ci95": [
+          -0.004068001626565909,
+          0.010006732018285138
+        ]
+      }
+    },
+    "reverb": {
+      "si_sdri_db": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 3.545433151721954,
+        "candidate_mean": 3.4002671122550963,
+        "mean_candidate_minus_baseline": -0.1451660394668579,
+        "paired_ci95": [
+          -0.6396640264739593,
+          0.32335170600957763
+        ]
+      },
+      "estoi": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.5454662131656034,
+        "candidate_mean": 0.5425618415250427,
+        "mean_candidate_minus_baseline": -0.0029043716405606768,
+        "paired_ci95": [
+          -0.011829869173760329,
+          0.004660222972755392
+        ]
+      },
+      "confused": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.08,
+        "candidate_mean": 0.1,
+        "mean_candidate_minus_baseline": 0.020000000000000004,
+        "paired_ci95": [
+          -0.041666666666666664,
+          0.09090909090909091
+        ]
+      },
+      "artifact_proxy_fraction": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 0.14719699669300032,
+        "candidate_mean": 0.15996356792968464,
+        "mean_candidate_minus_baseline": 0.012766571236684315,
+        "paired_ci95": [
+          0.0020939082298984044,
+          0.024041617763501326
+        ]
+      }
+    },
+    "target_absent": {
+      "attenuation_db": {
+        "paired_cases": 50,
+        "target_speakers": 30,
+        "baseline_mean": 10.580719799995423,
+        "candidate_mean": 10.912774136066437,
+        "mean_candidate_minus_baseline": 0.332054336071014,
+        "paired_ci95": [
+          -0.3265205249263375,
+          1.039305652233813
+        ]
+      }
+    }
+  },
+  "all_present": {
+    "si_sdri_db": {
+      "paired_cases": 300,
+      "target_speakers": 30,
+      "baseline_mean": 5.116713158289591,
+      "candidate_mean": 5.3054118374983466,
+      "mean_candidate_minus_baseline": 0.1886986792087555,
+      "paired_ci95": [
+        -0.12179472353213873,
+        0.49373178197691836
+      ]
+    },
+    "estoi": {
+      "paired_cases": 300,
+      "target_speakers": 30,
+      "baseline_mean": 0.6070140767550399,
+      "candidate_mean": 0.6102174751910499,
+      "mean_candidate_minus_baseline": 0.003203398436009919,
+      "paired_ci95": [
+        -0.0020923605653583375,
+        0.008525819090633402
+      ]
+    },
+    "confused": {
+      "paired_cases": 300,
+      "target_speakers": 30,
+      "baseline_mean": 0.10666666666666667,
+      "candidate_mean": 0.1,
+      "mean_candidate_minus_baseline": -0.006666666666666668,
+      "paired_ci95": [
+        -0.036252012882447664,
+        0.019230769230769232
+      ]
+    },
+    "artifact_proxy_fraction": {
+      "paired_cases": 300,
+      "target_speakers": 30,
+      "baseline_mean": 0.15382927204625574,
+      "candidate_mean": 0.1604904007161609,
+      "mean_candidate_minus_baseline": 0.006661128669905175,
+      "paired_ci95": [
+        -0.0033827020677907795,
+        0.01734959764993332
+      ]
+    }
+  },
+  "interpretation": "Paired candidate-minus-baseline differences. Higher SI-SDRi, ESTOI and absent-target attenuation are favorable; lower confusion and distortion proxy are favorable. Approximate 95% target-speaker cluster bootstrap, 1000 replicates, seed 42. Repeated conditions stay together within target-speaker clusters; dependence through shared interferers and rooms remains. These intervals do not include training-seed uncertainty. Static is a human listening judgment, not the scalar artifact proxy."
+}

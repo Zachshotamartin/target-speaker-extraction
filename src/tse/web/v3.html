@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment progress · One voice</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .progress-table{width:100%;border-collapse:collapse;margin:30px 0}.progress-table th,.progress-table td{text-align:left;padding:16px 10px;border-bottom:1px solid var(--line,#ccc)}.progress-table th:first-child,.progress-table td:first-child{padding-left:0}progress{width:140px;max-width:100%;accent-color:#3c6247;display:block;margin-top:8px}.stage-state{text-transform:capitalize}.study-link{display:block;margin:12px 0}.progress-status{font-size:1.1rem}@media(max-width:650px){.progress-table{font-size:.85rem}.progress-table th,.progress-table td{padding:12px 5px}progress{width:90px}}
+  </style>
+</head>
+<body><div class="page">
+  <header class="topbar"><a class="brand" href="/">one voice.</a><a href="/gallery/quality-progress/">Hear the released comparison</a></header>
+  <main>
+    <section class="introduction"><div><p class="eyebrow">LOCAL EXPERIMENTS / V3</p><h1>Working toward cleaner voices.</h1><p class="intro-copy">Four tracks: learning-rate decay, a separator that models time and frequency, phase correction, and training with noise and room acoustics.</p></div></section>
+    <p class="progress-status" id="status" role="status">Reading local progress…</p>
+    <p id="model">Checking the model currently serving the app…</p>
+    <table class="progress-table"><thead><tr><th scope="col">Experiment</th><th scope="col">Updates</th><th scope="col">State</th></tr></thead><tbody id="stages"></tbody></table>
+    <p>One GPU training job runs at a time. Each update processes eight examples. A finished training run still needs quality checks; the app changes models only after selection and delivery verification.</p>
+    <p id="decision"></p>
+    <div id="listening"></div>
+    <p class="gallery-caption">Promotion requires better separation on acoustic development data while retaining clean-speech quality. Fresh test data stays out of model selection. Objective scores cannot establish whether the static sounds better; the blind listening form records that separately.</p>
+    <p class="gallery-caption" id="updated"></p>
+  </main>
+</div>
+<script>
+const stages=document.getElementById('stages');
+async function refresh(){
+  try{
+    const response=await fetch('/experiments/v3/status',{cache:'no-store'});
+    if(!response.ok)throw new Error('Progress is temporarily unavailable');
+    const data=await response.json();
+    document.getElementById('status').textContent=data.status==='development_complete'?'Development experiments finished. Final verification follows.':data.status==='failed'?'The current job needs attention. Completed checkpoints are saved.':data.job_process_alive?'Experiments are running on this Mac.':'No active experiment process was detected. Saved progress is shown below.';
+    stages.replaceChildren();
+    for(const row of data.stages){
+      const tr=document.createElement('tr');
+      for(const value of [row.name,row.updates.toLocaleString()+' / '+row.budget.toLocaleString(),row.status]){const cell=document.createElement('td');cell.textContent=value;tr.append(cell);}
+      const bar=document.createElement('progress');bar.max=row.budget;bar.value=row.updates;bar.setAttribute('aria-label',row.name);tr.children[1].append(bar);tr.lastChild.className='stage-state';stages.append(tr);
+    }
+    document.getElementById('decision').textContent=data.selected_candidate?'Development selection: '+data.selected_candidate+'. '+(data.fresh_test_complete?'Fresh test comparison is complete.':'Fresh test comparison is pending.'):'Architecture and model selection are still in progress.';
+    const listening=document.getElementById('listening');listening.replaceChildren();
+    for(const url of data.listening_studies){const a=document.createElement('a');a.href=url;a.className='study-link';a.textContent='Open blind listening · '+url.split('/')[2].replaceAll('-',' ');listening.append(a);}
+    document.getElementById('updated').textContent='Read from local training records at '+new Date().toLocaleTimeString()+'. Refreshes every 15 seconds.';
+    const modelResponse=await fetch('/model',{cache:'no-store'});if(modelResponse.ok){const model=await modelResponse.json();document.getElementById('model').textContent='The app currently serves model '+model.model_id+' ('+model.training_experiment+').';}
+  }catch(error){document.getElementById('status').textContent=error.message;}
+}
+refresh();setInterval(refresh,15000);
+</script>
+</body></html>

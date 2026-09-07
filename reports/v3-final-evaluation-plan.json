@@ -1,0 +1,8 @@
+{
+  "status": "Declared before architecture pilot results and fresh-test scoring",
+  "deployment_selection": "Use all fixed promotion gates from v3-evaluation-policy.json; otherwise retain v0.2.0.",
+  "fresh_test_comparison": "Compare v0.2.0 with the development-selected promotable candidate. If no candidate qualifies, compare it with the highest acoustic development scorer among the experimental candidates, explicitly labeled research-only; do not change the deployment decision based on fresh-test results.",
+  "runtime": "Verify exported weights and isolated CPU/MPS delivered waveform processing at 10/30/60 seconds before scoring fresh test.",
+  "statistics": "Paired target-speaker cluster bootstrap, 1000 replicates, seed 42; all repeated conditions retained within speaker clusters. Shared-interferer/room dependence and training-seed uncertainty remain.",
+  "listening": "Aggregate only genuine human submissions. Early learning-rate and later final-candidate studies remain distinct."
+}
