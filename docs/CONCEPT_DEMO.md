@@ -19,6 +19,8 @@ The [first 100 real updates](../reports/concept-first-100.json) completed in 258
 
 ## Reused learning and reserved recordings
 
+The original 600-update run completed in 1,452 seconds (24.2 minutes). Its best checkpoint was update 600: mean development SI-SDRi 3.2379 dB, 25th percentile 1.0934 dB, 29/32 requests improving over the mixture and 31/32 preferring the requested source. The two magnitude targets were not met; listening remains unrated and the final test remains unopened.
+
 Initialization is our own full-size model's best 224-update learning-check checkpoint. Transfer retains the first three separator blocks and every other matching weight, including the speaker encoder and classifier. No externally trained weights or extraction implementation are imported. Removing later blocks can initially damage performance; adaptation and evaluation determine whether it recovers.
 
 The sixteen fixed requests used by the initializer are reconstructed from their exact seed and manifest. All their source and reference utterances are excluded from every concept pool. The first eight familiar speaker IDs in sorted order are chosen before scoring. A deterministic hash ordering reserves ten development and ten test utterances per voice, leaving **686 training, 80 development and 80 test utterances**. The [public reservation](../metadata/concept-demo/manifest.json) records identities and hashes.
@@ -54,3 +56,27 @@ A fresh clone contains the reservation and code, not audio or weights. Recreate 
 The [progress page](http://127.0.0.1:8000/experiments/concept/) shows actual update counts, the session limit, development results and a link to the current best candidate. The generated gallery shows the first eight development requests, selected before scoring. It provides mixture, independent voice reference, model estimate and known target. Listening levels are matched, so simply turning down the mixture cannot masquerade as extraction. Audio filenames include the checkpoint identity, and the page switches only after every new file is written.
 
 Training saves `latest.pt`, `best.pt`, metrics, status and detailed development rows on the SSD. The reserved test remains unopened until a candidate is frozen for a separate final evaluation. The default app checkpoint is preserved; this concept gallery is a separately identified candidate. Listen for competing speech, missing or damaged target words and static separately before describing it as a successful audible demonstration.
+
+## Eight-hour continuation
+
+On September 7 the user authorized a longer run estimated at eight hours. [The continuation config](../configs/concept-eight-hour.json) targets **12,000 additional updates**, from 600 to 12,600, with a **480-minute compute budget**. Scaling the completed short run gives about 8.1 hours; validation is less frequent here, and actual speed varies, so the time limit can stop the run before its update target. Fresh mixtures are sampled on demand, so this budget is expressed in optimizer updates, not full-dataset epochs. It is twenty times the short run's update budget.
+
+The model, eight voices, reserved recordings, objective and effective batch remain the same. The extension preserves weights, Adam moments and RNG state from the best 600-update checkpoint. An explicit provenance record identifies the parent checkpoint, parent implementation and current trainer. A new cosine learning-rate phase runs from 0.0001 to 0.00001 over the additional updates; this is a declared schedule change. Its initial development evaluation must reproduce the parent's score within 0.001 dB before training advances.
+
+Checkpoints are saved every 50 updates (roughly two minutes) and development is evaluated every 250 additional updates (roughly ten minutes). This longer experiment keeps its best development checkpoint throughout the budget instead of stopping as soon as the original 6 dB target is reached. It stops at 12,600 total updates or its time limit, whichever comes first. A graceful resume uses only the remaining cumulative continuation budget; it does not reset the allowance. An abrupt failure can lose the work and elapsed accounting since the latest atomic checkpoint. CPU tests cover preserved weights/optimizer/RNG, exact interrupted/resumed continuation, rejected data changes and budget expiry.
+
+The original run and [600-update gallery](http://127.0.0.1:8000/gallery/concept-600/) are preserved for comparison. The active gallery follows the best continuation checkpoint. Generalization to new speakers and a successful human listening result are still unestablished.
+
+```sh
+CONCEPT_DATA="/Volumes/Zach's SSD/target-speaker-extraction/reference-baseline"
+CONCEPT_INIT="$CONCEPT_DATA/runs/tiny-learning-memory/best.pt"
+CONCEPT_EXT="$CONCEPT_DATA/runs/concept-eight-voices-eight-hour"
+
+# Prepare once, in a new destination; the original run remains untouched.
+uv run python scripts/extend_concept_training.py --parent-run "$CONCEPT_DATA/runs/concept-eight-voices" --config configs/concept-eight-hour.json --run "$CONCEPT_EXT" --minutes 480
+
+# Run or resume the prepared continuation with its remaining budget.
+uv run python scripts/train_concept_demo.py --config configs/concept-eight-hour.json --root "$CONCEPT_DATA" --checkpoint "$CONCEPT_INIT" --run "$CONCEPT_EXT" --minutes 480 --resume
+```
+
+For the launched session the Mac is on AC power. A process-bound idle-sleep assertion lasts only while the trainer runs, up to eight hours; the display may sleep. Keep the laptop connected to power with its lid open for an uninterrupted run. No permanent power setting or paid compute is involved.

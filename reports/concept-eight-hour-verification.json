@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-07",
+  "source_tree_sha256": "a4b2a9244341c15f259c6dcb678723acabe49bd03150d1f77117d06629ae144a",
+  "pytest": {
+    "passed": 64,
+    "seconds": 38.44
+  },
+  "ruff_check": "passed",
+  "ruff_format": "passed",
+  "continuation_checks": [
+    "retained model weights, optimizer moments and RNG",
+    "exact interrupted/resumed CPU continuation",
+    "remaining cumulative budget survives resume",
+    "expired continuation stops without a new update and writes a summary",
+    "incompatible data changes rejected",
+    "completed parent checkpoint unchanged"
+  ],
+  "real_continuation": "Pending launch and matching starting development evaluation"
+}

@@ -12,14 +12,15 @@
 <body><div class="page">
   <header class="topbar"><a class="brand" href="/">one voice.</a><a href="/experiments/reference/">Full research record</a></header>
   <main>
-    <section class="introduction"><div><p class="eyebrow">A SMALLER, PRACTICAL EXPERIMENT</p><h1>One voice. A short training session.</h1><p class="intro-copy">A concept demo for eight familiar voices. The model practices on changing pairs of recordings, then separates new recordings kept out of its training.</p></div></section>
+    <section class="introduction"><div><p class="eyebrow">A SMALLER, PRACTICAL EXPERIMENT</p><h1>One voice. A bounded training run.</h1><p class="intro-copy">A concept demo for eight familiar voices. The model practices on changing pairs of recordings, then separates new recordings kept out of its training.</p></div></section>
     <p id="state" role="status">Reading progress…</p>
     <progress id="bar" max="600" value="0" aria-label="Training update budget"></progress>
     <dl class="facts"><div><dt>Completed updates</dt><dd id="updates">—</dd></div><div><dt>Session time limit</dt><dd id="limit">—</dd></div><div><dt>Best development improvement</dt><dd id="score">—</dd></div></dl>
     <p id="validation" class="note"></p>
-    <p class="note">This run saves regularly and stops at its session limit or 600 updates. It can stop earlier if two evaluations meet the development targets. A completed training budget does not guarantee good sound.</p>
+    <p id="budget" class="note">This run saves regularly and stops at its declared time or update limit. A completed training budget does not guarantee good sound.</p>
+    <p id="continuation" class="note"></p>
     <p class="note">The scope is clean, simulated two-person overlap with short voice references. Evaluation uses different recordings of the same eight voices. Quality for unfamiliar voices, background noise and real conversations is not established.</p>
-    <nav class="links"><a id="listen" href="/gallery/concept-demo/" hidden>Listen to the best candidate</a><a href="/gallery/">Current release examples</a></nav>
+    <nav class="links"><a id="listen" href="/gallery/concept-demo/" hidden>Listen to the best candidate</a><a id="previous" href="/gallery/concept-600/" hidden>Completed 600-update candidate</a><a href="/gallery/">Current release examples</a></nav>
     <p class="note">The candidate gallery shows the first eight development requests, chosen before scoring. Listen for competing speech, damage to the desired voice and static. The default app still serves the earlier release.</p>
     <p id="updated" class="gallery-caption"></p>
   </main>
@@ -30,16 +31,19 @@ async function refresh(){
     const response=await fetch('/experiments/concept/status',{cache:'no-store'});
     if(!response.ok)throw new Error('Progress is temporarily unavailable.');
     const data=await response.json();
-    const states={not_started:'The short session has not started.',starting:'Preparing the model and reserved recordings.',training:'Training is active on this Mac.',validating:'Checking reserved development recordings.',paused:'Session stopped. Complete updates are saved and can be resumed.',interrupted:'No active process detected. The last checkpoint is preserved.',budget_complete:'The training budget is complete. Listen to assess the result.',development_target_met:'Development targets met in two evaluations. Training stopped early.',failed:'The session needs attention. The last complete checkpoint is preserved.'};
+    const states={not_started:'The session has not started.',starting:'Preparing the model and reserved recordings.',training:'Training is active on this Mac.',validating:'Checking reserved development recordings.',paused:'Session stopped. Complete updates are saved and can be resumed.',interrupted:'No active process detected. The last checkpoint is preserved.',budget_complete:'The update budget is complete. Listen to assess the result.',time_budget_complete:'The time budget is complete. Training stopped and the best candidate is saved.',development_target_met:'Development targets met in two evaluations. Training stopped early.',failed:'The session needs attention. The last complete checkpoint is preserved.'};
     document.getElementById('state').textContent=states[data.status]??data.status;
     const step=data.step??0,total=data.total_updates??600;
     document.getElementById('updates').textContent=step.toLocaleString()+' / '+total.toLocaleString();
-    document.getElementById('limit').textContent=data.session_minutes?data.session_minutes+' minutes':'Not started';
+    document.getElementById('limit').textContent=data.session_minutes?(data.session_minutes>=60?(data.session_minutes/60)+' hours':data.session_minutes+' minutes'):'Not started';
+    document.getElementById('budget').textContent='This run saves regularly and stops at its time limit or '+total.toLocaleString()+' total updates. '+(data.stop_on_development_goal===false?'It keeps the best development checkpoint throughout the longer experiment.':'It can stop earlier after two evaluations meet the development targets.')+' A completed budget does not guarantee good sound.';
+    document.getElementById('continuation').textContent=data.phase_start_step?'Continued from update '+data.phase_start_step+'. '+data.phase_updates.toLocaleString()+' additional updates completed. The completed short-run examples are preserved in the comparison link below.':'';
     document.getElementById('bar').max=total;document.getElementById('bar').value=step;
     const best=data.best_validation;
     document.getElementById('score').textContent=best.mean_si_sdri_db==null?'Pending':best.mean_si_sdri_db.toFixed(2)+' dB';
     document.getElementById('validation').textContent=best.mean_si_sdri_db==null?'No development evaluation has completed yet.':'Best checkpoint: update '+best.step+', '+best.cases+' reserved-recording requests. '+Math.round(100*best.positive_improvement_fraction)+'% improved over the mixture; '+Math.round(100*best.correct_source_fraction)+'% preferred the requested source. These are development results, not a final test or a listening rating.';
     document.getElementById('listen').hidden=!data.gallery_available;
+    document.getElementById('previous').hidden=!data.phase_start_step;
     document.getElementById('updated').textContent='Updated '+new Date().toLocaleTimeString()+'. Refreshes every 15 seconds.';
   }catch(error){document.getElementById('state').textContent=error.message;}
 }

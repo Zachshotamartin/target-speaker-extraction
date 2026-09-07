@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-07",
+  "status": "prepared_before_launch",
+  "user_authorized_duration_hours": 8,
+  "start_step": 600,
+  "additional_update_target": 12000,
+  "total_update_target": 12600,
+  "estimated_hours_from_completed_run": 8.068424722450112,
+  "time_budget_minutes": 480,
+  "checkpoint_every_updates": 50,
+  "validate_every_additional_updates": 250,
+  "early_stop_on_original_quality_goal": false,
+  "selected_checkpoint": "best mean development SI-SDRi; initialized with the preserved 600-update candidate",
+  "model_and_data": "same eight-voice concept, same utterance reservation, no external weights",
+  "config_sha256": "e1158d69b32f2ddb937906f87cb9e234a18b841d93cf7329c2a85b416a8fb770",
+  "parent_checkpoint_sha256": "1b078a06e386916d341ae6f842bdb9bd336777c03873f0673b0340ddc5a54879",
+  "initial_development_si_sdri_db": 3.2379172760993242,
+  "reserved_test_opened": false,
+  "automatic_followup_session": false
+}

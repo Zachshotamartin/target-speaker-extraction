@@ -33,6 +33,96 @@ def development_goal(result):
     )
 
 
+def fork_concept(parent_run, config_path, manifest, run, minutes=480):
+    """Create an explicit schedule extension; leave the completed run untouched."""
+    if not 0 < minutes <= 480:
+        raise ValueError("The continuation budget must be between zero and 480 minutes")
+    parent_run, run = Path(parent_run), Path(run)
+    if run.exists():
+        raise FileExistsError("A continuation requires a new run directory")
+    checkpoint = parent_run / "best.pt"
+    parent_hash = sha256(checkpoint)
+    saved = torch.load(checkpoint, map_location="cpu", weights_only=True)
+    config = ExperimentConfig.load(config_path)
+    previous = ExperimentConfig.model_validate(saved["config"])
+    before, after = previous.model_dump(), config.model_dump()
+    for value in (before, after):
+        value.pop("experiment")
+        for key in (
+            "learning_rate",
+            "minimum_learning_rate",
+            "max_optimizer_updates",
+            "schedule_decay_updates",
+            "checkpoint_interval_updates",
+            "validation_interval_updates",
+        ):
+            value["training"].pop(key)
+    if (
+        before != after
+        or config.data.protocol != "known-voice-concept-v1"
+        or config.training.max_optimizer_updates <= saved["step"]
+        or saved["manifest_sha256"] != sha256(Path(manifest))
+        or "optimizer" not in saved
+        or not saved["provenance"].get("fixed_shape_graph_reuse")
+    ):
+        raise ValueError(
+            "Continuation must preserve the concept model, data, objective and optimizer"
+        )
+    validation = json.loads((parent_run / "best-validation.json").read_text())
+    if validation["step"] != saved["step"] or validation["mean_si_sdri_db"] != saved["best_score"]:
+        raise ValueError("Parent checkpoint and best development result disagree")
+    record = {
+        "parent_checkpoint_sha256": parent_hash,
+        "parent_config_sha256": sha256(parent_run / "config.json"),
+        "parent_commit": saved["provenance"]["commit"],
+        "parent_source_tree_sha256": saved["provenance"]["source_tree_sha256"],
+        "source_step": saved["step"],
+        "source_elapsed_seconds": saved["elapsed_seconds"],
+        "budget_seconds": minutes * 60,
+        "stop_on_development_goal": False,
+        "optimizer_rng_and_weights_preserved": True,
+        "schedule": "New cosine phase from the selected checkpoint; sample step continues",
+        "transition": "Explicit continuation under the current recorded trainer; no claim of an identical original schedule",
+    }
+    saved["config"] = config.model_dump()
+    saved["provenance"] = {
+        **saved["provenance"],
+        **git_state(),
+        "source_tree_sha256": source_digest(),
+        "continuation": record,
+    }
+    saved["goal_streak"] = 0
+    saved["validate_continuation_start"] = True
+    run.mkdir(parents=True)
+    save_checkpoint(run / "latest.pt", saved)
+    save_checkpoint(run / "best.pt", saved)
+    for name in ("best-validation.json", "latest-validation.json"):
+        atomic_json(run / name, validation)
+    atomic_json(run / "config.json", config.model_dump())
+    atomic_json(run / "provenance.json", saved["provenance"])
+    atomic_json(run / "continuation.json", record)
+    return record
+
+
+def concept_schedule_lr(config, step, start_step=0):
+    length = config.training.max_optimizer_updates - start_step
+    fraction = min(1, max(0, (step - start_step) / length))
+    return (
+        config.training.minimum_learning_rate
+        + (config.training.learning_rate - config.training.minimum_learning_rate)
+        * (1 + math.cos(math.pi * fraction))
+        / 2
+    )
+
+
+def remaining_concept_seconds(provenance, elapsed_before, minutes):
+    continuation = provenance.get("continuation")
+    if continuation is None:
+        return minutes * 60
+    spent = max(0, elapsed_before - continuation["source_elapsed_seconds"])
+    return max(0, min(minutes * 60, continuation["budget_seconds"] - spent))
+
+
 def initialize_concept(config, checkpoint, expected_hash, labels, device):
     if sha256(checkpoint) != expected_hash:
         raise ValueError("Initialization changed after reserving evaluation audio")
@@ -142,8 +232,8 @@ def train_concept(
     gallery=None,
     stop_after_updates=None,
 ):
-    if not 0 < minutes <= 120:
-        raise ValueError("Choose a session limit between zero and 120 minutes")
+    if not 0 < minutes <= 480:
+        raise ValueError("Choose a session limit between zero and 480 minutes")
     started = time.monotonic()
     deadline = started + minutes * 60
     config = ExperimentConfig.load(config_path)
@@ -193,6 +283,7 @@ def train_concept(
         "fixed_shape_graph_reuse": True,
     }
     step, last_validation, best, streak, elapsed_before = 0, -1, -math.inf, 0, 0.0
+    validate_continuation_start = False
     if resume:
         saved = torch.load(run / "latest.pt", map_location="cpu", weights_only=True)
         if (
@@ -225,6 +316,12 @@ def train_concept(
             )
         )
         provenance = saved["provenance"]
+        validate_continuation_start = saved.get("validate_continuation_start", False)
+    continuation = provenance.get("continuation", {})
+    phase_start = continuation.get("source_step", 0)
+    allowed_seconds = remaining_concept_seconds(provenance, elapsed_before, minutes)
+    deadline = started + allowed_seconds
+    stop_on_goal = continuation.get("stop_on_development_goal", True)
     atomic_json(run / "config.json", config.model_dump())
     atomic_json(run / "provenance.json", provenance)
     interrupted = False
@@ -253,6 +350,7 @@ def train_concept(
                 "torch_rng": torch.get_rng_state(),
                 "mps_rng": torch.mps.get_rng_state() if device.type == "mps" else None,
                 "elapsed_seconds": elapsed_before + time.monotonic() - started,
+                "validate_continuation_start": validate_continuation_start,
             },
         )
 
@@ -268,6 +366,11 @@ def train_concept(
                 "total_elapsed_seconds": elapsed_before + time.monotonic() - started,
                 "best_si_sdri_db": best if math.isfinite(best) else None,
                 "goal_streak": streak,
+                "phase_start_step": phase_start,
+                "phase_updates": step - phase_start,
+                "stop_on_development_goal": stop_on_goal,
+                "session_seconds_remaining": max(0, deadline - time.monotonic()),
+                "continuation_budget_minutes": continuation.get("budget_seconds", 0) / 60 or None,
                 **extra,
             },
         )
@@ -284,13 +387,22 @@ def train_concept(
             if interrupted or time.monotonic() >= deadline:
                 raise SessionExpired
             validate_now = (
-                step == 0
-                or step % config.training.validation_interval_updates == 0
-                or step == config.training.max_optimizer_updates
-            ) and last_validation != step
+                validate_continuation_start
+                or (
+                    step == 0
+                    or (step - phase_start) % config.training.validation_interval_updates == 0
+                    or step == config.training.max_optimizer_updates
+                )
+                and last_validation != step
+            )
             if validate_now:
                 status("validating")
                 result, previews = evaluate_concept(model, corpus, deadline, lambda: interrupted)
+                if validate_continuation_start and abs(result["mean_si_sdri_db"] - best) > 0.001:
+                    raise ValueError(
+                        "Continuation start no longer matches its parent's development result"
+                    )
+                validate_continuation_start = False
                 last_validation = step
                 streak = streak + 1 if development_goal(result) else 0
                 emit(
@@ -310,7 +422,7 @@ def train_concept(
                             previews, gallery, step, sha256(run / "best.pt"), result
                         )
                 save("latest.pt")
-            if streak >= 2 and step >= 100:
+            if stop_on_goal and streak >= 2 and step >= 100:
                 reason = "development_target_met"
                 break
             if step >= config.training.max_optimizer_updates:
@@ -325,13 +437,7 @@ def train_concept(
             ):
                 raise ValueError("Graph reuse requires the declared fixed training shapes")
             features = full_reference_features(requests, True)
-            fraction = step / config.training.max_optimizer_updates
-            lr = (
-                config.training.minimum_learning_rate
-                + (config.training.learning_rate - config.training.minimum_learning_rate)
-                * (1 + math.cos(math.pi * fraction))
-                / 2
-            )
+            lr = concept_schedule_lr(config, step, phase_start)
             for group in optimizer.param_groups:
                 group["lr"] = lr
             optimizer.zero_grad(set_to_none=True)
@@ -373,7 +479,32 @@ def train_concept(
         status(reason)
     except SessionExpired:
         save("latest.pt")
-        status("paused", reason="User stop or session/update limit; complete updates are saved")
+        exhausted = (
+            bool(continuation)
+            and remaining_concept_seconds(
+                provenance, elapsed_before + time.monotonic() - started, minutes
+            )
+            == 0
+        )
+        if exhausted:
+            atomic_json(
+                run / "summary.json",
+                {
+                    "status": "time_budget_complete",
+                    "steps": step,
+                    "additional_updates": step - phase_start,
+                    "best_development_si_sdri_db": best,
+                    "new_speaker_quality_established": False,
+                    "reserved_test_opened": False,
+                    "human_listening": "not yet rated",
+                },
+            )
+            status(
+                "time_budget_complete",
+                reason="Continuation time budget exhausted; complete updates saved",
+            )
+        else:
+            status("paused", reason="User stop or session/update limit; complete updates are saved")
     except BaseException as error:
         status(
             "failed",

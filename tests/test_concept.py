@@ -8,7 +8,13 @@ import soundfile as sf
 import torch
 
 from tse.concept_data import ConceptCorpus, validate_reservation
-from tse.concept_training import initialize_concept, train_concept
+from tse.concept_training import (
+    concept_schedule_lr,
+    fork_concept,
+    initialize_concept,
+    remaining_concept_seconds,
+    train_concept,
+)
 from tse.config import ExperimentConfig
 from tse.engine import save_checkpoint
 from tse.model import make_model
@@ -187,3 +193,98 @@ def test_concept_resume_and_session_expiry_preserve_complete_updates(concept_fix
     status = json.loads((root / "expired/status.json").read_text())
     assert status["status"] == "paused" and status["step"] == 0
     assert (root / "expired/latest.pt").is_file()
+
+
+def test_continuation_preserves_learning_and_resumes_new_schedule(concept_fixture):
+    root, source, manifest, checkpoint, configuration = concept_fixture
+    parent = root / "completed"
+    train_concept(
+        configuration, root, source, manifest, checkpoint, parent, minutes=2, device_name="cpu"
+    )
+    original_hash = sha256(parent / "best.pt")
+    original = torch.load(parent / "best.pt", map_location="cpu", weights_only=True)
+    config = ExperimentConfig.load(configuration)
+    config.training.max_optimizer_updates = original["step"] + 2
+    config.training.learning_rate = 0.0001
+    config.training.validation_interval_updates = 2
+    changed = root / "extension-config.json"
+    atomic_json(changed, config.model_dump())
+    for name in ("extension-whole", "extension-resumed"):
+        record = fork_concept(parent, changed, manifest, root / name, minutes=2)
+        assert record["source_step"] == original["step"]
+    forked = torch.load(root / "extension-whole/latest.pt", map_location="cpu", weights_only=True)
+    for key, value in original["model"].items():
+        torch.testing.assert_close(value, forked["model"][key], atol=0, rtol=0)
+    for key, state in original["optimizer"]["state"].items():
+        for field, value in state.items():
+            torch.testing.assert_close(
+                value, forked["optimizer"]["state"][key][field], atol=0, rtol=0
+            )
+    torch.testing.assert_close(original["torch_rng"], forked["torch_rng"], atol=0, rtol=0)
+    assert concept_schedule_lr(config, original["step"], original["step"]) == 0.0001
+    assert (
+        concept_schedule_lr(config, config.training.max_optimizer_updates, original["step"])
+        == config.training.minimum_learning_rate
+    )
+    whole = train_concept(
+        changed,
+        root,
+        source,
+        manifest,
+        checkpoint,
+        root / "extension-whole",
+        minutes=2,
+        device_name="cpu",
+        resume=True,
+    )
+    train_concept(
+        changed,
+        root,
+        source,
+        manifest,
+        checkpoint,
+        root / "extension-resumed",
+        minutes=2,
+        device_name="cpu",
+        resume=True,
+        stop_after_updates=original["step"] + 1,
+    )
+    resumed = train_concept(
+        changed,
+        root,
+        source,
+        manifest,
+        checkpoint,
+        root / "extension-resumed",
+        minutes=2,
+        device_name="cpu",
+        resume=True,
+    )
+    for key, expected in whole.state_dict().items():
+        torch.testing.assert_close(expected, resumed.state_dict()[key], atol=0, rtol=0)
+    assert sha256(parent / "best.pt") == original_hash
+    # Continuing a run cannot reset its total authorized compute allowance.
+    provenance = forked["provenance"]
+    baseline = record["source_elapsed_seconds"]
+    assert remaining_concept_seconds(provenance, baseline + 30, 480) == 90
+    assert remaining_concept_seconds(provenance, baseline + 120, 480) == 0
+    fork_concept(parent, changed, manifest, root / "expired-extension", minutes=1e-8)
+    train_concept(
+        changed,
+        root,
+        source,
+        manifest,
+        checkpoint,
+        root / "expired-extension",
+        minutes=480,
+        device_name="cpu",
+        resume=True,
+    )
+    expired = json.loads((root / "expired-extension/status.json").read_text())
+    assert expired["status"] == "time_budget_complete"
+    assert expired["step"] == original["step"]
+    assert (root / "expired-extension/summary.json").is_file()
+    config.audio.reference_seconds = 4
+    atomic_json(changed, config.model_dump())
+    with pytest.raises(ValueError, match="preserve"):
+        fork_concept(parent, changed, manifest, root / "invalid")
