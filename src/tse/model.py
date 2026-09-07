@@ -177,6 +177,86 @@ class TargetExtractor(nn.Module):
         return self.extract(mixture, self.reference_encoder(reference, reference_lengths))
 
 
+class SpectralTargetExtractor(nn.Module):
+    """Reference-conditioned attenuation with a fixed, invertible STFT filterbank."""
+
+    def __init__(self, config: ModelConfig, speaker_classes: int = 0):
+        super().__init__()
+        self.config = config
+        self.reference_encoder = ReferenceEncoder(config)
+        self.register_buffer("window", torch.hann_window(config.stft_fft_samples), persistent=False)
+        self.input_norm = ChannelNorm(config.encoder_channels)
+        self.bottleneck = nn.Conv1d(config.encoder_channels, config.bottleneck_channels, 1)
+        self.blocks = nn.ModuleList(
+            ConditionedBlock(config, dilation)
+            for _ in range(config.repeats)
+            for dilation in config.dilations
+        )
+        self.mask = nn.Sequential(
+            nn.PReLU(config.skip_channels),
+            nn.Conv1d(config.skip_channels, config.encoder_channels, 1),
+            nn.Sigmoid(),
+        )
+        nn.init.normal_(self.mask[1].weight, std=0.001)
+        nn.init.zeros_(self.mask[1].bias)
+        self.speaker_head = (
+            nn.Linear(config.reference_encoder.embedding_dim, speaker_classes)
+            if speaker_classes
+            else None
+        )
+        if sum(parameter.numel() for parameter in self.parameters()) > config.parameter_budget:
+            raise ValueError("Spectral model exceeds the configured parameter budget")
+
+    @property
+    def context_samples(self) -> int:
+        receptive_frames = (
+            sum(self.config.dilations) * self.config.repeats * (self.config.temporal_kernel // 2)
+        )
+        return max(
+            16000, self.config.stft_fft_samples + receptive_frames * self.config.stft_hop_samples
+        )
+
+    def extract(self, mixture: Tensor, embedding: Tensor) -> Tensor:
+        spectrum = torch.stft(
+            mixture[:, 0],
+            n_fft=self.config.stft_fft_samples,
+            hop_length=self.config.stft_hop_samples,
+            window=self.window,
+            center=True,
+            pad_mode="constant",
+            return_complex=True,
+        )
+        features = self.bottleneck(self.input_norm(torch.log1p(spectrum.abs())))
+        skip = torch.zeros(
+            (mixture.shape[0], self.config.skip_channels, spectrum.shape[-1]),
+            dtype=mixture.dtype,
+            device=mixture.device,
+        )
+        for block in self.blocks:
+            features, current = block(features, embedding)
+            skip = skip + current
+        output = torch.istft(
+            spectrum * self.mask(skip),
+            n_fft=self.config.stft_fft_samples,
+            hop_length=self.config.stft_hop_samples,
+            window=self.window,
+            center=True,
+            length=mixture.shape[-1],
+        )
+        return output[:, None]
+
+    def forward(
+        self, mixture: Tensor, reference: Tensor, reference_lengths: Tensor | None = None
+    ) -> Tensor:
+        return self.extract(mixture, self.reference_encoder(reference, reference_lengths))
+
+
+def make_model(config: ModelConfig, speaker_classes: int = 0) -> nn.Module:
+    if config.family == "reference_conditioned_stft_tcn":
+        return SpectralTargetExtractor(config, speaker_classes)
+    return TargetExtractor(config, speaker_classes)
+
+
 def choose_device(name: str) -> torch.device:
     if name == "mps" and not torch.backends.mps.is_available():
         raise RuntimeError("MPS is unavailable; choose --device cpu explicitly")

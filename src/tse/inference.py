@@ -71,7 +71,7 @@ class Extractor:
         tensor = torch.from_numpy(ref[None, None]).to(self.device)
         embedding = self.model.reference_encoder(tensor)
         core = 32000
-        context = 16000
+        context = getattr(self.model, "context_samples", 16000)
         output = np.empty(len(mixture), dtype=np.float32)
         if not chunked or len(mixture) <= 64000:
             x = torch.from_numpy(normalized[None, None]).to(self.device)

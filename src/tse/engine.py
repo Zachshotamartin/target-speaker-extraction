@@ -15,8 +15,8 @@ from torch.nn import functional as F
 
 from tse.config import ExperimentConfig
 from tse.data import CONDITIONS, SpeechCorpus, load_cases
-from tse.metrics import measure, si_sdr, summarize, waveform_loss
-from tse.model import TargetExtractor, choose_device
+from tse.metrics import measure, si_sdr, spectral_loss, summarize, waveform_loss
+from tse.model import TargetExtractor, choose_device, make_model
 from tse.utils import atomic_json, git_state, sha256, source_digest
 
 
@@ -41,7 +41,7 @@ def load_model(path: Path, device_name: str = "cpu") -> tuple[TargetExtractor, d
     if payload.get("format_version") != 1:
         raise ValueError("Unsupported checkpoint format")
     config = ExperimentConfig.model_validate(payload["config"])
-    model = TargetExtractor(config.model, payload.get("speaker_classes", 0))
+    model = make_model(config.model, payload.get("speaker_classes", 0))
     model.load_state_dict(payload["model"])
     model.to(device).eval()
     return model, payload
@@ -91,7 +91,23 @@ def train(
     device_name: str | None = None,
     resume: bool = False,
     fixed_cases_path: Path | None = None,
+    initialize_from: Path | None = None,
+    initialize_reference_from: Path | None = None,
 ) -> dict:
+    if initialize_from is not None and initialize_reference_from is not None:
+        raise ValueError("Choose whole-model or reference-only initialization")
+    if resume and (initialize_from is not None or initialize_reference_from is not None):
+        raise ValueError("Choose resume or initialization from another run, not both")
+    if not resume and (config.model.weights == "project_checkpoint") != (
+        initialize_from is not None
+    ):
+        raise ValueError(
+            "Project-checkpoint initialization requires matching config and checkpoint"
+        )
+    if not resume and (config.model.weights == "project_reference") != (
+        initialize_reference_from is not None
+    ):
+        raise ValueError("Project-reference initialization requires matching config and checkpoint")
     device = choose_device(device_name or config.runtime.preferred_device)
     run_dir.mkdir(parents=True, exist_ok=True)
     if shutil.disk_usage(run_dir).free < config.resources.minimum_free_disk_gib * 1024**3:
@@ -114,11 +130,65 @@ def train(
     dev_cases = load_cases(dev_cases_path, development)
     fixed_cases = load_cases(fixed_cases_path, corpus) if fixed_cases_path else None
     classes = len(corpus.speakers) if config.loss.speaker_classification_weight else 0
-    model = TargetExtractor(config.model, classes).to(device)
+    model = make_model(config.model, classes).to(device)
+    initialization = None
+    initialization_path = initialize_from or initialize_reference_from
+    if initialization_path is not None:
+        initial = torch.load(initialization_path, map_location="cpu", weights_only=True)
+        if initial.get("format_version") != 1:
+            raise ValueError("Unsupported initialization checkpoint format")
+        original = ExperimentConfig.model_validate(initial["config"])
+        before, after = original.model.model_dump(), config.model.model_dump()
+        for architecture in (before, after):
+            architecture.pop("weights")
+            architecture.pop("parameter_budget")
+        if initialize_from is not None and before != after:
+            raise ValueError("Initialization requires identical extraction/reference architecture")
+        if initialize_reference_from is not None:
+            if original.model.reference_encoder != config.model.reference_encoder:
+                raise ValueError("Reference initialization requires matching encoder architecture")
+            model.reference_encoder.load_state_dict(
+                {
+                    key.removeprefix("reference_encoder."): value
+                    for key, value in initial["model"].items()
+                    if key.startswith("reference_encoder.")
+                }
+            )
+        else:
+            state = {
+                key: value
+                for key, value in initial["model"].items()
+                if not key.startswith("speaker_head.")
+            }
+            incompatible = model.load_state_dict(state, strict=False)
+            expected = {"speaker_head.weight", "speaker_head.bias"} if classes else set()
+            if set(incompatible.missing_keys) != expected or incompatible.unexpected_keys:
+                raise ValueError("Initialization state does not match the extractor")
+        initialization = {
+            "checkpoint_sha256": sha256(initialization_path),
+            "scope": "reference_encoder" if initialize_reference_from else "whole_extractor",
+            "source_step": initial["step"],
+            "source_training_speakers": initial.get("provenance", {}).get("train_speakers", []),
+            "classifier": "Fresh classifier for this run's training labels",
+        }
+        held_out = {row["speaker"] for row in corpus.records.values() if row["split"] != "train"}
+        if held_out & set(initialization["source_training_speakers"]):
+            raise ValueError("Initialization checkpoint trained on this run's held-out speakers")
     optimizer = torch.optim.AdamW(
         model.parameters(),
         lr=config.training.learning_rate,
         weight_decay=config.training.weight_decay,
+    )
+    scheduler = (
+        torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer,
+            mode="max",
+            factor=config.training.scheduler_factor,
+            patience=config.training.scheduler_patience_validations,
+            min_lr=config.training.minimum_learning_rate,
+        )
+        if config.training.learning_rate_schedule == "plateau"
+        else None
     )
     best_score = -float("inf")
     start_step = 0
@@ -140,6 +210,9 @@ def train(
             raise ValueError("Resume fixed-case protocol differs from the saved run")
         model.load_state_dict(payload["model"])
         optimizer.load_state_dict(payload["optimizer"])
+        if scheduler is not None:
+            scheduler.load_state_dict(payload["scheduler"])
+        initialization = payload["provenance"].get("initialization")
         # Optimizer moments loaded from CPU need the model's active device.
         for state in optimizer.state.values():
             for key, value in state.items():
@@ -162,6 +235,7 @@ def train(
         "parameters": sum(p.numel() for p in model.parameters()),
         "train_speakers": corpus.speakers,
         "experiment_type": "tiny_set_diagnostic" if fixed_cases else "held_out_speaker_training",
+        "initialization": initialization,
     }
     atomic_json(run_dir / "provenance.json", provenance)
     atomic_json(run_dir / "config.json", config.model_dump())
@@ -176,6 +250,7 @@ def train(
             "config": config.model_dump(),
             "model": model.state_dict(),
             "optimizer": optimizer.state_dict(),
+            "scheduler": scheduler.state_dict() if scheduler is not None else None,
             "step": step,
             "best_score": best_score,
             "speaker_classes": classes,
@@ -197,6 +272,17 @@ def train(
         ),
         flush=True,
     )
+    if initialization_path is not None:
+        baseline_rows = evaluate_model(model, development, dev_cases, batch_size=microbatch)
+        best_score = float(np.mean([row["si_sdri_db"] for row in baseline_rows]))
+        save_checkpoint(run_dir / "best.pt", checkpoint(0))
+        atomic_json(
+            run_dir / "initial_validation.json", {"score": best_score, "rows": baseline_rows}
+        )
+        print(
+            json.dumps({"event": "initial_validation", "mean_si_sdri_db": best_score}), flush=True
+        )
+    interval_correct, interval_examples = 0, 0
     try:
         for step in range(start_step, config.training.max_optimizer_updates):
             model.train()
@@ -224,10 +310,20 @@ def train(
                 output = model.extract(batch["mixture"], embedding)
                 loss = -si_sdr(output, batch["target"], epsilon=config.loss.epsilon).mean()
                 loss = loss + config.loss.waveform_weight * waveform_loss(output, batch["target"])
-                if classes:
-                    loss = loss + config.loss.speaker_classification_weight * F.cross_entropy(
-                        model.speaker_head(embedding), batch["labels"]
+                if config.loss.spectral_weight:
+                    loss = loss + config.loss.spectral_weight * spectral_loss(
+                        output, batch["target"], config.loss.spectral_fft_sizes
                     )
+                if classes:
+                    logits = model.speaker_head(embedding) * config.loss.speaker_logit_scale
+                    loss = loss + config.loss.speaker_classification_weight * F.cross_entropy(
+                        logits,
+                        batch["labels"],
+                    )
+                    interval_correct += int(
+                        (logits.detach().argmax(dim=1) == batch["labels"]).sum()
+                    )
+                    interval_examples += len(cases)
                 if not torch.isfinite(loss):
                     raise FloatingPointError("Training produced a non-finite loss")
                 (loss / accumulation).backward()
@@ -243,8 +339,15 @@ def train(
                     "step": last_step,
                     "loss": float(np.mean(losses)),
                     "gradient_norm": float(gradient_norm),
+                    "learning_rate": optimizer.param_groups[0]["lr"],
                     "elapsed_seconds": round(time.monotonic() - started, 2),
                 }
+                if classes:
+                    entry["training_speaker_accuracy"] = interval_correct / max(
+                        interval_examples, 1
+                    )
+                    entry["training_speaker_examples"] = interval_examples
+                    interval_correct, interval_examples = 0, 0
                 with (run_dir / "metrics.jsonl").open("a") as log:
                     log.write(json.dumps(entry) + "\n")
                 print(json.dumps(entry), flush=True)
@@ -260,6 +363,8 @@ def train(
                 improved = score > best_score
                 if improved:
                     best_score = score
+                if scheduler is not None:
+                    scheduler.step(score)
                 state = checkpoint(last_step)
                 save_checkpoint(run_dir / "latest.pt", state)
                 if improved:
@@ -270,6 +375,7 @@ def train(
                     "mean_si_sdri_db": score,
                     "confusion_fraction": float(np.mean([r["confused"] for r in rows])),
                     "best_score": best_score,
+                    "learning_rate": optimizer.param_groups[0]["lr"],
                     "selection_split": "train_diagnostic" if fixed_cases else "dev",
                 }
                 with (run_dir / "metrics.jsonl").open("a") as log:
@@ -365,7 +471,7 @@ def evaluate(
 def benchmark(config: ExperimentConfig, device_name: str, output: Path) -> dict:
     device = choose_device(device_name)
     torch.manual_seed(config.seed)
-    model = TargetExtractor(config.model).to(device)
+    model = make_model(config.model).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.training.learning_rate)
     mixture = torch.randn(
         config.training.microbatch_size, 1, int(config.audio.crop_seconds * 16000), device=device

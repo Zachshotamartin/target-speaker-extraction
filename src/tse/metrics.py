@@ -44,6 +44,36 @@ def waveform_loss(estimate: Tensor, target: Tensor) -> Tensor:
     return ((estimate - target).abs() / scale).mean()
 
 
+def spectral_loss(estimate: Tensor, target: Tensor, fft_sizes: list[int]) -> Tensor:
+    """Multi-resolution spectral convergence and log-magnitude reconstruction.
+
+    Normalize both waveforms by target RMS, retaining sensitivity to predicted
+    gain. A magnitude floor bounds log loss in silent frequency bins.
+    """
+    scale = target.square().mean(-1, keepdim=True).sqrt().clamp_min(1e-4)
+    prediction = (estimate / scale).reshape(-1, estimate.shape[-1])
+    truth = (target / scale).reshape(-1, target.shape[-1])
+    losses = []
+    for size in fft_sizes:
+        window = torch.hann_window(size, dtype=estimate.dtype, device=estimate.device)
+        options = dict(
+            n_fft=size,
+            hop_length=size // 4,
+            window=window,
+            center=True,
+            pad_mode="constant",
+            return_complex=True,
+        )
+        predicted = torch.stft(prediction, **options).abs().clamp_min(1e-4)
+        actual = torch.stft(truth, **options).abs().clamp_min(1e-4)
+        convergence = torch.linalg.vector_norm(
+            predicted - actual, dim=(-2, -1)
+        ) / torch.linalg.vector_norm(actual, dim=(-2, -1)).clamp_min(1e-4)
+        logarithmic = (predicted.log() - actual.log()).abs().mean(dim=(-2, -1))
+        losses.append((convergence + logarithmic).mean())
+    return torch.stack(losses).mean()
+
+
 def measure(
     estimate: Tensor, mixture: Tensor, target: Tensor, interferer: Tensor, margin_db: float = 3
 ) -> list[dict]:

@@ -1,0 +1,12 @@
+{
+  "purpose": "Quality development using more public speech with a fresh reserved evaluation",
+  "training_source": "Official LibriSpeech train-clean-100 archive",
+  "root": "data/expanded/raw",
+  "selection_limits": {"speakers": 1000, "utterances_per_speaker": 10000},
+  "reserved_identity_rule": "From archive identities not used to train v0.1.0, sort by SHA256 of quality-v2-holdout-20260906:<speaker> and reserve the first 20.",
+  "development": "Reuse original dev-clean recordings and frozen mixture/reference recipes with the expanded source manifest identity.",
+  "fresh_test": "1000 paired requests, seed 2026090600, 4-second mixtures and 5-second references; no evaluation until candidate selection is frozen.",
+  "original_test": "Remain frozen and excluded from the expanded manifest.",
+  "minimum_free_disk_gib": 15,
+  "status": "Declared while acquisition is in progress, before expanded training or fresh-test scoring."
+}

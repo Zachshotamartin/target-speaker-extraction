@@ -26,7 +26,9 @@ class DataConfig(StrictModel):
     protocol: Literal["custom-librispeech-tse-v1"] = "custom-librispeech-tse-v1"
     training_source: Literal["LibriSpeech/train-clean-100"] = "LibriSpeech/train-clean-100"
     development_source: Literal["LibriSpeech/dev-clean"] = "LibriSpeech/dev-clean"
-    test_source: Literal["LibriSpeech/test-clean"] = "LibriSpeech/test-clean"
+    test_source: Literal[
+        "LibriSpeech/test-clean", "LibriSpeech/train-clean-100/reserved-identities"
+    ] = "LibriSpeech/test-clean"
     pilot_speakers_target: int = Field(default=60, ge=2)
     minimum_utterances_per_speaker: int = Field(default=3, ge=3)
     mixtures_on_demand: Literal[True] = True
@@ -56,8 +58,12 @@ class ReferenceConfig(StrictModel):
 
 
 class ModelConfig(StrictModel):
-    family: Literal["reference_conditioned_tcn"] = "reference_conditioned_tcn"
-    weights: Literal["random_initialization"] = "random_initialization"
+    family: Literal["reference_conditioned_tcn", "reference_conditioned_stft_tcn"] = (
+        "reference_conditioned_tcn"
+    )
+    weights: Literal["random_initialization", "project_checkpoint", "project_reference"] = (
+        "random_initialization"
+    )
     encoder_channels: int = Field(default=128, ge=8, le=512)
     encoder_kernel_samples: int = Field(default=32, ge=4)
     encoder_stride_samples: int = Field(default=16, ge=1)
@@ -70,13 +76,34 @@ class ModelConfig(StrictModel):
     )
     repeats: int = Field(default=2, ge=1, le=8)
     conditioning: Literal["feature_wise_affine"] = "feature_wise_affine"
-    mask_activation: Literal["relu"] = "relu"
+    mask_activation: Literal["relu", "sigmoid"] = "relu"
+    stft_fft_samples: int = Field(default=512, ge=64, le=2048)
+    stft_hop_samples: int = Field(default=128, ge=16, le=512)
     causal: Literal[False] = False
     parameter_budget: int = Field(default=3000000, ge=1)
     reference_encoder: ReferenceConfig = Field(default_factory=ReferenceConfig)
 
     @model_validator(mode="after")
     def check_architecture(self):
+        if self.family == "reference_conditioned_stft_tcn":
+            if (
+                self.mask_activation != "sigmoid"
+                or self.encoder_channels != self.stft_fft_samples // 2 + 1
+            ):
+                raise ValueError(
+                    "STFT extractor requires a sigmoid mask and one channel per frequency bin"
+                )
+            if (
+                self.stft_fft_samples & (self.stft_fft_samples - 1)
+                or self.stft_fft_samples % self.stft_hop_samples
+            ):
+                raise ValueError("STFT FFT must be a power of two divisible by the hop")
+            if self.stft_hop_samples >= self.stft_fft_samples or 32000 % self.stft_hop_samples:
+                raise ValueError(
+                    "STFT hop must overlap and align with the two-second inference core"
+                )
+        elif self.mask_activation != "relu":
+            raise ValueError("Learned waveform filterbank requires its declared ReLU mask")
         if self.temporal_kernel % 2 != 1:
             raise ValueError("Temporal kernel must be odd")
         if min(self.dilations + self.reference_encoder.dilations) < 1:
@@ -100,7 +127,10 @@ class TrainingConfig(StrictModel):
     max_optimizer_updates: int = Field(default=1000, ge=1)
     validation_interval_updates: int = Field(default=250, ge=1)
     precision: Literal["float32"] = "float32"
-    learning_rate_schedule: Literal["none"] = "none"
+    learning_rate_schedule: Literal["none", "plateau"] = "none"
+    scheduler_patience_validations: int = Field(default=4, ge=1)
+    scheduler_factor: float = Field(default=0.5, gt=0, lt=1)
+    minimum_learning_rate: float = Field(default=0.00001, gt=0)
     num_workers: Literal[0] = 0
     retain_checkpoints: list[Literal["best", "latest"]] = Field(
         default_factory=lambda: ["best", "latest"]
@@ -113,8 +143,17 @@ class LossConfig(StrictModel):
     mask_padding: Literal[True] = True
     zero_mean: Literal[True] = True
     speaker_classification_weight: float = Field(default=0, ge=0, le=1)
+    speaker_logit_scale: float = Field(default=1, ge=1, le=30)
     waveform_weight: float = Field(default=0.1, ge=0, le=10)
+    spectral_weight: float = Field(default=0, ge=0, le=10)
+    spectral_fft_sizes: list[int] = Field(default_factory=lambda: [256, 512, 1024], min_length=1)
     absent_target_si_sdr: Literal["unsupported"] = "unsupported"
+
+    @model_validator(mode="after")
+    def check_spectral_sizes(self):
+        if any(size < 16 or size > 4096 or size & (size - 1) for size in self.spectral_fft_sizes):
+            raise ValueError("Spectral FFT sizes must be powers of two from 16 through 4096")
+        return self
 
 
 class AugmentationConfig(StrictModel):

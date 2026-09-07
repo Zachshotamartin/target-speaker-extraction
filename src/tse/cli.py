@@ -50,6 +50,8 @@ def main() -> int:
     train.add_argument("--steps", type=int)
     train.add_argument("--resume", action="store_true")
     train.add_argument("--fixed-cases", type=Path)
+    train.add_argument("--initialize-from", type=Path)
+    train.add_argument("--initialize-reference-from", type=Path)
 
     evaluate = commands.add_parser("evaluate")
     evaluate.add_argument("--checkpoint", type=Path, required=True)
@@ -176,6 +178,8 @@ def main() -> int:
                     args.device,
                     args.resume,
                     args.fixed_cases,
+                    args.initialize_from,
+                    args.initialize_reference_from,
                 )
             elif args.command == "evaluate":
                 engine.evaluate(

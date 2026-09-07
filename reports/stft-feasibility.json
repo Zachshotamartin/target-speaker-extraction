@@ -1,0 +1,15 @@
+{
+  "parameters": 2238527,
+  "device": "mps",
+  "batch": 4,
+  "seconds": 4,
+  "microstep_seconds": [
+    2.262092874967493,
+    0.08421624999027699,
+    0.07080979202874005,
+    0.07120420807041228
+  ],
+  "context_samples": 24704,
+  "finite_output": true,
+  "purpose": "Operator feasibility, random-signal microsteps; not a serving runtime or speech-quality result."
+}
