@@ -1,0 +1,188 @@
+{
+  "status": "frozen_before_fresh_test",
+  "created_at_utc": "2026-09-07T02:26:10.310532+00:00",
+  "version": "0.2.0",
+  "case_manifest_sha256": "b1d59e876b9cad3e1c2ec8cacd03d7980dbe94353533da566911d58ffe9ab7b3",
+  "source_manifest_sha256": "78397e2a51d56224b60b8f66d24cf9bae068649a6281be3fafdadee1015e10fd",
+  "checkpoints": {
+    "baseline": {
+      "path": "artifacts/releases/v0.1.0/model.pt",
+      "checkpoint_sha256": "f3271f1decf7ec0e8e9b0f1fab578a693f51c4a1d1778adeeb9109a5e64a5c20"
+    },
+    "candidate": {
+      "path": "artifacts/releases/v0.2.0/model.pt",
+      "checkpoint_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
+      "source_checkpoint_sha256": "4e2251e015c18cb69c4e107d07e80f5687dfb2c0f96a97e5d904f9feeaa1823f",
+      "source_weights_identical_after_export": true
+    }
+  },
+  "selection": "Uniform average of project checkpoints at expanded-data steps 16000, 18000 and 20000.",
+  "selection_reason": "Highest mean development SI-SDRi and ESTOI among completed main-run single/average candidates; lower confusion than the best single checkpoint. Last-five averaging has slightly lower scalar distortion but lower separation/intelligibility. The short global-normalization pilot gives a modest gain over its matched 2000-update control, with higher distortion/confusion, and does not outperform the selected longer-trained model. This does not establish that per-frame normalization is intrinsically superior.",
+  "development_reports": {
+    "quality-final-single-development": {
+      "path": "reports/quality-final-single-development.json",
+      "sha256": "0f904f86b1727ada2371ad184608c5879d9966b1abcbcb0bd9f48ae7f83f0ea5",
+      "checkpoint_sha256": "950a1bbabbaf26c35e75c381cc58b8cccdedde9f541fb519d7683c3954fe2048",
+      "summary": {
+        "cases": 400,
+        "target_speakers": 40,
+        "mean_si_sdri_db": 5.755143650844693,
+        "median_si_sdri_db": 6.724407911300659,
+        "p10_si_sdri_db": -1.2002370953559869,
+        "negative_improvement_fraction": 0.1425,
+        "confusion_fraction": 0.0725,
+        "near_silent_fraction": 0.0,
+        "mean_normalized_l1": 0.29494176991283894,
+        "mean_ci95_db": [
+          5.069317339277622,
+          6.41855683858007
+        ],
+        "confidence_method": "Approximate target-speaker cluster bootstrap; shared-interferer dependence remains",
+        "bootstrap_seed": 42,
+        "bootstrap_replicates": 1000,
+        "estoi_valid_cases": 400,
+        "estoi_excluded_cases": 0,
+        "mean_estoi": 0.6440106674551628,
+        "mean_mixture_estoi": 0.5383340166142093,
+        "mean_estoi_improvement": 0.10567665084095346,
+        "mean_artifact_proxy_fraction": 0.11480218809020803,
+        "median_relative_interferer_attenuation_db": 12.495710752888648,
+        "maximum_output_peak": 0.9056276082992554
+      }
+    },
+    "quality-final-last3-development": {
+      "path": "reports/quality-final-last3-development.json",
+      "sha256": "e556eb94578da3ac8132ce365ac9bb653bc35b74414bf334d9705a9d5f2c39f1",
+      "checkpoint_sha256": "4e2251e015c18cb69c4e107d07e80f5687dfb2c0f96a97e5d904f9feeaa1823f",
+      "summary": {
+        "cases": 400,
+        "target_speakers": 40,
+        "mean_si_sdri_db": 6.045628007426858,
+        "median_si_sdri_db": 7.094165802001953,
+        "p10_si_sdri_db": -0.6026671051979064,
+        "negative_improvement_fraction": 0.125,
+        "confusion_fraction": 0.065,
+        "near_silent_fraction": 0.0,
+        "mean_normalized_l1": 0.2860912315174937,
+        "mean_ci95_db": [
+          5.286008807377557,
+          6.736471250602318
+        ],
+        "confidence_method": "Approximate target-speaker cluster bootstrap; shared-interferer dependence remains",
+        "bootstrap_seed": 42,
+        "bootstrap_replicates": 1000,
+        "estoi_valid_cases": 400,
+        "estoi_excluded_cases": 0,
+        "mean_estoi": 0.6510119585847576,
+        "mean_mixture_estoi": 0.5383340166142093,
+        "mean_estoi_improvement": 0.11267794197054833,
+        "mean_artifact_proxy_fraction": 0.1073249403838936,
+        "median_relative_interferer_attenuation_db": 12.809009024806587,
+        "maximum_output_peak": 0.9052008390426636
+      }
+    },
+    "quality-final-last5-development": {
+      "path": "reports/quality-final-last5-development.json",
+      "sha256": "17c903b6322de25d3ab8d21dd4fb0f8a9963313b53f3c98b38dee80632bf6098",
+      "checkpoint_sha256": "78fad282bc46ac63943c0f11b37589be8f3644d0dad67f45acaf23c75449a6d7",
+      "summary": {
+        "cases": 400,
+        "target_speakers": 40,
+        "mean_si_sdri_db": 5.953775505796075,
+        "median_si_sdri_db": 6.860654830932617,
+        "p10_si_sdri_db": -0.4268287301063535,
+        "negative_improvement_fraction": 0.125,
+        "confusion_fraction": 0.065,
+        "near_silent_fraction": 0.0,
+        "mean_normalized_l1": 0.28811796609312296,
+        "mean_ci95_db": [
+          5.246929444448125,
+          6.6266013226956275
+        ],
+        "confidence_method": "Approximate target-speaker cluster bootstrap; shared-interferer dependence remains",
+        "bootstrap_seed": 42,
+        "bootstrap_replicates": 1000,
+        "estoi_valid_cases": 400,
+        "estoi_excluded_cases": 0,
+        "mean_estoi": 0.6490063654090886,
+        "mean_mixture_estoi": 0.5383340166142093,
+        "mean_estoi_improvement": 0.1106723487948793,
+        "mean_artifact_proxy_fraction": 0.10627494636502684,
+        "median_relative_interferer_attenuation_db": 12.36152678384041,
+        "maximum_output_peak": 0.9052813649177551
+      }
+    },
+    "quality-globalnorm-development": {
+      "path": "reports/quality-globalnorm-development.json",
+      "sha256": "1078ba0f5f66072bb88fea0de502c515ae9225653816a20fd739783796f613c4",
+      "checkpoint_sha256": "8e9ee0c90b77dd6a2fba5b2cf034b76e49a1e3c7840ea691ebe7dbbc505fdff6",
+      "summary": {
+        "cases": 400,
+        "target_speakers": 40,
+        "mean_si_sdri_db": 3.672562310025096,
+        "median_si_sdri_db": 3.8840043544769287,
+        "p10_si_sdri_db": -1.2573601484298702,
+        "negative_improvement_fraction": 0.1975,
+        "confusion_fraction": 0.1075,
+        "near_silent_fraction": 0.0,
+        "mean_normalized_l1": 0.36117363985627887,
+        "mean_ci95_db": [
+          3.136348997098227,
+          4.139787568305249
+        ],
+        "confidence_method": "Approximate target-speaker cluster bootstrap; shared-interferer dependence remains",
+        "bootstrap_seed": 42,
+        "bootstrap_replicates": 1000,
+        "estoi_valid_cases": 400,
+        "estoi_excluded_cases": 0,
+        "mean_estoi": 0.5915923042058786,
+        "mean_mixture_estoi": 0.5383340166142093,
+        "mean_estoi_improvement": 0.05325828759166928,
+        "mean_artifact_proxy_fraction": 0.11443280439194274,
+        "median_relative_interferer_attenuation_db": 6.356896834304517,
+        "maximum_output_peak": 0.9008438587188721
+      }
+    },
+    "quality-stft-expanded-fastlr-2000": {
+      "path": "reports/quality-stft-expanded-fastlr-2000.json",
+      "sha256": "d48eed492ac6c1de42a3dfaf6064fef46e47c552e93654cb7b4148f5c4cfe2b0",
+      "checkpoint_sha256": "445474ccae9da8a62567700b1b15596f4760ba05a0f29bd401722eb91a2de85c",
+      "summary": {
+        "cases": 400,
+        "target_speakers": 40,
+        "mean_si_sdri_db": 3.4837578742206095,
+        "median_si_sdri_db": 3.181479811668396,
+        "p10_si_sdri_db": -0.8345434904098507,
+        "negative_improvement_fraction": 0.19,
+        "confusion_fraction": 0.0975,
+        "near_silent_fraction": 0.0,
+        "mean_normalized_l1": 0.37464479899033903,
+        "mean_ci95_db": [
+          2.9872748931840403,
+          3.9060496138132925
+        ],
+        "confidence_method": "Approximate target-speaker cluster bootstrap; shared-interferer dependence remains",
+        "bootstrap_seed": 42,
+        "bootstrap_replicates": 1000,
+        "estoi_valid_cases": 400,
+        "estoi_excluded_cases": 0,
+        "mean_estoi": 0.585176193632251,
+        "mean_mixture_estoi": 0.5383340166142093,
+        "mean_estoi_improvement": 0.046842177018041734,
+        "mean_artifact_proxy_fraction": 0.10640404794534121,
+        "median_relative_interferer_attenuation_db": 5.354086977737879,
+        "maximum_output_peak": 0.8783252835273743
+      }
+    }
+  },
+  "listening_status": "Score-blind original-amplitude and matched-RMS development comparisons generated and browser playback verified. No human listening endorsement has been recorded; metric proxies do not establish that static is eliminated.",
+  "test_protocol": "1000 paired extraction requests from 20 identities reserved before expanded training; clean references and custom fully overlapping two-speaker LibriSpeech mixtures. Both checkpoints use the shared delivered float-WAV path and sample peak guard. No test-informed tuning of this release.",
+  "history": "Original v0.1.0 test-clean results remain historical and are not claimed as unseen. Development was repeatedly inspected during experiments. Source-informed diagnostics never enter inference.",
+  "provenance": {
+    "commit": "798fd11b179efbd02de562b115e434145e6de5b4",
+    "dirty": true,
+    "python": "3.12.5",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "source_tree_sha256": "c7b0722097daf2e294f37b82d89dd05f13a873044d595bb5b53afaa2ed0eb1b5"
+  }
+}
