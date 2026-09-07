@@ -1,0 +1,11 @@
+{
+  "initialization_sha256": "8317ee4624cba6041b429a90da7b40ef053b8337562603ad6d4f188e921e1a66",
+  "seed": 168,
+  "learning_rates": [
+    0.0003,
+    0.001
+  ],
+  "comparison_updates": 2000,
+  "data_manifest_sha256": "78397e2a51d56224b60b8f66d24cf9bae068649a6281be3fafdadee1015e10fd",
+  "note": "Compare checkpoints selected at or before 2000 updates. Lower-rate run is paused with later completed steps retained separately; its immutable comparison checkpoints were copied before interrupting."
+}

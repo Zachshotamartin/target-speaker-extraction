@@ -1,0 +1,19 @@
+{
+  "train": {
+    "cases": 200,
+    "reference_matching_fraction": 0.92,
+    "mean_cosine_margin": 0.6372234578430652,
+    "training_classification_accuracy": 0.34,
+    "classification_labeled_cases": 200
+  },
+  "dev": {
+    "cases": 200,
+    "reference_matching_fraction": 0.915,
+    "mean_cosine_margin": 0.645385707616806,
+    "training_classification_accuracy": null,
+    "classification_labeled_cases": 0
+  },
+  "checkpoint_sha256": "8317ee4624cba6041b429a90da7b40ef053b8337562603ad6d4f188e921e1a66",
+  "source_manifest_sha256": "ec48066f2e6ccc80e01478b91cb2657ee502e320a0e4da27e3394d22f56162b7",
+  "protocol": "Separate reference matched to clean target versus clean interferer; 200 cases per train/dev split, seeds94622000..94622199. Clean-source diagnostic, not extraction quality. No test data."
+}
