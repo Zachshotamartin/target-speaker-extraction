@@ -2,6 +2,8 @@
 
 The user authorized the complete follow-up: learning-rate continuation, a stronger time/frequency separator, phase-aware reconstruction, and realistic acoustic training with listening evaluation. Version 0.2.0 stays preserved as the baseline. No new test result determines model selection.
 
+The follow-up [research-gap audit](V3_RESEARCH_GAPS.md) compares our actual training and model with the paper and a pinned authors' implementation. The v3 candidates are compact adaptations, not a reproduced baseline. The audit records the concrete architecture/exposure differences, the paper-versus-current-config discrepancy, and why neither pretraining nor phase correction alone explains the quality gap.
+
 ## Experimental contracts
 
 - [Predeclared plan](../reports/v3-plan.json): two 5,000-update continuation arms; three 4,000-update architecture pilots; continue the selected architecture to 10,000 updates; paired 3,000-update clean/realistic adaptation.
