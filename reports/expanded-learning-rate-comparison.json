@@ -1,0 +1,7 @@
+{
+  "stage": "development-only",
+  "lower_lr_report": "reports/quality-stft-expanded-2000.json",
+  "higher_lr_report": "reports/quality-stft-expanded-fastlr-2000.json",
+  "decision": "Continue the 0.001 run to a 20,000-update budget with the existing validation-driven scheduler; preserve the lower-rate continuation for comparison. Results at 2,000 updates are close: higher rate has slightly better SI-SDRi, lower rate slightly better ESTOI and distortion proxy. This is an exploratory resource allocation, not evidence that one learning rate is superior.",
+  "final_selection": "Not frozen; fresh reserved test remains unscored."
+}

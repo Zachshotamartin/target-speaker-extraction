@@ -10,6 +10,8 @@ The central experiment asks whether corrupting the reference during training imp
 
 Version 0.1.1 adds uniform output attenuation to keep sample peaks at or below 0.98 before WAV playback. A development audit found 58 of 400 raw outputs above full scale. This prevents output sample overflow; it does not improve speaker selection or remove model-generated artifacts. The network weights are unchanged. [Diagnosis, cleanup experiment and next training steps](docs/QUALITY_IMPROVEMENT.md).
 
+An independently implemented STFT-mask model is now training on 231 speakers and 90.582 eligible source hours. Its first expanded-data comparison improves development separation and intelligibility; the app still serves the original weights pending final selection. [Quality development record](docs/QUALITY_WORKLOG.md).
+
 ## Frozen v0.1.0 results
 
 Two models were trained for 5,000 updates each on an Apple M3 Pro. The selected model achieves **1.73 dB mean SI-SDR improvement** on 1,000 reserved test requests from 40 unseen speakers. Reference augmentation adds **0.22 dB** across mismatch conditions (approximate paired 95% interval: 0.07–0.39 dB; one training seed).
@@ -105,7 +107,7 @@ The API exposes `GET /health`, `GET /ready`, `GET /model`, and `POST /extract` w
 
 Machine-readable results live in [`reports/`](reports/). Targets in the original proposal are not measured results. Quality claims must identify their split, checkpoint, and report.
 
-Public source identities, frozen recipes and training records are in [`metadata/`](metadata/). The current suite has 22 passing tests and Linux CPU CI. The v0.1.0 release also has a fresh noneditable wheel installation and real browser extraction through a non-root CPU container recorded in its verification reports.
+Public source identities, frozen recipes and training records are in [`metadata/`](metadata/). The current suite has 33 passing tests and Linux CPU CI. The v0.1.0 release also has a fresh noneditable wheel installation and real browser extraction through a non-root CPU container recorded in its verification reports.
 
 ## Data and licensing
 

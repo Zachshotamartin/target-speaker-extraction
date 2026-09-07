@@ -6,7 +6,10 @@ from tse.engine import load_model, train
 
 
 @pytest.mark.parametrize("schedule", ["none", "plateau"])
-def test_resume_matches_uninterrupted_training(corpus_files, tiny_config, tmp_path, schedule):
+@pytest.mark.parametrize("prefetch", [False, True])
+def test_resume_matches_uninterrupted_training(
+    corpus_files, tiny_config, tmp_path, schedule, prefetch
+):
     tiny_config.training.learning_rate_schedule = schedule
     root, manifest = corpus_files
     development = SpeechCorpus(root, manifest, "dev", 0.25, 0.25)
@@ -18,7 +21,7 @@ def test_resume_matches_uninterrupted_training(corpus_files, tiny_config, tmp_pa
     first = tiny_config.model_copy(deep=True)
     first.training.max_optimizer_updates = 1
     train(first, root, manifest, dev_cases, resumed, "cpu")
-    train(tiny_config, root, manifest, dev_cases, resumed, "cpu", resume=True)
+    train(tiny_config, root, manifest, dev_cases, resumed, "cpu", resume=True, prefetch=prefetch)
     a, _ = load_model(full / "latest.pt")
     b, _ = load_model(resumed / "latest.pt")
     for left, right in zip(a.parameters(), b.parameters(), strict=True):

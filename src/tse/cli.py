@@ -52,6 +52,9 @@ def main() -> int:
     train.add_argument("--fixed-cases", type=Path)
     train.add_argument("--initialize-from", type=Path)
     train.add_argument("--initialize-reference-from", type=Path)
+    train.add_argument(
+        "--prefetch", action="store_true", help="Prepare one CPU audio batch ahead of training"
+    )
 
     evaluate = commands.add_parser("evaluate")
     evaluate.add_argument("--checkpoint", type=Path, required=True)
@@ -180,6 +183,7 @@ def main() -> int:
                     args.fixed_cases,
                     args.initialize_from,
                     args.initialize_reference_from,
+                    args.prefetch,
                 )
             elif args.command == "evaluate":
                 engine.evaluate(

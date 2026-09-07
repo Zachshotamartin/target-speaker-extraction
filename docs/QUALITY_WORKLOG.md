@@ -23,7 +23,7 @@ The fresh reserved set has 1,000 paired recipes from the 20 reserved identities.
 
 The expanded STFT run starts from the pilot backbone, creates a fresh classifier for 231 labels, and uses four-second mixtures, five-second references, effective batch eight, SI-SDR plus waveform/spectral losses and speaker classification. Checkpoint selection uses the existing 80 development requests; broader comparison uses 400 development requests and listening examples chosen independently of scores.
 
-Two learning rates, 0.0003 and 0.001, are being investigated with the same initialization/data schedule. The latter is also the initial rate in the [Conv-TasNet paper](https://arxiv.org/abs/1809.07454), but that paper uses a different dataset and model; this is motivation for a local experiment, not evidence that it will improve this system. The lower-rate run can be resumed from its saved checkpoint after the comparison. Subsequent training budgets depend on development progress.
+Two learning rates, 0.0003 and 0.001, were compared through 2,000 updates with the same initialization/data schedule. Their 400-request results were close: 3.443 / 3.484 dB SI-SDRi and 0.5867 / 0.5852 ESTOI. Neither clearly dominates across metrics. The higher-rate run is continuing toward 20,000 updates with validation-driven reductions; this is exploratory budget allocation, not a demonstrated learning-rate advantage. See [the comparison decision](../reports/expanded-learning-rate-comparison.json). The latter is also the initial rate in the [Conv-TasNet paper](https://arxiv.org/abs/1809.07454), but that paper uses a different dataset and model; this is motivation for a local experiment, not evidence that it will improve this system. The lower-rate run can be resumed from its saved checkpoint after the comparison. Subsequent training budgets depend on development progress.
 
 Commands and current artifacts:
 
@@ -34,3 +34,11 @@ uv run python scripts/evaluate_quality.py --checkpoint artifacts/runs/quality-st
 ```
 
 For an existing run, use `--resume` and omit initialization. Do not run concurrent writers to the same directory. Learning curves, intelligibility, confusion, audio comparisons and failure slices guide selection. Final test scoring waits until selection is frozen. The application continues serving the original model until a replacement earns promotion.
+
+## Delivery and evaluation checks
+
+The local [listening comparison](http://127.0.0.1:8000/gallery/quality-progress/) includes the first six development requests with both original amplitude and documented matched-RMS playback. Model hashes and audio transformations accompany each comparison. It is a progress view, not a promoted release.
+
+The quality evaluator now requires a hash-bound, pre-test selection record before accepting test cases. It rejects unlisted checkpoints, changed recipes and changed source inventories; it also checks speaker disjointness. Paired comparisons align requests by identity and record clustered uncertainty. These controls help avoid accidental test reuse; they do not make repeatedly inspected development data an independent test.
+
+A synthetic MPS batch check measured only a small difference between microbatch four/accumulation two and batch eight: 0.164 / 0.157 seconds for forward/backward, excluding optimizer and audio preparation. The larger batch used more driver memory, so the existing effective batch and partition remain. An optional `--prefetch` reader prepares one optimizer batch on a CPU thread; per-example seeds and CPU resume regression tests verify identical training values. It does not alter the model, loss, sample schedule or effective batch. Reported final serving benchmarks must run without training active.

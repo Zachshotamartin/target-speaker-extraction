@@ -113,7 +113,10 @@ def profile_delivery(
             else:
                 elapsed.append(metadata["processing_seconds"])
                 model_elapsed.append(metadata["model_seconds"])
-        chunked = read_audio(io.BytesIO(prediction_bytes))
+        delivered = read_audio(io.BytesIO(prediction_bytes))
+        # Compare like-for-like raw predictions; a delivery peak guard must not
+        # be mistaken for a chunk-boundary error.
+        chunked = extractor.extract_array(waveform, reference)
         whole = extractor.extract_array(waveform, reference, chunked=False)
         difference = chunked - whole
         boundaries = np.concatenate(
@@ -135,6 +138,8 @@ def profile_delivery(
                 "chunk_whole_max_error": float(np.max(np.abs(difference))),
                 "boundary_10ms_rms_error": float(np.sqrt(np.mean(boundaries**2))),
                 "whole_output_rms": float(np.sqrt(np.mean(whole**2))),
+                "delivered_peak": float(np.max(np.abs(delivered))),
+                "playback_gain": metadata["playback_gain"],
                 "timings_seconds": elapsed,
             }
         )

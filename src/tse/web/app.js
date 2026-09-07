@@ -242,7 +242,7 @@ async function initialize() {
     state.ready = response.ok && model.ready;
     $("status-dot").classList.toggle("ready", state.ready);
     $("model-status").textContent = state.ready ? `Local model · ${model.device.toUpperCase()}` : "Model not ready";
-    $("model-details").textContent = state.ready ? `Model ${model.model_id}. ${model.parameters.toLocaleString()} parameters, trained for ${model.training_updates.toLocaleString()} updates. ${model.operating_envelope}` : "Start the service with a trained checkpoint to use extraction. The health endpoint and interface are available while no model is loaded.";
+    $("model-details").textContent = state.ready ? `Model ${model.model_id}. ${model.parameters.toLocaleString()} parameters, ${model.training_updates.toLocaleString()} updates in this run${model.initialization ? ", following earlier project training" : ""}. ${model.operating_envelope}` : "Start the service with a trained checkpoint to use extraction. The health endpoint and interface are available while no model is loaded.";
     if (!state.ready) message("The local service needs a trained checkpoint before extraction is available.");
   } catch { $("model-status").textContent = "Local service unavailable"; message("The local service is unavailable. Start it and reload this page.", "error"); }
   updateButton();

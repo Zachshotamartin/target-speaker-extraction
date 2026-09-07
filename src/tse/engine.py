@@ -7,6 +7,7 @@ import os
 import resource
 import shutil
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
@@ -82,6 +83,50 @@ def evaluate_model(
     return rows
 
 
+def training_batches(corpus, config, start_step, fixed_cases=None, prefetch=False):
+    """Deterministic CPU preparation, optionally one optimizer batch ahead."""
+    microbatch = config.training.microbatch_size
+    accumulation = config.training.gradient_accumulation
+    end = config.training.max_optimizer_updates
+
+    def prepare(step):
+        batches = []
+        for micro in range(accumulation):
+            start_index = (step * accumulation + micro) * microbatch
+            cases = (
+                [fixed_cases[(start_index + j) % len(fixed_cases)] for j in range(microbatch)]
+                if fixed_cases
+                else [
+                    corpus.make_case(config.seed * 10000000 + start_index + j)
+                    for j in range(microbatch)
+                ]
+            )
+            conditions = [
+                CONDITIONS[(config.seed + start_index + j) % len(CONDITIONS)]
+                if config.augmentation.reference_enabled
+                else "clean"
+                for j in range(microbatch)
+            ]
+            batches.append(corpus.batch(cases, torch.device("cpu"), conditions))
+        return batches
+
+    if not prefetch:
+        for step in range(start_step, end):
+            yield step, prepare(step)
+        return
+    if start_step >= end:
+        return
+    # Only this worker touches the training corpus during preparation. Explicit
+    # per-example seeds avoid any dependency on thread timing or global RNG.
+    with ThreadPoolExecutor(max_workers=1, thread_name_prefix="tse-audio") as pool:
+        future = pool.submit(prepare, start_step)
+        for step in range(start_step, end):
+            batches = future.result()
+            if step + 1 < end:
+                future = pool.submit(prepare, step + 1)
+            yield step, batches
+
+
 def train(
     config: ExperimentConfig,
     root: Path,
@@ -93,6 +138,7 @@ def train(
     fixed_cases_path: Path | None = None,
     initialize_from: Path | None = None,
     initialize_reference_from: Path | None = None,
+    prefetch: bool = False,
 ) -> dict:
     if initialize_from is not None and initialize_reference_from is not None:
         raise ValueError("Choose whole-model or reference-only initialization")
@@ -236,6 +282,7 @@ def train(
         "train_speakers": corpus.speakers,
         "experiment_type": "tiny_set_diagnostic" if fixed_cases else "held_out_speaker_training",
         "initialization": initialization,
+        "input_prefetch": "one_optimizer_batch_cpu_thread" if prefetch else "disabled",
     }
     atomic_json(run_dir / "provenance.json", provenance)
     atomic_json(run_dir / "config.json", config.model_dump())
@@ -283,29 +330,17 @@ def train(
             json.dumps({"event": "initial_validation", "mean_si_sdri_db": best_score}), flush=True
         )
     interval_correct, interval_examples = 0, 0
+    prepared = training_batches(corpus, config, start_step, fixed_cases, prefetch)
     try:
-        for step in range(start_step, config.training.max_optimizer_updates):
+        for step, cpu_batches in prepared:
             model.train()
             optimizer.zero_grad(set_to_none=True)
             losses = []
-            for micro in range(accumulation):
-                start_index = (step * accumulation + micro) * microbatch
-                if fixed_cases:
-                    cases = [
-                        fixed_cases[(start_index + j) % len(fixed_cases)] for j in range(microbatch)
-                    ]
-                else:
-                    cases = [
-                        corpus.make_case(config.seed * 10000000 + start_index + j)
-                        for j in range(microbatch)
-                    ]
-                conditions = [
-                    CONDITIONS[(config.seed + start_index + j) % len(CONDITIONS)]
-                    if config.augmentation.reference_enabled
-                    else "clean"
-                    for j in range(microbatch)
-                ]
-                batch = corpus.batch(cases, device, conditions)
+            for cpu_batch in cpu_batches:
+                batch = {
+                    key: value.to(device) if torch.is_tensor(value) else value
+                    for key, value in cpu_batch.items()
+                }
                 embedding = model.reference_encoder(batch["reference"])
                 output = model.extract(batch["mixture"], embedding)
                 loss = -si_sdr(output, batch["target"], epsilon=config.loss.epsilon).mean()
@@ -323,7 +358,7 @@ def train(
                     interval_correct += int(
                         (logits.detach().argmax(dim=1) == batch["labels"]).sum()
                     )
-                    interval_examples += len(cases)
+                    interval_examples += len(batch["speakers"])
                 if not torch.isfinite(loss):
                     raise FloatingPointError("Training produced a non-finite loss")
                 (loss / accumulation).backward()
@@ -390,6 +425,8 @@ def train(
             save_checkpoint(run_dir / "latest.pt", checkpoint(last_step))
         print(json.dumps({"event": "interrupted", "last_complete_step": last_step}), flush=True)
         raise
+    finally:
+        prepared.close()
     result = {
         "status": "complete",
         "steps": last_step,
