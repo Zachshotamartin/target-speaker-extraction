@@ -19,14 +19,18 @@
     "balanced_monitor_requests": 400,
     "missing_training_development_files": 0,
     "overlap_train_dev_test_speakers": 0,
-    "manifest_sha256": "b80ecd46adf5062823748eed290b5415e7cc5542001bc90845b06af59244f640",
+    "manifest_sha256": "7fdb48305a0d9162ae43a848fd44fb0e44851ad720643b095cbfa83f0814ef9e",
     "epochs": 100,
     "updates_per_epoch": 3475,
     "total_updates": 347500,
     "maximum_session_hours": 8,
     "separator_blocks": 3,
     "enrollment_crop_seconds": 3,
-    "model_transferred_from_previous_run": false
+    "model_transferred_from_previous_run": false,
+    "source_manifest_sha256": "b80ecd46adf5062823748eed290b5415e7cc5542001bc90845b06af59244f640",
+    "corrected_development_references": 49,
+    "development_evaluation_device": "cpu",
+    "first_monitor_update": 500
   },
   "default_release_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e"
 }

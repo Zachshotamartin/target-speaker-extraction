@@ -15,6 +15,8 @@ The efficient architecture keeps three BSRNN blocks, the ResNet34 enrollment enc
 
 Open [full-data progress](http://127.0.0.1:8000/experiments/full/). **Pause and save** requests a stop after the current complete optimizer update or evaluation request. Wait for **Paused and saved** before disconnecting the SSD. **Resume · up to 8 hours** begins a new bounded session. Neither button changes the dataset, configuration or schedule.
 
+Before creating this run, `scripts/prepare_full_data_training.py` freezes a separate local manifest. A metadata audit found 49 of the source mapping's 6,000 development references reused the target utterance. The new manifest replaces only those references with deterministic different utterances by the same speaker; training mixtures and all test mappings stay unchanged. The original manifest remains intact. The detailed replacement table stays local, and `reports/full-data-enrollment-audit.json` records the counts and hashes. The new development protocol therefore differs from the source mapping for those 49 cases. Startup now validates every development enrollment before model creation.
+
 The registered run is local-only in `artifacts/full-training-active.json`. The API accepts only a pause/resume action for this fixed registration, rejects extra parameters and cross-origin requests, and prevents duplicate launches. An exclusive trainer lock also prevents concurrent command-line workers from writing the same run. On macOS, idle-sleep prevention is tied to the trainer PID and capped at eight hours; it does not override lid sleep or change permanent power settings.
 
 Command-line equivalent (substitute the dataset root and a new run directory):
@@ -22,7 +24,7 @@ Command-line equivalent (substitute the dataset root and a new run directory):
 ```bash
 .venv/bin/python scripts/train_full_dataset.py \
   --root "$DATASET_ROOT" \
-  --manifest data/reference/manifest.json \
+  --manifest data/full-training/manifest.json \
   --config configs/full-data-efficient.json \
   --run "$TRAINING_RUN" --device mps --minutes 480
 ```
@@ -39,10 +41,10 @@ Two independent development records are maintained:
 
 | Evaluation | Frequency | Latest result | Best checkpoint / result |
 |---|---|---|---|
-| Fixed speaker-balanced 400 requests, 10 per unseen development speaker | Initialization and every 500 updates | `latest-monitor-validation.json` | `best.pt` / `best-monitor-validation.json` |
+| Fixed speaker-balanced 400 requests, 10 per unseen development speaker | Every 500 updates (first check at update 500) | `latest-monitor-validation.json` | `best.pt` / `best-monitor-validation.json` |
 | All 6,000 requests from 3,000 official development mixtures | Every completed epoch | `latest-full-validation.json` | `best-full.pt` / `best-full-validation.json` |
 
-Best selection uses mean SI-SDR improvement within the same evaluation suite. Full mixture lengths and deterministic three-second enrollment crops are used for both development suites. **Development evaluation runs explicitly on CPU** using a copy of the current model; training remains on MPS. The first live startup reached the MPS memory ceiling during variable-length recurrent evaluation at update zero. CPU evaluation retains every full recording and avoids changing normalization or recurrent context through temporal chunking. The failed startup remains archived; no trained weights were lost. Each result records its update and case count; the newest training state can be newer than the most recently measured score. The two suites' scores are not interchanged. Individual-case results and validation history are retained.
+Best selection uses mean SI-SDR improvement within the same evaluation suite. Full mixture lengths and deterministic three-second enrollment crops are used for both development suites. **Development evaluation runs explicitly on CPU** using a copy of the current model; training remains on MPS. The first live startup reached the MPS memory ceiling during variable-length recurrent evaluation at update zero. CPU evaluation retains every full recording and avoids changing normalization or recurrent context through temporal chunking. The failed startups remain archived; no trained weights were lost. Training now starts immediately, with the first 400-request progress check after 500 updates. Each result records its update and case count; the newest training state can be newer than the most recently measured score. The two suites' scores are not interchanged. Individual-case results for the latest and best evaluations, plus aggregate validation history, are retained.
 
 Evaluation writes complete-case progress every 25 requests and on a requested pause. A resumed evaluation continues at its saved cursor using the same model step and frozen request order. A partial evaluation cannot become a best result. Model-only snapshots of the final five epochs are retained for a later, separately evaluated averaging candidate. No test evaluation or automatic default-model promotion occurs during training.
 

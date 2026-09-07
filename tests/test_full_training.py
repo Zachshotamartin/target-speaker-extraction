@@ -262,3 +262,27 @@ def test_latest_result_does_not_overwrite_an_earlier_best(full_fixture, monkeypa
         assert torch.load(run / name, weights_only=True)["step"] == 2
         assert json.loads((run / f"best-{kind}-validation.json").read_text())["step"] == 2
         assert json.loads((run / f"latest-{kind}-validation.json").read_text())["step"] == 4
+
+
+def test_preflight_rejects_same_utterance_reference_and_repair_preserves_mixtures(full_fixture):
+    import importlib.util
+
+    _, root, manifest = full_fixture
+    payload = json.loads(manifest.read_text())
+    payload["enrollments"]["dev"]["0:0"] = "dev/0-s0.wav"
+    atomic_json(manifest, payload)
+    train, dev = [LibriMixCorpus(root, manifest, s) for s in ("train", "dev")]
+    with pytest.raises(ValueError, match="different utterance"):
+        development_plan(train, dev, 4)
+    spec = importlib.util.spec_from_file_location(
+        "prepare_full", "scripts/prepare_full_data_training.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    output = root / "repaired.json"
+    summary = module.prepare(manifest, output, root / "audit.json")
+    repaired = json.loads(output.read_text())
+    assert summary["repaired_development_references"] == 1
+    assert repaired["splits"] == payload["splits"]
+    assert repaired["enrollments"]["dev"]["0:0"] == "dev/1-s0.wav"
+    assert development_plan(train, LibriMixCorpus(root, output, "dev"), 4)

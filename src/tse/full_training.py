@@ -47,6 +47,15 @@ def development_plan(train, dev, count):
     pools = defaultdict(list)
     for index in range(len(dev)):
         row = dev.rows[index // 2]
+        target = row["sources"][index % 2]
+        reference = dev.known_files[dev.enrollments[f"{row['id']}:{index % 2}"]]
+        if (
+            reference["speaker"] != target["speaker"]
+            or reference["utterance"] == target["utterance"]
+        ):
+            raise ValueError(
+                "Development enrollment must use a different utterance by the target speaker"
+            )
         pools[row["sources"][index % 2]["speaker"]].append(index)
     if count < len(pools) or count % len(pools):
         raise ValueError("Monitor size must be a multiple of the development speaker count")
@@ -201,7 +210,7 @@ def _train(config_path, root, manifest, run, device_name, resume, minutes, stop_
     }
     step, elapsed_before = 0, 0.0
     best = {"monitor": None, "full": None}
-    validated = {"monitor": -1, "full": 0}
+    validated = {"monitor": 0, "full": 0}
     if resume:
         saved = torch.load(run / "latest.pt", map_location="cpu", weights_only=True)
         if (

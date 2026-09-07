@@ -9,7 +9,7 @@ from tse.full_training import train_full
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--manifest", type=Path, default=Path("data/reference/manifest.json"))
+    parser.add_argument("--manifest", type=Path, default=Path("data/full-training/manifest.json"))
     parser.add_argument("--config", type=Path, default=Path("configs/full-data-efficient.json"))
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--device", choices=["cpu", "mps"], default="mps")

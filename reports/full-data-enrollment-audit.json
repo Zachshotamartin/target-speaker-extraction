@@ -1,0 +1,11 @@
+{
+  "source_manifest_sha256": "b80ecd46adf5062823748eed290b5415e7cc5542001bc90845b06af59244f640",
+  "method": "distinct-dev-v1: hash-ranked different utterance from the same development speaker",
+  "repaired_development_references": 49,
+  "training_and_test_unchanged": true,
+  "manifest_sha256": "7fdb48305a0d9162ae43a848fd44fb0e44851ad720643b095cbfa83f0814ef9e",
+  "development_requests": 6000,
+  "changed_training_mixtures": 0,
+  "changed_development_mixtures": 0,
+  "note": "Development references differ from the source mapping for the repaired cases. No test audio was evaluated."
+}
