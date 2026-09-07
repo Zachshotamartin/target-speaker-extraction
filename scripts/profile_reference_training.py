@@ -23,6 +23,7 @@ if __name__ == "__main__":
         "--output", type=Path, default=Path("reports/reference-training-profile.json")
     )
     parser.add_argument("--repeats", type=int, default=3)
+    parser.add_argument("--separator-microbatch", type=int, choices=[1, 2, 4, 8])
     parser.add_argument(
         "--longest-enrollment",
         action="store_true",
@@ -34,6 +35,9 @@ if __name__ == "__main__":
     if args.output.exists():
         raise FileExistsError("Keep the previous profile")
     config = ExperimentConfig.load(args.config)
+    if args.separator_microbatch is not None:
+        config.training.microbatch_size = args.separator_microbatch
+        config.training.gradient_accumulation = 8 // args.separator_microbatch
     torch.set_num_threads(2)
     torch.manual_seed(42)
     torch.mps.set_per_process_memory_fraction(config.runtime.mps_memory_fraction)
@@ -107,6 +111,7 @@ if __name__ == "__main__":
             "parameters": sum(p.numel() for p in model.parameters()),
             "batch": 8,
             "separator_microbatch": config.training.microbatch_size,
+            "gradient_accumulation": config.training.gradient_accumulation,
             "seconds_per_update": timings,
             "warm_mean_seconds": mean,
             "estimated_training_only_hours_100_epochs": mean * 347500 / 3600,

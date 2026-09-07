@@ -12,13 +12,14 @@
 <body><div class="page">
   <header class="topbar"><a class="brand" href="/">one voice.</a><a href="/gallery/">Listen to the current release</a></header>
   <main>
-    <section class="introduction"><div><p class="eyebrow">FULL REFERENCE BASELINE</p><h1>A stronger foundation for separation.</h1><p class="intro-copy">An independently implemented, full-size model trained on official Libri2Mix mixtures. We first verify that it learns to select either voice, then train on all 251 training speakers.</p></div></section>
+    <section class="introduction"><div><p class="eyebrow">FULL REFERENCE BASELINE</p><h1>A stronger foundation for separation.</h1><p class="intro-copy">An independently implemented, full-size model for official Libri2Mix mixtures. The current learning check repeats 16 examples. Full-dataset training has not started.</p></div></section>
     <p id="state" role="status">Reading training progress…</p>
     <progress id="bar" max="1" value="0" aria-label="Current training stage progress"></progress>
-    <dl class="baseline-facts"><div><dt>Current stage</dt><dd id="stage">—</dd></div><div><dt>Completed updates</dt><dd id="updates">—</dd></div><div><dt>Completed epochs</dt><dd id="epochs">—</dd></div></dl>
+    <dl class="baseline-facts"><div><dt>Current stage</dt><dd id="stage">—</dd></div><div><dt>Completed updates</dt><dd id="updates">—</dd></div><div><dt id="epoch-label">Passes over 16 examples</dt><dd id="epochs">—</dd></div></dl>
     <p id="validation" class="baseline-note"></p>
     <p id="estimate" class="baseline-note"></p>
-    <p class="baseline-note">The initial learning check uses fixed training examples. Its score does not measure new-speaker quality. The main run starts again from random weights and uses separate development audio. A full training run still needs listening and delivery checks.</p>
+    <p class="baseline-note">Full training is on hold while we choose practical compute. It is not queued to start on this Mac. One full-data epoch contains 27,800 target requests; the 100-epoch recipe would require 347,500 updates.</p>
+    <p class="baseline-note">The learning check's repeated passes do not count toward those full-data epochs. Its score does not measure new-speaker quality. The main model will start from random weights and use separate development audio.</p>
     <p id="model" class="baseline-note"></p>
     <nav class="baseline-links"><a href="/experiments/v3/">Previous experiment record</a><a href="/gallery/v3-continuation-listening/">Preserved listening comparison</a></nav>
     <p id="updated" class="gallery-caption"></p>
@@ -34,6 +35,7 @@ async function refresh(){
     document.getElementById('stage').textContent=data.stage==='tiny_learning'?'Learning check':data.stage==='main_training'?'Full training':data.stage.replaceAll('_',' ');
     document.getElementById('updates').textContent=data.updates.toLocaleString()+' / '+data.total_updates.toLocaleString();
     document.getElementById('epochs').textContent=Number(data.epochs).toFixed(2)+' / '+(data.planned_epochs??'—');
+    document.getElementById('epoch-label').textContent=data.stage==='tiny_learning'?'Passes over 16 examples':'Full-dataset epochs';
     const bar=document.getElementById('bar');bar.max=Math.max(1,data.total_updates);bar.value=data.updates;
     document.getElementById('validation').textContent=data.last_si_sdri_db===null?'The first completed learning evaluation is pending.':'Last '+(data.stage==='tiny_learning'?'fixed training-set':'development')+' evaluation: '+data.last_si_sdri_db.toFixed(2)+' dB SI-SDR improvement. Learning gate: '+data.learning_gate+'.';
     document.getElementById('estimate').textContent=data.initial_estimate_training_hours?'Initial estimate for the full 100-epoch recipe: about '+Math.round(data.initial_estimate_training_hours)+' training hours. This short benchmark excludes evaluation and is not a completion-time guarantee.':'';

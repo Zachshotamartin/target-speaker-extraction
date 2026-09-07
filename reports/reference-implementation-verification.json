@@ -1,9 +1,9 @@
 {
   "status": "implementation_checks_passed",
-  "checked_at_utc": "2026-09-07T06:00:15.939322+00:00",
+  "checked_at_utc": "2026-09-07T06:16:54.939162+00:00",
   "source_tree_sha256": "405b3218c701250a89f64c32cd8c46c2df16143a546d593972009c5cdd297460",
   "pytest": {
-    "passed": 59,
+    "passed": 60,
     "failed": 0,
     "warnings": 2,
     "warning_scope": "Existing Starlette/httpx and AnyIO API deprecations"
@@ -28,5 +28,13 @@
   "frontend_numeric_report": "reference-fbank-parity.json",
   "data_preparation_report": "reference-data-preparation.json",
   "served_checkpoint_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e",
-  "interpretation": "Implementation checks only. Full training, held-out quality, listening and release acceptance are separate."
+  "interpretation": "Implementation checks only. Full training, held-out quality, listening and release acceptance are separate.",
+  "cuda_execution": "not implemented or tested; external training requires a separate validated backend/setup",
+  "learning_gate_report": "reference-learning-gate.json",
+  "cpu_metric_agreement_report": "reference-cpu-validation.json",
+  "ci": {
+    "implementation_commit": "4a92ac963d88e18e5d24b17b51bc0b1d3200eaf1",
+    "conclusion": "success",
+    "url": "https://github.com/Zachshotamartin/target-speaker-extraction/actions/runs/34089192954"
+  }
 }

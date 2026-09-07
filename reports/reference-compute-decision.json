@@ -1,0 +1,14 @@
+{
+  "status": "full_training_on_hold",
+  "reason": "User cannot leave this Mac occupied for the estimated 800 training hours. Do not start the 100-epoch run here.",
+  "current_work": "Finish and preserve the bounded 256-update learning diagnostic only.",
+  "main_training_started": false,
+  "paid_compute_authorized": false,
+  "next_step": "Compare external GPU options within the user's budget; benchmark actual throughput before committing to a longer run.",
+  "counter_explanation": {
+    "diagnostic_target_requests_per_pass": 16,
+    "diagnostic_total_updates": 256,
+    "full_target_requests_per_epoch": 27800,
+    "full_recipe_total_updates": 347500
+  }
+}

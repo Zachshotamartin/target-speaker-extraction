@@ -3,6 +3,7 @@ import io
 from pathlib import Path
 
 import numpy as np
+import pytest
 import soundfile as sf
 import torch
 from torch.nn import functional as F
@@ -94,9 +95,11 @@ def test_reference_delivery_preserves_benchmark_preprocessing_and_whole_sequence
     assert extractor.info()["inference_strategy"] == "whole_clip_sequence_model"
 
 
-def test_recomputed_joint_training_matches_gradients_and_batchnorm_buffers():
+@pytest.mark.parametrize("separator_microbatch", [1, 2])
+def test_recomputed_joint_training_matches_gradients_and_batchnorm_buffers(separator_microbatch):
     torch.manual_seed(19)
     config = reference_config()
+    config.training.microbatch_size = separator_microbatch
     ordinary = make_model(config.model, 2).double().train()
     recomputed = copy.deepcopy(ordinary)
     recomputed.activation_checkpointing = True
@@ -198,7 +201,5 @@ def test_reference_training_resume_replays_exact_samples_and_state(tmp_path):
     assert request["reference_path"] == "dev/1-s0.wav"
     # Changing an enrollment file must be detected, not silently accepted on resume/evaluation.
     (tmp_path / "dev/1-s0.wav").write_bytes(b"changed")
-    import pytest
-
     with pytest.raises(ValueError, match="audio changed"):
         LibriMixCorpus(tmp_path, manifest, "dev").request(0)

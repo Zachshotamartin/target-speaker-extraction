@@ -42,6 +42,10 @@ The initial three-update profile measured about 8.29 seconds per warm update and
 
 Before the full run, a separate 256-update diagnostic repeats sixteen training requests covering both targets of eight mixtures. It uses a constant learning rate of 0.001. Its gate requires at least 8 dB mean improvement and the correct source preference in all sixteen requests. These weights do not initialize the main model and are not deployed. A learning failure blocks the full run instead of being hidden by a long training queue.
 
+The diagnostic completed all **256 updates**. Its [learning gate passed](../reports/reference-learning-gate.json): the best checkpoint (update 224) achieved **15.42 dB SI-SDR improvement** and preferred the requested source in all sixteen cases. The final update scored 13.96 dB; the best-checkpoint result is identified explicitly. A [CPU check of update 192](../reports/reference-cpu-validation.json) matched the corresponding MPS per-case SI-SDRi values within 0.000004 dB. These are fixed training examples, not evidence of generalization or a new release.
+
+The user cannot dedicate this Mac to the projected month-long run. [Full training is on hold](../reports/reference-compute-decision.json), with no automatic main run queued and no paid GPU provisioned. The additional Mac throughput/microbatch stress profiles were prepared but not run after this constraint. [Compute options](COMPUTE_OPTIONS.md) describe a measured, budgeted next step. Repeated passes over sixteen diagnostic examples are distinct from the 27,800 requests in each full-data epoch.
+
 ## Run and resume
 
 From the repository root:
