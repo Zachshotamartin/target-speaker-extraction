@@ -45,6 +45,12 @@ def main() -> None:
     }
     if any(profile["model"]["checkpoint_sha256"] != selected_hash for profile in profiles.values()):
         raise ValueError("Runtime evidence describes another model")
+    normalization_report = read("reports/quality-globalnorm-development.json")
+    control_report = read("reports/quality-stft-expanded-fastlr-2000.json")
+    for key in ("case_manifest_sha256", "source_manifest_sha256"):
+        if normalization_report[key] != control_report[key]:
+            raise ValueError("Normalization comparison uses different development data")
+    normalization, control = normalization_report["summary"], control_report["summary"]
     paired = compare_quality(
         Path("reports/quality-v2-baseline-test.json"),
         Path("reports/quality-v2-selected-test.json"),
@@ -142,9 +148,6 @@ Speech is from [LibriSpeech / OpenSLR 12](https://www.openslr.org/12), Panayotov
 
 See [quality reproduction](REPRODUCING_QUALITY.md) and the [development worklog](QUALITY_WORKLOG.md). The test freeze must remain immutable; subsequent test-informed changes need a new generalization protocol.
 """
-    Path("docs/MODEL_CARD.md").write_text(card)
-    normalization = read("reports/quality-globalnorm-development.json")["summary"]
-    control = read("reports/quality-stft-expanded-fastlr-2000.json")["summary"]
     study = f"""# Improving target-speaker extraction on one Mac
 
 The first One voice release had a working training/evaluation/API pipeline, but weak separation and audible artifacts. The user heard the competing voice become quieter without being adequately removed. The quality follow-up's frozen fresh test measures **{summary["mean_si_sdri_db"]:.3f} dB mean SI-SDR improvement**, versus {reports["baseline"]["summary"]["mean_si_sdri_db"]:.3f} dB for the original model on the same requests. Remaining failures are part of the result: {pct(summary["negative_improvement_fraction"])} of requests worsen and {pct(summary["confusion_fraction"])} trigger the confusion proxy.
@@ -185,6 +188,7 @@ The [comparison gallery](http://127.0.0.1:8000/gallery/quality-progress/) contai
 
 [Reproduce the quality experiments](REPRODUCING_QUALITY.md).
 """
+    Path("docs/MODEL_CARD.md").write_text(card)
     Path("docs/CASE_STUDY.md").write_text(study)
     print("Built current model card and case study from frozen quality-release evidence")
 

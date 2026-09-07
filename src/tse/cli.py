@@ -211,6 +211,9 @@ def main() -> int:
                 _, payload = engine.load_model(args.checkpoint)
                 for key in ("optimizer", "scheduler", "torch_rng", "mps_rng"):
                     payload.pop(key, None)
+                average = payload.get("provenance", {}).get("checkpoint_average")
+                if average is not None and "selection" in average:
+                    average["selection_at_creation"] = average.pop("selection")
                 engine.save_checkpoint(args.output, payload)
                 atomic_json(
                     args.output.with_suffix(".json"),
