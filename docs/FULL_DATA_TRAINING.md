@@ -57,3 +57,5 @@ The eight-voice continuation was safely paused at update **6,000** on September 
 ## Verification
 
 Automated checks compare uninterrupted training with a pause mid-epoch and a pause mid-development evaluation. They require exact CPU equality of final weights, optimizer state, random state, learning-rate progression and best scores. Additional checks cover balanced development selection, split leakage rejection, incomplete evaluation recovery, earlier-best retention, session expiry, duplicate trainer exclusion and fixed-run API controls. A real MPS pause/resume check is recorded separately after launch; CPU bitwise equivalence does not promise bitwise equality of every MPS kernel across processes.
+
+The September 7 live MPS check saved after update 11 and resumed from exactly that update, continuing past update 20 with all 570 Adam parameter states at the saved step and the full learning-rate schedule intact. All 72 automated tests passed. The live evaluation recovery check preserved 27 completed cases across a process restart. See `reports/full-data-live-verification.json` for the run identity and scope of each verification.

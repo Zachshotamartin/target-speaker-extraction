@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "paused_step": 11,
+  "resumed_step": 20,
+  "checkpoint_sha256_at_pause": "e6bb7b550e7a63e3182e9841f106f7667886c581c58a3c3a9c0e381f336fba48",
+  "optimizer_parameter_states": 570,
+  "all_optimizer_steps_match_checkpoint": true,
+  "finite_model_state": true,
+  "resume_start_step_matches_checkpoint": true,
+  "learning_rate_continues_decreasing": true,
+  "source_commit": "991a1f20de3a8ec9e7ff04bcc8dacec33b2d5fb1",
+  "source_tree_sha256": "2b984f5f1ee899612d1fd7305b059b85b1d2d9efcbe19f2fd90b47d356397a2d",
+  "device": "mps",
+  "evaluation_device": "cpu",
+  "session_limit_minutes": 480.0,
+  "fresh_initialization": true,
+  "initial_optimizer_states": 0,
+  "parameters": 22995427,
+  "training_speakers": 251,
+  "training_mixtures": 13900,
+  "target_requests_per_epoch": 27800,
+  "planned_epochs": 100,
+  "total_updates": 347500,
+  "manifest_sha256": "7fdb48305a0d9162ae43a848fd44fb0e44851ad720643b095cbfa83f0814ef9e",
+  "automated_tests_passed": 72,
+  "first_validation_update": 500,
+  "live_validation_pause_resume": {
+    "cases_preserved": 27,
+    "subsequent_cases_verified": 50,
+    "scope": "CPU evaluation recovery verified before the development-reference manifest revision; final protocol has full automated pause/resume coverage"
+  },
+  "current_status": {
+    "status": "training",
+    "step": 50,
+    "epoch": 0.014388489208633094,
+    "checkpoint_step": 11,
+    "session_minutes": 480.0,
+    "process_alive": true
+  },
+  "default_release_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e"
+}
