@@ -53,6 +53,9 @@ def main() -> int:
     train.add_argument("--initialize-from", type=Path)
     train.add_argument("--initialize-reference-from", type=Path)
     train.add_argument(
+        "--compile-blocks", action="store_true", help="Compile real-valued temporal blocks on MPS"
+    )
+    train.add_argument(
         "--prefetch", action="store_true", help="Prepare one CPU audio batch ahead of training"
     )
 
@@ -184,6 +187,7 @@ def main() -> int:
                     args.initialize_from,
                     args.initialize_reference_from,
                     args.prefetch,
+                    args.compile_blocks,
                 )
             elif args.command == "evaluate":
                 engine.evaluate(

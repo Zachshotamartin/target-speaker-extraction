@@ -127,6 +127,21 @@ def training_batches(corpus, config, start_step, fixed_cases=None, prefetch=Fals
             yield step, batches
 
 
+def compile_temporal_blocks(model) -> None:
+    """Compile real-valued temporal blocks, keeping STFT operators in eager mode."""
+    if next(model.parameters()).device.type != "mps":
+        raise ValueError("Temporal compilation has been validated for MPS only")
+    for block in [*model.blocks, *model.reference_encoder.blocks]:
+        # Six dilation shapes each need training and evaluation graphs. The
+        # default eight-entry cache is too small for this intentional family.
+        block.compile(
+            fullgraph=True,
+            dynamic=False,
+            recompile_limit=32,
+            options={"layout_optimization": False},
+        )
+
+
 def train(
     config: ExperimentConfig,
     root: Path,
@@ -139,6 +154,7 @@ def train(
     initialize_from: Path | None = None,
     initialize_reference_from: Path | None = None,
     prefetch: bool = False,
+    compile_blocks: bool = False,
 ) -> dict:
     if initialize_from is not None and initialize_reference_from is not None:
         raise ValueError("Choose whole-model or reference-only initialization")
@@ -283,6 +299,9 @@ def train(
         "experiment_type": "tiny_set_diagnostic" if fixed_cases else "held_out_speaker_training",
         "initialization": initialization,
         "input_prefetch": "one_optimizer_batch_cpu_thread" if prefetch else "disabled",
+        "temporal_compiler": "inductor_mps_layout_optimization_false"
+        if compile_blocks
+        else "disabled",
     }
     atomic_json(run_dir / "provenance.json", provenance)
     atomic_json(run_dir / "config.json", config.model_dump())
@@ -330,6 +349,8 @@ def train(
             json.dumps({"event": "initial_validation", "mean_si_sdri_db": best_score}), flush=True
         )
     interval_correct, interval_examples = 0, 0
+    if compile_blocks:
+        compile_temporal_blocks(model)
     prepared = training_batches(corpus, config, start_step, fixed_cases, prefetch)
     try:
         for step, cpu_batches in prepared:

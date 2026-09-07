@@ -69,7 +69,7 @@ def main():
                 paths[key][mode] = filename
                 paths[key][f"{mode}_sha256"] = sha256(args.output / filename)
             players.append(
-                f'<div class="gallery-track"><span>{label}</span><audio controls preload="none" src="{paths[key]["matched"]}" data-raw="{paths[key]["raw"]}" data-matched="{paths[key]["matched"]}"></audio></div>'
+                f'<div class="gallery-track"><span>{label}</span><audio controls preload="none" src="{paths[key]["matched"]}?v={paths[key]["matched_sha256"][:12]}" data-raw="{paths[key]["raw"]}?v={paths[key]["raw_sha256"][:12]}" data-matched="{paths[key]["matched"]}?v={paths[key]["matched_sha256"][:12]}"></audio></div>'
             )
         records.append(
             {

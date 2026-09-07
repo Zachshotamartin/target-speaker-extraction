@@ -4,7 +4,7 @@ Listening feedback identified weak suppression of the competing voice and substa
 
 ## What was measured
 
-The selected network is unchanged: exported SHA-256 `f3271f1decf7ec0e8e9b0f1fab578a693f51c4a1d1778adeeb9109a5e64a5c20`.
+At the playback audit, the served network was unchanged: exported SHA-256 `f3271f1decf7ec0e8e9b0f1fab578a693f51c4a1d1778adeeb9109a5e64a5c20`.
 
 - The first 20 existing gallery outputs stay below full scale (maximum absolute sample 0.986). Their reported static therefore is not explained by output sample overflow.
 - On the broader 400-request development set, 58 raw outputs exceed full scale; the largest sample magnitude is 1.279. Browser audio has a nominal −1 to +1 range, so this creates a playback-clipping risk. See [MDN's AudioBuffer documentation](https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer).
@@ -39,7 +39,7 @@ Candidate A's +0.109 dB mean gain is modest and exploratory. These are the same 
 
 ## Recommended training sequence
 
-These are proposed experiments, not implemented improvements or guaranteed gains. Keep a separate run directory and retain the current checkpoint as a baseline. Change one factor at a time before combining successful treatments.
+This sequence was proposed after the playback audit. The spectral-loss pilots, speaker supervision, independent STFT-mask architecture and expanded-data training are now implemented; measured outcomes and active-run status are recorded in the [quality worklog](QUALITY_WORKLOG.md). The items below retain the reasoning behind those experiments; they are hypotheses, not guaranteed gains. Separate run directories preserve the original baseline.
 
 1. **Train for cleaner waveform reconstruction.** Add a multi-resolution spectral reconstruction loss alongside the existing target-specific SI-SDR and amplitude loss. First verify loss gradients on CPU/MPS and reconstruction of clean single-speaker audio. Then compare a bounded additional-training control against the same budget with spectral loss, using identical mixture schedules. Listen for hiss, buzzing and damaged consonants at matched playback loudness. Multi-resolution STFT loss has supported high-fidelity waveform training in [Parallel WaveGAN](https://arxiv.org/abs/1910.11480); applying it to this extractor is a hypothesis that needs its own evaluation.
 2. **Teach the reference encoder speaker identity explicitly.** The current classifier weight is zero; the speaker representation is learned only through extraction. Compare auxiliary training-speaker classification or same-speaker/different-speaker contrastive supervision, retaining disjoint development speakers. The classifier is a training objective, not an inference requirement that users belong to known identities. Joint reconstruction and speaker supervision is an established direction in [SpEx](https://arxiv.org/abs/2004.08326). Reusing the idea requires neither its implementation nor its checkpoints.

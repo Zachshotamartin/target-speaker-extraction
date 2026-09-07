@@ -1,0 +1,19 @@
+{
+  "purpose": "Full extraction compiler feasibility while training is active; timings are diagnostic, not isolated benchmarks.",
+  "torch_version": "2.14.0",
+  "eager": {
+    "times_seconds": [
+      3.97800699993968,
+      0.150422666920349,
+      0.12371912493836135,
+      0.14683275006245822,
+      0.13364362495485693,
+      0.09577304089907557,
+      0.14143845799844712,
+      0.12203941703774035
+    ],
+    "median_warm_seconds": 0.12868137494660914
+  },
+  "status": "failed",
+  "exception": "InductorError: SyntaxError: failed to compile #include <c10/metal/atomic.h>\n#include <c10/metal/reduction_utils.h>\n#include <c10/metal/utils.h>\n\n\n    kernel void generated_kernel_0(\n        device float* out_ptr0,\n        constant float* in_ptr0,\n        constant float* in_ptr1,\n        uint xindex [[thread_position_in_grid]]\n    ) {\n        int x0 = (xindex) % (512);\n        int x1 = ((xindex) / (512)) % (501);\n        int x2 = c10::metal::floor_divide(xindex, 256512);\n        int x3 = xindex;\n        auto tmp8 = in_ptr1[x0];\n        auto tmp0 = (-256) + x0 + 128*x1;\n        auto tmp1 = static_cast<long>(tmp0);\n        auto tmp2 = 0;\n        auto tmp3 = tmp1 >= tmp2;\n        auto tmp4 = 64000;\n        auto tmp5 = tmp1 < tmp4;\n        auto tmp6 = tmp3 & tmp5;\n        float tmp7;\n        if (tmp6) {\n            auto tmp_scoped0 = in_ptr0[(-256) + x0 + 128*x1 + 64000*x2];\n            tmp7 = static_cast<decltype(tmp7)>(tmp_scoped0);\n        } else tmp7 = static_cast<decltype(tmp7)>(0.0);\n        auto tmp9 = tmp7 * tmp8;\n        out_ptr0[x3] = static_cast<float>(tmp9);\n    }\n\n\n\n\n    [[max_total_threads_per_threadgroup(257)]]\n    kernel void generated_kernel_1(\n        device float* out_ptr0,\n        device float* out_ptr2,\n        device float* out_ptr3,\n        device float* out_ptr4,\n        constant float* in_ptr0,\n        constant float* in_ptr1,\n        constant float* in_ptr2,\n        uint2 thread_pos [[thread_position_in_grid]],\n        uint2 group_pos [[thread_position_in_threadgroup]]\n    ) {\n        auto xindex = thread_pos.x;\n        auto r0_index = thread_pos.y;\n        int r0_1 = r0_index;\n        int x0 = xindex;\n        threadgroup float3 tmp_acc_0[257];\n        auto tmp0 = in_ptr0[r0_1 + 257*x0];\n        auto tmp1 = 1;\n        auto tmp2 = tmp0 + tmp1;\n        auto tmp3 = metal::precise::log(tmp2);\n        tmp_acc_0[r0_index * 1] = float3(tmp3, 0.0, 1.0);\n        auto tmp4 = c10::metal::threadgroup_welford_combine(tmp_acc_0, r0_index * 1, 257);\n        if (r0_index == 0) out_ptr0[x0] = static_cast<float>(tmp4.x);\n        auto tmp5 = 257.0;\n        auto tmp6 = tmp4.y / tmp5;\n        auto tmp7 = 1e-05;\n        auto tmp8 = tmp6 + tmp7;\n        auto tmp9 = metal::precise::rsqrt(tmp8);\n        out_ptr2[x0] = static_cast<float>(tmp9);\n        auto tmp12 = in_ptr1[r0_1];\n        auto tmp14 = in_ptr2[r0_1];\n        auto tmp10 = tmp3 - tmp4.x;\n        auto tmp11 = tmp10 * tmp9;\n        auto tmp13 = tmp11 * tmp12;\n        auto tmp15 = tmp13 + tmp14;\n        out_ptr3[r0_1 + 257*x0] = static_cast<float>(tmp15);\n        out_ptr4[501*r0_1 + 128757*(c10::metal::floor_divide(x0, 501)) + ((x0) % (501))] = static_cast<float>(tmp15);\n    }\n\n\n\n\n    kernel void generated_kernel_2(\n        device float* out_ptr0,\n        constant float* in_ptr0,\n        constant float* in_ptr1,\n        uint xindex [[thread_position_in_grid]]\n    ) {\n        int x3 = xindex;\n        int x1 = ((xindex) / (501)) % (96);\n        auto tmp0 = in_ptr0[x3];\n        auto tmp1 = in_ptr1[x1];\n      "
+}

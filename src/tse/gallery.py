@@ -65,7 +65,7 @@ def make_gallery(
             }
         )
         players = "".join(
-            f'<div class="gallery-track"><span>{label}</span><audio controls preload="none" src="{tracks[key]}"></audio></div>'
+            f'<div class="gallery-track"><span>{label}</span><audio controls preload="none" src="{tracks[key]}?v={extractor.checkpoint_hash[:12]}"></audio></div>'
             for key, label in (
                 ("mixture", "Original mixture"),
                 ("reference", "Separate voice reference"),

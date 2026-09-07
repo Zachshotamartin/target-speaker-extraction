@@ -1,0 +1,62 @@
+{
+  "protocol": "Main training and quality evaluation paused. Same real training batch eight, microbatch four. Twenty iterations per mode, first three excluded from warm median. Includes forward, all losses, backward, clipping and optimizer; excludes data preparation. Numeric parity measured before the first update. This is training compute, not serving runtime or a quality result.",
+  "checkpoint_sha256": "445474ccae9da8a62567700b1b15596f4760ba05a0f29bd401722eb91a2de85c",
+  "torch_version": "2.14.0",
+  "source_tree_sha256": "b5e9a56c3f3c37bc7405a11984c910ed3473c019dbfb31d4394aeb8dca446f1c",
+  "eager": {
+    "times_seconds": [
+      1.2382477499777451,
+      0.37151370907668024,
+      0.2753972919890657,
+      0.27646245807409286,
+      0.23490779101848602,
+      0.2188734170049429,
+      0.19800025003496557,
+      0.19258020794950426,
+      0.18630299996584654,
+      0.18197716702707112,
+      0.1814748749602586,
+      0.1876706670736894,
+      0.19214679207652807,
+      0.17917800007853657,
+      0.18260629195719957,
+      0.18693262489978224,
+      0.18765212502330542,
+      0.1968733340036124,
+      0.1910730410600081,
+      0.1868030830519274
+    ],
+    "median_warm_seconds": 0.1876706670736894,
+    "driver_gib": 0.53570556640625
+  },
+  "forward_max_error": 1.1920928955078125e-07,
+  "gradient_relative_l2_error": 3.1826430131332017e-06,
+  "compiled": {
+    "times_seconds": [
+      1.9362940419232473,
+      0.11352504102978855,
+      0.11381095799151808,
+      0.11173291597515345,
+      0.12452137505169958,
+      0.12147699994966388,
+      0.12029391597025096,
+      0.11703375005163252,
+      0.11190524999983609,
+      0.11876700003631413,
+      0.11700266704428941,
+      0.11154891701880842,
+      0.11549383401870728,
+      0.1109899589791894,
+      0.11177366599440575,
+      0.11204533302225173,
+      0.10897145804483443,
+      0.1088811670197174,
+      0.1132407080149278,
+      0.10827095806598663
+    ],
+    "median_warm_seconds": 0.11204533302225173,
+    "driver_gib": 0.543609619140625
+  },
+  "note": "Unused final residual parameters can receive zero gradients from the compiler where eager uses None; parity treats both as zero. These parameters do not affect the returned skip output. Compiler arithmetic is close, not bit-identical; compiler mode is recorded in training provenance.",
+  "status": "passed"
+}
