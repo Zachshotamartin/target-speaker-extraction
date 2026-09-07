@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Full-data training · One voice</title><link rel="stylesheet" href="/assets/style.css">
+<style>.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:32px 0}.facts div{border-top:1px solid #bbb;padding-top:16px}.facts dd{font-size:1.7rem;margin:10px 0}progress{width:100%;height:14px;accent-color:#3c6247}.note{max-width:800px;line-height:1.65}.controls{display:flex;gap:16px;margin:24px 0}table{width:100%;border-collapse:collapse;margin:32px 0}th,td{text-align:left;border-bottom:1px solid #ccc;padding:14px 8px}button:disabled{opacity:.45;cursor:default}@media(max-width:650px){.facts{grid-template-columns:1fr}.table-wrap{overflow-x:auto}}</style></head>
+<body><div class="page"><header class="topbar"><a class="brand" href="/">one voice.</a><a href="/experiments/concept/">Previous eight-voice experiment</a></header>
+<main><section class="introduction"><div><p class="eyebrow">FULL LIBRI2MIX TRAINING SET</p><h1>Train. Pause. Pick up where you left off.</h1><p class="intro-copy">A fresh model learning from 251 speakers and 13,900 mixtures, across 100 complete epochs.</p></div></section>
+<p id="state" role="status">Reading progress…</p><progress id="bar" value="0" max="347500" aria-label="Full training schedule"></progress>
+<dl class="facts"><div><dt>Epochs completed</dt><dd id="epoch">—</dd></div><div><dt>Optimizer updates</dt><dd id="steps">—</dd></div><div><dt>Time left in this session</dt><dd id="time">—</dd></div></dl>
+<div class="controls"><button id="pause" disabled>Pause and save</button><button id="resume" disabled>Resume · up to 8 hours</button></div><p id="action" role="status"></p>
+<p class="note">Pause waits for the current update or evaluation case to finish, then saves. Resume keeps the weights, optimizer, random state, learning rate and position within the epoch. Every session stops after at most eight hours; the next session starts only when you press Resume.</p>
+<p id="checkpoint" class="note"></p><p id="evaluation" class="note"></p>
+<div class="table-wrap"><table><caption>Development performance on 40 speakers excluded from training</caption><thead><tr><th>Evaluation</th><th>Most recent result</th><th>Best result</th></tr></thead><tbody><tr><th>Fixed 400 requests · every 500 updates</th><td id="latest-monitor">Pending</td><td id="best-monitor">Pending</td></tr><tr><th>All 6,000 requests · each full epoch</th><td id="latest-full">Pending</td><td id="best-full">Pending</td></tr></tbody></table></div>
+<p class="note">Scores show SI-SDR improvement over the two-speaker mixture, in dB. Each best checkpoint is selected using its own fixed evaluation set. A reported result belongs to the displayed update, which may precede the latest saved training state. Development checks guide training; they are not final test results.</p>
+<p class="note">This uses the full train-100 dataset with an efficient three-block separator and three-second voice references. The full epoch schedule continues across sessions. It is a smaller architecture than the six-block research baseline, so matching the paper’s score is not guaranteed. The earlier eight-voice experiment remains available separately.</p>
+<p class="note">Keep the SSD connected while training. Wait for “Paused and saved” before unplugging it. Closing the lid may suspend the Mac; pausing first is preferable. An unexpected shutdown can lose work since the last checkpoint (saved every 50 updates).</p><p id="updated"></p></main></div>
+<script>
+const el=id=>document.getElementById(id);
+const score=x=>x?.mean_si_sdri_db==null?'Pending':x.mean_si_sdri_db.toFixed(2)+' dB · update '+x.step.toLocaleString();
+let busy=false;
+async function refresh(){try{const response=await fetch('/experiments/full/status',{cache:'no-store'});if(!response.ok)throw Error('Progress unavailable');const d=await response.json();
+const labels={not_started:'No session has started.',starting:'Preparing the full-data model.',training:'Training is active on this Mac.',validating:'Checking development recordings.',paused:'Paused and saved. Ready to resume.',interrupted:'The process stopped unexpectedly. Resume from the last saved checkpoint.',failed:'Training needs attention: '+(d.detail??''),complete:'All 100 epochs and their development evaluations are complete.'};
+el('state').textContent=d.pause_requested&&d.process_alive?'Pause requested. Finishing and saving the current work…':labels[d.status]??d.status;
+el('epoch').textContent=(d.epoch??0).toFixed(3)+' / '+(d.total_epochs??100);el('steps').textContent=(d.step??0).toLocaleString()+' / '+(d.total_updates??347500).toLocaleString();el('bar').value=d.step??0;el('bar').max=d.total_updates??347500;
+el('time').textContent=d.process_alive?Math.max(0,Math.ceil(((d.session_minutes??480)*60-(d.session_elapsed_seconds??0))/60))+' minutes':'Session stopped';
+el('checkpoint').textContent=d.checkpoint_step==null?'Initial checkpoint pending.':'Latest saved state: update '+d.checkpoint_step.toLocaleString()+'. Next learning rate: '+Number(d.next_learning_rate).toExponential(3)+'.';
+el('evaluation').textContent=d.status==='validating'?(d.validation_kind==='monitor'?'Progress check':'Full development evaluation')+': '+(d.validation_done??0)+' / '+d.validation_total+' cases. Evaluation also resumes after a pause.':'';
+for(const kind of ['monitor','full'])for(const v of ['latest','best'])el(v+'-'+kind).textContent=score(d[v+'_'+kind]);
+el('pause').disabled=busy||!d.process_alive||d.pause_requested;el('resume').disabled=busy||!d.can_resume;el('updated').textContent='Updated '+new Date().toLocaleTimeString()+'. Refreshes every 10 seconds.';
+}catch(e){el('state').textContent=e.message;}}
+async function control(action){busy=true;el('pause').disabled=true;el('resume').disabled=true;try{const r=await fetch('/experiments/full/control',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action})});const d=await r.json();if(!r.ok)throw Error(d.detail??'Control failed');el('action').textContent=action==='pause'?'Pause requested. Wait for the saved confirmation above.':'Session started. The full schedule continues from its saved position.';}catch(e){el('action').textContent=e.message;}finally{busy=false;await refresh();}}
+el('pause').onclick=()=>control('pause');el('resume').onclick=()=>control('resume');refresh();setInterval(refresh,10000);
+</script></body></html>

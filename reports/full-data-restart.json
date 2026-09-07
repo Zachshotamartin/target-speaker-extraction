@@ -1,0 +1,32 @@
+{
+  "status": "prepared_for_launch",
+  "previous_run": {
+    "status": "paused",
+    "step": 6000,
+    "best_step": 5350,
+    "best_development_si_sdri_db": 6.661851692944765,
+    "best_checkpoint_sha256": "3ae2802860b8303451e79d4d34fbf806babfab614f3a2e2b991478a914f8e254",
+    "latest_checkpoint_sha256": "f1b6e006ff0d05dbbc34ead6475eed6de229b0c8c8db44836ea9a87498555c22"
+  },
+  "new_run": {
+    "initialization": "fresh_random_weights",
+    "dataset": "Libri2Mix train-100, 16 kHz min clean",
+    "mixtures": 13900,
+    "target_requests_per_epoch": 27800,
+    "speakers": 251,
+    "development_speakers": 40,
+    "development_requests": 6000,
+    "balanced_monitor_requests": 400,
+    "missing_training_development_files": 0,
+    "overlap_train_dev_test_speakers": 0,
+    "manifest_sha256": "b80ecd46adf5062823748eed290b5415e7cc5542001bc90845b06af59244f640",
+    "epochs": 100,
+    "updates_per_epoch": 3475,
+    "total_updates": 347500,
+    "maximum_session_hours": 8,
+    "separator_blocks": 3,
+    "enrollment_crop_seconds": 3,
+    "model_transferred_from_previous_run": false
+  },
+  "default_release_sha256": "c814d937b5876007a299e8861f29522cfac41130560bd6c678595ee03a80433e"
+}

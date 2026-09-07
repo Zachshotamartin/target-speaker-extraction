@@ -9,11 +9,12 @@ import os
 import threading
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, ConfigDict
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from tse import __version__
@@ -22,6 +23,11 @@ from tse.listening import ListeningRating, save_rating
 
 LOGGER = logging.getLogger("tse.api")
 MAX_UPLOAD = 24 * 1024**2
+
+
+class TrainingControl(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    action: Literal["pause", "resume"]
 
 
 class UploadLimitMiddleware:
@@ -133,6 +139,27 @@ def create_app(
     def concept_page():
         return FileResponse(
             Path(__file__).parent / "web" / "concept.html", headers={"Cache-Control": "no-cache"}
+        )
+
+    @app.get("/experiments/full/status")
+    def full_status():
+        from tse.full_control import full_progress
+
+        return JSONResponse(full_progress(), headers={"Cache-Control": "no-store"})
+
+    @app.post("/experiments/full/control")
+    def full_control(request: TrainingControl):
+        from tse.full_control import control
+
+        try:
+            return control(request.action)
+        except (ValueError, OSError) as error:
+            raise HTTPException(409, str(error)) from error
+
+    @app.get("/experiments/full/", include_in_schema=False)
+    def full_page():
+        return FileResponse(
+            Path(__file__).parent / "web" / "full.html", headers={"Cache-Control": "no-cache"}
         )
 
     @app.get("/ready")
