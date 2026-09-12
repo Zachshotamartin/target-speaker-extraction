@@ -1,0 +1,21 @@
+.validation-listening { margin: 56px 0; padding-top: 32px; border-top: 1px solid #bbb; }
+.validation-listening h2 { font-size: clamp(1.7rem, 4vw, 2.5rem); margin: 12px 0 20px; }
+.listening-models { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 24px 0; }
+.listening-model { padding: 16px 0; border-top: 1px solid #bbb; }
+.listening-model h3 { font-size: 1rem; margin: 0 0 12px; }
+.listening-model p { margin: 6px 0; }
+.listening-option { display: flex; align-items: center; gap: 10px; }
+.listening-option input { width: 18px; height: 18px; accent-color: #3c6247; }
+.listening-caption { color: #555; font-size: .88rem; line-height: 1.6; max-width: 850px; }
+.listening-case { border-top: 1px solid #ccc; padding: 24px 0; margin-top: 24px; }
+.listening-case h3 { margin: 0 0 8px; font-size: 1.2rem; }
+.listening-tracks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 20px; }
+.listening-estimates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.listening-track { min-width: 0; }
+.listening-track label { display: block; font-size: .9rem; margin-bottom: 10px; }
+.listening-track audio { display: block; width: 100%; min-width: 0; }
+.listening-track p { margin: 8px 0 0; }
+#listening-update { margin: 12px 0; }
+@media (max-width: 700px) {
+  .listening-models, .listening-tracks { grid-template-columns: 1fr; gap: 16px; }
+}

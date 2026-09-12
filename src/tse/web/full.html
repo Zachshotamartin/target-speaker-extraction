@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Full-data training · One voice</title><link rel="stylesheet" href="/assets/style.css">
+<title>Full-data training · One voice</title><link rel="stylesheet" href="/assets/style.css"><link rel="stylesheet" href="/assets/full-listening.css"><script src="/assets/full-listening.js" defer></script>
 <style>.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:32px 0}.facts div{border-top:1px solid #bbb;padding-top:16px}.facts dd{font-size:1.7rem;margin:10px 0}progress{width:100%;height:14px;accent-color:#3c6247}.note{max-width:800px;line-height:1.65}.controls{display:flex;gap:16px;margin:24px 0}table{width:100%;border-collapse:collapse;margin:32px 0}th,td{text-align:left;border-bottom:1px solid #ccc;padding:14px 8px}button:disabled{opacity:.45;cursor:default}@media(max-width:650px){.facts{grid-template-columns:1fr}.table-wrap{overflow-x:auto}}</style></head>
 <body><div class="page"><header class="topbar"><a class="brand" href="/">one voice.</a><a href="/experiments/concept/">Previous eight-voice experiment</a></header>
 <main><section class="introduction"><div><p class="eyebrow">FULL LIBRI2MIX TRAINING SET</p><h1>Train. Pause. Pick up where you left off.</h1><p class="intro-copy">A fresh model learning from 251 speakers and 13,900 mixtures, across 100 complete epochs.</p></div></section>
@@ -11,6 +11,19 @@
 <p id="checkpoint" class="note"></p><p id="evaluation" class="note"></p>
 <div class="table-wrap"><table><caption>Development performance on 40 speakers excluded from training</caption><thead><tr><th>Evaluation</th><th>Most recent result</th><th>Best result</th></tr></thead><tbody><tr><th>Fixed 400 requests · every 500 updates</th><td id="latest-monitor">Pending</td><td id="best-monitor">Pending</td></tr><tr><th>All 6,000 requests · each full epoch</th><td id="latest-full">Pending</td><td id="best-full">Pending</td></tr></tbody></table></div>
 <p class="note">Scores show SI-SDR improvement over the two-speaker mixture, in dB. Each best checkpoint is selected using its own fixed evaluation set. A reported result belongs to the displayed update, which may precede the latest saved training state. Development checks guide training; they are not final test results.</p>
+<section class="validation-listening" aria-labelledby="listening-title">
+<p class="eyebrow">FULL DEVELOPMENT VALIDATION · LISTENING COMPARISON</p>
+<h2 id="listening-title">Hear what the model is learning.</h2>
+<p class="note">Listen to the same two conversations with each speaker as the target. Compare the best completed full validation with the latest full validation. The reference tells the model whose voice to keep; the clean target is what an ideal result would sound like.</p>
+<p id="listening-status" role="status">Checking for listening samples…</p>
+<div id="listening-models" class="listening-models"></div>
+<label class="listening-option"><input type="checkbox" id="listening-match" checked> Match playback volume</label>
+<p class="listening-caption">Volume matching helps distinguish actual separation from a quieter output. It adjusts gain with a peak ceiling; it does not remove noise or competing speech. Uncheck to hear the original output levels.</p>
+<button id="listening-update" type="button" hidden>Load newer listening samples</button>
+<div id="listening-cases"></div>
+<p class="listening-caption">Four fixed development requests, selected independently of scores. Whole-recording inference uses the same audio and voice reference as validation. Per-example scores below are SI-SDR improvement, not the overall validation score. Samples refresh automatically after rendering; an evaluation in progress is labeled explicitly.</p>
+<p class="listening-caption">Speech: <a href="https://www.openslr.org/12">LibriSpeech</a>, Panayotov et al. (2015), <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; Libri2Mix mixtures and processed derivatives. <a href="/gallery/full-validation/index.json">Listening provenance</a>.</p>
+</section>
 <p class="note">This uses the full train-100 dataset with an efficient three-block separator and three-second voice references. The full epoch schedule continues across sessions. It is a smaller architecture than the six-block research baseline, so matching the paper’s score is not guaranteed. The earlier eight-voice experiment remains available separately.</p>
 <p class="note">Keep the SSD connected while training. Wait for “Paused and saved” before unplugging it. Closing the lid may suspend the Mac; pausing first is preferable. An unexpected shutdown can lose work since the last checkpoint (saved every 50 updates).</p><p id="updated"></p></main></div>
 <script>
