@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.vercel
+.env*
+# Curated, attributed listening examples are product assets, not training data.
+!public/assets/one-voice/*.wav
