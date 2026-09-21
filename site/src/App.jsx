@@ -1,27 +1,31 @@
 import React, {useEffect, useRef, useState} from 'react';
 import LandingPage from './LandingPage.jsx';
 import SiteHeader from './SiteHeader.jsx';
+import SiteFooter from './SiteFooter.jsx';
 import TranscriptionWorkspace from './TranscriptionWorkspace.jsx';
+import PrivacyPage from './PrivacyPage.jsx';
+import {isPageRoot, pageForHash} from './pageRoute.js';
 import {animateChange, animateDisclosure} from './motion.js';
 
 export default function App() {
   const [hash, setHash] = useState(window.location.hash);
   const route = useRef(hash);
-  const transcribing = hash === '#transcribe';
+  const page = pageForHash(hash);
+  const transcribing = page === 'transcribe';
 
   function scrollToRoute(next, smooth = false) {
     const target = next && document.getElementById(next.slice(1));
     const behavior = smooth && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'instant';
-    if (target && next !== '#transcribe') target.scrollIntoView({block: 'start', behavior});
+    if (target && !isPageRoot(next)) target.scrollIntoView({block: 'start', behavior});
     else window.scrollTo({top: 0, behavior});
   }
 
   function navigate(next) {
-    const wasWorkspace = route.current === '#transcribe';
-    const isWorkspace = next === '#transcribe';
+    const previousPage = pageForHash(route.current);
+    const nextPage = pageForHash(next);
     route.current = next;
     document.querySelectorAll('audio').forEach(player => player.pause());
-    if (wasWorkspace === isWorkspace) {
+    if (previousPage === nextPage) {
       setHash(next);
       scrollToRoute(next, true);
     } else {
@@ -52,16 +56,13 @@ export default function App() {
 
   return <div className={transcribing ? 'app-shell app-shell--workspace' : 'app-shell'} onClickCapture={handleNavigation}>
     <a className="skip" href="#main-content">Skip to content</a>
-    <SiteHeader activePage={transcribing ? 'transcribe' : 'overview'}/>
+    <SiteHeader activePage={page}/>
     <main id="main-content" tabIndex={-1}>
-      {/* Both stay mounted so page transitions preserve files and active jobs. */}
-      <div hidden={transcribing}><LandingPage/></div>
+      {/* Views stay mounted so page transitions preserve files and active jobs. */}
+      <div hidden={page !== 'overview'}><LandingPage/></div>
       <div hidden={!transcribing}><TranscriptionWorkspace active={transcribing}/></div>
+      <div hidden={page !== 'privacy'}><PrivacyPage/></div>
     </main>
-    <footer hidden={transcribing}>
-      <a className="wordmark" href="#">OneVoice</a>
-      <p>Made by <a href="https://zachsm.com/projects/one-voice">Zach Martin</a></p>
-      <a href="https://github.com/Zachshotamartin/target-speaker-extraction">Source ↗</a>
-    </footer>
+    <SiteFooter activePage={page}/>
   </div>;
 }

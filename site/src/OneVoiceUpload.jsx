@@ -38,7 +38,7 @@ export default function OneVoiceUpload() {
         <label>Overlapping speech <small>WAV or FLAC · up to 30 seconds</small><input type="file" accept=".wav,.flac,audio/wav,audio/flac" disabled={busy || !model} onChange={e => change('mixture',e.target.files[0])} required /></label>
         <label>Voice to keep <small>A separate WAV or FLAC · 3–10 seconds</small><input type="file" accept=".wav,.flac,audio/wav,audio/flac" disabled={busy || !model} onChange={e => change('reference',e.target.files[0])} required /></label>
       </div>
-      <p className="ov-listening-note">Up to 4 MiB combined. Audio is sent to the extraction service for processing and is not saved or used for training. Only upload recordings you have permission to use.</p>
+      <p className="ov-listening-note">Up to 4 MiB combined. Audio is sent to the extraction service for processing and is not saved or used for training. Only upload recordings you have permission to use. <a href="#privacy">Privacy policy</a>.</p>
       <div className="ov-upload-actions">
         <button disabled={!model || !files.mixture || !files.reference || busy} type="submit">{busy ? 'Extracting…' : 'Extract voice'}</button>
         {busy && <button type="button" onClick={() => request.current?.abort()}>Cancel</button>}

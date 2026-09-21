@@ -2,7 +2,13 @@
 
 The landing page retains the design from main at aca75b3: #fafaf8 background, #191919 text and controls, Arial typography, pill buttons, the original hero and signal artwork. Do not replace it with the transcription workspace or introduce a new palette.
 
-Speech to Text is a separate, open workspace: the transcript and audio setup sit directly on the page background, separated by a shared column gap and section rules. Do not enclose them in cards, a rounded container, or a contrasting panel. Notices and review sections also use simple rules. It has no marketing footer. Navigation keeps the tools mounted so it does not interrupt jobs or discard selected files.
+Speech to Text is a separate, open workspace: the transcript and audio setup sit directly on the page background, separated by a shared column gap and section rules. Do not enclose them in cards, a rounded container, or a contrasting panel. Notices and review sections also use simple rules. Navigation keeps the tools mounted so it does not interrupt jobs or discard selected files.
+
+Results open on Compare when both transcriptions are available. Without One Voice and With One Voice each have their own matching audio and text, aligned into the same five-second sections; switching audio keeps the current position. Narrow layouts stack each pair of sections together. These are the unfiltered Whisper outputs. Selected voice is a separate view for attributed text and exports. Technical information lives in a collapsed Run details disclosure, not a third result tab. Keep actions attached to the transcript they affect.
+
+Privacy is a separate page at `#privacy`, reached from the shared footer and upload notice. It uses the existing shared header and the same palette, typography, spacing tokens, and page transitions. Keep policy text in a readable column with a section index and simple rules, without cards. Policy section deep links use `#privacy-*` and must stay on the privacy page. Opening the policy must preserve selected files and active transcription jobs.
+
+`SiteFooter` is rendered once, outside the page views, on every page including Speech to Text. Use `footer.css` for its explicit grid alignment and shared spacing. Keep it compact: brand, author credit, Privacy, and Source. The divider uses the same page gutter as the header. Do not reintroduce generic `footer` rules or page-specific footer copies.
 
 Reserve the root scrollbar gutter in `src/workspace-shell.css` so navigation and expanding content never change the available page width. Older browsers use an always-present vertical scrollbar as the fallback.
 

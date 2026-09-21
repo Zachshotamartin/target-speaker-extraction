@@ -3,6 +3,7 @@
 ::view-transition-group(*) { animation-duration: var(--motion-time); animation-timing-function: var(--motion-ease); }
 ::view-transition-old(*), ::view-transition-new(*) { animation-duration: var(--motion-time); animation-timing-function: var(--motion-ease); }
 .product-nav { view-transition-name: navigation; }
+.site-footer { view-transition-name: site-footer; }
 .workspace-grid { view-transition-name: workspace; }
 .setup-panel { view-transition-name: settings; }
 .result-panel { view-transition-name: result; }
@@ -11,7 +12,7 @@
 .processing-stages { view-transition-name: processing-stages; }
 .processing-state h3 { view-transition-name: processing-label; }
 .result-tabs { view-transition-name: result-tabs; }
-.result-audio { view-transition-name: result-audio; }
+.selected-toolbar { view-transition-name: selected-actions; }
 .transcription-heading { view-transition-name: workspace-heading; }
 .workspace-footnote { view-transition-name: workspace-help; }
 .poc-source-switch { position: relative; isolation: isolate; }
