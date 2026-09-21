@@ -9,7 +9,7 @@
 .setup-panel-heading>span, .result-state { font-size: var(--text-small); color: var(--muted); }
 .poc-connection { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-small); color: var(--muted); white-space: nowrap; }
 .connection-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
-.poc-primary, .poc-microphone button, .poc-profile-save button, .poc-connection button, .processing-state>button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: var(--control-height); padding: var(--space-3) var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); font-size: var(--text-control); line-height: 1; }
+.poc-primary, .poc-profile-save button, .poc-connection button, .processing-state>button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: var(--control-height); padding: var(--space-3) var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); font-size: var(--text-control); line-height: 1; }
 .poc-primary { background: var(--ink); color: var(--app-bg); border-color: var(--ink); }
 .poc-primary:hover:not(:disabled) { background: #333; }
 .poc-primary>span { font-size: var(--text-lead); }
@@ -39,10 +39,6 @@
 .poc-profile-save summary { min-height: var(--control-height); display: flex; align-items: center; font-size: var(--text-small); color: var(--muted); }
 .poc-profile-save label { display: grid; gap: var(--space-2); margin-bottom: var(--space-3); }
 .poc-profile-save p, .poc-options p { font-size: var(--text-small); color: var(--muted); line-height: var(--line-body); }
-.poc-microphone { margin: 0 0 var(--space-6); }
-.poc-microphone button { width: 100%; }
-.poc-microphone button.is-recording { color: var(--error-ink); background: var(--error-bg); }
-.poc-microphone p { font-size: var(--text-small); color: var(--error-ink); line-height: var(--line-body); }
 .poc-options { border-top: 1px solid var(--line); padding-top: var(--space-3); }
 .poc-options summary, .poc-evidence summary { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: var(--control-height); font-size: var(--text-small); list-style: none; }
 summary::-webkit-details-marker { display: none; }

@@ -57,7 +57,7 @@ export default function PrivacyPage() {
           <h2 id="privacy-choices-title">Your choices</h2>
           <ul>
             <li>Use the prepared examples without providing your own recordings.</li>
-            <li>Allow microphone access only if you want to record. Recording begins after you select <strong>Record audio</strong> and grant permission. It stops when you stop it, leave the speech-to-text page, or reach the recording limit. It is submitted only when you select <strong>Transcribe</strong>.</li>
+            <li>Allow microphone access only if you want to record a voice reference or recording. Recording begins after you select <strong>Record audio</strong> and grant permission. References stop at 10 seconds and other recordings at 30 seconds. Leaving the current page or choosing <strong>Discard</strong> stops the microphone and discards the unfinished recording. Completed recordings stay in the page until you choose <strong>Transcribe</strong> or <strong>Extract voice</strong> to submit them.</li>
             <li>Keep a reference temporary, or explicitly save it for reuse. To remove a saved reference, select it under <strong>Saved on this device</strong> and choose <strong>Delete</strong>.</li>
             <li>Delete a completed transcription from <strong>Selected voice → Export → Delete this result</strong>, or cancel an active job.</li>
             <li>Revoke microphone permission and clear saved site data through your browser settings.</li>

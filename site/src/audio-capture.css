@@ -1,0 +1,17 @@
+.audio-capture { margin-top: var(--space-3); }
+.audio-capture .audio-capture-button { display: flex; align-items: center; justify-content: center; gap: var(--space-3); width: 100%; min-height: var(--control-height); margin: 0; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); font-size: var(--text-control); line-height: 1.4; transition: background var(--motion-time) var(--motion-ease), color var(--motion-time) var(--motion-ease); }
+.audio-capture-button svg { width: 18px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; }
+.audio-capture-button time { font-variant-numeric: tabular-nums; }
+.audio-capture .audio-capture-button:hover:not(:disabled) { background: var(--soft); }
+.audio-capture[data-phase='recording'] .audio-capture-button { color: var(--error-ink); background: var(--error-bg); }
+.capture-stop { width: 10px; height: 10px; border-radius: 2px; background: currentColor; flex-shrink: 0; }
+.audio-capture-status { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-2); font-size: var(--text-small); line-height: var(--line-body); color: var(--muted); }
+.audio-capture .audio-capture-discard { padding: var(--space-2) 0; margin: 0; min-height: var(--control-height); border: 0; background: transparent; color: var(--muted); font-size: var(--text-small); text-decoration: underline; }
+.upload-field:has(input:disabled) { opacity: .45; }
+.upload-field input:disabled { cursor: not-allowed; }
+.ov-capture-field { min-width: 0; }
+.ov-capture-field h3 { margin: 0 0 var(--space-3); font-size: var(--text-lead); font-weight: 500; }
+.ov-capture-field>p { margin: 0 0 var(--space-3); font-size: var(--text-small); line-height: var(--line-body); }
+.ov-capture-field .upload-field { display: block; }
+.ov-capture-preview { width: 100%; min-width: 0; height: var(--control-height); margin-top: var(--space-3); }
+.ov-capture-field .poc-filename { margin-top: var(--space-3); }

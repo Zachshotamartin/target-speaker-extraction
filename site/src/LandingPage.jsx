@@ -5,7 +5,7 @@ function Wave({track}) { const peaks=snapshot.items[0].tracks[track].peaks; cons
 function SignalArt(){ return <figure className="signal-art"><figcaption>One conversation. A clearer voice.</figcaption><div className="signal-lane"><div className="signal-caption"><span>01 / THE CONVERSATION</span><span>Two voices</span></div><Wave track="mixture"/></div><div className="signal-lane signal-lane--output"><div className="signal-caption"><span>02 / THE EXTRACTION</span><span>Voice A</span></div><Wave track="estimate"/></div><a href="#listen" className="signal-footnote">Hear this example <span aria-hidden="true">↗</span></a></figure>; }
 
 
-export default function LandingPage() {
+export default function LandingPage({active = true}) {
   return <>
     <section className="hero">
       <div>
@@ -24,6 +24,6 @@ export default function LandingPage() {
       <p><b>02</b> Identify the voice with a sample.</p>
       <p><b>03</b> Listen to the extraction.</p>
     </section>
-    <div id="listen" className="experience"><OneVoiceDetails/></div>
+    <div id="listen" className="experience"><OneVoiceDetails active={active}/></div>
   </>;
 }

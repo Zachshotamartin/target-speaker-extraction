@@ -28,7 +28,7 @@ button:disabled { opacity: .45; cursor: not-allowed; }
 @media(max-width:900px) { .workspace-actions { flex-direction: column; align-items: flex-end; gap: var(--space-3); } }
 @media(max-width:560px) {
   .transcription-heading { flex-direction: column; align-items: flex-start; gap: var(--space-6); }
-  .workspace-actions { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; gap: var(--space-3); }
+  .workspace-actions { width: 100%; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-3); }
 }
 @media(prefers-reduced-motion:reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }

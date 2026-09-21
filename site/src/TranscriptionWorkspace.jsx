@@ -3,12 +3,14 @@ import {animateChange, useMotionState} from './motion.js';
 import {useDismissibleDetails} from './useDismissibleDetails.js';
 import {profiles} from './voiceProfiles.js';
 import TranscriptionResults from './TranscriptionResults.jsx';
+import AudioCaptureButton from './AudioCaptureButton.jsx';
+import {useAudioRecorder} from './useAudioRecorder.js';
+import {useAudioUrl} from './useAudioUrl.js';
 import './transcription.css';
 
 const API = '/api/poc';
 const AUDIO_TYPES = 'audio/*,.wav,.flac,.mp3,.m4a,.webm,.ogg';
 const terminal = new Set(['ready', 'failed', 'cancelled', 'expired']);
-const clock = time => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, '0')}`;
 
 async function request(path, options) {
   const response = await fetch(`${API}${path}`, options);
@@ -18,17 +20,6 @@ async function request(path, options) {
     throw new Error(typeof reason === 'string' ? reason : `Local service returned ${response.status}. Check that the transcription service is running.`);
   }
   return response;
-}
-
-function useAudioUrl(blob) {
-  const [url, setUrl] = useMotionState(null);
-  useEffect(() => {
-    if (!blob) { setUrl(null); return; }
-    const value = URL.createObjectURL(blob);
-    setUrl(value);
-    return () => URL.revokeObjectURL(value);
-  }, [blob]);
-  return url;
 }
 
 export default function TranscriptionWorkspace({active = true}) {
@@ -50,9 +41,6 @@ export default function TranscriptionWorkspace({active = true}) {
   const [sending, setSending] = useMotionState(false);
   const [error, setError] = useMotionState('');
   const [notice, setNotice] = useMotionState('');
-  const [capturing, setCapturing] = useMotionState(false);
-  const [requestingMic, setRequestingMic] = useMotionState(false);
-  const [elapsed, setElapsed] = useState(0);
   const [loadingExample, setLoadingExample] = useMotionState(false);
   const mounted = useRef(true);
   const workspace = useRef(null);
@@ -63,14 +51,18 @@ export default function TranscriptionWorkspace({active = true}) {
   const pendingExample = useRef(false);
   const activeRef = useRef(active);
   activeRef.current = active;
-  const recorder = useRef(null);
-  const stream = useRef(null);
-  const recordTimer = useRef(null);
   const latestJob = useRef(null);
   const submitting = useRef(false);
   const referenceUrl = useAudioUrl(reference);
   const recordingUrl = useAudioUrl(recording);
   const busy = sending || (job && !terminal.has(job.status));
+  const microphone = useAudioRecorder({active, scope: '#transcribe',
+    onStart: () => {setError(''); setNotice('');}, onError: setError,
+    onComplete: (target, blob) => {
+      if (target === 'reference') {setReference(blob); setReferenceName('Recorded voice reference'); setProfileId('');}
+      else {setRecording(blob); setRecordingName('Microphone recording');}
+    },
+  });
   const selectedDemo = demos.find(item => item.id === Number(demo));
   latestJob.current = job;
 
@@ -82,9 +74,6 @@ export default function TranscriptionWorkspace({active = true}) {
     profiles('list').then(list => { if (mounted.current) setSaved(list); }).catch(e => setError(e.message));
     return () => {
       mounted.current = false;
-      clearInterval(recordTimer.current);
-      if (recorder.current?.state === 'recording') recorder.current.stop();
-      stream.current?.getTracks().forEach(t => t.stop());
       const active = latestJob.current;
       if (active && !terminal.has(active.status)) fetch(`${API}/transcriptions/${active.id}`, {method: 'DELETE', keepalive: true}).catch(() => {});
     };
@@ -136,11 +125,11 @@ export default function TranscriptionWorkspace({active = true}) {
   useEffect(() => {
     if (!active) {
       workspace.current?.querySelectorAll('audio').forEach(player => player.pause());
-      if (recorder.current?.state === 'recording') recorder.current.stop();
     }
   }, [active]);
 
   function chooseSource(next) {
+    if (microphone.isBusy()) return;
     if (next === sourceChoice.current) return;
     if (sourceChoice.current === 'files' && source === 'files') fileDraft.current = {reference, recording, referenceName, recordingName, profileId};
     sourceChoice.current = next;
@@ -152,7 +141,7 @@ export default function TranscriptionWorkspace({active = true}) {
   }
 
   async function start() {
-    if (submitting.current || busy || pendingExample.current) return;
+    if (submitting.current || busy || pendingExample.current || microphone.isBusy()) return;
     submitting.current = true;
     setError(''); setNotice(''); setSending(true);
     try {
@@ -194,43 +183,13 @@ export default function TranscriptionWorkspace({active = true}) {
     } catch (e) { setError(e.message); }
   }
 
-  async function capture() {
-    setError(''); setNotice('');
-    if (recorder.current?.state === 'recording') { recorder.current.stop(); return; }
-    if (requestingMic) return;
-    setRequestingMic(true);
-    try {
-      if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) throw new Error('Microphone capture is unavailable here. Upload a recording instead.');
-      stream.current = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: false, noiseSuppression: false, autoGainControl: false}});
-      if (!mounted.current || !activeRef.current) { stream.current.getTracks().forEach(t => t.stop()); return; }
-      const preferred = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/webm'].find(type => MediaRecorder.isTypeSupported(type));
-      const chunks = [];
-      const captureRecorder = new MediaRecorder(stream.current, preferred ? {mimeType: preferred, audioBitsPerSecond: 64000} : undefined);
-      recorder.current = captureRecorder;
-      captureRecorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
-      captureRecorder.onstop = () => {
-        clearInterval(recordTimer.current); stream.current?.getTracks().forEach(t => t.stop());
-        if (mounted.current) {
-          setCapturing(false); setRecording(new Blob(chunks, {type: captureRecorder.mimeType})); setRecordingName('Microphone recording');
-        }
-      };
-      captureRecorder.onerror = () => { setError('Recording failed. Try uploading a file.'); if (captureRecorder.state !== 'inactive') captureRecorder.stop(); };
-      captureRecorder.start(250); setCapturing(true); setElapsed(0);
-      const began = Date.now();
-      recordTimer.current = setInterval(() => {
-        const seconds = (Date.now() - began) / 1000; setElapsed(seconds);
-        // Stop slightly early to allow the final encoded frame within the 30s server limit.
-        if (seconds >= 29 && captureRecorder.state === 'recording') captureRecorder.stop();
-      }, 100);
-    } catch (e) { stream.current?.getTracks().forEach(t => t.stop()); setError(e.message || 'Microphone permission was denied.'); }
-    finally { if (mounted.current) setRequestingMic(false); }
-  }
 
   const result = !sending && job?.status === 'ready' ? job.result : null;
 
   const processingStep = !job || job.status === 'queued' ? 0 : /Transcribing/.test(job.stage) ? 3 : /Checking the selected/.test(job.stage) ? 2 : /Extracting/.test(job.stage) ? 1 : 0;
 
   return <section ref={workspace} id="transcribe" className="transcription" aria-labelledby="transcription-title" onPlay={event => {
+    if (microphone.isBusy()) {event.target.pause(); return;}
     workspace.current?.querySelectorAll('audio').forEach(player => { if (player !== event.target) player.pause(); });
   }}>
     <header className="transcription-heading">
@@ -242,7 +201,7 @@ export default function TranscriptionWorkspace({active = true}) {
           const [info, list] = await Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())]);
           setHealth(info); setDemos(list); setError('');
         } catch (e) {setError(e.message);}}}>Retry</button>}
-      </div><button className="poc-primary" type="button" onClick={start} disabled={!health?.ready || busy || capturing || requestingMic || !reference || !recording || loadingExample}>
+      </div><button className="poc-primary" type="button" onClick={start} disabled={!health?.ready || busy || microphone.busy || !reference || !recording || loadingExample}>
             {busy ? 'Processing…' : 'Transcribe'}<span aria-hidden="true">↗</span>
           </button></div>
     </header>
@@ -252,10 +211,10 @@ export default function TranscriptionWorkspace({active = true}) {
         <div className="setup-panel-heading"><h2 id="setup-title">Audio setup</h2><span>English</span></div>
         <div className="poc-source-switch" role="group" aria-label="Recording source" data-source={source}>
           {[['files', 'Upload audio'], ['public', 'Use example']].map(([value, label]) =>
-            <button key={value} type="button" aria-pressed={source === value} disabled={busy || capturing || requestingMic} onClick={() => chooseSource(value)}>{label}</button>)}
+            <button key={value} type="button" aria-pressed={source === value} disabled={busy || microphone.busy} onClick={() => chooseSource(value)}>{label}</button>)}
         </div>
 
-        <fieldset className="setup-fields" disabled={busy || capturing || requestingMic}>
+        <fieldset className="setup-fields" disabled={busy}>
           <legend className="sr-only">Choose reference voice and recording</legend>
           {source === 'public' && <div className="example-choice">
             <label htmlFor="demo-voice">Example</label>
@@ -269,20 +228,21 @@ export default function TranscriptionWorkspace({active = true}) {
               <p className="field-help">3–10 seconds · one speaker</p>
               {saved.length > 0 && <div className="poc-profile-row">
                 <label htmlFor="saved-voice">Saved on this device</label>
-                <div><select id="saved-voice" value={profileId} onChange={e => {
+                <div><select id="saved-voice" value={profileId} disabled={microphone.busy} onChange={e => {
                   setProfileId(e.target.value); const selected = saved.find(p => p.id === e.target.value);
                   if (selected) {setReference(selected.audio); setReferenceName(selected.name);} else {setReference(null); setReferenceName('');}
                 }}><option value="">Choose a saved reference</option>{saved.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
-                  <button className="poc-text-button" type="button" disabled={!profileId} onClick={deleteProfile}>Delete</button>
+                  <button className="poc-text-button" type="button" disabled={!profileId || microphone.busy} onClick={deleteProfile}>Delete</button>
                 </div>
               </div>}
-              <label className="upload-field"><span className="sr-only">Reference audio</span><span className="file-picker"><span aria-hidden="true">↑</span>{reference ? 'Replace reference' : 'Upload reference'}<input aria-label="Reference audio" type="file" accept={AUDIO_TYPES} onChange={e => {setReference(e.target.files?.[0] || null); setReferenceName(e.target.files?.[0]?.name || ''); setProfileId('');}}/></span></label>
+              <label className="upload-field"><span className="sr-only">Reference audio</span><span className="file-picker"><span aria-hidden="true">↑</span>{reference ? 'Replace reference' : 'Upload reference'}<input aria-label="Reference audio" type="file" accept={AUDIO_TYPES} disabled={microphone.busy} onChange={e => {if (!e.target.files?.[0]) return; setReference(e.target.files[0]); setReferenceName(e.target.files[0].name); setProfileId(''); e.target.value = '';}}/></span></label>
+              <AudioCaptureButton recorder={microphone} target="reference" label="voice reference" minimum={3} maximum={10} disabled={busy}/>
               {referenceName && <p className="poc-filename" title={referenceName}>{referenceName}</p>}
             </>}
             {loadingExample ? <div className="audio-loading" role="status">Loading reference…</div> : referenceUrl && <audio controls preload="metadata" src={referenceUrl} aria-label="Reference voice sample"/>}
             {source === 'files' && reference && <details className="poc-profile-save"><summary>Save voice</summary>
               <label>Profile name<input maxLength={60} value={profileName} onChange={e => setProfileName(e.target.value)}/></label>
-              <button type="button" onClick={saveProfile}>Save reference</button>
+              <button type="button" disabled={microphone.busy} onClick={saveProfile}>Save reference</button>
               <p>This stores the audio in this browser. It does not train a model or upload it to a cloud service.</p>
             </details>}
           </section>
@@ -297,18 +257,15 @@ export default function TranscriptionWorkspace({active = true}) {
                 <option value="absent">Other voice only (target absent)</option><option value="silence">Silence</option>
               </select>
             </> : <>
-              <label className="upload-field"><span className="sr-only">Recording file</span><span className="file-picker"><span aria-hidden="true">↑</span>{recording ? 'Replace recording' : 'Upload recording'}<input aria-label="Recording file" type="file" accept={AUDIO_TYPES} onChange={e => {setRecording(e.target.files?.[0] || null); setRecordingName(e.target.files?.[0]?.name || '');}}/></span></label>
+              <p className="field-help">Up to 30 seconds</p>
+              <label className="upload-field"><span className="sr-only">Recording file</span><span className="file-picker"><span aria-hidden="true">↑</span>{recording ? 'Replace recording' : 'Upload recording'}<input aria-label="Recording file" type="file" accept={AUDIO_TYPES} disabled={microphone.busy} onChange={e => {if (!e.target.files?.[0]) return; setRecording(e.target.files[0]); setRecordingName(e.target.files[0].name); e.target.value = '';}}/></span></label>
+              <AudioCaptureButton recorder={microphone} target="recording" label="recording" disabled={busy}/>
               {recordingName && <p className="poc-filename" title={recordingName}>{recordingName}</p>}
             </>}
             {loadingExample ? <div className="audio-loading" role="status">Loading recording…</div> : recordingUrl && <audio controls preload="metadata" src={recordingUrl} aria-label="Input recording"/>}
           </section>
         </fieldset>
-        {source === 'files' && <div className="poc-microphone">
-          <button type="button" onClick={capture} disabled={busy || requestingMic} className={capturing ? 'is-recording' : ''}>
-            {requestingMic ? 'Opening microphone…' : capturing ? `Stop recording · ${clock(elapsed)}` : 'Record audio'}
-          </button>
-          {capturing && <p role="status">Recording. Stops automatically at 29 seconds.</p>}
-        </div>}
+
 
         <details className="poc-options"><summary>Advanced <span>Comparison {compare ? 'on' : 'off'}</span></summary>
           <label className="poc-checkbox"><input type="checkbox" checked={compare} disabled={busy} onChange={e => setCompare(e.target.checked)}/> Compare with original audio</label>

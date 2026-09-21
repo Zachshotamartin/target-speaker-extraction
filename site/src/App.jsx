@@ -59,7 +59,7 @@ export default function App() {
     <SiteHeader activePage={page}/>
     <main id="main-content" tabIndex={-1}>
       {/* Views stay mounted so page transitions preserve files and active jobs. */}
-      <div hidden={page !== 'overview'}><LandingPage/></div>
+      <div hidden={page !== 'overview'}><LandingPage active={page === 'overview'}/></div>
       <div hidden={!transcribing}><TranscriptionWorkspace active={transcribing}/></div>
       <div hidden={page !== 'privacy'}><PrivacyPage/></div>
     </main>

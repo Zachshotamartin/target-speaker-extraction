@@ -12,6 +12,8 @@ Privacy is a separate page at `#privacy`, reached from the shared footer and upl
 
 The shared app shell is a flex column with a minimum height of `100dvh` and a growing main region. This keeps the footer at the viewport bottom on short pages and after the content on long pages. Header and footer retain their natural heights; the footer remains in document flow.
 
+Every audio upload has a Record audio control directly beneath it, including both reference and conversation inputs on Overview and Speech to Text. Use the shared `AudioCaptureButton`, `useAudioRecorder`, and `audioCapture.js` implementation. Reference recordings require 3–10 seconds; conversation recordings allow up to 30 seconds. Preview and replacement stay beside the corresponding input. Only one input records at a time; navigating to another page discards unfinished capture and releases the microphone. WAV conversion keeps recordings compatible with both backends. Recording never submits or saves a profile automatically.
+
 Reserve the root scrollbar gutter in `src/workspace-shell.css` so navigation and expanding content never change the available page width. Older browsers use an always-present vertical scrollbar as the fallback.
 
 The header contains only Overview and Speech to Text, which navigate to the top of their pages. Listening and uploading are sections of Overview, reached through the homepage's Hear the difference, Hear this example, and Try your recording links. Keep those section anchors distinct from page navigation, and retain deep links to the listening and upload sections.
