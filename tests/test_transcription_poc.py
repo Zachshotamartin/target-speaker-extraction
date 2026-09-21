@@ -244,3 +244,48 @@ def test_second_server_cannot_delete_live_jobs(tmp_path):
     with TestClient(app1):
         with pytest.raises(BlockingIOError), TestClient(app2):
             pass
+
+
+def test_hosted_jobs_require_service_auth_and_the_submitting_browser(tmp_path, slow_worker):
+    import uuid
+
+    models = tmp_path / "models"
+    models.mkdir()
+    (models / "manifest.json").write_text("{}")
+    token = "test-only-secret-with-at-least-32-characters"
+    app = create_app(tmp_path / "jobs", models, access_token=token)
+    first = {"Authorization": f"Bearer {token}", "X-OneVoice-Owner": str(uuid.uuid4())}
+    other = {**first, "X-OneVoice-Owner": str(uuid.uuid4())}
+    with TestClient(app, base_url="https://worker.example") as client:
+        assert client.get("/health").status_code == 401
+        assert client.get("/health", headers={"Authorization": "Bearer wrong"}).status_code == 401
+        assert client.get("/health", headers=first).json()["processing_location"] == "hosted"
+        assert (
+            client.post("/transcriptions", headers={"Authorization": f"Bearer {token}"}).status_code
+            == 401
+        )
+        response = client.post(
+            "/transcriptions",
+            headers=first,
+            files={
+                "mixture": ("a.wav", b"mix"),
+                "reference": ("b.wav", b"ref"),
+            },
+        )
+        assert response.status_code == 202
+        key = response.json()["id"]
+        assert "owner" not in response.json()
+        for path in [
+            f"/transcriptions/{key}",
+            f"/transcriptions/{key}/audio/extracted",
+            f"/transcriptions/{key}/export/json",
+        ]:
+            assert client.get(path, headers=other).status_code == 404
+        assert client.delete(f"/transcriptions/{key}", headers=other).status_code == 404
+        assert client.get(f"/transcriptions/{key}", headers=first).status_code == 200
+        assert client.post("/pause", headers=first).status_code == 404
+        assert (
+            client.delete(f"/transcriptions/{key}", headers=first).json()["status"] == "cancelled"
+        )
+    with pytest.raises(ValueError):
+        create_app(tmp_path / "jobs", models, access_token="")

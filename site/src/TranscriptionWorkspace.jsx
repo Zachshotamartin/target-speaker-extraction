@@ -8,8 +8,7 @@ import {useAudioRecorder} from './useAudioRecorder.js';
 import {useAudioUrl} from './useAudioUrl.js';
 import './transcription.css';
 
-const API = '/api/poc';
-const localTranscription = ['localhost', '127.0.0.1', '[::1]'].includes(globalThis.location?.hostname);
+import {TRANSCRIPTION_API as API} from './transcriptionApi.js';
 const AUDIO_TYPES = 'audio/*,.wav,.flac,.mp3,.m4a,.webm,.ogg';
 const terminal = new Set(['ready', 'failed', 'cancelled', 'expired']);
 
@@ -18,7 +17,7 @@ async function request(path, options) {
   if (!response.ok) {
     let reason;
     try { reason = (await response.json()).detail; } catch { /* Proxy errors are not JSON. */ }
-    throw new Error(typeof reason === 'string' ? reason : `Local service returned ${response.status}. Check that the transcription service is running.`);
+    throw new Error(typeof reason === 'string' ? reason : `The model service returned ${response.status}. Please try again.`);
   }
   return response;
 }
@@ -69,9 +68,9 @@ export default function TranscriptionWorkspace({active = true}) {
 
   useEffect(() => {
     mounted.current = true;
-    if (localTranscription) Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())])
+    Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())])
       .then(([info, list]) => { if (mounted.current) { setHealth(info); setDemos(list); } })
-      .catch(() => { if (mounted.current) setError('The local transcription service is unavailable. Start it with the command in poc/README.md.'); });
+      .catch(() => { if (mounted.current) {setHealth({ready: false}); setError('The model service may be waking up or temporarily unavailable. Retry the connection shortly.');} });
     profiles('list').then(list => { if (mounted.current) setSaved(list); }).catch(e => setError(e.message));
     return () => {
       mounted.current = false;
@@ -197,8 +196,8 @@ export default function TranscriptionWorkspace({active = true}) {
       <div><h1 id="transcription-title">Speech to text</h1></div>
       <div className="workspace-actions"><div className={`poc-connection ${health?.ready ? 'is-ready' : ''}`}>
         <span className="connection-dot" aria-hidden="true"/>
-        <span>{!localTranscription ? 'Local setup required' : health?.ready ? 'Local processing' : health ? 'Models need setup' : 'Connecting…'}</span>
-        {localTranscription && !health?.ready && <button type="button" onClick={async () => {try {
+        <span>{health?.ready ? (health.processing_location === 'hosted' ? 'Server processing' : 'Local processing') : health ? 'Service unavailable' : 'Connecting to model service…'}</span>
+        {health && !health.ready && <button type="button" onClick={async () => {try {
           const [info, list] = await Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())]);
           setHealth(info); setDemos(list); setError('');
         } catch (e) {setError(e.message);}}}>Retry</button>}
@@ -206,14 +205,14 @@ export default function TranscriptionWorkspace({active = true}) {
             {busy ? 'Processing…' : 'Transcribe'}<span aria-hidden="true">↗</span>
           </button></div>
     </header>
-    {!localTranscription && <p className="transcription-availability">Speech to text currently runs in the local installation. You can record and preview audio here; transcription requires the local service. <a href="https://github.com/Zachshotamartin/target-speaker-extraction/blob/main/poc/README.md">Set up locally ↗</a></p>}
+    <p className="transcription-availability">Processing starts only when you choose Transcribe. The public demo runs on Hugging Face and may take a moment to wake up. <a href="#privacy">Privacy policy</a></p>
 
     <div className="workspace-grid">
       <aside className="setup-panel" aria-labelledby="setup-title">
         <div className="setup-panel-heading"><h2 id="setup-title">Audio setup</h2><span>English</span></div>
         <div className="poc-source-switch" role="group" aria-label="Recording source" data-source={source}>
           {[['files', 'Upload audio'], ['public', 'Use example']].map(([value, label]) =>
-            <button key={value} type="button" aria-pressed={source === value} disabled={busy || microphone.busy || (value === 'public' && !localTranscription)} onClick={() => chooseSource(value)}>{label}</button>)}
+            <button key={value} type="button" aria-pressed={source === value} disabled={busy || microphone.busy || (value === 'public' && !demos.length)} onClick={() => chooseSource(value)}>{label}</button>)}
         </div>
 
         <fieldset className="setup-fields" disabled={busy}>
@@ -289,7 +288,7 @@ export default function TranscriptionWorkspace({active = true}) {
           active={active} onDelete={removeJob} onNotice={setNotice} onError={setError}/> : busy ? <div className="processing-state">
           <div className="processing-symbol" aria-hidden="true"><span/><span/><span/><span/><span/></div>
           <h3>{sending ? 'Preparing your recording' : job?.status === 'queued' ? 'Waiting for the worker' : ['Check audio', 'Separate voice', 'Match speaker', 'Transcribe'][processingStep]}</h3>
-          <p className="sr-only" role="status" aria-live="polite">{sending ? 'Sending audio to the local service…' : job.stage}</p>
+          <p className="sr-only" role="status" aria-live="polite">{sending ? 'Sending audio to the model service…' : job.stage}</p>
           <ol className="processing-stages" aria-label="Processing stages">{['Check audio', 'Separate voice', 'Match speaker', 'Transcribe'].map((label, index) => <li key={label} aria-current={processingStep === index ? 'step' : undefined} className={processingStep > index ? 'is-complete' : ''}><span>{processingStep > index ? '✓' : index + 1}</span>{label}</li>)}</ol>
           <button type="button" onClick={removeJob} disabled={sending}>Cancel job</button>
 
@@ -302,6 +301,6 @@ export default function TranscriptionWorkspace({active = true}) {
         </div>}
       </section>
     </div>
-    <div className="workspace-footnote"><details ref={toolHelp}><summary>About this tool</summary><p>One Voice separates your selected speaker; Whisper transcribes the audio. Processing stays on this Mac. Saved voice references stay in this browser. Temporary results expire after 15 minutes. No training happens here.</p></details></div>
+    <div className="workspace-footnote"><details ref={toolHelp}><summary>About this tool</summary><p>One Voice separates your selected speaker; Whisper transcribes the audio. The public site processes audio on Hugging Face; the local installation processes it on your computer. Saved voice references stay in this browser. Temporary results expire after 15 minutes. No training happens here.</p></details></div>
   </section>;
 }

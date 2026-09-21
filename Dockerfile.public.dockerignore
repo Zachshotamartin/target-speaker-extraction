@@ -1,0 +1,24 @@
+# Allow only application code, public examples, and frozen inference models.
+**
+!Dockerfile.public
+!Dockerfile
+!pyproject.toml
+!README.md
+!src/
+!src/**
+!poc/
+!poc/**
+!site/
+!site/src/
+!site/src/snapshot.json
+!site/public/
+!site/public/assets/
+!site/public/assets/one-voice/
+!site/public/assets/one-voice/**
+!artifacts/
+!artifacts/poc/
+!artifacts/poc/models/
+!artifacts/poc/models/**
+**/__pycache__/
+**/*.pyc
+**/.cache/

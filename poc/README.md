@@ -4,6 +4,9 @@ An inference-only extension to the existing One Voice product. Nothing here
 starts, stops, resumes or trains a model. Keep this environment separate from
 the running trainer; the tested setup uses a separate checkout on the SSD.
 
+For a public website independent of this computer, use the
+[Hugging Face hosting guide](HOSTING.md). The local setup below remains supported.
+
 ## What each model does
 
 | Stage | Component | Receives the reference? | Changes the waveform? |
