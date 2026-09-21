@@ -14,7 +14,11 @@ The current page has a dark tab with light text; inactive links stay neutral. Do
 
 The sticky header slides away on downward scrolling and returns on upward scrolling. Its space in the page remains constant. A 12px direction threshold prevents jitter; the header stays visible near the top, on page changes, and during keyboard navigation. Reduced motion disables the slide animation.
 
+The top divider belongs to the shared header and moves with it. Do not duplicate this line on the hero or transcription page.
+
 Use Example selects a reference/recording pair through one selector above both fields. The reference is a separate recording of the selected voice, not the clean target from the mixture. Label the speaker and conversation next to their players so this relationship is clear.
+
+Floating About help dismisses on outside pointer interaction, focus moving outside, or Escape; Escape returns focus to the trigger. Keep it in the shared popover layer and its own named view-transition group so settings never paint over it during animation.
 
 Use `src/design-tokens.css` for spacing, type, control dimensions and colors. Workspace secondary text is 14px, controls 15px, body text 16px and transcripts 18px. Toolbars use a shared 80px row and 44px controls. Put style rules in the CSS files; do not add inline styles. Keep technical explanations in Details or About this tool.
 

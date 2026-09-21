@@ -17,7 +17,7 @@ button:disabled { opacity: .45; cursor: not-allowed; }
 .study-section-heading h2, .ov-upload h2, .ov-about h2 { font-size: var(--text-section); }
 .app-shell--workspace main { padding-bottom: var(--space-6); }
 .app-shell--workspace footer { display: none; }
-.transcription { padding: var(--space-6) 0 0; border-top: 1px solid var(--line); font-size: var(--text-body); }
+.transcription { padding: var(--space-6) 0 0; font-size: var(--text-body); }
 .transcription-heading { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); margin-bottom: var(--space-8); }
 .transcription-heading h1 { font-family: Arial, sans-serif; font-weight: 500; font-size: var(--text-page); line-height: 1.12; letter-spacing: -1.5px; margin: 0; }
 .workspace-actions { display: flex; align-items: center; gap: var(--space-6); }

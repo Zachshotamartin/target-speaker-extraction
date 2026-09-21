@@ -135,7 +135,7 @@ summary::-webkit-details-marker { display: none; }
 .processing-stages li[aria-current='step'] { color: var(--ink); }
 .processing-stages li[aria-current='step']>span { background: var(--ink); border-color: var(--ink); color: white; }
 .processing-stages li.is-complete>span { background: var(--soft); color: var(--ink); }
-.workspace-footnote { display: flex; justify-content: flex-end; padding: var(--space-5) 0 0; font-size: var(--text-small); color: var(--muted); }
+.workspace-footnote { position: relative; z-index: var(--layer-popover); display: flex; justify-content: flex-end; padding: var(--space-5) 0 0; font-size: var(--text-small); color: var(--muted); }
 .workspace-footnote details { position: relative; }
 .workspace-footnote summary { min-height: var(--control-height); display: flex; align-items: center; }
 .workspace-footnote details>p { position: absolute; right: 0; bottom: var(--control-height); width: min(340px, 80vw); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-control); padding: var(--space-5); font-size: var(--text-small); line-height: var(--line-body); z-index: 4; box-shadow: 0 8px 28px #19191912; }

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {animateChange, useMotionState} from './motion.js';
+import {useDismissibleDetails} from './useDismissibleDetails.js';
 import {profiles} from './voiceProfiles.js';
 import './transcription.css';
 
@@ -63,6 +64,8 @@ export default function TranscriptionWorkspace({active = true}) {
   const [loadingExample, setLoadingExample] = useMotionState(false);
   const mounted = useRef(true);
   const workspace = useRef(null);
+  const toolHelp = useRef(null);
+  useDismissibleDetails(toolHelp, '.workspace-footnote');
   const fileDraft = useRef(null);
   const sourceChoice = useRef('files');
   const pendingExample = useRef(false);
@@ -419,6 +422,6 @@ export default function TranscriptionWorkspace({active = true}) {
         </div>}
       </section>
     </div>
-    <div className="workspace-footnote"><details><summary>About this tool</summary><p>One Voice separates your selected speaker; Whisper transcribes the audio. Processing stays on this Mac. Saved voice references stay in this browser. Temporary results expire after 15 minutes. No training happens here.</p></details></div>
+    <div className="workspace-footnote"><details ref={toolHelp}><summary>About this tool</summary><p>One Voice separates your selected speaker; Whisper transcribes the audio. Processing stays on this Mac. Saved voice references stay in this browser. Temporary results expire after 15 minutes. No training happens here.</p></details></div>
   </section>;
 }

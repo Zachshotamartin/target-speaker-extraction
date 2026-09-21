@@ -16,6 +16,15 @@
 }
 .product-nav[data-hidden='true'] { transform: translateY(-100%); }
 .product-nav:has(:focus-visible) { transform: translateY(0); }
+.product-nav::after {
+  content: '';
+  position: absolute;
+  inset-inline: var(--page-gutter);
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+  pointer-events: none;
+}
 .skip:focus { z-index: calc(var(--layer-navigation) + 1); }
 
 .header-brand {

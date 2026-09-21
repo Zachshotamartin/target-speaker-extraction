@@ -13,6 +13,7 @@
 .result-tabs { view-transition-name: result-tabs; }
 .result-audio { view-transition-name: result-audio; }
 .transcription-heading { view-transition-name: workspace-heading; }
+.workspace-footnote { view-transition-name: workspace-help; }
 .poc-source-switch { position: relative; isolation: isolate; }
 .poc-source-switch::before { content: ''; position: absolute; z-index: -1; width: calc(50% - 4px); inset: 4px auto 4px 4px; background: white; border: 1px solid var(--line); border-radius: 999px; transform: translateX(0); transition: transform var(--motion-time) var(--motion-ease); }
 .poc-source-switch[data-source='public']::before { transform: translateX(calc(100% + 1px)); }
