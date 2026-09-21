@@ -8,7 +8,6 @@
 .privacy-contents>p { margin: 0 0 var(--space-4); color: var(--muted); font-size: var(--text-small); }
 .privacy-contents ol { margin: 0; padding: 0; list-style: none; }
 .privacy-contents a { display: flex; align-items: baseline; gap: var(--space-3); padding-block: var(--space-3); font-size: var(--text-control); line-height: 1.5; text-decoration: none; }
-.privacy-contents a:hover { text-decoration: underline; }
 .privacy-contents a>span { color: var(--muted); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
 .privacy-body { min-width: 0; max-width: 72ch; font-size: var(--text-body); line-height: 1.8; overflow-wrap: anywhere; }
 .privacy-body p { margin: 0 0 var(--space-5); }
