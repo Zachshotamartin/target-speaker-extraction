@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import {useMotionState} from './motion.js';
+const useUploadState = initial => useMotionState(initial, '.ov-upload');
 
 export default function OneVoiceUpload() {
-  const [model, setModel] = useState(null), [notice, setNotice] = useState('Checking upload availability…');
-  const [files, setFiles] = useState({}), [busy, setBusy] = useState(false), [output, setOutput] = useState('');
+  const [model, setModel] = useUploadState(null), [notice, setNotice] = useUploadState('Checking upload availability…');
+  const [files, setFiles] = useUploadState({}), [busy, setBusy] = useUploadState(false), [output, setOutput] = useUploadState('');
   const request = useRef(null), resultUrl = useRef('');
   useEffect(() => {
     const controller = new AbortController();
@@ -29,8 +31,8 @@ export default function OneVoiceUpload() {
     finally {setBusy(false); request.current=null;}
   }
   return <section className="ov-upload" aria-labelledby="ov-upload-title">
-    <h1 id="ov-upload-title">Isolate a voice</h1>
-    <p>Get the extracted audio from your recording. Upload overlapping speech and a separate, clean sample containing only the person you want to keep.</p>
+    <h2 id="ov-upload-title">Try your own recordings</h2>
+    <p>Upload overlapping speech and a separate, clean sample of the person you want to keep. The sample should contain only that person speaking.</p>
     <form onSubmit={extract}>
       <div className="ov-upload-fields">
         <label>Overlapping speech <small>WAV or FLAC · up to 30 seconds</small><input type="file" accept=".wav,.flac,audio/wav,audio/flac" disabled={busy || !model} onChange={e => change('mixture',e.target.files[0])} required /></label>

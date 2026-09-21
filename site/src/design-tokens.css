@@ -1,0 +1,37 @@
+/* One Voice: the palette and Arial typography of the product site on main. */
+:root {
+  --app-bg: #fafaf8;
+  --surface: #fff;
+  --ink: #191919;
+  --muted: #686864;
+  --line: #19191925;
+  --soft: #f4f4f2;
+  --accent: #262626;
+  --accent-soft: #f1f1ef;
+  --warning-bg: #fcf8ef;
+  --warning-ink: #775a2d;
+  --error-bg: #fff2ef;
+  --error-ink: #903e32;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --text-small: 0.875rem;
+  --text-control: 0.9375rem;
+  --text-body: 1rem;
+  --text-lead: 1.125rem;
+  --text-title: 1.5rem;
+  --text-page: clamp(2rem, 3.2vw, 2.75rem);
+  --line-body: 1.65;
+  --radius-control: 8px;
+  --radius-panel: 16px;
+  --radius-pill: 999px;
+  --control-height: 44px;
+  --panel-inset: var(--space-6);
+  --toolbar-height: 80px;
+}
