@@ -27,11 +27,29 @@
   --text-lead: 1.125rem;
   --text-title: 1.5rem;
   --text-page: clamp(2rem, 3.2vw, 2.75rem);
+  --text-hero: clamp(3rem, 5.4vw, 4.875rem);
+  --text-section: 2rem;
   --line-body: 1.65;
   --radius-control: 8px;
   --radius-pill: 999px;
   --control-height: 44px;
   --toolbar-height: 80px;
+  --header-padding-block: calc(var(--space-6) + var(--space-1));
+  --header-brand-size: 1.625rem;
+  --header-brand-gap: 10px;
+  --header-mark-width: 32px;
+  --header-mark-height: 36px;
+  --content-max-width: 1440px;
+  --page-gutter: clamp(var(--space-6), 6vw, 96px);
   --workspace-gap: var(--space-12);
   --workspace-rail-width: 304px;
+}
+
+/* Continue heading scaling through 320–700px instead of fixing the mobile size. */
+@media(max-width:700px) {
+  :root {
+    --text-hero: clamp(2.25rem, calc(1.625rem + 3.125vw), 3rem);
+    --text-page: clamp(1.75rem, calc(1.54rem + 1.053vw), 2rem);
+    --text-section: clamp(1.5rem, calc(1.079rem + 2.105vw), 2rem);
+  }
 }

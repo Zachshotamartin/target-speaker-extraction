@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import LandingPage from './LandingPage.jsx';
+import SiteHeader from './SiteHeader.jsx';
 import TranscriptionWorkspace from './TranscriptionWorkspace.jsx';
 import {animateChange, animateDisclosure} from './motion.js';
 
@@ -51,14 +52,7 @@ export default function App() {
 
   return <div className={transcribing ? 'app-shell app-shell--workspace' : 'app-shell'} onClickCapture={handleNavigation}>
     <a className="skip" href="#main-content">Skip to content</a>
-    <header className="product-nav">
-      <a href="#" className="wordmark" aria-label="OneVoice home"><img src="/assets/one-voice/brand/mark.svg" alt=""/>OneVoice</a>
-      <nav aria-label="Main">
-        <a href="#listen" aria-current={hash === '#listen' ? 'location' : undefined}>Listen</a>
-        <a href="#transcribe" aria-current={transcribing ? 'page' : undefined}>Speech to text</a>
-        <a href="#ov-upload-title">Try your recording <span aria-hidden="true">↗</span></a>
-      </nav>
-    </header>
+    <SiteHeader activePage={transcribing ? 'transcribe' : 'overview'}/>
     <main id="main-content" tabIndex={-1}>
       {/* Both stay mounted so page transitions preserve files and active jobs. */}
       <div hidden={transcribing}><LandingPage/></div>

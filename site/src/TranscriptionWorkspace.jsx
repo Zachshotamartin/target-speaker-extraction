@@ -247,7 +247,6 @@ export default function TranscriptionWorkspace({active = true}) {
   return <section ref={workspace} id="transcribe" className="transcription" aria-labelledby="transcription-title" onPlay={event => {
     workspace.current?.querySelectorAll('audio').forEach(player => { if (player !== event.target) player.pause(); });
   }}>
-    <a className="workspace-breadcrumb" href="#"><span aria-hidden="true">←</span> Overview</a>
     <header className="transcription-heading">
       <div><h1 id="transcription-title">Speech to text</h1></div>
       <div className="workspace-actions"><div className={`poc-connection ${health?.ready ? 'is-ready' : ''}`}>
