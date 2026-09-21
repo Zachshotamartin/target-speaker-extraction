@@ -43,6 +43,7 @@
   --header-mark-height: 36px;
   --content-max-width: 1440px;
   --page-gutter: clamp(var(--space-6), 6vw, 96px);
+  --page-intro-space: clamp(var(--space-10), 6vw, 76px);
   --workspace-gap: var(--space-12);
   --workspace-rail-width: 304px;
 }

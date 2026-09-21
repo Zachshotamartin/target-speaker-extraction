@@ -15,13 +15,15 @@ main:focus { outline: none; }
 button, select, input { font: inherit; }
 button, summary { cursor: pointer; }
 button:disabled { opacity: .45; cursor: not-allowed; }
+.hero { padding-top: var(--page-intro-space); align-items: start; }
+.hero .eyebrow { margin-top: 0; }
 .hero h1 { font-size: var(--text-hero); }
 .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-5); }
 .hero-actions .primary-link { margin-top: 0; }
 .hero-recording-link { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: var(--control-height); padding: var(--space-3) 0; color: var(--ink); font-size: var(--text-control); text-decoration: none; }
 .study-section-heading h2, .ov-upload h2, .ov-about h2 { font-size: var(--text-section); }
 .app-shell--workspace main { padding-bottom: var(--space-6); }
-.transcription { padding: var(--space-6) 0 0; font-size: var(--text-body); }
+.transcription { padding: var(--page-intro-space) 0 0; font-size: var(--text-body); }
 .transcription-heading { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); margin-bottom: var(--space-8); }
 .transcription-heading h1 { font-family: Arial, sans-serif; font-weight: 500; font-size: var(--text-page); line-height: 1.12; letter-spacing: -1.5px; margin: 0; }
 .workspace-actions { display: flex; align-items: center; gap: var(--space-6); }
