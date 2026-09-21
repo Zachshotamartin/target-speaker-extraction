@@ -1,10 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import LandingPage from './LandingPage.jsx';
 import SiteHeader from './SiteHeader.jsx';
 import SiteFooter from './SiteFooter.jsx';
 import TranscriptionWorkspace from './TranscriptionWorkspace.jsx';
 import PrivacyPage from './PrivacyPage.jsx';
-import {isPageRoot, pageForHash} from './pageRoute.js';
+import {pageForHash} from './pageRoute.js';
+import {ownScrollRestoration, scrollToRoute} from './routeNavigation.js';
 import {animateChange, animateDisclosure} from './motion.js';
 
 export default function App() {
@@ -12,13 +13,6 @@ export default function App() {
   const route = useRef(hash);
   const page = pageForHash(hash);
   const transcribing = page === 'transcribe';
-
-  function scrollToRoute(next, smooth = false) {
-    const target = next && document.getElementById(next.slice(1));
-    const behavior = smooth && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'instant';
-    if (target && !isPageRoot(next)) target.scrollIntoView({block: 'start', behavior});
-    else window.scrollTo({top: 0, behavior});
-  }
 
   function navigate(next) {
     const previousPage = pageForHash(route.current);
@@ -29,16 +23,23 @@ export default function App() {
       setHash(next);
       scrollToRoute(next, true);
     } else {
-      animateChange(() => setHash(next), undefined, () => scrollToRoute(next));
+      animateChange(() => setHash(next), undefined, () => {
+        if (route.current === next) scrollToRoute(next);
+      });
     }
   }
 
+  useLayoutEffect(() => {
+    const release = ownScrollRestoration();
+    scrollToRoute(window.location.hash);
+    return release;
+  }, []);
+
   useEffect(() => {
     const restore = () => { if (window.location.hash !== route.current) navigate(window.location.hash); };
-    const frame = requestAnimationFrame(() => scrollToRoute(window.location.hash));
     window.addEventListener('popstate', restore);
     window.addEventListener('hashchange', restore);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('popstate', restore); window.removeEventListener('hashchange', restore); };
+    return () => { window.removeEventListener('popstate', restore); window.removeEventListener('hashchange', restore); };
   }, []);
 
   function handleNavigation(event) {
