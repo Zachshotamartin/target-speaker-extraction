@@ -20,7 +20,7 @@ export default function PrivacyPage() {
     <div className="privacy-layout">
       <nav className="privacy-contents" aria-label="Privacy policy sections">
         <p>On this page</p>
-        <ol>{sections.map(([id, title], index) => <li key={id}><a href={`#privacy-${id}`}><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{title}</a></li>)}</ol>
+        <ol>{sections.map(([id, title], index) => <li key={id}><a className="continuous-underline" href={`#privacy-${id}`}><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{title}</a></li>)}</ol>
       </nav>
       <div className="privacy-body">
         <p className="privacy-scope">One Voice is an independent project by Zach Martin. This policy covers the One Voice website, its voice extraction tool, and its local speech-to-text proof of concept. No account is required, and submitted recordings are not used to train models.</p>

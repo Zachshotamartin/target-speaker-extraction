@@ -17,8 +17,6 @@
 .site-footer-credit a { white-space: nowrap; }
 .site-footer-links { display: flex; align-items: center; gap: var(--space-6); }
 .site-footer-links a { display: inline-flex; align-items: center; min-height: var(--space-8); text-decoration: none; white-space: nowrap; }
-.site-footer-links a:hover { text-decoration: underline; }
-.site-footer-links a[aria-current='page'] { text-decoration: underline; }
 
 @media(max-width:600px) {
   .site-footer { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-4); row-gap: var(--space-2); }

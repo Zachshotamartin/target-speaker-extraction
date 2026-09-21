@@ -4,6 +4,7 @@ import App from './App.jsx';
 import './product.css';
 import './design-tokens.css';
 import './workspace-shell.css';
+import './text-links.css';
 import './header.css';
 import './motion.css';
 

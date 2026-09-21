@@ -1,0 +1,17 @@
+/* One underline belongs to the link, including gaps between text and icons. */
+.continuous-underline { position: relative; text-decoration: none; }
+.continuous-underline::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: var(--link-underline-bottom, 0);
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--motion-fast, 180ms) ease;
+  pointer-events: none;
+}
+.continuous-underline:is(:hover, :focus-visible, [aria-current='page']) { text-decoration: none; }
+.continuous-underline:is(:hover, :focus-visible, [aria-current='page'])::after { opacity: 1; }
+.hero-recording-link, .privacy-contents .continuous-underline { --link-underline-bottom: var(--space-3); }
+.site-footer-links .continuous-underline { --link-underline-bottom: calc(50% - .75em); }
