@@ -1,5 +1,7 @@
 /* Keep the page width fixed when content starts or stops needing a scrollbar. */
 html { scrollbar-gutter: stable; }
+/* Route navigation owns positioning while the old and new page heights swap. */
+html.page-navigation { overflow-anchor: none; scroll-behavior: auto; }
 @supports not (scrollbar-gutter: stable) {
   html { overflow-y: scroll; }
 }

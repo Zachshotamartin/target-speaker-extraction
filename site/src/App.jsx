@@ -6,7 +6,7 @@ import TranscriptionWorkspace from './TranscriptionWorkspace.jsx';
 import PrivacyPage from './PrivacyPage.jsx';
 import {pageForHash} from './pageRoute.js';
 import {ownScrollRestoration, scrollToRoute} from './routeNavigation.js';
-import {animateChange, animateDisclosure} from './motion.js';
+import {animatePageChange, animateDisclosure} from './motion.js';
 
 export default function App() {
   const [hash, setHash] = useState(window.location.hash);
@@ -23,7 +23,7 @@ export default function App() {
       setHash(next);
       scrollToRoute(next, true);
     } else {
-      animateChange(() => setHash(next), undefined, () => {
+      animatePageChange(() => setHash(next), () => {
         if (route.current === next) scrollToRoute(next);
       });
     }
