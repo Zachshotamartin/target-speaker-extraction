@@ -2,7 +2,7 @@
 
 An independently implemented PyTorch system that estimates one person's voice from two overlapping speakers, guided by a separate voice sample. Includes training, data preparation, evaluation, a local API, and a browser audio workspace.
 
-**New: [local voice-selected transcription POC](poc/README.md).** The product site
+**[Voice-selected transcription POC](poc/README.md).** The product site
 can run a frozen One Voice checkpoint → pretrained voice matching → faster-whisper,
 with public examples, saved local references, timestamped transcripts and exports.
 One Voice is the only waveform separator; a raw-audio ASR comparison shows its
@@ -10,6 +10,10 @@ contribution. This is inference only in a separate CPU environment. On eight
 public reporting mixtures, WER was 65.0% for raw ASR, 15.8% after extraction, and
 20.8% after identity filtering. Clean speech sometimes gets worse. See the
 [complete 64-case development/reporting results and limitations](docs/TRANSCRIPTION_POC_RESULTS.md).
+
+The standalone site can run this pipeline on Hugging Face independently of the
+training computer. See the [protected CPU Space deployment guide](poc/HOSTING.md)
+for the hosted service, browser-session protection, and resource limits.
 
 **Experimental research software.** It can select the wrong speaker and distort speech. The requested speaker must be present. Live microphone use and production speech quality are outside this release's claims.
 
@@ -131,4 +135,4 @@ Public source identities, frozen recipes and training records are in [`metadata/
 
 Speech comes from [LibriSpeech / OpenSLR 12](https://www.openslr.org/12), distributed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Examples are cropped, normalized, mixed derivatives; their local index retains source identifiers and attribution. No private recordings are included. This custom protocol is not the official Libri2Mix benchmark.
 
-A license for original project code has not been selected. Public visibility alone does not grant an open-source license. Dependencies and data retain their respective licenses; weights remain local to this workspace.
+A license for original project code has not been selected. Public visibility alone does not grant an open-source license. Dependencies and data retain their respective licenses; weights are excluded from this public repository and deployed in a protected inference Space.
