@@ -12,7 +12,10 @@ export default function LandingPage() {
         <p className="eyebrow">TARGET SPEAKER EXTRACTION</p>
         <h1>Keep the voice<br/>that matters.</h1>
         <p className="intro">Two people talking at once. One voice you want to hear. Give One Voice a sample of that person, and separate their speech from the conversation.</p>
-        <a className="primary-link" href="#listen">Hear the difference <span>↓</span></a>
+        <div className="hero-actions">
+          <a className="primary-link" href="#listen">Hear the difference <span aria-hidden="true">↓</span></a>
+          <a className="hero-recording-link" href="#ov-upload-title">Try your recording <span aria-hidden="true">↓</span></a>
+        </div>
       </div>
       <SignalArt/>
     </section>

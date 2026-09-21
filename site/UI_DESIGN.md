@@ -6,11 +6,15 @@ Speech to Text is a separate, open workspace: the transcript and audio setup sit
 
 Reserve the root scrollbar gutter in `src/workspace-shell.css` so navigation and expanding content never change the available page width. Older browsers use an always-present vertical scrollbar as the fallback.
 
-The header's Overview and Speech to Text links navigate to the top of their pages. Listening is a section of Overview, reached through the homepage's Hear the difference and Hear this example links. Keep those section anchors distinct from page navigation, and retain deep links to the listening and upload sections.
+The header contains only Overview and Speech to Text, which navigate to the top of their pages. Listening and uploading are sections of Overview, reached through the homepage's Hear the difference, Hear this example, and Try your recording links. Keep those section anchors distinct from page navigation, and retain deep links to the listening and upload sections.
 
 `src/SiteHeader.jsx` is mounted once above both pages. All header layout and responsive rules live in `src/header.css`, using shared design tokens. It has identical padding, typography, and control dimensions on every page, including mobile. Do not add workspace-specific header sizing or header rules to the product/workspace stylesheets; only its active link changes on navigation.
 
-The current page has a dark tab with light text; inactive links stay neutral and the recording shortcut is outlined. Do not repeat Overview navigation as a breadcrumb inside Speech to Text.
+The current page has a dark tab with light text; inactive links stay neutral. Do not repeat Overview navigation as a breadcrumb inside Speech to Text.
+
+The sticky header slides away on downward scrolling and returns on upward scrolling. Its space in the page remains constant. A 12px direction threshold prevents jitter; the header stays visible near the top, on page changes, and during keyboard navigation. Reduced motion disables the slide animation.
+
+Use Example selects a reference/recording pair through one selector above both fields. The reference is a separate recording of the selected voice, not the clean target from the mixture. Label the speaker and conversation next to their players so this relationship is clear.
 
 Use `src/design-tokens.css` for spacing, type, control dimensions and colors. Workspace secondary text is 14px, controls 15px, body text 16px and transcripts 18px. Toolbars use a shared 80px row and 44px controls. Put style rules in the CSS files; do not add inline styles. Keep technical explanations in Details or About this tool.
 

@@ -1,0 +1,26 @@
+import assert from 'node:assert/strict';
+import {initialHeaderScroll, updateHeaderScroll} from '../src/headerScroll.js';
+
+let state = initialHeaderScroll();
+state = updateHeaderScroll(state, 80, 100);
+assert.equal(state.hidden, false, 'Header stays visible near the top');
+state = updateHeaderScroll(state, 200, 100);
+assert.equal(state.hidden, true, 'Scrolling down hides the header');
+state = updateHeaderScroll(state, 197, 100);
+assert.equal(state.hidden, true, 'Small direction changes do not flicker');
+state = updateHeaderScroll(state, 188, 100);
+assert.equal(state.hidden, false, 'Cumulative upward scrolling reveals the header');
+state = updateHeaderScroll(state, 193, 100);
+assert.equal(state.hidden, false, 'Small downward movement keeps it visible');
+state = updateHeaderScroll(state, 210, 100);
+assert.equal(state.hidden, true);
+state = updateHeaderScroll(state, 220, 100, true);
+assert.equal(state.hidden, false, 'Keyboard focus keeps navigation visible');
+state = updateHeaderScroll(state, 400, 100);
+assert.equal(state.hidden, true);
+state = updateHeaderScroll(state, 100, 100);
+assert.equal(state.hidden, false, 'Returning to the top always reveals the header');
+state = updateHeaderScroll(state, 140, 156);
+assert.equal(state.hidden, false, 'The reveal zone follows the mobile header height');
+assert.equal(initialHeaderScroll(500).hidden, false, 'Page changes reset visibility');
+console.log('Header scroll: direction, jitter, top, mobile height, keyboard focus and reset passed.');

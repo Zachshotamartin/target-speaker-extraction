@@ -10,6 +10,10 @@ button, select, input { font: inherit; }
 button, summary { cursor: pointer; }
 button:disabled { opacity: .45; cursor: not-allowed; }
 .hero h1 { font-size: var(--text-hero); }
+.hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-5); }
+.hero-actions .primary-link { margin-top: 0; }
+.hero-recording-link { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: var(--control-height); padding: var(--space-3) 0; color: var(--ink); font-size: var(--text-control); text-decoration: none; }
+.hero-recording-link:hover { text-decoration: underline; }
 .study-section-heading h2, .ov-upload h2, .ov-about h2 { font-size: var(--text-section); }
 .app-shell--workspace main { padding-bottom: var(--space-6); }
 .app-shell--workspace footer { display: none; }

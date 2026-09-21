@@ -35,6 +35,7 @@
   --control-height: 44px;
   --toolbar-height: 80px;
   --header-padding-block: calc(var(--space-6) + var(--space-1));
+  --layer-navigation: 10;
   --header-brand-size: 1.625rem;
   --header-brand-gap: 10px;
   --header-mark-width: 32px;

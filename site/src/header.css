@@ -1,5 +1,11 @@
-/* One shared header. Page changes only update aria-current. */
+/* Sticky space stays in the document; only the header's visual position moves. */
 .product-nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--layer-navigation);
+  background: var(--app-bg);
+  transform: translateY(0);
+  transition: transform var(--motion-time) var(--motion-ease);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -8,6 +14,9 @@
   margin-inline: auto;
   padding: var(--header-padding-block) var(--page-gutter);
 }
+.product-nav[data-hidden='true'] { transform: translateY(-100%); }
+.product-nav:has(:focus-visible) { transform: translateY(0); }
+.skip:focus { z-index: calc(var(--layer-navigation) + 1); }
 
 .header-brand {
   display: inline-flex;
@@ -42,7 +51,6 @@
 }
 .product-nav nav a:hover { background: var(--soft); }
 .product-nav nav a[aria-current='page'] { background: var(--ink); color: var(--app-bg); border-color: var(--ink); }
-.product-nav nav .header-action { border-color: var(--line); }
 
 @media(max-width:700px) {
   .product-nav { flex-wrap: wrap; gap: var(--space-4); }

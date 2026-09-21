@@ -78,6 +78,7 @@ export default function TranscriptionWorkspace({active = true}) {
   const referenceUrl = useAudioUrl(reference);
   const recordingUrl = useAudioUrl(recording);
   const busy = sending || (job && !terminal.has(job.status));
+  const selectedDemo = demos.find(item => item.id === Number(demo));
   latestJob.current = job;
 
   useEffect(() => {
@@ -271,14 +272,15 @@ export default function TranscriptionWorkspace({active = true}) {
 
         <fieldset className="setup-fields" disabled={busy || capturing || requestingMic}>
           <legend className="sr-only">Choose reference voice and recording</legend>
+          {source === 'public' && <div className="example-choice">
+            <label htmlFor="demo-voice">Example</label>
+            <select id="demo-voice" value={demo} onChange={event => {pendingExample.current = true; setDemo(Number(event.target.value));}}>
+              {demos.map(item => <option key={item.id} value={item.id}>Conversation {item.conversation} · Voice {item.voice}</option>)}
+            </select>
+          </div>}
           <section className="setup-group" aria-labelledby="reference-heading">
             <h3 id="reference-heading">Voice reference</h3>
-            {source === 'public' ? <>
-              <label className="sr-only" htmlFor="demo-voice">Voice to select</label>
-              <select id="demo-voice" value={demo} onChange={event => {pendingExample.current = true; setDemo(Number(event.target.value));}}>
-                {demos.map(item => <option key={item.id} value={item.id}>Conversation {item.conversation} · Voice {item.voice}</option>)}
-              </select>
-            </> : <>
+            {source === 'public' ? <p className="field-help">Voice {selectedDemo?.voice} · separate recording</p> : <>
               <p className="field-help">3–10 seconds · one speaker</p>
               {saved.length > 0 && <div className="poc-profile-row">
                 <label htmlFor="saved-voice">Saved on this device</label>
@@ -303,6 +305,7 @@ export default function TranscriptionWorkspace({active = true}) {
           <section className="setup-group" aria-labelledby="recording-heading">
             <h3 id="recording-heading">Recording</h3>
             {source === 'public' ? <>
+              <p className="field-help">Conversation {selectedDemo?.conversation}</p>
               <label className="sr-only" htmlFor="demo-condition">Recording condition</label>
               <select id="demo-condition" value={condition} onChange={event => {pendingExample.current = true; setCondition(event.target.value);}}>
                 <option value="mixture">Two voices overlapping</option><option value="target">Selected voice alone</option>
