@@ -2,7 +2,7 @@
 
 The landing page retains the design from main at aca75b3: #fafaf8 background, #191919 text and controls, Arial typography, pill buttons, the original hero and signal artwork. Do not replace it with the transcription workspace or introduce a new palette.
 
-Speech to Text is a separate tool, with a persistent result/editor area and settings. It has no marketing footer. Navigation keeps the tools mounted so it does not interrupt jobs or discard selected files.
+Speech to Text is a separate, open workspace: the transcript and audio setup sit directly on the page background, separated by a shared column gap and section rules. Do not enclose them in cards, a rounded container, or a contrasting panel. Notices and review sections also use simple rules. It has no marketing footer. Navigation keeps the tools mounted so it does not interrupt jobs or discard selected files.
 
 Reserve the root scrollbar gutter in `src/workspace-shell.css` so navigation and expanding content never change the available page width. Older browsers use an always-present vertical scrollbar as the fallback.
 

@@ -29,9 +29,9 @@
   --text-page: clamp(2rem, 3.2vw, 2.75rem);
   --line-body: 1.65;
   --radius-control: 8px;
-  --radius-panel: 16px;
   --radius-pill: 999px;
   --control-height: 44px;
-  --panel-inset: var(--space-6);
   --toolbar-height: 80px;
+  --workspace-gap: var(--space-12);
+  --workspace-rail-width: 304px;
 }

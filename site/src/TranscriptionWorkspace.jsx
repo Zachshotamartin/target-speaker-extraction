@@ -264,7 +264,7 @@ export default function TranscriptionWorkspace({active = true}) {
 
     <div className="workspace-grid">
       <aside className="setup-panel" aria-labelledby="setup-title">
-        <div className="setup-panel-heading"><h2 id="setup-title">Settings</h2><span>English</span></div>
+        <div className="setup-panel-heading"><h2 id="setup-title">Audio setup</h2><span>English</span></div>
         <div className="poc-source-switch" role="group" aria-label="Recording source" data-source={source}>
           {[['files', 'Upload audio'], ['public', 'Use example']].map(([value, label]) =>
             <button key={value} type="button" aria-pressed={source === value} disabled={busy || capturing || requestingMic} onClick={() => chooseSource(value)}>{label}</button>)}
