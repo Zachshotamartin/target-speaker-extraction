@@ -29,6 +29,7 @@ dev = [
     "ruff>=0.12,<1",
     "matplotlib>=3.11.1",
     "pystoi>=0.4.1",
+    "av==18.1.0",
 ]
 
 [tool.hatch.build.targets.wheel]
