@@ -1,3 +1,9 @@
+/* Keep the page width fixed when content starts or stops needing a scrollbar. */
+html { scrollbar-gutter: stable; }
+@supports not (scrollbar-gutter: stable) {
+  html { overflow-y: scroll; }
+}
+
 [hidden] { display: none !important; }
 main:focus { outline: none; }
 button, select, input { font: inherit; }
