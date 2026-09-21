@@ -8,7 +8,7 @@ Results open on Compare when both transcriptions are available. Without One Voic
 
 Privacy is a separate page at `#privacy`, reached from the shared footer and upload notice. It uses the existing shared header and the same palette, typography, spacing tokens, and page transitions. Keep policy text in a readable column with a section index and simple rules, without cards. Policy section deep links use `#privacy-*` and must stay on the privacy page. Opening the policy must preserve selected files and active transcription jobs.
 
-`SiteFooter` is rendered once, outside the page views, on every page including Speech to Text. Use `footer.css` for its explicit grid alignment and shared spacing. Keep it compact: brand, author credit, Privacy, and Source. The divider uses the same page gutter as the header. Do not reintroduce generic `footer` rules or page-specific footer copies.
+`SiteFooter` is rendered once, outside the page views, on every page including Speech to Text. Use `footer.css` for its explicit grid alignment and shared spacing. Keep it compact: brand, author credit, Privacy, and Source. Both the header and footer use full-width charcoal surfaces and dividers, with their contents aligned to the page gutter and maximum content width. Do not reintroduce generic `footer` rules or page-specific footer copies.
 
 The shared app shell is a flex column with a minimum height of `100dvh` and a growing main region. This keeps the footer at the viewport bottom on short pages and after the content on long pages. Header and footer retain their natural heights; the footer remains in document flow.
 
@@ -20,7 +20,7 @@ The header contains only Overview and Speech to Text, which navigate to the top 
 
 `src/SiteHeader.jsx` is mounted once above both pages. All header layout and responsive rules live in `src/header.css`, using shared design tokens. It has identical padding, typography, and control dimensions on every page, including mobile. Do not add workspace-specific header sizing or header rules to the product/workspace stylesheets; only its active link changes on navigation.
 
-The current page has a dark tab with light text; inactive links stay neutral. Do not repeat Overview navigation as a breadcrumb inside Speech to Text.
+The current page has a light tab with charcoal text against the charcoal header; inactive links use light text without a fill. Do not repeat Overview navigation as a breadcrumb inside Speech to Text.
 
 The sticky header slides away on downward scrolling and returns on upward scrolling. Its space in the page remains constant. A 12px direction threshold prevents jitter; the header stays visible near the top, on page changes, and during keyboard navigation. Reduced motion disables the slide animation.
 
@@ -34,7 +34,11 @@ Use `src/design-tokens.css` for spacing, type, control dimensions and colors. Wo
 
 Hero, page, and section headings use shared fluid type tokens, with a mobile range that continues scaling from 700px down to 320px. Keep body and control minimums readable rather than scaling the entire interface down.
 
+The landing hero and transcription workspace share `--page-intro-space` (40–76px) above their content. The hero copy and signal artwork align at their top edges; do not vertically center the text against the artwork.
+
 Structural updates use `useMotionState` or `animateChange` from `src/motion.js`. The queue batches related updates and finishes one transition before starting the next. It covers page navigation, source and track changes, asynchronous pipeline stages, result tabs, notices and disclosures. Do not fabricate intermediate stages or delay backend work to animate them. Keep submission and input-loading guards synchronous even when their visual state is transitioning. Reduced-motion preferences bypass animations. A fade fallback supports browsers without native View Transitions.
+
+Page navigation fades only `main` while its layout and scroll destination change. The shared header and footer remain opaque and mounted, preventing the charcoal surfaces from flashing light during navigation. Do not animate the opacity of the whole app shell.
 
 Validation: `npm run build`, `node scripts/check-motion.mjs`, and browser checks using the public audio examples. Check navigation while a transcription runs, source switching, result tabs, exports, disclosure animation and responsive layouts. Training and inference environments are separate from this UI work.
 

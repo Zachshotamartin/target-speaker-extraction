@@ -61,18 +61,18 @@ async function run() {
 // Finish layout while the page is faded out, then position it before revealing
 // it. The shared header/footer and mounted audio/job state are preserved.
 async function fadePage(update, position) {
-  const shell = document.querySelector('.app-shell');
-  if (!shell) { update(); position(); return; }
+  const page = document.querySelector('main');
+  if (!page) { update(); position(); return; }
   const root = document.documentElement;
   let outgoing, incoming;
   root.classList.add('page-navigation');
   try {
-    outgoing = shell.animate([{opacity: 1}, {opacity: 0}], {duration: 120, fill: 'forwards'});
+    outgoing = page.animate([{opacity: 1}, {opacity: 0}], {duration: 120, fill: 'forwards'});
     await outgoing.finished.catch(() => {});
     update();
     await layoutFrame();
     position();
-    incoming = shell.animate([{opacity: 0}, {opacity: 1}], {duration: 260, easing: 'cubic-bezier(.22,1,.36,1)'});
+    incoming = page.animate([{opacity: 0}, {opacity: 1}], {duration: 260, easing: 'cubic-bezier(.22,1,.36,1)'});
     outgoing.cancel();
     await incoming.finished.catch(() => {});
   } finally {

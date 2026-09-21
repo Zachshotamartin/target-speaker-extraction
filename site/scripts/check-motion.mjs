@@ -55,7 +55,7 @@ document.addEventListener = () => {};
 document.removeEventListener = () => {};
 globalThis.requestAnimationFrame = callback => {frames.push(callback); return frames.length;};
 globalThis.cancelAnimationFrame = () => {};
-const shell = {
+const page = {
   animate(keyframes) {
     const entering = keyframes[0].opacity === 0;
     if (entering) assert.equal(scrollY, 0, 'The new page must be at the top before it becomes visible');
@@ -67,7 +67,11 @@ const shell = {
     return fade;
   },
 };
-document.querySelector = selector => selector === '.app-shell' ? shell : {getClientRects: () => [1]};
+document.querySelector = selector => {
+  if (selector === '.app-shell' || selector === '.product-nav' || selector === '.site-footer')
+    throw Error('Shared header and footer must remain opaque during page navigation');
+  return selector === 'main' ? page : {getClientRects: () => [1]};
+};
 animatePageChange(() => {routeEvents.push('render'); scrollY = 5000;}, () => {routeEvents.push('position'); scrollY = 0;});
 await tick();
 assert.deepEqual(routeEvents, ['hide']);
