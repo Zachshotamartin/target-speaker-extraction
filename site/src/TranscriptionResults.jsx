@@ -4,7 +4,7 @@ import {useDismissibleDetails} from './useDismissibleDetails.js';
 import {comparisonRows} from './comparisonRows.js';
 import './transcription-results.css';
 
-const API = '/api/poc';
+import {TRANSCRIPTION_API as API} from './transcriptionApi.js';
 const clock = time => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, '0')}`;
 const views = [['compare', 'Compare'], ['selected', 'Selected voice']];
 const variants = [['original', 'Without One Voice'], ['extracted', 'With One Voice']];

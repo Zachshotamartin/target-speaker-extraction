@@ -1,6 +1,7 @@
-"""Loopback-only transcription jobs, isolated from the training API."""
+"""Bounded transcription jobs, local by default and isolated from training."""
 
 import asyncio
+import hmac
 import json
 import os
 import shutil
@@ -40,7 +41,7 @@ class Jobs:
         self.thread = threading.Thread(target=self.loop, daemon=True)
         self.thread.start()
 
-    def submit(self, mixture, reference, compare):
+    def submit(self, mixture, reference, compare, owner=None):
         with self.lock:
             if sum(j["status"] not in TERMINAL for j in self.jobs.values()) >= 2:
                 raise HTTPException(
@@ -58,16 +59,17 @@ class Jobs:
                 "stage": "Waiting for the CPU worker",
                 "created_at": time.time(),
                 "process": None,
+                "owner": owner,
             }
             return self.public(key)
 
-    def public(self, key):
+    def public(self, key, owner=None):
         with self.lock:
-            if key not in self.jobs:
+            if key not in self.jobs or (owner is not None and self.jobs[key]["owner"] != owner):
                 raise HTTPException(
                     404, "This result expired or does not exist. Submit the recording again."
                 )
-            job = {k: v for k, v in self.jobs[key].items() if k != "process"}
+            job = {k: v for k, v in self.jobs[key].items() if k not in {"process", "owner"}}
             directory = self.directory / key
             if job["status"] == "running" and (directory / "progress.json").exists():
                 job.update(json.loads((directory / "progress.json").read_text()))
@@ -75,9 +77,9 @@ class Jobs:
                 job["result"] = json.loads((directory / "result.json").read_text())
             return job
 
-    def cancel(self, key):
+    def cancel(self, key, owner=None):
         with self.lock:
-            if key not in self.jobs:
+            if key not in self.jobs or (owner is not None and self.jobs[key]["owner"] != owner):
                 raise HTTPException(404, "Job does not exist.")
             job = self.jobs[key]
             job.update(status="cancelled", stage="Deleted", expires_at=time.time() + TTL_SECONDS)
@@ -245,9 +247,14 @@ def demo_audio(index, track):
     return wav(np.zeros_like(decode(data))) if track == "silence" else data
 
 
-def create_app(directory=None, models=None):
+def create_app(directory=None, models=None, *, access_token=None):
     directory = Path(directory or ROOT / "artifacts/poc/jobs")
     models = Path(models or ROOT / "artifacts/poc/models")
+    if access_token is not None and len(access_token) < 32:
+        raise ValueError("Hosted transcription requires a secret of at least 32 characters.")
+
+    def owner(request):
+        return request.state.owner if access_token else None
 
     @asynccontextmanager
     async def lifespan(app):
@@ -264,16 +271,36 @@ def create_app(directory=None, models=None):
                 app.state.jobs.close()
 
     app = FastAPI(
-        title="One Voice transcription POC", lifespan=lifespan, docs_url=None, redoc_url=None
+        title="One Voice transcription",
+        lifespan=lifespan,
+        docs_url=None,
+        redoc_url=None,
+        openapi_url=None,
     )
 
     @app.middleware("http")
-    async def local_only(request, call_next):
+    async def access_guard(request, call_next):
         from urllib.parse import urlsplit
 
         host = request.headers.get("host", "").split(":")[0]
         origin = request.headers.get("origin")
-        if host not in {"127.0.0.1", "localhost", "testserver"} or (
+        if access_token:
+            if not hmac.compare_digest(
+                request.headers.get("authorization", "").encode(),
+                ("Bearer " + access_token).encode(),
+            ):
+                return Response(status_code=401)
+            path = request.url.path.removeprefix(request.scope.get("root_path", ""))
+            if path.startswith("/transcriptions"):
+                try:
+                    value = request.headers.get("x-onevoice-owner", "")
+                    parsed = uuid.UUID(value)
+                    if parsed.version != 4 or str(parsed) != value:
+                        raise ValueError("Invalid browser session")
+                    request.state.owner = value
+                except ValueError:
+                    return Response(status_code=401)
+        elif host not in {"127.0.0.1", "localhost", "testserver"} or (
             origin and urlsplit(origin).hostname not in {"localhost", "127.0.0.1"}
         ):
             return Response("This service is local only.", status_code=403)
@@ -287,6 +314,7 @@ def create_app(directory=None, models=None):
         manifest = models / "manifest.json"
         return {
             "ready": manifest.exists(),
+            "processing_location": "hosted" if access_token else "local",
             "models": json.loads(manifest.read_text()) if manifest.exists() else None,
             "limits": {
                 "seconds": 30,
@@ -328,19 +356,19 @@ def create_app(directory=None, models=None):
         mixture, reference, compare = parse_upload(
             bytes(body), request.headers.get("content-type", "")
         )
-        return app.state.jobs.submit(mixture, reference, compare)
+        return app.state.jobs.submit(mixture, reference, compare, owner(request))
 
     @app.get("/transcriptions/{key}")
-    async def status(key: str):
-        return app.state.jobs.public(key)
+    async def status(key: str, request: Request):
+        return app.state.jobs.public(key, owner(request))
 
     @app.delete("/transcriptions/{key}")
-    async def cancel(key: str):
-        return await asyncio.to_thread(app.state.jobs.cancel, key)
+    async def cancel(key: str, request: Request):
+        return await asyncio.to_thread(app.state.jobs.cancel, key, owner(request))
 
     @app.get("/transcriptions/{key}/audio/{track}")
-    async def audio(key: str, track: str):
-        if app.state.jobs.public(key)["status"] != "ready":
+    async def audio(key: str, track: str, request: Request):
+        if app.state.jobs.public(key, owner(request))["status"] != "ready":
             raise HTTPException(409, "Audio is not ready.")
         if track not in {"original", "extracted"}:
             raise HTTPException(404, "Audio does not exist.")
@@ -351,8 +379,8 @@ def create_app(directory=None, models=None):
         )
 
     @app.get("/transcriptions/{key}/export/{kind}")
-    async def export(key: str, kind: str):
-        job = app.state.jobs.public(key)
+    async def export(key: str, kind: str, request: Request):
+        job = app.state.jobs.public(key, owner(request))
         if job["status"] != "ready":
             raise HTTPException(409, "Transcript is not ready.")
         if kind not in {"txt", "srt", "json"}:
