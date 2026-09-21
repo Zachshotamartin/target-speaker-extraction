@@ -9,6 +9,7 @@ import {useAudioUrl} from './useAudioUrl.js';
 import './transcription.css';
 
 const API = '/api/poc';
+const localTranscription = ['localhost', '127.0.0.1', '[::1]'].includes(globalThis.location?.hostname);
 const AUDIO_TYPES = 'audio/*,.wav,.flac,.mp3,.m4a,.webm,.ogg';
 const terminal = new Set(['ready', 'failed', 'cancelled', 'expired']);
 
@@ -68,7 +69,7 @@ export default function TranscriptionWorkspace({active = true}) {
 
   useEffect(() => {
     mounted.current = true;
-    Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())])
+    if (localTranscription) Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())])
       .then(([info, list]) => { if (mounted.current) { setHealth(info); setDemos(list); } })
       .catch(() => { if (mounted.current) setError('The local transcription service is unavailable. Start it with the command in poc/README.md.'); });
     profiles('list').then(list => { if (mounted.current) setSaved(list); }).catch(e => setError(e.message));
@@ -196,8 +197,8 @@ export default function TranscriptionWorkspace({active = true}) {
       <div><h1 id="transcription-title">Speech to text</h1></div>
       <div className="workspace-actions"><div className={`poc-connection ${health?.ready ? 'is-ready' : ''}`}>
         <span className="connection-dot" aria-hidden="true"/>
-        <span>{health?.ready ? 'Local processing' : health ? 'Models need setup' : 'Connecting…'}</span>
-        {!health?.ready && <button type="button" onClick={async () => {try {
+        <span>{!localTranscription ? 'Local setup required' : health?.ready ? 'Local processing' : health ? 'Models need setup' : 'Connecting…'}</span>
+        {localTranscription && !health?.ready && <button type="button" onClick={async () => {try {
           const [info, list] = await Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())]);
           setHealth(info); setDemos(list); setError('');
         } catch (e) {setError(e.message);}}}>Retry</button>}
@@ -205,13 +206,14 @@ export default function TranscriptionWorkspace({active = true}) {
             {busy ? 'Processing…' : 'Transcribe'}<span aria-hidden="true">↗</span>
           </button></div>
     </header>
+    {!localTranscription && <p className="transcription-availability">Speech to text currently runs in the local installation. You can record and preview audio here; transcription requires the local service. <a href="https://github.com/Zachshotamartin/target-speaker-extraction/blob/main/poc/README.md">Set up locally ↗</a></p>}
 
     <div className="workspace-grid">
       <aside className="setup-panel" aria-labelledby="setup-title">
         <div className="setup-panel-heading"><h2 id="setup-title">Audio setup</h2><span>English</span></div>
         <div className="poc-source-switch" role="group" aria-label="Recording source" data-source={source}>
           {[['files', 'Upload audio'], ['public', 'Use example']].map(([value, label]) =>
-            <button key={value} type="button" aria-pressed={source === value} disabled={busy || microphone.busy} onClick={() => chooseSource(value)}>{label}</button>)}
+            <button key={value} type="button" aria-pressed={source === value} disabled={busy || microphone.busy || (value === 'public' && !localTranscription)} onClick={() => chooseSource(value)}>{label}</button>)}
         </div>
 
         <fieldset className="setup-fields" disabled={busy}>

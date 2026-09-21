@@ -150,3 +150,5 @@ summary::-webkit-details-marker { display: none; }
   .processing-stages { display: grid; grid-template-columns: 1fr 1fr; }
   .result-metrics { white-space: normal; }
 }
+.transcription-availability { max-width: 65ch; margin: 0 0 var(--space-8); color: var(--muted); font-size: var(--text-body); line-height: var(--line-body); }
+.transcription-availability a { color: var(--ink); text-underline-offset: .2em; }
