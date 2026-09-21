@@ -1,0 +1,57 @@
+/* One Voice: the palette and Arial typography of the product site on main. */
+:root {
+  --app-bg: #fafaf8;
+  --surface: #fff;
+  --ink: #191919;
+  --muted: #686864;
+  --line: #19191925;
+  --soft: #f4f4f2;
+  --accent: #262626;
+  --accent-soft: #f1f1ef;
+  --warning-bg: #fcf8ef;
+  --warning-ink: #775a2d;
+  --error-bg: #fff2ef;
+  --error-ink: #903e32;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --text-small: 0.875rem;
+  --text-control: 0.9375rem;
+  --text-body: 1rem;
+  --text-lead: 1.125rem;
+  --text-title: 1.5rem;
+  --text-page: clamp(2rem, 3.2vw, 2.75rem);
+  --text-hero: clamp(3rem, 5.4vw, 4.875rem);
+  --text-section: 2rem;
+  --line-body: 1.65;
+  --radius-control: 8px;
+  --radius-pill: 999px;
+  --control-height: 44px;
+  --toolbar-height: 80px;
+  --header-padding-block: calc(var(--space-6) + var(--space-1));
+  --layer-navigation: 10;
+  --layer-popover: 20;
+  --header-brand-size: 1.625rem;
+  --header-brand-gap: 10px;
+  --header-mark-width: 32px;
+  --header-mark-height: 36px;
+  --content-max-width: 1440px;
+  --page-gutter: clamp(var(--space-6), 6vw, 96px);
+  --workspace-gap: var(--space-12);
+  --workspace-rail-width: 304px;
+}
+
+/* Continue heading scaling through 320–700px instead of fixing the mobile size. */
+@media(max-width:700px) {
+  :root {
+    --text-hero: clamp(2.25rem, calc(1.625rem + 3.125vw), 3rem);
+    --text-page: clamp(1.75rem, calc(1.54rem + 1.053vw), 2rem);
+    --text-section: clamp(1.5rem, calc(1.079rem + 2.105vw), 2rem);
+  }
+}

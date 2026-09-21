@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "one_voice": {
+    "sha256": "533b283daff607d06d7ff000a95e31b0354ac6edbcb86f55850e6a7f8d1f8d6e",
+    "epoch": 41.0,
+    "step": 142475,
+    "validation_improvement": 10.707712257961433
+  },
+  "models": {
+    "speaker": {
+      "repo": "speechbrain/spkrec-ecapa-voxceleb",
+      "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+      "files": {
+        "speaker/classifier.ckpt": "fd9e3634fe68bd0a427c95e354c0c677374f62b3f434e45b78599950d860d535",
+        "speaker/embedding_model.ckpt": "0575cb64845e6b9a10db9bcb74d5ac32b326b8dc90352671d345e2ee3d0126a2",
+        "speaker/hyperparams.yaml": "6f78854fa04ba59e761437b76a2575d3aba5e5016de3e9b69f0c9a5077fb1a41",
+        "speaker/label_encoder.txt": "e13c3a167bb4112685670ee896d20e2b565af16b3a4ceeaa8689fa4d22adb8b9",
+        "speaker/mean_var_norm_emb.ckpt": "cd70225b05b37be64fc5a95e24395d804231d43f74b2e1e5a513db7b69b34c33"
+      }
+    },
+    "asr": {
+      "repo": "Systran/faster-whisper-small.en",
+      "revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+      "files": {
+        "asr/config.json": "666a9605530ac1f61fa8177f3702b4dacec9966749e42610839fcc32661d5fae",
+        "asr/model.bin": "62b2a45b05ee59acb4a5341b33ee35e041395d378d418a18acfe4c9e768ee37a",
+        "asr/tokenizer.json": "929c5252409436dce1b38a75d1abbcb5e132d170d8e324e4e04ed915fa2d22df",
+        "asr/vocabulary.txt": "ff77588746d3a2595d32ab5b69ffd7b95ce2441ac57533cb66fc3eb575a115cf"
+      }
+    },
+    "vad": {
+      "provider": "Silero, packaged by faster-whisper",
+      "sha256": "4cbf549b8326f60f80f2536d9eefeb450a9abe83365a098031c89719f1be17d2"
+    }
+  },
+  "contract": {
+    "only_waveform_separator": "one_voice",
+    "asr_reference_input": false,
+    "external_separation": false,
+    "training": false
+  },
+  "packages": {
+    "torch": "2.8.0",
+    "torchaudio": "2.8.0",
+    "speechbrain": "1.0.3",
+    "faster-whisper": "1.2.1",
+    "ctranslate2": "4.8.2",
+    "onnxruntime": "1.30.0",
+    "av": "18.1.0"
+  }
+}

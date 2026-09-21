@@ -1,0 +1,1292 @@
+{
+  "schema": 1,
+  "split": "reporting",
+  "gate": {
+    "version": "public-dev32-v1",
+    "accepted_extracted": 0.3,
+    "accepted_original": 0.1,
+    "uncertain_extracted": 0.2,
+    "minimum_speech_seconds": 0.6,
+    "word_overlap": 0.8
+  },
+  "checkpoint": {
+    "sha256": "533b283daff607d06d7ff000a95e31b0354ac6edbcb86f55850e6a7f8d1f8d6e",
+    "epoch": 41.0,
+    "step": 142475,
+    "validation_improvement": 10.707712257961433
+  },
+  "models": {
+    "speaker": {
+      "repo": "speechbrain/spkrec-ecapa-voxceleb",
+      "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+    },
+    "asr": {
+      "repo": "Systran/faster-whisper-small.en",
+      "revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f"
+    },
+    "vad": {
+      "provider": "Silero, packaged by faster-whisper",
+      "sha256": "4cbf549b8326f60f80f2536d9eefeb450a9abe83365a098031c89719f1be17d2"
+    }
+  },
+  "summary": {
+    "overlap": {
+      "cases": 8,
+      "jobs_with_attributed_text": 8,
+      "raw_wer": 0.65,
+      "raw_words": 135,
+      "one_voice_wer": 0.15833333333333333,
+      "one_voice_words": 112,
+      "attributed_wer": 0.20833333333333334,
+      "attributed_words": 102
+    },
+    "target_only": {
+      "cases": 8,
+      "jobs_with_attributed_text": 7,
+      "raw_wer": 0.016666666666666666,
+      "raw_words": 120,
+      "one_voice_wer": 0.24166666666666667,
+      "one_voice_words": 121,
+      "attributed_wer": 0.225,
+      "attributed_words": 95
+    },
+    "absent": {
+      "cases": 8,
+      "jobs_with_attributed_text": 0,
+      "raw_wer": null,
+      "raw_words": 117,
+      "one_voice_wer": null,
+      "one_voice_words": 83,
+      "attributed_wer": null,
+      "attributed_words": 0
+    },
+    "silence": {
+      "cases": 8,
+      "jobs_with_attributed_text": 0,
+      "raw_wer": null,
+      "raw_words": 0,
+      "one_voice_wer": null,
+      "one_voice_words": 0,
+      "attributed_wer": null,
+      "attributed_words": 0
+    }
+  },
+  "cases": [
+    {
+      "case_id": "4077-13754-0001_5142-33396-0065:0",
+      "target_speaker": "4077",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 15,
+          "reference_words": 0,
+          "hypothesis_words": 15,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 13,
+          "reference_words": 0,
+          "hypothesis_words": 13,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 11.426,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "45a33624cbbe1069aa750b5646175194c90e653455baac9c67615688731290e7",
+        "67800641844bf8c9d654fc9a6099941ba97ff31b0ac0a579209378598c4ea09b"
+      ],
+      "reference_hash": "fee75238d4f9a92c7487ae33d4a18fe958287c9946f20e35b977f9c068bbd623",
+      "transcripts": {
+        "raw": "Soft heart, he said gently to her. Then to Torkel. Well, let him go, Torkel.\"",
+        "one_voice": "Softheart, he said gently to her, and to Torkel. Well, then go, Torkel.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "4077-13754-0001_5142-33396-0065:0",
+      "target_speaker": "4077",
+      "condition": "overlap",
+      "reference_text": "BUT A WORD FURTHER CONCERNING THE EXPEDITION IN GENERAL",
+      "scores": {
+        "raw": {
+          "edits": 2,
+          "reference_words": 9,
+          "hypothesis_words": 9,
+          "wer": 0.2222222222222222
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 9,
+          "hypothesis_words": 9,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 2,
+          "reference_words": 9,
+          "hypothesis_words": 7,
+          "wer": 0.2222222222222222
+        }
+      },
+      "processing_seconds": 12.683,
+      "outcome": "matched",
+      "source_hashes": [
+        "45a33624cbbe1069aa750b5646175194c90e653455baac9c67615688731290e7",
+        "67800641844bf8c9d654fc9a6099941ba97ff31b0ac0a579209378598c4ea09b"
+      ],
+      "reference_hash": "fee75238d4f9a92c7487ae33d4a18fe958287c9946f20e35b977f9c068bbd623",
+      "transcripts": {
+        "raw": "But I'll work further concerning the expedition in general.",
+        "one_voice": "but a word further concerning the expedition in general.",
+        "attributed": "a word further concerning the expedition in"
+      }
+    },
+    {
+      "case_id": "4077-13754-0001_5142-33396-0065:0",
+      "target_speaker": "4077",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.024,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "45a33624cbbe1069aa750b5646175194c90e653455baac9c67615688731290e7",
+        "67800641844bf8c9d654fc9a6099941ba97ff31b0ac0a579209378598c4ea09b"
+      ],
+      "reference_hash": "fee75238d4f9a92c7487ae33d4a18fe958287c9946f20e35b977f9c068bbd623",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "4077-13754-0001_5142-33396-0065:0",
+      "target_speaker": "4077",
+      "condition": "target_only",
+      "reference_text": "BUT A WORD FURTHER CONCERNING THE EXPEDITION IN GENERAL",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 9,
+          "hypothesis_words": 9,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 9,
+          "hypothesis_words": 9,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 9,
+          "hypothesis_words": 8,
+          "wer": 0.1111111111111111
+        }
+      },
+      "processing_seconds": 10.213,
+      "outcome": "matched",
+      "source_hashes": [
+        "45a33624cbbe1069aa750b5646175194c90e653455baac9c67615688731290e7",
+        "67800641844bf8c9d654fc9a6099941ba97ff31b0ac0a579209378598c4ea09b"
+      ],
+      "reference_hash": "fee75238d4f9a92c7487ae33d4a18fe958287c9946f20e35b977f9c068bbd623",
+      "transcripts": {
+        "raw": "but a word further concerning the expedition in general.",
+        "one_voice": "but a word further concerning the expedition in general.",
+        "attributed": "a word further concerning the expedition in general."
+      }
+    },
+    {
+      "case_id": "1188-133604-0025_4992-23283-0016:1",
+      "target_speaker": "4992",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 22,
+          "reference_words": 0,
+          "hypothesis_words": 22,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 7.896,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "74c35b43c3cd77b72c61fd8e4ccd1bd83a7c13f7eb8ec0a8f89211241b6a4f1b",
+        "e7442a8f1bbd834ad37ee3c9cc5fa26b1cfb61446f827b54298716f59b010002"
+      ],
+      "reference_hash": "d6b79a8dadbbe153ed380126873580f7819129a4204c30e0f2a5c3963c687cc3",
+      "transcripts": {
+        "raw": "You know I've just been telling you how this school of materialism and clay involved itself at last in cloud and fire.",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1188-133604-0025_4992-23283-0016:1",
+      "target_speaker": "4992",
+      "condition": "overlap",
+      "reference_text": "AGAIN HE SEARCHED HIS OWN THOUGHTS NOR INEFFECTUALLY AS BEFORE",
+      "scores": {
+        "raw": {
+          "edits": 20,
+          "reference_words": 10,
+          "hypothesis_words": 20,
+          "wer": 2.0
+        },
+        "one_voice": {
+          "edits": 3,
+          "reference_words": 10,
+          "hypothesis_words": 11,
+          "wer": 0.3
+        },
+        "attributed": {
+          "edits": 3,
+          "reference_words": 10,
+          "hypothesis_words": 9,
+          "wer": 0.3
+        }
+      },
+      "processing_seconds": 11.881,
+      "outcome": "matched",
+      "source_hashes": [
+        "74c35b43c3cd77b72c61fd8e4ccd1bd83a7c13f7eb8ec0a8f89211241b6a4f1b",
+        "e7442a8f1bbd834ad37ee3c9cc5fa26b1cfb61446f827b54298716f59b010002"
+      ],
+      "reference_hash": "d6b79a8dadbbe153ed380126873580f7819129a4204c30e0f2a5c3963c687cc3",
+      "transcripts": {
+        "raw": "You know I've been telling you how the school materialism and clay involved itself at last in cloud and fire.",
+        "one_voice": "Again, he searched his own thoughts, nor ineffectually has been caught.",
+        "attributed": "he searched his own thoughts, nor ineffectually has been"
+      }
+    },
+    {
+      "case_id": "1188-133604-0025_4992-23283-0016:1",
+      "target_speaker": "4992",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.03,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "74c35b43c3cd77b72c61fd8e4ccd1bd83a7c13f7eb8ec0a8f89211241b6a4f1b",
+        "e7442a8f1bbd834ad37ee3c9cc5fa26b1cfb61446f827b54298716f59b010002"
+      ],
+      "reference_hash": "d6b79a8dadbbe153ed380126873580f7819129a4204c30e0f2a5c3963c687cc3",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1188-133604-0025_4992-23283-0016:1",
+      "target_speaker": "4992",
+      "condition": "target_only",
+      "reference_text": "AGAIN HE SEARCHED HIS OWN THOUGHTS NOR INEFFECTUALLY AS BEFORE",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 10,
+          "hypothesis_words": 10,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 19,
+          "reference_words": 10,
+          "hypothesis_words": 19,
+          "wer": 1.9
+        },
+        "attributed": {
+          "edits": 10,
+          "reference_words": 10,
+          "hypothesis_words": 0,
+          "wer": 1.0
+        }
+      },
+      "processing_seconds": 21.3,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "74c35b43c3cd77b72c61fd8e4ccd1bd83a7c13f7eb8ec0a8f89211241b6a4f1b",
+        "e7442a8f1bbd834ad37ee3c9cc5fa26b1cfb61446f827b54298716f59b010002"
+      ],
+      "reference_hash": "d6b79a8dadbbe153ed380126873580f7819129a4204c30e0f2a5c3963c687cc3",
+      "transcripts": {
+        "raw": "Again, he searched his own thoughts, nor ineffectually as before.",
+        "one_voice": "Thank you. I miss you. I miss you. I miss you. miss you. I miss you. you. I I",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "5683-32866-0012_121-121726-0001:0",
+      "target_speaker": "5683",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 7,
+          "reference_words": 0,
+          "hypothesis_words": 7,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 8,
+          "reference_words": 0,
+          "hypothesis_words": 8,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 12.443,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "c5eb505469ef1344b69a37f7fa0f0aa0e9e1a751ed7a07f2e9ecbea72ad9308e",
+        "4d4459266056fcd052ced71563e093ecf74a420abfa3a402283fb6b8eb848441"
+      ],
+      "reference_hash": "4b4c522304a4428a4be772eff0c92c9084d15d464e888bb6b6ebd20e81635bfe",
+      "transcripts": {
+        "raw": "The tiresome product of a tireless tongue.",
+        "one_voice": "Hoorang! The tiresome product of a tireless tongue.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "5683-32866-0012_121-121726-0001:0",
+      "target_speaker": "5683",
+      "condition": "overlap",
+      "reference_text": "NOW THAT'S IMPOSSIBLE RADIE FOR I REALLY DON'T THINK I ONCE THOUGHT OF HIM ALL THIS EVENING EXCEPT JUST WHILE WE WERE TALKING",
+      "scores": {
+        "raw": {
+          "edits": 1,
+          "reference_words": 23,
+          "hypothesis_words": 23,
+          "wer": 0.043478260869565216
+        },
+        "one_voice": {
+          "edits": 1,
+          "reference_words": 23,
+          "hypothesis_words": 23,
+          "wer": 0.043478260869565216
+        },
+        "attributed": {
+          "edits": 2,
+          "reference_words": 23,
+          "hypothesis_words": 22,
+          "wer": 0.08695652173913043
+        }
+      },
+      "processing_seconds": 13.556,
+      "outcome": "matched",
+      "source_hashes": [
+        "c5eb505469ef1344b69a37f7fa0f0aa0e9e1a751ed7a07f2e9ecbea72ad9308e",
+        "4d4459266056fcd052ced71563e093ecf74a420abfa3a402283fb6b8eb848441"
+      ],
+      "reference_hash": "4b4c522304a4428a4be772eff0c92c9084d15d464e888bb6b6ebd20e81635bfe",
+      "transcripts": {
+        "raw": "Now that's impossible, Rady, for I really don't think I once thought of him all this evening, except just while we were talking.",
+        "one_voice": "Now that's impossible, Rady, for I really don't think I once thought of him all this evening, except just while we were talking.",
+        "attributed": "that's impossible, Rady, for I really don't think I once thought of him all this evening, except just while we were talking."
+      }
+    },
+    {
+      "case_id": "5683-32866-0012_121-121726-0001:0",
+      "target_speaker": "5683",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.031,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "c5eb505469ef1344b69a37f7fa0f0aa0e9e1a751ed7a07f2e9ecbea72ad9308e",
+        "4d4459266056fcd052ced71563e093ecf74a420abfa3a402283fb6b8eb848441"
+      ],
+      "reference_hash": "4b4c522304a4428a4be772eff0c92c9084d15d464e888bb6b6ebd20e81635bfe",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "5683-32866-0012_121-121726-0001:0",
+      "target_speaker": "5683",
+      "condition": "target_only",
+      "reference_text": "NOW THAT'S IMPOSSIBLE RADIE FOR I REALLY DON'T THINK I ONCE THOUGHT OF HIM ALL THIS EVENING EXCEPT JUST WHILE WE WERE TALKING",
+      "scores": {
+        "raw": {
+          "edits": 1,
+          "reference_words": 23,
+          "hypothesis_words": 23,
+          "wer": 0.043478260869565216
+        },
+        "one_voice": {
+          "edits": 1,
+          "reference_words": 23,
+          "hypothesis_words": 23,
+          "wer": 0.043478260869565216
+        },
+        "attributed": {
+          "edits": 2,
+          "reference_words": 23,
+          "hypothesis_words": 22,
+          "wer": 0.08695652173913043
+        }
+      },
+      "processing_seconds": 14.868,
+      "outcome": "matched",
+      "source_hashes": [
+        "c5eb505469ef1344b69a37f7fa0f0aa0e9e1a751ed7a07f2e9ecbea72ad9308e",
+        "4d4459266056fcd052ced71563e093ecf74a420abfa3a402283fb6b8eb848441"
+      ],
+      "reference_hash": "4b4c522304a4428a4be772eff0c92c9084d15d464e888bb6b6ebd20e81635bfe",
+      "transcripts": {
+        "raw": "Now that's impossible, Rady, for I really don't think I once thought of him all this evening, except just while we were talking.",
+        "one_voice": "Now that's impossible, Rady, for I really don't think I once thought of him all this evening, except just while we were talking.",
+        "attributed": "that's impossible, Rady, for I really don't think I once thought of him all this evening, except just while we were talking."
+      }
+    },
+    {
+      "case_id": "2830-3980-0022_8555-292519-0010:1",
+      "target_speaker": "8555",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 7,
+          "reference_words": 0,
+          "hypothesis_words": 7,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 6.175,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "45ec155cce9523c043001395f75e6c59e0d7cc69488ca1ac9180975007c1f4ac",
+        "85c1fedc75200008dc484f8002ffe4b1304719c115d928c40ed5feab0b138217"
+      ],
+      "reference_hash": "f486d50319a98f834308d73ec92e427b40382c1c2139128ea1b547c90ae9b3e1",
+      "transcripts": {
+        "raw": "The claws seem superfluous on first sight.",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "2830-3980-0022_8555-292519-0010:1",
+      "target_speaker": "8555",
+      "condition": "overlap",
+      "reference_text": "OLD DANCES ARE SIMPLIFIED OF THEIR YEARNING BLEACHED BY TIME",
+      "scores": {
+        "raw": {
+          "edits": 10,
+          "reference_words": 10,
+          "hypothesis_words": 8,
+          "wer": 1.0
+        },
+        "one_voice": {
+          "edits": 2,
+          "reference_words": 10,
+          "hypothesis_words": 9,
+          "wer": 0.2
+        },
+        "attributed": {
+          "edits": 2,
+          "reference_words": 10,
+          "hypothesis_words": 8,
+          "wer": 0.2
+        }
+      },
+      "processing_seconds": 11.041,
+      "outcome": "matched",
+      "source_hashes": [
+        "45ec155cce9523c043001395f75e6c59e0d7cc69488ca1ac9180975007c1f4ac",
+        "85c1fedc75200008dc484f8002ffe4b1304719c115d928c40ed5feab0b138217"
+      ],
+      "reference_hash": "f486d50319a98f834308d73ec92e427b40382c1c2139128ea1b547c90ae9b3e1",
+      "transcripts": {
+        "raw": "A cloth seems superfluous on a first sight.",
+        "one_voice": "All dances are simplified their yearning, bleached by time.",
+        "attributed": "dances are simplified their yearning, bleached by time."
+      }
+    },
+    {
+      "case_id": "2830-3980-0022_8555-292519-0010:1",
+      "target_speaker": "8555",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.024,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "45ec155cce9523c043001395f75e6c59e0d7cc69488ca1ac9180975007c1f4ac",
+        "85c1fedc75200008dc484f8002ffe4b1304719c115d928c40ed5feab0b138217"
+      ],
+      "reference_hash": "f486d50319a98f834308d73ec92e427b40382c1c2139128ea1b547c90ae9b3e1",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "2830-3980-0022_8555-292519-0010:1",
+      "target_speaker": "8555",
+      "condition": "target_only",
+      "reference_text": "OLD DANCES ARE SIMPLIFIED OF THEIR YEARNING BLEACHED BY TIME",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 10,
+          "hypothesis_words": 10,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 10,
+          "hypothesis_words": 10,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 10,
+          "hypothesis_words": 9,
+          "wer": 0.1
+        }
+      },
+      "processing_seconds": 10.899,
+      "outcome": "matched",
+      "source_hashes": [
+        "45ec155cce9523c043001395f75e6c59e0d7cc69488ca1ac9180975007c1f4ac",
+        "85c1fedc75200008dc484f8002ffe4b1304719c115d928c40ed5feab0b138217"
+      ],
+      "reference_hash": "f486d50319a98f834308d73ec92e427b40382c1c2139128ea1b547c90ae9b3e1",
+      "transcripts": {
+        "raw": "Old dances are simplified of their yearning, bleached by time.",
+        "one_voice": "Old dances are simplified of their yearning, bleached by time.",
+        "attributed": "dances are simplified of their yearning, bleached by time."
+      }
+    },
+    {
+      "case_id": "1320-122617-0025_260-123440-0019:0",
+      "target_speaker": "1320",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 21,
+          "reference_words": 0,
+          "hypothesis_words": 21,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 21,
+          "reference_words": 0,
+          "hypothesis_words": 21,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 11.65,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "f4ced0ed4c93b6419b189fa02344e85c629f697581f62bde20c89b74b6cb6391",
+        "3d08c2d8dd80e9cc29f23f99a77d4841399bc25cbf8fd59caebfd2360b04409c"
+      ],
+      "reference_hash": "62dea820e34fcb92c15f5689b92b99bf1f511e3cd2a836cb7698e05f98b936de",
+      "transcripts": {
+        "raw": "cried Alice again, for this time the mouse was bristling all over, and she felt certain it must be really offended.",
+        "one_voice": "cried Alice again, for this time the mouse was bristling all over, and he felt certain it must be really offended.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1320-122617-0025_260-123440-0019:0",
+      "target_speaker": "1320",
+      "condition": "overlap",
+      "reference_text": "SO UNCAS YOU HAD BETTER TAKE THE LEAD WHILE I WILL PUT ON THE SKIN AGAIN AND TRUST TO CUNNING FOR WANT OF SPEED",
+      "scores": {
+        "raw": {
+          "edits": 23,
+          "reference_words": 24,
+          "hypothesis_words": 21,
+          "wer": 0.9583333333333334
+        },
+        "one_voice": {
+          "edits": 5,
+          "reference_words": 24,
+          "hypothesis_words": 24,
+          "wer": 0.20833333333333334
+        },
+        "attributed": {
+          "edits": 5,
+          "reference_words": 24,
+          "hypothesis_words": 23,
+          "wer": 0.20833333333333334
+        }
+      },
+      "processing_seconds": 12.008,
+      "outcome": "matched",
+      "source_hashes": [
+        "f4ced0ed4c93b6419b189fa02344e85c629f697581f62bde20c89b74b6cb6391",
+        "3d08c2d8dd80e9cc29f23f99a77d4841399bc25cbf8fd59caebfd2360b04409c"
+      ],
+      "reference_hash": "62dea820e34fcb92c15f5689b92b99bf1f511e3cd2a836cb7698e05f98b936de",
+      "transcripts": {
+        "raw": "cry Alex again, for this time the mouse was bristling all over, and she felt certain it must be really offended.",
+        "one_voice": "So in case you had better take the lead while I will put on the skin again and trust the cunning for wanting speed",
+        "attributed": "in case you had better take the lead while I will put on the skin again and trust the cunning for wanting speed"
+      }
+    },
+    {
+      "case_id": "1320-122617-0025_260-123440-0019:0",
+      "target_speaker": "1320",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.024,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "f4ced0ed4c93b6419b189fa02344e85c629f697581f62bde20c89b74b6cb6391",
+        "3d08c2d8dd80e9cc29f23f99a77d4841399bc25cbf8fd59caebfd2360b04409c"
+      ],
+      "reference_hash": "62dea820e34fcb92c15f5689b92b99bf1f511e3cd2a836cb7698e05f98b936de",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1320-122617-0025_260-123440-0019:0",
+      "target_speaker": "1320",
+      "condition": "target_only",
+      "reference_text": "SO UNCAS YOU HAD BETTER TAKE THE LEAD WHILE I WILL PUT ON THE SKIN AGAIN AND TRUST TO CUNNING FOR WANT OF SPEED",
+      "scores": {
+        "raw": {
+          "edits": 1,
+          "reference_words": 24,
+          "hypothesis_words": 24,
+          "wer": 0.041666666666666664
+        },
+        "one_voice": {
+          "edits": 1,
+          "reference_words": 24,
+          "hypothesis_words": 24,
+          "wer": 0.041666666666666664
+        },
+        "attributed": {
+          "edits": 2,
+          "reference_words": 24,
+          "hypothesis_words": 23,
+          "wer": 0.08333333333333333
+        }
+      },
+      "processing_seconds": 11.895,
+      "outcome": "matched",
+      "source_hashes": [
+        "f4ced0ed4c93b6419b189fa02344e85c629f697581f62bde20c89b74b6cb6391",
+        "3d08c2d8dd80e9cc29f23f99a77d4841399bc25cbf8fd59caebfd2360b04409c"
+      ],
+      "reference_hash": "62dea820e34fcb92c15f5689b92b99bf1f511e3cd2a836cb7698e05f98b936de",
+      "transcripts": {
+        "raw": "So, Unkus, you had better take the lead, while I will put on the skin again and trust to cunning for want of speed.",
+        "one_voice": "So, Unkus, you had better take the lead, while I will put on the skin again and trust to cunning for want of speed.",
+        "attributed": "Unkus, you had better take the lead, while I will put on the skin again and trust to cunning for want of speed."
+      }
+    },
+    {
+      "case_id": "4446-2271-0021_4970-29093-0013:1",
+      "target_speaker": "4970",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 14,
+          "reference_words": 0,
+          "hypothesis_words": 14,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 13,
+          "reference_words": 0,
+          "hypothesis_words": 13,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 11.391,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "b9173d5b1e9b497caf2b542dafe0770adb15d444b1a8143e161338a8205b3eed",
+        "d85a31d49049c5ef97039505ad6fd19f44f5f9481a9bd46f541537c0954491c2"
+      ],
+      "reference_hash": "9ae5a0d9df022fd67762da8fcf356a45a07f34bc8bed6676bce094914353370f",
+      "transcripts": {
+        "raw": "She must care about the theater a great deal more than she used to.",
+        "one_voice": "She was talking about the air, and it's all you need to do.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "4446-2271-0021_4970-29093-0013:1",
+      "target_speaker": "4970",
+      "condition": "overlap",
+      "reference_text": "AND HE WENT BACK TO HIS BOOKS AND TO HIS WAITING FOR AN OPENING LARGE ENOUGH FOR HIS DIGNIFIED ENTRANCE INTO THE LITERARY WORLD",
+      "scores": {
+        "raw": {
+          "edits": 2,
+          "reference_words": 24,
+          "hypothesis_words": 24,
+          "wer": 0.08333333333333333
+        },
+        "one_voice": {
+          "edits": 8,
+          "reference_words": 24,
+          "hypothesis_words": 16,
+          "wer": 0.3333333333333333
+        },
+        "attributed": {
+          "edits": 9,
+          "reference_words": 24,
+          "hypothesis_words": 15,
+          "wer": 0.375
+        }
+      },
+      "processing_seconds": 12.921,
+      "outcome": "matched",
+      "source_hashes": [
+        "b9173d5b1e9b497caf2b542dafe0770adb15d444b1a8143e161338a8205b3eed",
+        "d85a31d49049c5ef97039505ad6fd19f44f5f9481a9bd46f541537c0954491c2"
+      ],
+      "reference_hash": "9ae5a0d9df022fd67762da8fcf356a45a07f34bc8bed6676bce094914353370f",
+      "transcripts": {
+        "raw": "And he went back to his books and he was waiting for an opening large enough for his dignified entrance into the literary world.",
+        "one_voice": "and to his waiting for an opening large enough for his dignified entrance into the literary",
+        "attributed": "and to his waiting for an opening large enough his dignified entrance into the literary"
+      }
+    },
+    {
+      "case_id": "4446-2271-0021_4970-29093-0013:1",
+      "target_speaker": "4970",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.04,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "b9173d5b1e9b497caf2b542dafe0770adb15d444b1a8143e161338a8205b3eed",
+        "d85a31d49049c5ef97039505ad6fd19f44f5f9481a9bd46f541537c0954491c2"
+      ],
+      "reference_hash": "9ae5a0d9df022fd67762da8fcf356a45a07f34bc8bed6676bce094914353370f",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "4446-2271-0021_4970-29093-0013:1",
+      "target_speaker": "4970",
+      "condition": "target_only",
+      "reference_text": "AND HE WENT BACK TO HIS BOOKS AND TO HIS WAITING FOR AN OPENING LARGE ENOUGH FOR HIS DIGNIFIED ENTRANCE INTO THE LITERARY WORLD",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 24,
+          "hypothesis_words": 24,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 8,
+          "reference_words": 24,
+          "hypothesis_words": 16,
+          "wer": 0.3333333333333333
+        },
+        "attributed": {
+          "edits": 9,
+          "reference_words": 24,
+          "hypothesis_words": 15,
+          "wer": 0.375
+        }
+      },
+      "processing_seconds": 12.347,
+      "outcome": "matched",
+      "source_hashes": [
+        "b9173d5b1e9b497caf2b542dafe0770adb15d444b1a8143e161338a8205b3eed",
+        "d85a31d49049c5ef97039505ad6fd19f44f5f9481a9bd46f541537c0954491c2"
+      ],
+      "reference_hash": "9ae5a0d9df022fd67762da8fcf356a45a07f34bc8bed6676bce094914353370f",
+      "transcripts": {
+        "raw": "and he went back to his books and to his waiting for an opening large enough for his dignified entrance into the literary world.",
+        "one_voice": "and to his waiting for an opening large enough for his dignified entrance into the literary",
+        "attributed": "and to his waiting for an opening large enough his dignified entrance into the literary"
+      }
+    },
+    {
+      "case_id": "1221-135766-0014_3729-6852-0011:0",
+      "target_speaker": "1221",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 21,
+          "reference_words": 0,
+          "hypothesis_words": 21,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 18,
+          "reference_words": 0,
+          "hypothesis_words": 18,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 11.355,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "9378d3b134dfadc2aec857f0a212c18c01e453de25643b3ef68a8705cd775814",
+        "cde0ad00586793002e9aa3291f1974561d1a901a3c6485eccad31c610380f579"
+      ],
+      "reference_hash": "99b571962ceda86029abfa14a46938e7f6ba57e0308c3b8dc3d028b5269c9906",
+      "transcripts": {
+        "raw": "I had a name, I believe, in my young days, but I have forgotten it since I have been in service.",
+        "one_voice": "And if anyone is feeling like this, you have to go on this side of a big service.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1221-135766-0014_3729-6852-0011:0",
+      "target_speaker": "1221",
+      "condition": "overlap",
+      "reference_text": "PEARL SAW AND GAZED INTENTLY BUT NEVER SOUGHT TO MAKE ACQUAINTANCE",
+      "scores": {
+        "raw": {
+          "edits": 20,
+          "reference_words": 11,
+          "hypothesis_words": 21,
+          "wer": 1.8181818181818181
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 11,
+          "hypothesis_words": 11,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 11,
+          "hypothesis_words": 10,
+          "wer": 0.09090909090909091
+        }
+      },
+      "processing_seconds": 11.25,
+      "outcome": "matched",
+      "source_hashes": [
+        "9378d3b134dfadc2aec857f0a212c18c01e453de25643b3ef68a8705cd775814",
+        "cde0ad00586793002e9aa3291f1974561d1a901a3c6485eccad31c610380f579"
+      ],
+      "reference_hash": "99b571962ceda86029abfa14a46938e7f6ba57e0308c3b8dc3d028b5269c9906",
+      "transcripts": {
+        "raw": "I had a name I believe in my young days, but I have forgotten it since I have been in service.",
+        "one_voice": "Pearl saw and gazed intently, but never sought to make acquaintance.",
+        "attributed": "saw and gazed intently, but never sought to make acquaintance."
+      }
+    },
+    {
+      "case_id": "1221-135766-0014_3729-6852-0011:0",
+      "target_speaker": "1221",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.024,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "9378d3b134dfadc2aec857f0a212c18c01e453de25643b3ef68a8705cd775814",
+        "cde0ad00586793002e9aa3291f1974561d1a901a3c6485eccad31c610380f579"
+      ],
+      "reference_hash": "99b571962ceda86029abfa14a46938e7f6ba57e0308c3b8dc3d028b5269c9906",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1221-135766-0014_3729-6852-0011:0",
+      "target_speaker": "1221",
+      "condition": "target_only",
+      "reference_text": "PEARL SAW AND GAZED INTENTLY BUT NEVER SOUGHT TO MAKE ACQUAINTANCE",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 11,
+          "hypothesis_words": 11,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 11,
+          "hypothesis_words": 11,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 11,
+          "hypothesis_words": 10,
+          "wer": 0.09090909090909091
+        }
+      },
+      "processing_seconds": 11.102,
+      "outcome": "matched",
+      "source_hashes": [
+        "9378d3b134dfadc2aec857f0a212c18c01e453de25643b3ef68a8705cd775814",
+        "cde0ad00586793002e9aa3291f1974561d1a901a3c6485eccad31c610380f579"
+      ],
+      "reference_hash": "99b571962ceda86029abfa14a46938e7f6ba57e0308c3b8dc3d028b5269c9906",
+      "transcripts": {
+        "raw": "Pearl saw, and gazed intently, but never sought to make acquaintance.",
+        "one_voice": "Pearl saw, and gazed intently, but never sought to make acquaintance.",
+        "attributed": "saw, and gazed intently, but never sought to make acquaintance."
+      }
+    },
+    {
+      "case_id": "1580-141083-0041_8463-294828-0011:1",
+      "target_speaker": "8463",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 10,
+          "reference_words": 0,
+          "hypothesis_words": 10,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 10,
+          "reference_words": 0,
+          "hypothesis_words": 10,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 9.564,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "519b0f10c4b4c9375239d9a198db84ab45d27e3d0906a81af68f07dfecc8c967",
+        "b2c379473978b3ce8b2ff27260e1d39672cc978afb25831500004ac34a6200ed"
+      ],
+      "reference_hash": "d5fb30c722e0541e2b7c3c73346cfbb20358c2000ecfda18319fdbb049dd266d",
+      "transcripts": {
+        "raw": "Let us hear the suspicions. will look after the proofs.",
+        "one_voice": "This is a special item that we are going produce.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1580-141083-0041_8463-294828-0011:1",
+      "target_speaker": "8463",
+      "condition": "overlap",
+      "reference_text": "HE WENT HERE THERE AND EVERYWHERE IN PERFECT CONTENTMENT",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 9,
+          "hypothesis_words": 9,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 9,
+          "hypothesis_words": 9,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 9,
+          "hypothesis_words": 8,
+          "wer": 0.1111111111111111
+        }
+      },
+      "processing_seconds": 10.059,
+      "outcome": "matched",
+      "source_hashes": [
+        "519b0f10c4b4c9375239d9a198db84ab45d27e3d0906a81af68f07dfecc8c967",
+        "b2c379473978b3ce8b2ff27260e1d39672cc978afb25831500004ac34a6200ed"
+      ],
+      "reference_hash": "d5fb30c722e0541e2b7c3c73346cfbb20358c2000ecfda18319fdbb049dd266d",
+      "transcripts": {
+        "raw": "He went here, there, and everywhere in perfect contentment.",
+        "one_voice": "He went here, there, and everywhere in perfect contentment.",
+        "attributed": "went here, there, and everywhere in perfect contentment."
+      }
+    },
+    {
+      "case_id": "1580-141083-0041_8463-294828-0011:1",
+      "target_speaker": "8463",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.018,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "519b0f10c4b4c9375239d9a198db84ab45d27e3d0906a81af68f07dfecc8c967",
+        "b2c379473978b3ce8b2ff27260e1d39672cc978afb25831500004ac34a6200ed"
+      ],
+      "reference_hash": "d5fb30c722e0541e2b7c3c73346cfbb20358c2000ecfda18319fdbb049dd266d",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1580-141083-0041_8463-294828-0011:1",
+      "target_speaker": "8463",
+      "condition": "target_only",
+      "reference_text": "HE WENT HERE THERE AND EVERYWHERE IN PERFECT CONTENTMENT",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 9,
+          "hypothesis_words": 9,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 9,
+          "hypothesis_words": 9,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 9,
+          "hypothesis_words": 8,
+          "wer": 0.1111111111111111
+        }
+      },
+      "processing_seconds": 9.727,
+      "outcome": "matched",
+      "source_hashes": [
+        "519b0f10c4b4c9375239d9a198db84ab45d27e3d0906a81af68f07dfecc8c967",
+        "b2c379473978b3ce8b2ff27260e1d39672cc978afb25831500004ac34a6200ed"
+      ],
+      "reference_hash": "d5fb30c722e0541e2b7c3c73346cfbb20358c2000ecfda18319fdbb049dd266d",
+      "transcripts": {
+        "raw": "He went here, there, and everywhere in perfect contentment.",
+        "one_voice": "He went here, there, and everywhere in perfect contentment.",
+        "attributed": "went here, there, and everywhere in perfect contentment."
+      }
+    }
+  ]
+}

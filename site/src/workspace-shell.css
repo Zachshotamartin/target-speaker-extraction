@@ -1,0 +1,35 @@
+/* Keep the page width fixed when content starts or stops needing a scrollbar. */
+html { scrollbar-gutter: stable; }
+@supports not (scrollbar-gutter: stable) {
+  html { overflow-y: scroll; }
+}
+
+[hidden] { display: none !important; }
+.app-shell { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+.app-shell>.product-nav { width: 100%; flex-shrink: 0; }
+.app-shell>main { width: 100%; flex: 1 0 auto; margin-block: 0; }
+.app-shell>.site-footer { flex-shrink: 0; }
+main:focus { outline: none; }
+button, select, input { font: inherit; }
+button, summary { cursor: pointer; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.hero h1 { font-size: var(--text-hero); }
+.hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-5); }
+.hero-actions .primary-link { margin-top: 0; }
+.hero-recording-link { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3); min-height: var(--control-height); padding: var(--space-3) 0; color: var(--ink); font-size: var(--text-control); text-decoration: none; }
+.hero-recording-link:hover { text-decoration: underline; }
+.study-section-heading h2, .ov-upload h2, .ov-about h2 { font-size: var(--text-section); }
+.app-shell--workspace main { padding-bottom: var(--space-6); }
+.transcription { padding: var(--space-6) 0 0; font-size: var(--text-body); }
+.transcription-heading { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); margin-bottom: var(--space-8); }
+.transcription-heading h1 { font-family: Arial, sans-serif; font-weight: 500; font-size: var(--text-page); line-height: 1.12; letter-spacing: -1.5px; margin: 0; }
+.workspace-actions { display: flex; align-items: center; gap: var(--space-6); }
+.workspace-actions .poc-primary { min-width: 144px; }
+@media(max-width:900px) { .workspace-actions { flex-direction: column; align-items: flex-end; gap: var(--space-3); } }
+@media(max-width:560px) {
+  .transcription-heading { flex-direction: column; align-items: flex-start; gap: var(--space-6); }
+  .workspace-actions { width: 100%; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-3); }
+}
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

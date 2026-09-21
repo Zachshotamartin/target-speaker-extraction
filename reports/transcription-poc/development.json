@@ -1,0 +1,1292 @@
+{
+  "schema": 1,
+  "split": "development",
+  "gate": {
+    "version": "public-dev32-v1",
+    "accepted_extracted": 0.3,
+    "accepted_original": 0.1,
+    "uncertain_extracted": 0.2,
+    "minimum_speech_seconds": 0.6,
+    "word_overlap": 0.8
+  },
+  "checkpoint": {
+    "sha256": "533b283daff607d06d7ff000a95e31b0354ac6edbcb86f55850e6a7f8d1f8d6e",
+    "epoch": 41.0,
+    "step": 142475,
+    "validation_improvement": 10.707712257961433
+  },
+  "models": {
+    "speaker": {
+      "repo": "speechbrain/spkrec-ecapa-voxceleb",
+      "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286"
+    },
+    "asr": {
+      "repo": "Systran/faster-whisper-small.en",
+      "revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f"
+    },
+    "vad": {
+      "provider": "Silero, packaged by faster-whisper",
+      "sha256": "4cbf549b8326f60f80f2536d9eefeb450a9abe83365a098031c89719f1be17d2"
+    }
+  },
+  "summary": {
+    "overlap": {
+      "cases": 8,
+      "jobs_with_attributed_text": 8,
+      "raw_wer": 0.6541353383458647,
+      "raw_words": 130,
+      "one_voice_wer": 0.11278195488721804,
+      "one_voice_words": 131,
+      "attributed_wer": 0.2857142857142857,
+      "attributed_words": 100
+    },
+    "target_only": {
+      "cases": 8,
+      "jobs_with_attributed_text": 8,
+      "raw_wer": 0.05263157894736842,
+      "raw_words": 133,
+      "one_voice_wer": 0.16541353383458646,
+      "one_voice_words": 136,
+      "attributed_wer": 0.22556390977443608,
+      "attributed_words": 113
+    },
+    "absent": {
+      "cases": 8,
+      "jobs_with_attributed_text": 0,
+      "raw_wer": null,
+      "raw_words": 130,
+      "one_voice_wer": null,
+      "one_voice_words": 69,
+      "attributed_wer": null,
+      "attributed_words": 0
+    },
+    "silence": {
+      "cases": 8,
+      "jobs_with_attributed_text": 0,
+      "raw_wer": null,
+      "raw_words": 0,
+      "one_voice_wer": null,
+      "one_voice_words": 0,
+      "attributed_wer": null,
+      "attributed_words": 0
+    }
+  },
+  "cases": [
+    {
+      "case_id": "2412-153948-0008_777-126732-0053:0",
+      "target_speaker": "2412",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 16,
+          "reference_words": 0,
+          "hypothesis_words": 16,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 16,
+          "reference_words": 0,
+          "hypothesis_words": 16,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 10.646,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "b556f0da5fc35d0b7f289d806765bad17ef7c8cb2d312fd3d8dabcc41b4c45e6",
+        "87d7f0a021e54cd6b21406b8cca4438e64ad0caa443ba00e5d1dcafa108c695e"
+      ],
+      "reference_hash": "a08483d9fcf559d1761469093cbba37a702505f753ec634afeb055ffcd86a6c6",
+      "transcripts": {
+        "raw": "He stood still in the middle of the parlor and looked into the kitchen in silence.",
+        "one_voice": "He stood still in the middle of the corner and had a communication with his parents.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "2412-153948-0008_777-126732-0053:0",
+      "target_speaker": "2412",
+      "condition": "overlap",
+      "reference_text": "IT IS SURPRISING HOW SOON THE EYE BECOMES ACCUSTOMED TO MISSING TWENTY SHEEP OUT OF TWO OR THREE HUNDRED",
+      "scores": {
+        "raw": {
+          "edits": 19,
+          "reference_words": 19,
+          "hypothesis_words": 15,
+          "wer": 1.0
+        },
+        "one_voice": {
+          "edits": 1,
+          "reference_words": 19,
+          "hypothesis_words": 19,
+          "wer": 0.05263157894736842
+        },
+        "attributed": {
+          "edits": 2,
+          "reference_words": 19,
+          "hypothesis_words": 18,
+          "wer": 0.10526315789473684
+        }
+      },
+      "processing_seconds": 13.36,
+      "outcome": "matched",
+      "source_hashes": [
+        "b556f0da5fc35d0b7f289d806765bad17ef7c8cb2d312fd3d8dabcc41b4c45e6",
+        "87d7f0a021e54cd6b21406b8cca4438e64ad0caa443ba00e5d1dcafa108c695e"
+      ],
+      "reference_hash": "a08483d9fcf559d1761469093cbba37a702505f753ec634afeb055ffcd86a6c6",
+      "transcripts": {
+        "raw": "He stood still in middle of the parlor and looked into the kitchen in silence.",
+        "one_voice": "It is surprising how soon the eye becomes accustomed to missing 20 sheep out of two or three hundred.",
+        "attributed": "is surprising how soon the eye becomes accustomed to missing 20 sheep out of two or three hundred."
+      }
+    },
+    {
+      "case_id": "2412-153948-0008_777-126732-0053:0",
+      "target_speaker": "2412",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.019,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "b556f0da5fc35d0b7f289d806765bad17ef7c8cb2d312fd3d8dabcc41b4c45e6",
+        "87d7f0a021e54cd6b21406b8cca4438e64ad0caa443ba00e5d1dcafa108c695e"
+      ],
+      "reference_hash": "a08483d9fcf559d1761469093cbba37a702505f753ec634afeb055ffcd86a6c6",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "2412-153948-0008_777-126732-0053:0",
+      "target_speaker": "2412",
+      "condition": "target_only",
+      "reference_text": "IT IS SURPRISING HOW SOON THE EYE BECOMES ACCUSTOMED TO MISSING TWENTY SHEEP OUT OF TWO OR THREE HUNDRED",
+      "scores": {
+        "raw": {
+          "edits": 1,
+          "reference_words": 19,
+          "hypothesis_words": 19,
+          "wer": 0.05263157894736842
+        },
+        "one_voice": {
+          "edits": 1,
+          "reference_words": 19,
+          "hypothesis_words": 19,
+          "wer": 0.05263157894736842
+        },
+        "attributed": {
+          "edits": 2,
+          "reference_words": 19,
+          "hypothesis_words": 18,
+          "wer": 0.10526315789473684
+        }
+      },
+      "processing_seconds": 10.554,
+      "outcome": "matched",
+      "source_hashes": [
+        "b556f0da5fc35d0b7f289d806765bad17ef7c8cb2d312fd3d8dabcc41b4c45e6",
+        "87d7f0a021e54cd6b21406b8cca4438e64ad0caa443ba00e5d1dcafa108c695e"
+      ],
+      "reference_hash": "a08483d9fcf559d1761469093cbba37a702505f753ec634afeb055ffcd86a6c6",
+      "transcripts": {
+        "raw": "It is surprising how soon the eye becomes accustomed to missing 20 sheep out of two or three hundred",
+        "one_voice": "It is surprising how soon the eye becomes accustomed to missing 20 sheep out of two or three hundred.",
+        "attributed": "is surprising how soon the eye becomes accustomed to missing 20 sheep out of two or three hundred."
+      }
+    },
+    {
+      "case_id": "2428-83705-0034_1919-142785-0034:1",
+      "target_speaker": "1919",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 12,
+          "reference_words": 0,
+          "hypothesis_words": 12,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 5.95,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "81a298a0cfcce0aad73ea74bb4f25e99cd61e89c06e689ef2e1b0513c5ca8ee0",
+        "38572945e2c7bfe3fd11310ed9285f67df36f0f2683de34a4a7ca798f9d50fad"
+      ],
+      "reference_hash": "e92fd9d160e4e0e1832cce77b656543a46b880bb49689238fe047fdb623a4a9e",
+      "transcripts": {
+        "raw": "That was what Mrs. McPherson said to me only the other day.",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "2428-83705-0034_1919-142785-0034:1",
+      "target_speaker": "1919",
+      "condition": "overlap",
+      "reference_text": "SIMMER FOR A MINUTE OR TWO AND SERVE IN A TUREEN",
+      "scores": {
+        "raw": {
+          "edits": 12,
+          "reference_words": 11,
+          "hypothesis_words": 12,
+          "wer": 1.0909090909090908
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 11,
+          "hypothesis_words": 11,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 11,
+          "hypothesis_words": 10,
+          "wer": 0.09090909090909091
+        }
+      },
+      "processing_seconds": 10.16,
+      "outcome": "matched",
+      "source_hashes": [
+        "81a298a0cfcce0aad73ea74bb4f25e99cd61e89c06e689ef2e1b0513c5ca8ee0",
+        "38572945e2c7bfe3fd11310ed9285f67df36f0f2683de34a4a7ca798f9d50fad"
+      ],
+      "reference_hash": "e92fd9d160e4e0e1832cce77b656543a46b880bb49689238fe047fdb623a4a9e",
+      "transcripts": {
+        "raw": "That was what Mrs. McServe said to me only the other day.",
+        "one_voice": "Simmer for a minute or two and serve in a tureen.",
+        "attributed": "for a minute or two and serve in a tureen."
+      }
+    },
+    {
+      "case_id": "2428-83705-0034_1919-142785-0034:1",
+      "target_speaker": "1919",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.023,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "81a298a0cfcce0aad73ea74bb4f25e99cd61e89c06e689ef2e1b0513c5ca8ee0",
+        "38572945e2c7bfe3fd11310ed9285f67df36f0f2683de34a4a7ca798f9d50fad"
+      ],
+      "reference_hash": "e92fd9d160e4e0e1832cce77b656543a46b880bb49689238fe047fdb623a4a9e",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "2428-83705-0034_1919-142785-0034:1",
+      "target_speaker": "1919",
+      "condition": "target_only",
+      "reference_text": "SIMMER FOR A MINUTE OR TWO AND SERVE IN A TUREEN",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 11,
+          "hypothesis_words": 11,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 11,
+          "hypothesis_words": 11,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 11,
+          "hypothesis_words": 10,
+          "wer": 0.09090909090909091
+        }
+      },
+      "processing_seconds": 10.094,
+      "outcome": "matched",
+      "source_hashes": [
+        "81a298a0cfcce0aad73ea74bb4f25e99cd61e89c06e689ef2e1b0513c5ca8ee0",
+        "38572945e2c7bfe3fd11310ed9285f67df36f0f2683de34a4a7ca798f9d50fad"
+      ],
+      "reference_hash": "e92fd9d160e4e0e1832cce77b656543a46b880bb49689238fe047fdb623a4a9e",
+      "transcripts": {
+        "raw": "Simmer for a minute or two and serve in a tureen.",
+        "one_voice": "Simmer for a minute or two and serve in a tureen.",
+        "attributed": "for a minute or two and serve in a tureen."
+      }
+    },
+    {
+      "case_id": "3752-4944-0000_5694-64025-0004:0",
+      "target_speaker": "3752",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 13,
+          "reference_words": 0,
+          "hypothesis_words": 13,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 13,
+          "reference_words": 0,
+          "hypothesis_words": 13,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 9.673,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "98bac3595753e97a2c8eebbdffebdb69d71a71f09cade3ba6dc412e6ed025b5c",
+        "c8e4a7ba20336dad1bbb3d1f0466030a4f908dee0e3a8b2336cfc5de3661ccbc"
+      ],
+      "reference_hash": "683e2ae559e18310292b9c259efdd572608aac0605195937490d9249754815cb",
+      "transcripts": {
+        "raw": "As Gladden rode by us, a courier rode up and told him something.",
+        "one_voice": "As Gladden rode by us, a courier rode up and told him something.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "3752-4944-0000_5694-64025-0004:0",
+      "target_speaker": "3752",
+      "condition": "overlap",
+      "reference_text": "CAPTAIN FRERE SAYS THAT THE SCENERY IS DELIGHTFUL",
+      "scores": {
+        "raw": {
+          "edits": 1,
+          "reference_words": 8,
+          "hypothesis_words": 8,
+          "wer": 0.125
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 8,
+          "hypothesis_words": 8,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 8,
+          "hypothesis_words": 7,
+          "wer": 0.125
+        }
+      },
+      "processing_seconds": 9.2,
+      "outcome": "matched",
+      "source_hashes": [
+        "98bac3595753e97a2c8eebbdffebdb69d71a71f09cade3ba6dc412e6ed025b5c",
+        "c8e4a7ba20336dad1bbb3d1f0466030a4f908dee0e3a8b2336cfc5de3661ccbc"
+      ],
+      "reference_hash": "683e2ae559e18310292b9c259efdd572608aac0605195937490d9249754815cb",
+      "transcripts": {
+        "raw": "Captain Flair says that the scenery is delightful.",
+        "one_voice": "Captain Frere says that the scenery is delightful.",
+        "attributed": "Frere says that the scenery is delightful."
+      }
+    },
+    {
+      "case_id": "3752-4944-0000_5694-64025-0004:0",
+      "target_speaker": "3752",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.018,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "98bac3595753e97a2c8eebbdffebdb69d71a71f09cade3ba6dc412e6ed025b5c",
+        "c8e4a7ba20336dad1bbb3d1f0466030a4f908dee0e3a8b2336cfc5de3661ccbc"
+      ],
+      "reference_hash": "683e2ae559e18310292b9c259efdd572608aac0605195937490d9249754815cb",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "3752-4944-0000_5694-64025-0004:0",
+      "target_speaker": "3752",
+      "condition": "target_only",
+      "reference_text": "CAPTAIN FRERE SAYS THAT THE SCENERY IS DELIGHTFUL",
+      "scores": {
+        "raw": {
+          "edits": 1,
+          "reference_words": 8,
+          "hypothesis_words": 8,
+          "wer": 0.125
+        },
+        "one_voice": {
+          "edits": 1,
+          "reference_words": 8,
+          "hypothesis_words": 8,
+          "wer": 0.125
+        },
+        "attributed": {
+          "edits": 2,
+          "reference_words": 8,
+          "hypothesis_words": 7,
+          "wer": 0.25
+        }
+      },
+      "processing_seconds": 9.312,
+      "outcome": "matched",
+      "source_hashes": [
+        "98bac3595753e97a2c8eebbdffebdb69d71a71f09cade3ba6dc412e6ed025b5c",
+        "c8e4a7ba20336dad1bbb3d1f0466030a4f908dee0e3a8b2336cfc5de3661ccbc"
+      ],
+      "reference_hash": "683e2ae559e18310292b9c259efdd572608aac0605195937490d9249754815cb",
+      "transcripts": {
+        "raw": "Captain Freyr says that the scenery is delightful.",
+        "one_voice": "Captain Freyr says that the scenery is delightful.",
+        "attributed": "Freyr says that the scenery is delightful."
+      }
+    },
+    {
+      "case_id": "3576-138058-0030_2277-149897-0002:1",
+      "target_speaker": "2277",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 15,
+          "reference_words": 0,
+          "hypothesis_words": 15,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 4,
+          "reference_words": 0,
+          "hypothesis_words": 4,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 11.088,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "49e93daea7228bd1f0398ec30b2eb3fbbd6ac685ba4d7f4c335c7194a6a11a7a",
+        "e4539cedd5df0dad08d18d2ec97dabf8e816c2ff1e1879eb285d04b004100e9b"
+      ],
+      "reference_hash": "6e0b1151fda37aa3aaa031ab2c32667c601ac7adf51ddf8376e260696df94e28",
+      "transcripts": {
+        "raw": "Sancho said they had, but that three kerchiefs that were where three cities were missing.",
+        "one_voice": "had cities were missing.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "3576-138058-0030_2277-149897-0002:1",
+      "target_speaker": "2277",
+      "condition": "overlap",
+      "reference_text": "NO LETTER HAD COME NO WORD OF ANY KIND AND YET HERE IT WAS LATE IN THE EVENING AND SHE HAD AGREED TO MEET HIM THAT MORNING",
+      "scores": {
+        "raw": {
+          "edits": 3,
+          "reference_words": 27,
+          "hypothesis_words": 27,
+          "wer": 0.1111111111111111
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 27,
+          "hypothesis_words": 27,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 27,
+          "hypothesis_words": 26,
+          "wer": 0.037037037037037035
+        }
+      },
+      "processing_seconds": 12.181,
+      "outcome": "matched",
+      "source_hashes": [
+        "49e93daea7228bd1f0398ec30b2eb3fbbd6ac685ba4d7f4c335c7194a6a11a7a",
+        "e4539cedd5df0dad08d18d2ec97dabf8e816c2ff1e1879eb285d04b004100e9b"
+      ],
+      "reference_hash": "6e0b1151fda37aa3aaa031ab2c32667c601ac7adf51ddf8376e260696df94e28",
+      "transcripts": {
+        "raw": "No matter if comes, no word of any kind, and yet here it was late in the evening, and she had agreed to meet him that morning.",
+        "one_voice": "No letter had come, no word of any kind, and yet here it was late in the evening, and she had agreed to meet him that morning.",
+        "attributed": "letter had come, no word of any kind, and yet here it was late in the evening, and she had agreed to meet him that morning."
+      }
+    },
+    {
+      "case_id": "3576-138058-0030_2277-149897-0002:1",
+      "target_speaker": "2277",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.024,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "49e93daea7228bd1f0398ec30b2eb3fbbd6ac685ba4d7f4c335c7194a6a11a7a",
+        "e4539cedd5df0dad08d18d2ec97dabf8e816c2ff1e1879eb285d04b004100e9b"
+      ],
+      "reference_hash": "6e0b1151fda37aa3aaa031ab2c32667c601ac7adf51ddf8376e260696df94e28",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "3576-138058-0030_2277-149897-0002:1",
+      "target_speaker": "2277",
+      "condition": "target_only",
+      "reference_text": "NO LETTER HAD COME NO WORD OF ANY KIND AND YET HERE IT WAS LATE IN THE EVENING AND SHE HAD AGREED TO MEET HIM THAT MORNING",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 27,
+          "hypothesis_words": 27,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 27,
+          "hypothesis_words": 27,
+          "wer": 0.0
+        },
+        "attributed": {
+          "edits": 1,
+          "reference_words": 27,
+          "hypothesis_words": 26,
+          "wer": 0.037037037037037035
+        }
+      },
+      "processing_seconds": 11.83,
+      "outcome": "matched",
+      "source_hashes": [
+        "49e93daea7228bd1f0398ec30b2eb3fbbd6ac685ba4d7f4c335c7194a6a11a7a",
+        "e4539cedd5df0dad08d18d2ec97dabf8e816c2ff1e1879eb285d04b004100e9b"
+      ],
+      "reference_hash": "6e0b1151fda37aa3aaa031ab2c32667c601ac7adf51ddf8376e260696df94e28",
+      "transcripts": {
+        "raw": "No letter had come no word of any kind and yet here it was late in the evening and she had agreed to meet him that morning",
+        "one_voice": "No letter had come, no word of any kind, and yet here it was late in the evening, and she had agreed to meet him that morning.",
+        "attributed": "letter had come, no word of any kind, and yet here it was late in the evening, and she had agreed to meet him that morning."
+      }
+    },
+    {
+      "case_id": "7976-110523-0005_2035-152373-0010:0",
+      "target_speaker": "7976",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 20,
+          "reference_words": 0,
+          "hypothesis_words": 20,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 21,
+          "reference_words": 0,
+          "hypothesis_words": 21,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 11.93,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "f9a04549e7b837c931827e9457d26d181c85be8185b8f0010d61027a2defc27e",
+        "11be3d36651133be3faa53377d6c0a11696a297f9753abf31445ee851d1a9f05"
+      ],
+      "reference_hash": "edb5bf0ae605f3d9c900d497954414d6ea12d0ba9286c8133b3ed9b2f24fb002",
+      "transcripts": {
+        "raw": "The Kingdom of Northumbria, as the name implies, embraced nearly all the country from the Humber to the Pictish border.",
+        "one_voice": "The Kingdom of North Andrea, as the name implies, embrace nearly all the countries from the continent to the Pictish border.",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "7976-110523-0005_2035-152373-0010:0",
+      "target_speaker": "7976",
+      "condition": "overlap",
+      "reference_text": "AH FATHER SAID HANSEL I AM LOOKING AT MY WHITE CAT SITTING UPON THE ROOF OF THE HOUSE AND TRYING TO SAY GOOD BYE",
+      "scores": {
+        "raw": {
+          "edits": 9,
+          "reference_words": 24,
+          "hypothesis_words": 17,
+          "wer": 0.375
+        },
+        "one_voice": {
+          "edits": 3,
+          "reference_words": 24,
+          "hypothesis_words": 23,
+          "wer": 0.125
+        },
+        "attributed": {
+          "edits": 5,
+          "reference_words": 24,
+          "hypothesis_words": 21,
+          "wer": 0.20833333333333334
+        }
+      },
+      "processing_seconds": 11.92,
+      "outcome": "matched",
+      "source_hashes": [
+        "f9a04549e7b837c931827e9457d26d181c85be8185b8f0010d61027a2defc27e",
+        "11be3d36651133be3faa53377d6c0a11696a297f9753abf31445ee851d1a9f05"
+      ],
+      "reference_hash": "edb5bf0ae605f3d9c900d497954414d6ea12d0ba9286c8133b3ed9b2f24fb002",
+      "transcripts": {
+        "raw": "I am looking at my white hat, upon the roof of the house, trying to say goodbye.",
+        "one_voice": "Ah, father, said Mansell, I am looking at my white cat sitting upon the roof of the house and trying to say goodbye.",
+        "attributed": "father, said Mansell, am looking at my white cat sitting upon the roof of the house and trying to say goodbye."
+      }
+    },
+    {
+      "case_id": "7976-110523-0005_2035-152373-0010:0",
+      "target_speaker": "7976",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.027,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "f9a04549e7b837c931827e9457d26d181c85be8185b8f0010d61027a2defc27e",
+        "11be3d36651133be3faa53377d6c0a11696a297f9753abf31445ee851d1a9f05"
+      ],
+      "reference_hash": "edb5bf0ae605f3d9c900d497954414d6ea12d0ba9286c8133b3ed9b2f24fb002",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "7976-110523-0005_2035-152373-0010:0",
+      "target_speaker": "7976",
+      "condition": "target_only",
+      "reference_text": "AH FATHER SAID HANSEL I AM LOOKING AT MY WHITE CAT SITTING UPON THE ROOF OF THE HOUSE AND TRYING TO SAY GOOD BYE",
+      "scores": {
+        "raw": {
+          "edits": 2,
+          "reference_words": 24,
+          "hypothesis_words": 23,
+          "wer": 0.08333333333333333
+        },
+        "one_voice": {
+          "edits": 2,
+          "reference_words": 24,
+          "hypothesis_words": 23,
+          "wer": 0.08333333333333333
+        },
+        "attributed": {
+          "edits": 4,
+          "reference_words": 24,
+          "hypothesis_words": 21,
+          "wer": 0.16666666666666666
+        }
+      },
+      "processing_seconds": 13.42,
+      "outcome": "matched",
+      "source_hashes": [
+        "f9a04549e7b837c931827e9457d26d181c85be8185b8f0010d61027a2defc27e",
+        "11be3d36651133be3faa53377d6c0a11696a297f9753abf31445ee851d1a9f05"
+      ],
+      "reference_hash": "edb5bf0ae605f3d9c900d497954414d6ea12d0ba9286c8133b3ed9b2f24fb002",
+      "transcripts": {
+        "raw": "Ah, father, said Hansel, I am looking at my white cat sitting upon the roof of the house and trying to say goodbye.",
+        "one_voice": "Ah, father, said Hansel, I am looking at my white cat sitting upon the roof of the house and trying to say goodbye.",
+        "attributed": "father, said Hansel, am looking at my white cat sitting upon the roof of the house and trying to say goodbye."
+      }
+    },
+    {
+      "case_id": "5895-34629-0027_6319-275224-0015:1",
+      "target_speaker": "6319",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 15,
+          "reference_words": 0,
+          "hypothesis_words": 15,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 15,
+          "reference_words": 0,
+          "hypothesis_words": 15,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 11.684,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "67883ce909d27de998955fa202c434d135e687ef8e517f87cf0142b4443c300b",
+        "3e410d4ea5ae19e431c0c32c035b32414ea4f34a2ab531d0c0ffa05a80762e38"
+      ],
+      "reference_hash": "b976a74c9ad5b9230a6a8f43c6c16957fb295b61ba5d3998a2ad829a6523c134",
+      "transcripts": {
+        "raw": "which clouds, seeing that there was no roof, sometimes wept over the masterpiece of Ursus.",
+        "one_voice": "which clouds, seeing that there was no roof, sometimes weft over the masterpiece of Ursus?",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "5895-34629-0027_6319-275224-0015:1",
+      "target_speaker": "6319",
+      "condition": "overlap",
+      "reference_text": "BEFORE THE DAY CLOSED THE GARDENER CAME WHISTLING FROM HIS FARM WORK TO LOOK OVER HIS PRETTY CHARGES",
+      "scores": {
+        "raw": {
+          "edits": 18,
+          "reference_words": 18,
+          "hypothesis_words": 15,
+          "wer": 1.0
+        },
+        "one_voice": {
+          "edits": 4,
+          "reference_words": 18,
+          "hypothesis_words": 16,
+          "wer": 0.2222222222222222
+        },
+        "attributed": {
+          "edits": 10,
+          "reference_words": 18,
+          "hypothesis_words": 8,
+          "wer": 0.5555555555555556
+        }
+      },
+      "processing_seconds": 11.871,
+      "outcome": "matched",
+      "source_hashes": [
+        "67883ce909d27de998955fa202c434d135e687ef8e517f87cf0142b4443c300b",
+        "3e410d4ea5ae19e431c0c32c035b32414ea4f34a2ab531d0c0ffa05a80762e38"
+      ],
+      "reference_hash": "b976a74c9ad5b9230a6a8f43c6c16957fb295b61ba5d3998a2ad829a6523c134",
+      "transcripts": {
+        "raw": "Which clouds, seeing that there was no roof, sometimes wept over the masterpiece of Ursus?",
+        "one_voice": "Before the day closed, the gardener came whistling from his barmer, work over his pretty toggles.",
+        "attributed": "the gardener came whistling from his over his"
+      }
+    },
+    {
+      "case_id": "5895-34629-0027_6319-275224-0015:1",
+      "target_speaker": "6319",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.032,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "67883ce909d27de998955fa202c434d135e687ef8e517f87cf0142b4443c300b",
+        "3e410d4ea5ae19e431c0c32c035b32414ea4f34a2ab531d0c0ffa05a80762e38"
+      ],
+      "reference_hash": "b976a74c9ad5b9230a6a8f43c6c16957fb295b61ba5d3998a2ad829a6523c134",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "5895-34629-0027_6319-275224-0015:1",
+      "target_speaker": "6319",
+      "condition": "target_only",
+      "reference_text": "BEFORE THE DAY CLOSED THE GARDENER CAME WHISTLING FROM HIS FARM WORK TO LOOK OVER HIS PRETTY CHARGES",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 18,
+          "hypothesis_words": 18,
+          "wer": 0.0
+        },
+        "one_voice": {
+          "edits": 2,
+          "reference_words": 18,
+          "hypothesis_words": 17,
+          "wer": 0.1111111111111111
+        },
+        "attributed": {
+          "edits": 4,
+          "reference_words": 18,
+          "hypothesis_words": 15,
+          "wer": 0.2222222222222222
+        }
+      },
+      "processing_seconds": 11.91,
+      "outcome": "matched",
+      "source_hashes": [
+        "67883ce909d27de998955fa202c434d135e687ef8e517f87cf0142b4443c300b",
+        "3e410d4ea5ae19e431c0c32c035b32414ea4f34a2ab531d0c0ffa05a80762e38"
+      ],
+      "reference_hash": "b976a74c9ad5b9230a6a8f43c6c16957fb295b61ba5d3998a2ad829a6523c134",
+      "transcripts": {
+        "raw": "Before the day closed, the gardener came whistling from his farm work to look over his pretty charges.",
+        "one_voice": "Before the day closed, the gardener came whistling from his farmwork to look over his pretty charges.",
+        "attributed": "the day closed, the gardener came whistling from his farmwork look over his pretty charges."
+      }
+    },
+    {
+      "case_id": "1462-170145-0006_2902-9008-0007:0",
+      "target_speaker": "1462",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 15,
+          "reference_words": 0,
+          "hypothesis_words": 15,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 6.951,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "a4872acd91d0fb29504569aa0b650da6b34db5c13a9fb31467e995d8b2684b38",
+        "c31b7b0ae00979a4ab3fe6f6741fa0a8a89f52ecf199920fea4d86955a262a0a"
+      ],
+      "reference_hash": "0fac85b334341c792ab079430e5bc39dea243257e84a7e7e480e9448da8a4190",
+      "transcripts": {
+        "raw": "I, to believe against the authority of Porphyry himself, too, in evil eyes and magic.",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1462-170145-0006_2902-9008-0007:0",
+      "target_speaker": "1462",
+      "condition": "overlap",
+      "reference_text": "IF YOU'D SENT ME A NOTE OR TELEPHONED ME OR ANYTHING",
+      "scores": {
+        "raw": {
+          "edits": 3,
+          "reference_words": 11,
+          "hypothesis_words": 13,
+          "wer": 0.2727272727272727
+        },
+        "one_voice": {
+          "edits": 2,
+          "reference_words": 11,
+          "hypothesis_words": 12,
+          "wer": 0.18181818181818182
+        },
+        "attributed": {
+          "edits": 5,
+          "reference_words": 11,
+          "hypothesis_words": 8,
+          "wer": 0.45454545454545453
+        }
+      },
+      "processing_seconds": 11.748,
+      "outcome": "matched",
+      "source_hashes": [
+        "a4872acd91d0fb29504569aa0b650da6b34db5c13a9fb31467e995d8b2684b38",
+        "c31b7b0ae00979a4ab3fe6f6741fa0a8a89f52ecf199920fea4d86955a262a0a"
+      ],
+      "reference_hash": "0fac85b334341c792ab079430e5bc39dea243257e84a7e7e480e9448da8a4190",
+      "transcripts": {
+        "raw": "If you'd sent me a note, or a telephone to me, or anything.",
+        "one_voice": "if you'd sent me a note, or telephone to me, or anything.",
+        "attributed": "you'd sent me a note, or telephone to"
+      }
+    },
+    {
+      "case_id": "1462-170145-0006_2902-9008-0007:0",
+      "target_speaker": "1462",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.024,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "a4872acd91d0fb29504569aa0b650da6b34db5c13a9fb31467e995d8b2684b38",
+        "c31b7b0ae00979a4ab3fe6f6741fa0a8a89f52ecf199920fea4d86955a262a0a"
+      ],
+      "reference_hash": "0fac85b334341c792ab079430e5bc39dea243257e84a7e7e480e9448da8a4190",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "1462-170145-0006_2902-9008-0007:0",
+      "target_speaker": "1462",
+      "condition": "target_only",
+      "reference_text": "IF YOU'D SENT ME A NOTE OR TELEPHONED ME OR ANYTHING",
+      "scores": {
+        "raw": {
+          "edits": 2,
+          "reference_words": 11,
+          "hypothesis_words": 12,
+          "wer": 0.18181818181818182
+        },
+        "one_voice": {
+          "edits": 2,
+          "reference_words": 11,
+          "hypothesis_words": 12,
+          "wer": 0.18181818181818182
+        },
+        "attributed": {
+          "edits": 3,
+          "reference_words": 11,
+          "hypothesis_words": 11,
+          "wer": 0.2727272727272727
+        }
+      },
+      "processing_seconds": 10.785,
+      "outcome": "matched",
+      "source_hashes": [
+        "a4872acd91d0fb29504569aa0b650da6b34db5c13a9fb31467e995d8b2684b38",
+        "c31b7b0ae00979a4ab3fe6f6741fa0a8a89f52ecf199920fea4d86955a262a0a"
+      ],
+      "reference_hash": "0fac85b334341c792ab079430e5bc39dea243257e84a7e7e480e9448da8a4190",
+      "transcripts": {
+        "raw": "if you'd sent me a note or telephone to me or anything.",
+        "one_voice": "if you'd sent me a note, or telephone to me, or anything.",
+        "attributed": "you'd sent me a note, or telephone to me, or anything."
+      }
+    },
+    {
+      "case_id": "3536-23268-0013_6313-66125-0025:1",
+      "target_speaker": "6313",
+      "condition": "absent",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 24,
+          "reference_words": 0,
+          "hypothesis_words": 24,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 7.693,
+      "outcome": "no_confident_match",
+      "source_hashes": [
+        "6b51c665f74bf8df9123af203617e52adc32c280e799eb78f1d7beb7dafebec1",
+        "79246631aadffc3ac58f5728f22e0d0c45f8ad988c2c263c985cf1319b44fbf3"
+      ],
+      "reference_hash": "e4044e6627daff470b1e7e28335de99d10a438be3fb62827ec028251a83ac33b",
+      "transcripts": {
+        "raw": "\"'Do you think I would go?' answered Miss Milner, with an eagerness that for a time suppressed her tears, in contradiction to his will.\"",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "3536-23268-0013_6313-66125-0025:1",
+      "target_speaker": "6313",
+      "condition": "overlap",
+      "reference_text": "SHALL WE HAUL UP ASKED LIGE MAKING A MEGAPHONE OF HIS HANDS YES HAUL AWAY",
+      "scores": {
+        "raw": {
+          "edits": 22,
+          "reference_words": 15,
+          "hypothesis_words": 23,
+          "wer": 1.4666666666666666
+        },
+        "one_voice": {
+          "edits": 5,
+          "reference_words": 15,
+          "hypothesis_words": 15,
+          "wer": 0.3333333333333333
+        },
+        "attributed": {
+          "edits": 13,
+          "reference_words": 15,
+          "hypothesis_words": 2,
+          "wer": 0.8666666666666667
+        }
+      },
+      "processing_seconds": 12.516,
+      "outcome": "matched",
+      "source_hashes": [
+        "6b51c665f74bf8df9123af203617e52adc32c280e799eb78f1d7beb7dafebec1",
+        "79246631aadffc3ac58f5728f22e0d0c45f8ad988c2c263c985cf1319b44fbf3"
+      ],
+      "reference_hash": "e4044e6627daff470b1e7e28335de99d10a438be3fb62827ec028251a83ac33b",
+      "transcripts": {
+        "raw": "Do you think I would go, answered Miss Milner, an eagerness that for a time suppressed the tears, in contradiction to his will?",
+        "one_voice": "Shall we haul up? That's why, she's making a megaphone in his hands. Yes! away!",
+        "attributed": "haul up?"
+      }
+    },
+    {
+      "case_id": "3536-23268-0013_6313-66125-0025:1",
+      "target_speaker": "6313",
+      "condition": "silence",
+      "reference_text": "",
+      "scores": {
+        "raw": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "one_voice": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        },
+        "attributed": {
+          "edits": 0,
+          "reference_words": 0,
+          "hypothesis_words": 0,
+          "wer": null
+        }
+      },
+      "processing_seconds": 0.029,
+      "outcome": "no_speech",
+      "source_hashes": [
+        "6b51c665f74bf8df9123af203617e52adc32c280e799eb78f1d7beb7dafebec1",
+        "79246631aadffc3ac58f5728f22e0d0c45f8ad988c2c263c985cf1319b44fbf3"
+      ],
+      "reference_hash": "e4044e6627daff470b1e7e28335de99d10a438be3fb62827ec028251a83ac33b",
+      "transcripts": {
+        "raw": "",
+        "one_voice": "",
+        "attributed": ""
+      }
+    },
+    {
+      "case_id": "3536-23268-0013_6313-66125-0025:1",
+      "target_speaker": "6313",
+      "condition": "target_only",
+      "reference_text": "SHALL WE HAUL UP ASKED LIGE MAKING A MEGAPHONE OF HIS HANDS YES HAUL AWAY",
+      "scores": {
+        "raw": {
+          "edits": 1,
+          "reference_words": 15,
+          "hypothesis_words": 15,
+          "wer": 0.06666666666666667
+        },
+        "one_voice": {
+          "edits": 14,
+          "reference_words": 15,
+          "hypothesis_words": 19,
+          "wer": 0.9333333333333333
+        },
+        "attributed": {
+          "edits": 13,
+          "reference_words": 15,
+          "hypothesis_words": 5,
+          "wer": 0.8666666666666667
+        }
+      },
+      "processing_seconds": 12.541,
+      "outcome": "matched",
+      "source_hashes": [
+        "6b51c665f74bf8df9123af203617e52adc32c280e799eb78f1d7beb7dafebec1",
+        "79246631aadffc3ac58f5728f22e0d0c45f8ad988c2c263c985cf1319b44fbf3"
+      ],
+      "reference_hash": "e4044e6627daff470b1e7e28335de99d10a438be3fb62827ec028251a83ac33b",
+      "transcripts": {
+        "raw": "Shall we haul up S. Lige, making a megaphone of his hands? Yes, haul away!",
+        "one_voice": "Should we call them up and ask them to make a big front of the stands? Yes, should we?",
+        "attributed": "call them up and Yes,"
+      }
+    }
+  ]
+}

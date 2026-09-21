@@ -1,0 +1,28 @@
+:root { --motion-ease: cubic-bezier(.22,1,.36,1); --motion-time: 380ms; }
+::view-transition { pointer-events: none; }
+::view-transition-group(*) { animation-duration: var(--motion-time); animation-timing-function: var(--motion-ease); }
+::view-transition-old(*), ::view-transition-new(*) { animation-duration: var(--motion-time); animation-timing-function: var(--motion-ease); }
+.product-nav { view-transition-name: navigation; }
+.site-footer { view-transition-name: site-footer; }
+.workspace-grid { view-transition-name: workspace; }
+.setup-panel { view-transition-name: settings; }
+.result-panel { view-transition-name: result; }
+.setup-fields { view-transition-name: audio-fields; }
+.result-content:not([hidden]), .result-empty, .processing-state { view-transition-name: result-body; }
+.processing-stages { view-transition-name: processing-stages; }
+.processing-state h3 { view-transition-name: processing-label; }
+.result-tabs { view-transition-name: result-tabs; }
+.selected-toolbar { view-transition-name: selected-actions; }
+.transcription-heading { view-transition-name: workspace-heading; }
+.workspace-footnote { view-transition-name: workspace-help; }
+.poc-source-switch { position: relative; isolation: isolate; }
+.poc-source-switch::before { content: ''; position: absolute; z-index: -1; width: calc(50% - 4px); inset: 4px auto 4px 4px; background: white; border: 1px solid var(--line); border-radius: 999px; transform: translateX(0); transition: transform var(--motion-time) var(--motion-ease); }
+.poc-source-switch[data-source='public']::before { transform: translateX(calc(100% + 1px)); }
+.poc-source-switch button[aria-pressed='true'] { background: transparent; border-color: transparent; }
+button, a, select, .file-picker, .processing-stages li, .processing-stages li>span { transition: color 240ms ease, background-color 240ms ease, border-color 240ms ease, opacity 240ms ease, box-shadow 240ms ease, transform 240ms var(--motion-ease); }
+button:active:not(:disabled), .file-picker:active { transform: scale(.985); }
+.poc-evidence[open] summary>span, .poc-review[open] summary>span:last-child { transform: rotate(45deg); }
+.poc-evidence summary>span, .poc-review summary>span:last-child { transition: transform var(--motion-time) var(--motion-ease); }
+@media(prefers-reduced-motion:reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

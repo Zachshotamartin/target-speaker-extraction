@@ -2,6 +2,15 @@
 
 An independently implemented PyTorch system that estimates one person's voice from two overlapping speakers, guided by a separate voice sample. Includes training, data preparation, evaluation, a local API, and a browser audio workspace.
 
+**New: [local voice-selected transcription POC](poc/README.md).** The product site
+can run a frozen One Voice checkpoint → pretrained voice matching → faster-whisper,
+with public examples, saved local references, timestamped transcripts and exports.
+One Voice is the only waveform separator; a raw-audio ASR comparison shows its
+contribution. This is inference only in a separate CPU environment. On eight
+public reporting mixtures, WER was 65.0% for raw ASR, 15.8% after extraction, and
+20.8% after identity filtering. Clean speech sometimes gets worse. See the
+[complete 64-case development/reporting results and limitations](docs/TRANSCRIPTION_POC_RESULTS.md).
+
 **Experimental research software.** It can select the wrong speaker and distort speech. The requested speaker must be present. Live microphone use and production speech quality are outside this release's claims.
 
 The current experiment improves speaker separation after the first model left competing speech and audible artifacts. It combines an independently implemented spectral separator, speaker supervision, a larger training corpus and checkpoint averaging. There is no SpeakerBeam source, checkpoint, or dependency. The original controlled reference-augmentation experiment remains available in the [v0.1.0 case study](docs/CASE_STUDY_V0_1.md).

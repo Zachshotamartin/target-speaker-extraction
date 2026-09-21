@@ -1,0 +1,77 @@
+/* Sticky space stays in the document; only the header's visual position moves. */
+.product-nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--layer-navigation);
+  background: var(--app-bg);
+  transform: translateY(0);
+  transition: transform var(--motion-time) var(--motion-ease);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  padding: var(--header-padding-block) var(--page-gutter);
+}
+.product-nav[data-hidden='true'] { transform: translateY(-100%); }
+.product-nav:has(:focus-visible) { transform: translateY(0); }
+.product-nav::after {
+  content: '';
+  position: absolute;
+  inset-inline: var(--page-gutter);
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+  pointer-events: none;
+}
+.skip:focus { z-index: calc(var(--layer-navigation) + 1); }
+
+.header-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--header-brand-gap);
+  font-size: var(--header-brand-size);
+  font-weight: 600;
+  letter-spacing: -1.1px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.header-brand img { width: var(--header-mark-width); height: var(--header-mark-height); }
+
+.product-nav nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-small);
+}
+.product-nav nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--header-brand-gap);
+  min-height: var(--control-height);
+  padding-inline: var(--space-4);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+}
+.product-nav nav a:hover { background: var(--soft); }
+.product-nav nav a[aria-current='page'] { background: var(--ink); color: var(--app-bg); border-color: var(--ink); }
+
+@media(max-width:700px) {
+  .product-nav { flex-wrap: wrap; gap: var(--space-4); }
+  .product-nav nav { gap: var(--space-2); margin-left: auto; }
+  .product-nav nav a { padding-inline: var(--space-3); }
+}
+@media(max-width:560px) {
+  .product-nav nav { flex-wrap: wrap; }
+  .product-nav nav a { padding-inline: var(--space-2); }
+}
+@media(max-width:480px) {
+  .product-nav { gap: var(--space-5); }
+  .product-nav nav { width: 100%; margin: 0; }
+  .product-nav nav a { flex: 1; }
+}

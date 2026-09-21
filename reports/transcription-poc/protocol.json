@@ -1,0 +1,17 @@
+{
+  "split": "test",
+  "cases": 32,
+  "gate": {
+    "version": "public-dev32-v1",
+    "accepted_extracted": 0.3,
+    "accepted_original": 0.1,
+    "uncertain_extracted": 0.2,
+    "minimum_speech_seconds": 0.6,
+    "word_overlap": 0.8
+  },
+  "manifest_sha256": "7fdb48305a0d9162ae43a848fd44fb0e44851ad720643b095cbfa83f0814ef9e",
+  "seconds": 280.33,
+  "peak_rss_bytes": 1657192448,
+  "protocol": "First qualifying disjoint-speaker pairs in published CSV order, alternating target side. Full source utterances, zero-padded to the longer duration, official gains then common peak attenuation. Not the official min-duration separation benchmark.",
+  "limitations": "Small clean public read-speech set; test-clean has been used historically for this project. No claim of a new untouched test, live microphone robustness, or calibrated identity confidence. WER uses lowercase alphanumeric words with apostrophes removed; absent/silence report word counts, not WER."
+}
