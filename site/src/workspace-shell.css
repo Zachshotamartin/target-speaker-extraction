@@ -5,6 +5,10 @@ html { scrollbar-gutter: stable; }
 }
 
 [hidden] { display: none !important; }
+.app-shell { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+.app-shell>.product-nav { width: 100%; flex-shrink: 0; }
+.app-shell>main { width: 100%; flex: 1 0 auto; margin-block: 0; }
+.app-shell>.site-footer { flex-shrink: 0; }
 main:focus { outline: none; }
 button, select, input { font: inherit; }
 button, summary { cursor: pointer; }
