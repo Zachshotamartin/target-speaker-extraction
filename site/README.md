@@ -8,7 +8,7 @@ Run `npm ci`, `npm run build`, and `npm run preview` in this directory. The site
 
 ## Public deployment
 
-Deploy this directory as a Vite project. Set `ONE_VOICE_SERVICE_URL` to an HTTPS inference host, `ONE_VOICE_SERVICE_TOKEN` to its bearer token, and `ONE_VOICE_PUBLIC_ORIGIN` to the exact public site origin. The service must use the same frozen model as the prepared samples. Do not expose the local training server or this machine through a tunnel. Without an inference host, prepared examples work and uploads explicitly show unavailable.
+Deploy this directory as a Vite project. Set `ONE_VOICE_SERVICE_URL` to an HTTPS inference host, `ONE_VOICE_SERVICE_TOKEN` to its bearer token, and `ONE_VOICE_PUBLIC_ORIGIN` to the exact public site origin. Hosted extraction and transcription use the same frozen checkpoint. Prepared listening examples retain their own recorded checkpoint metadata; they are not regenerated when the hosted model changes. Do not expose the local training server or this machine through a tunnel. Without an inference host, prepared examples work and uploads explicitly show unavailable.
 
 For extraction and transcription together, follow [`poc/HOSTING.md`](../poc/HOSTING.md) and deploy `Dockerfile.public` to a protected CPU Basic Hugging Face Space. It requires `TSE_API_TOKEN` and a packaged frozen model bundle. Vercel uses the Space's `/voice` URL for extraction and `/speech` URL for transcription. Set `ONE_VOICE_TRANSCRIPTION_URL` and `ONE_VOICE_TRANSCRIPTION_TOKEN` in addition to the extraction variables above. Tokens remain server-side. The extraction-only `Dockerfile.inference` is still available for deployments that do not need transcription.
 
