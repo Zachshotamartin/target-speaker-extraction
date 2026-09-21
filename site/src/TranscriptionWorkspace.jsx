@@ -35,8 +35,9 @@ function Transcript({segments, seek, empty}) {
     </button></li>)}</ol> : <p className="transcript-empty">{empty}</p>;
 }
 
-export default function TranscriptionWorkspace() {
+export default function TranscriptionWorkspace({active = true}) {
   const [health, setHealth] = useState(null);
+  const [resultView, setResultView] = useState('transcript');
   const [demos, setDemos] = useState([]);
   const [demo, setDemo] = useState(0);
   const [condition, setCondition] = useState('mixture');
@@ -60,6 +61,10 @@ export default function TranscriptionWorkspace() {
   const [track, setTrack] = useState('extracted');
   const [loadingExample, setLoadingExample] = useState(false);
   const mounted = useRef(true);
+  const workspace = useRef(null);
+  const fileDraft = useRef(null);
+  const activeRef = useRef(active);
+  activeRef.current = active;
   const recorder = useRef(null);
   const stream = useRef(null);
   const recordTimer = useRef(null);
@@ -124,17 +129,39 @@ export default function TranscriptionWorkspace() {
     return () => clearTimeout(timer);
   }, [job?.id, job?.status, job?.expires_at]);
 
+  useEffect(() => {
+    if (!active) {
+      workspace.current?.querySelectorAll('audio').forEach(player => player.pause());
+      if (recorder.current?.state === 'recording') recorder.current.stop();
+    }
+  }, [active]);
+
+  function chooseSource(next) {
+    if (next === source) return;
+    if (source === 'files') fileDraft.current = {reference, recording, referenceName, recordingName, profileId};
+    const draft = next === 'files' ? fileDraft.current : null;
+    setReference(draft?.reference || null); setRecording(draft?.recording || null);
+    setReferenceName(draft?.referenceName || ''); setRecordingName(draft?.recordingName || '');
+    setProfileId(draft?.profileId || ''); setLoadingExample(false); setSource(next); setError(''); setNotice('');
+  }
+
   async function start() {
-    setError(''); setNotice(''); setSending(true); position.current = 0; setTrack('extracted');
+    setError(''); setNotice(''); setSending(true); setResultView('transcript'); position.current = 0; setTrack('extracted');
     try {
       if (!reference || !recording) throw new Error('Choose a reference voice and a recording first.');
       if (reference.size + recording.size > 4 * 1024 * 1024 - 2048) throw new Error('The two audio files must total less than 4 MiB.');
       if (job?.id) await request(`/transcriptions/${job.id}`, {method: 'DELETE'}).catch(() => {});
+      setJob(null);
       const data = new FormData();
       data.append('reference', reference, 'reference.audio'); data.append('mixture', recording, 'recording.audio');
       data.append('compare', String(compare));
       const next = await request('/transcriptions', {method: 'POST', body: data}).then(r => r.json());
       setSubmittedInput({reference, recording, referenceName, recordingName}); setJob(next);
+      if (activeRef.current && window.matchMedia('(max-width: 680px)').matches) {
+        requestAnimationFrame(() => document.getElementById('result-title')?.scrollIntoView({
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start',
+        }));
+      }
     } catch (e) { setError(e.message); } finally { setSending(false); }
   }
 
@@ -167,7 +194,7 @@ export default function TranscriptionWorkspace() {
     try {
       if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) throw new Error('Microphone capture is unavailable here. Upload a recording instead.');
       stream.current = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: false, noiseSuppression: false, autoGainControl: false}});
-      if (!mounted.current) { stream.current.getTracks().forEach(t => t.stop()); return; }
+      if (!mounted.current || !activeRef.current) { stream.current.getTracks().forEach(t => t.stop()); return; }
       const preferred = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/webm'].find(type => MediaRecorder.isTypeSupported(type));
       const chunks = [];
       const captureRecorder = new MediaRecorder(stream.current, preferred ? {mimeType: preferred, audioBitsPerSecond: 64000} : undefined);
@@ -197,78 +224,188 @@ export default function TranscriptionWorkspace() {
     audio.current.play().catch(() => setNotice('Press Play to hear this segment.'));
   }
 
-  const result = job?.status === 'ready' ? job.result : null;
+  const result = !sending && job?.status === 'ready' ? job.result : null;
   const accepted = result?.segments.filter(s => s.attribution === 'accepted') || [];
   const uncertain = result?.segments.filter(s => s.attribution === 'uncertain') || [];
 
-  return <section id="transcribe" className="transcription" aria-labelledby="transcription-title">
-    <div className="transcription-heading"><div><p className="eyebrow">LOCAL TRANSCRIPTION · PROOF OF CONCEPT</p><h2 id="transcription-title">One voice. In words.</h2></div><p>Choose the voice to keep. One Voice separates the audio, then Whisper writes it down.</p></div>
-    <div className="pipeline-strip" aria-label="Pipeline"><span>01 <b>Choose a reference</b></span><span>02 <b>One Voice extracts</b></span><span>03 <b>Whisper transcribes</b></span></div>
-    <div className="poc-source-controls">
-      <div className="poc-toggle" aria-label="Recording source">{[['public', 'Public examples'], ['files', 'My recordings']].map(([value, label]) =>
-        <button key={value} type="button" aria-pressed={source === value} disabled={busy || capturing} onClick={() => {setSource(value); setLoadingExample(false);}}>{label}</button>)}</div>
-      <span className="poc-local">{health?.ready ? 'Models ready · processing on this Mac' : health ? 'Local models need setup' : 'Connecting to local service…'}</span>
-      {!health?.ready && <button type="button" onClick={async () => {try {const [info, list] = await Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())]); setHealth(info); setDemos(list); setError('');} catch (e) {setError(e.message);}}}>Retry connection</button>}
-    </div>
-    <fieldset className="poc-inputs" disabled={busy || capturing}>
-      <legend className="sr-only">Choose reference voice and recording</legend>
-      {source === 'public' && <div className="poc-demo-controls">
-        <label>Voice to select<select value={demo} onChange={event => setDemo(Number(event.target.value))}>{demos.map(item => <option key={item.id} value={item.id}>Conversation {item.conversation} · Voice {item.voice}</option>)}</select></label>
-        <label>Try a condition<select value={condition} onChange={event => setCondition(event.target.value)}><option value="mixture">Two voices overlapping</option><option value="target">Selected voice alone</option><option value="absent">Other voice alone — target absent</option><option value="silence">Silence — neither voice</option></select></label>
-        <p>Public LibriSpeech examples. No personal recording needed.</p>
-      </div>}
-      <div className="poc-input-columns">
-        <div><h3><span>01</span> Voice to keep</h3><p>A clean 3–10 second sample identifies the speaker. It is used for inference, never training.</p>
-          {source === 'files' && <><label>Reference audio<input type="file" accept={AUDIO_TYPES} onChange={e => {setReference(e.target.files?.[0] || null); setReferenceName(e.target.files?.[0]?.name || ''); setProfileId('');}}/></label>
-            {saved.length > 0 && <div className="poc-profile-row"><label>Saved on this device<select value={profileId} onChange={e => {
-              setProfileId(e.target.value); const selected = saved.find(p => p.id === e.target.value);
-              if (selected) {setReference(selected.audio); setReferenceName(selected.name);} else {setReference(null); setReferenceName('');}
-            }}><option value="">Choose a saved reference</option>{saved.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
-              <button type="button" disabled={!profileId} onClick={deleteProfile}>Delete profile</button></div>}
-          </>}
-          <p className="poc-filename">{loadingExample ? 'Loading reference…' : referenceName || 'No reference selected'}</p>
-          {referenceUrl && <audio controls preload="metadata" src={referenceUrl} aria-label="Reference voice sample"/>}
-          {source === 'files' && reference && <details className="poc-profile-save"><summary>Remember this voice on this device</summary><div><label>Profile name<input maxLength={60} value={profileName} onChange={e => setProfileName(e.target.value)}/></label><button type="button" onClick={saveProfile}>Save reference</button></div><p>This stores the audio in this browser. It does not train a model or upload it to a cloud service.</p></details>}
+  const processingStep = !job || job.status === 'queued' ? 0 : /Transcribing/.test(job.stage) ? 3 : /Checking the selected/.test(job.stage) ? 2 : /Extracting/.test(job.stage) ? 1 : 0;
+
+  return <section ref={workspace} id="transcribe" className="transcription" aria-labelledby="transcription-title" onPlay={event => {
+    workspace.current?.querySelectorAll('audio').forEach(player => { if (player !== event.target) player.pause(); });
+  }}>
+    <header className="transcription-heading">
+      <div><h1 id="transcription-title">Transcribe a voice</h1><p>Choose who to keep. Turn their speech into text.</p></div>
+      <div className={`poc-connection ${health?.ready ? 'is-ready' : ''}`}>
+        <span className="connection-dot" aria-hidden="true"/>
+        <span>{health?.ready ? 'Ready on this Mac' : health ? 'Models need setup' : 'Connecting…'}</span>
+        {!health?.ready && <button type="button" onClick={async () => {try {
+          const [info, list] = await Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())]);
+          setHealth(info); setDemos(list); setError('');
+        } catch (e) {setError(e.message);}}}>Retry</button>}
+      </div>
+    </header>
+
+    <div className="workspace-grid">
+      <aside className="setup-panel" aria-labelledby="setup-title">
+        <div className="setup-panel-heading"><h2 id="setup-title">Your audio</h2><span>English · up to 30s</span></div>
+        <div className="poc-source-switch" role="group" aria-label="Recording source">
+          {[['public', 'Public examples'], ['files', 'My recordings']].map(([value, label]) =>
+            <button key={value} type="button" aria-pressed={source === value} disabled={busy || capturing || requestingMic} onClick={() => chooseSource(value)}>{label}</button>)}
         </div>
-        <div><h3><span>02</span> Recording to transcribe</h3><p>English audio, up to 30 seconds. The reference and recording must total less than 4 MiB.</p>
-          {source === 'files' && <label>Recording file<input type="file" accept={AUDIO_TYPES} onChange={e => {setRecording(e.target.files?.[0] || null); setRecordingName(e.target.files?.[0]?.name || '');}}/></label>}
-          <p className="poc-filename">{loadingExample ? 'Loading recording…' : recordingName || 'No recording selected'}</p>
-          {recordingUrl && <audio controls preload="metadata" src={recordingUrl} aria-label="Input recording"/>}
+
+        <fieldset className="setup-fields" disabled={busy || capturing || requestingMic}>
+          <legend className="sr-only">Choose reference voice and recording</legend>
+          <section className="setup-group" aria-labelledby="reference-heading">
+            <h3 id="reference-heading"><span className="step-number">1</span> Voice to keep</h3>
+            {source === 'public' ? <>
+              <label className="sr-only" htmlFor="demo-voice">Voice to select</label>
+              <select id="demo-voice" value={demo} onChange={event => setDemo(Number(event.target.value))}>
+                {demos.map(item => <option key={item.id} value={item.id}>Conversation {item.conversation} · Voice {item.voice}</option>)}
+              </select>
+              <p className="field-help">A separate sample identifies this speaker.</p>
+            </> : <>
+              <p className="field-help">A clean 3–10 second sample of one person.</p>
+              {saved.length > 0 && <div className="poc-profile-row">
+                <label htmlFor="saved-voice">Saved on this device</label>
+                <div><select id="saved-voice" value={profileId} onChange={e => {
+                  setProfileId(e.target.value); const selected = saved.find(p => p.id === e.target.value);
+                  if (selected) {setReference(selected.audio); setReferenceName(selected.name);} else {setReference(null); setReferenceName('');}
+                }}><option value="">Choose a saved reference</option>{saved.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
+                  <button className="poc-text-button" type="button" disabled={!profileId} onClick={deleteProfile}>Delete</button>
+                </div>
+              </div>}
+              <label className="upload-field">Reference audio<input type="file" accept={AUDIO_TYPES} onChange={e => {setReference(e.target.files?.[0] || null); setReferenceName(e.target.files?.[0]?.name || ''); setProfileId('');}}/></label>
+              {referenceName && <p className="poc-filename">{referenceName}</p>}
+            </>}
+            {loadingExample ? <div className="audio-loading" role="status">Loading reference…</div> : referenceUrl && <audio controls preload="metadata" src={referenceUrl} aria-label="Reference voice sample"/>}
+            {source === 'files' && reference && <details className="poc-profile-save"><summary>Save this voice on this device</summary>
+              <label>Profile name<input maxLength={60} value={profileName} onChange={e => setProfileName(e.target.value)}/></label>
+              <button type="button" onClick={saveProfile}>Save reference</button>
+              <p>This stores the audio in this browser. It does not train a model or upload it to a cloud service.</p>
+            </details>}
+          </section>
+
+          <section className="setup-group" aria-labelledby="recording-heading">
+            <h3 id="recording-heading"><span className="step-number">2</span> Recording</h3>
+            {source === 'public' ? <>
+              <label className="sr-only" htmlFor="demo-condition">Recording condition</label>
+              <select id="demo-condition" value={condition} onChange={event => setCondition(event.target.value)}>
+                <option value="mixture">Two voices overlapping</option><option value="target">Selected voice alone</option>
+                <option value="absent">Other voice only (target absent)</option><option value="silence">Silence</option>
+              </select>
+              <p className="field-help">Public audio. No personal recording needed.</p>
+            </> : <>
+              <label className="upload-field">Recording file<input type="file" accept={AUDIO_TYPES} onChange={e => {setRecording(e.target.files?.[0] || null); setRecordingName(e.target.files?.[0]?.name || '');}}/></label>
+              {recordingName && <p className="poc-filename">{recordingName}</p>}
+            </>}
+            {loadingExample ? <div className="audio-loading" role="status">Loading recording…</div> : recordingUrl && <audio controls preload="metadata" src={recordingUrl} aria-label="Input recording"/>}
+          </section>
+        </fieldset>
+        {source === 'files' && <div className="poc-microphone">
+          <button type="button" onClick={capture} disabled={busy || requestingMic} className={capturing ? 'is-recording' : ''}>
+            {requestingMic ? 'Opening microphone…' : capturing ? `Stop recording · ${clock(elapsed)}` : 'Record from microphone'}
+          </button>
+          {capturing && <p role="status">Recording. Stops automatically at 29 seconds.</p>}
+        </div>}
+
+        <details className="poc-options"><summary>Options <span>Comparison {compare ? 'on' : 'off'}</span></summary>
+          <label className="poc-checkbox"><input type="checkbox" checked={compare} disabled={busy} onChange={e => setCompare(e.target.checked)}/> Compare with original audio</label>
+          <p>The same Whisper model transcribes both inputs, so you can see what One Voice changes.</p>
+        </details>
+        <div className="setup-submit">
+          <button className="poc-primary" type="button" onClick={start} disabled={!health?.ready || busy || capturing || requestingMic || !reference || !recording || loadingExample}>
+            {busy ? 'Processing…' : 'Transcribe selected voice'}<span aria-hidden="true">↗</span>
+          </button>
+          <p>4 MiB combined limit · No model training</p>
         </div>
-      </div>
-    </fieldset>
-    {source === 'files' && <div className="poc-microphone"><button type="button" onClick={capture} disabled={busy || requestingMic}>{requestingMic ? 'Opening microphone…' : capturing ? `Stop recording · ${clock(elapsed)}` : 'Record from microphone'}</button><span>{capturing ? 'Recording… stops automatically after 29 seconds.' : 'Optional. Recording starts only when you press the button.'}</span></div>}
-    <div className="poc-actions"><div><label className="poc-checkbox"><input type="checkbox" checked={compare} disabled={busy} onChange={e => setCompare(e.target.checked)}/> Compare against Whisper on the original audio</label><p>Same recognizer, same settings. Neither the reference nor a speaker prompt is sent to Whisper.</p></div>
-      <button className="poc-primary" type="button" onClick={start} disabled={!health?.ready || busy || capturing || !reference || !recording || loadingExample}>{sending ? 'Submitting…' : 'Transcribe selected voice ↗'}</button>
+        {error && <p className="poc-error" role="alert">{error}</p>}
+        {notice && <p className="poc-notice" role="status">{notice}</p>}
+      </aside>
+
+      <section className={`result-panel ${result ? 'has-result' : ''}`} aria-labelledby="result-title">
+        <header className="result-toolbar">
+          <h2 id="result-title">Your transcript</h2>
+          {result ? <div className="result-actions">
+            <button type="button" className="poc-text-button" onClick={async () => {try {await navigator.clipboard.writeText(accepted.map(s => s.text.trim()).join('\n')); setNotice('Attributed transcript copied.');} catch {setError('Clipboard unavailable. Download the TXT instead.');}}} disabled={!accepted.length}>Copy text</button>
+            <details className="poc-export-menu" onClick={event => {if (event.target.closest('a')) event.currentTarget.open = false;}}>
+              <summary>Export <span aria-hidden="true">↓</span></summary>
+              <div className="export-options">
+                <a href={`${API}/transcriptions/${job.id}/export/txt`} download><b>Text</b><span>Accepted words · .txt</span></a>
+                <a href={`${API}/transcriptions/${job.id}/export/srt`} download><b>Subtitles</b><span>With timestamps · .srt</span></a>
+                <a href={`${API}/transcriptions/${job.id}/audio/extracted`} download><b>Extracted audio</b><span>One Voice output · .wav</span></a>
+                <a href={`${API}/transcriptions/${job.id}/export/json`} download><b>Full report</b><span>All words & evidence · .json</span></a>
+                <button type="button" onClick={removeJob}>Delete this result</button>
+              </div>
+            </details>
+          </div> : <span className="result-state">{busy ? 'In progress' : job?.status === 'failed' ? 'Needs attention' : job?.status === 'expired' ? 'Expired' : 'Not started'}</span>}
+        </header>
+
+        {result ? <>
+          <div className="result-context">
+            <div><span>Selected voice</span><strong>{submittedInput?.referenceName || 'Your reference'}</strong></div>
+            <div className="result-metrics"><span>{clock(result.duration)} audio</span><span>{result.processing_seconds.toFixed(1)}s processing</span></div>
+          </div>
+          {(reference !== submittedInput?.reference || recording !== submittedInput?.recording) && <p className="result-changed" role="status">Inputs changed. This result is for {submittedInput?.referenceName} and {submittedInput?.recordingName?.toLowerCase()}. Run again to use your new selection.</p>}
+          <div className="result-tabs" role="tablist" aria-label="Result views">
+            {[['transcript', 'Transcript'], ['compare', 'Compare'], ['details', 'Details']].map(([name, label], index) =>
+              <button key={name} id={`result-tab-${name}`} type="button" role="tab" aria-selected={resultView === name} aria-controls={`result-${name}`} tabIndex={resultView === name ? 0 : -1} onClick={() => setResultView(name)} onKeyDown={event => {
+                const names = ['transcript', 'compare', 'details'];
+                const next = event.key === 'ArrowRight' ? (index + 1) % 3 : event.key === 'ArrowLeft' ? (index + 2) % 3 : event.key === 'Home' ? 0 : event.key === 'End' ? 2 : null;
+                if (next !== null) {event.preventDefault(); setResultView(names[next]); document.getElementById(`result-tab-${names[next]}`).focus();}
+              }}>{label}{name === 'transcript' && <span>{result.coverage?.accepted_words || 0}</span>}</button>)}
+          </div>
+          <div className="result-audio">
+            <div className="audio-source-switch" role="group" aria-label="Playback source">
+              {[['extracted', 'One Voice output'], ['original', 'Original']].map(([value, label]) =>
+                <button key={value} type="button" aria-pressed={track === value} onClick={() => {position.current = audio.current?.currentTime || 0; setTrack(value);}}>{label}</button>)}
+            </div>
+            <audio ref={audio} controls preload="metadata" src={`${API}/transcriptions/${job.id}/audio/${track}`} aria-label={track === 'extracted' ? 'One Voice extracted audio' : 'Original recording for comparison'} onLoadedMetadata={() => {if (audio.current) audio.current.currentTime = Math.min(position.current, audio.current.duration || 0);}}/>
+          </div>
+
+          <div id="result-transcript" role="tabpanel" aria-labelledby="result-tab-transcript" hidden={resultView !== 'transcript'} tabIndex={0} className="result-content">
+            <div className="transcript-caption"><span>Attributed to your selected voice</span><span>Click a line to listen</span></div>
+            <Transcript segments={accepted} seek={seek} empty={result.outcome === 'no_speech' ? 'No speech was detected in this recording.' : 'No words confidently matched this reference. Try another sample or review the comparison.'}/>
+            {uncertain.length > 0 && <details className="poc-review"><summary><span className="review-indicator" aria-hidden="true"/> {uncertain.length} uncertain {uncertain.length === 1 ? 'region' : 'regions'} to review <span aria-hidden="true">+</span></summary>
+              <p>These words are withheld from the selected transcript and TXT/SRT exports.</p><Transcript segments={uncertain} seek={seek}/>
+            </details>}
+            <p className="poc-attribution-note">Voice matching can miss speech or accept another speaker. Review the audio before relying on the text. Timestamps are approximate.</p>
+          </div>
+
+          <div id="result-compare" role="tabpanel" aria-labelledby="result-tab-compare" hidden={resultView !== 'compare'} tabIndex={0} className="result-content">
+            <div className="result-section-intro"><h3>What did One Voice change?</h3><p>Same recognizer. Same settings. Only the second input is separated by One Voice.</p></div>
+            {result.comparison ? <div className="comparison-columns">
+              <section><p className="comparison-label">Original audio</p><h4>Whisper only</h4><p className="comparison-text">{result.comparison.raw.text || 'No text returned.'}</p></section>
+              <section><p className="comparison-label">Separated audio</p><h4>One Voice + Whisper</h4><p className="comparison-text">{result.comparison.one_voice.text || 'No text returned.'}</p></section>
+            </div> : <p className="transcript-empty">{result.outcome === 'no_speech' ? 'No speech was detected, so neither input was sent to Whisper.' : 'Comparison was switched off for this run. Enable it in Options and transcribe again.'}</p>}
+            <p className="poc-attribution-note">The Transcript tab adds voice attribution after recognition. One Voice may help with overlap, but can introduce errors. Direct Whisper may be more accurate on already-clean speech.</p>
+          </div>
+
+          <div id="result-details" role="tabpanel" aria-labelledby="result-tab-details" hidden={resultView !== 'details'} tabIndex={0} className="result-content">
+            <div className="result-section-intro"><h3>How this result was made</h3><p>One Voice is the only component that separates audio.</p></div>
+            <dl className="model-roles"><div><dt>One Voice</dt><dd>Extracts the voice using your reference.</dd></div><div><dt>ECAPA</dt><dd>Compares voice similarity. Does not change audio.</dd></div><div><dt>Whisper</dt><dd>Transcribes audio. Never receives your voice reference.</dd></div><div><dt>Silero</dt><dd>Finds speech and silence. Does not select a speaker.</dd></div></dl>
+            <dl className="run-metadata"><div><dt>One Voice checkpoint</dt><dd>Epoch {result.model_manifest.one_voice.epoch} · <code>{result.model_manifest.one_voice.sha256.slice(0, 12)}</code></dd></div><div><dt>Transcriber</dt><dd>small.en · CPU int8</dd></div><div><dt>Peak worker memory</dt><dd>{((result.peak_worker_rss_bytes || 0) / 1024 ** 3).toFixed(2)} GiB</dd></div></dl>
+            <details className="poc-evidence"><summary>Voice-match evidence <span aria-hidden="true">+</span></summary>
+              <p>Cosine similarity scores, not probabilities. Extracted audio is influenced by the reference, so its score is not independent proof of identity. Acceptance also requires evidence in the original audio.</p>
+              <div className="poc-table-scroll" tabIndex={0} role="region" aria-label="Voice-match scores"><table><thead><tr><th>Time</th><th>Original</th><th>Extracted</th><th>Decision</th></tr></thead><tbody>{result.windows.map((w, i) => <tr key={i}><td>{clock(w.start)}–{clock(w.end)}</td><td>{w.original_similarity.toFixed(3)}</td><td>{w.extracted_similarity.toFixed(3)}</td><td>{w.attribution}</td></tr>)}</tbody></table></div>
+            </details>
+          </div>
+          <div className="result-footer"><span>Temporary result · expires after 15 minutes</span><span>Processed locally</span></div>
+        </> : busy ? <div className="processing-state">
+          <div className="processing-symbol" aria-hidden="true"><span/><span/><span/><span/><span/></div>
+          <h3>{sending ? 'Preparing your recording' : job?.status === 'queued' ? 'Waiting for the worker' : 'Working on your selected voice'}</h3>
+          <p role="status" aria-live="polite">{sending ? 'Sending audio to the local service…' : job.stage}</p>
+          <ol className="processing-stages" aria-label="Processing stages">{['Check audio', 'Separate voice', 'Match speaker', 'Transcribe'].map((label, index) => <li key={label} aria-current={processingStep === index ? 'step' : undefined} className={processingStep > index ? 'is-complete' : ''}><span>{processingStep > index ? '✓' : index + 1}</span>{label}</li>)}</ol>
+          <button type="button" onClick={removeJob} disabled={sending}>Cancel job</button>
+          <p className="processing-note">Running on this Mac. Training continues separately.</p>
+        </div> : <div className={`result-empty ${job?.status === 'failed' ? 'has-error' : ''}`}>
+          <div className="empty-document" aria-hidden="true"><span/><span/><span/><span/></div>
+          <h3>{job?.status === 'failed' ? 'This recording needs another try' : job?.status === 'expired' ? 'This result has expired' : 'A space for your selected voice'}</h3>
+          <p>{job?.status === 'failed' ? job.stage : job?.status === 'expired' ? 'Transcribe your recording again to create a fresh result.' : 'Choose a voice sample and a recording, then start transcription. Your words and audio will appear here.'}</p>
+          {job && <button className="poc-text-button" type="button" onClick={removeJob}>Dismiss</button>}
+          <div className="empty-pipeline"><span>One Voice <small>separates</small></span><span aria-hidden="true">→</span><span>Whisper <small>transcribes</small></span></div>
+        </div>}
+      </section>
     </div>
-    {error && <p className="poc-error" role="alert">{error}</p>}
-    {notice && <p className="poc-notice" role="status">{notice}</p>}
-    {job && <div className={`poc-job poc-job--${job.status}`}><div role="status" aria-live="polite"><span className="poc-status-dot"/><b>{job.status === 'expired' ? 'Result expired. Run the recording again.' : job.stage}</b>{busy && <span> One CPU worker · training continues separately</span>}</div><button type="button" onClick={removeJob}>{busy ? 'Cancel job' : 'Delete result'}</button></div>}
-    {result && <div className="poc-result">
-      <div className="poc-result-heading"><h3>Selected voice transcript</h3><p>{result.processing_seconds.toFixed(1)}s processing · {clock(result.duration)} audio · One Voice epoch {result.model_manifest.one_voice.epoch}</p></div>
-      <p className="poc-result-reference">Reference used: {submittedInput?.referenceName || 'Selected reference'} · {submittedInput?.recordingName || 'Uploaded recording'}</p>
-      {(reference !== submittedInput?.reference || recording !== submittedInput?.recording) && <p className="poc-notice">Inputs have changed. This result belongs to the reference and recording named above; transcribe again to use your new selection.</p>}
-      <div className="poc-result-audio"><div className="poc-toggle" aria-label="Playback source">{[['extracted', 'One Voice output'], ['original', 'Original recording']].map(([value, label]) =>
-        <button key={value} type="button" aria-pressed={track === value} onClick={() => { position.current = audio.current?.currentTime || 0; setTrack(value); }}>{label}</button>)}</div>
-        <audio ref={audio} controls preload="metadata" src={`${API}/transcriptions/${job.id}/audio/${track}`} aria-label={track === 'extracted' ? 'One Voice extracted audio' : 'Original recording for comparison'} onLoadedMetadata={() => { if (audio.current) audio.current.currentTime = Math.min(position.current, audio.current.duration || 0); }}/>
-      </div>
-      <Transcript segments={accepted} seek={seek} empty={result.outcome === 'no_speech' ? 'No speech was detected in this recording.' : 'No words confidently matched this reference. Review the audio and uncertain regions, or try a cleaner reference.'}/>
-      <p className="poc-attribution-note">Voice attribution is an experimental similarity check. It can miss speech or accept another speaker; review the result before relying on it. Word timestamps are approximate.</p>
-      {uncertain.length > 0 && <details className="poc-review"><summary>Review {uncertain.length} uncertain {uncertain.length === 1 ? 'region' : 'regions'} · excluded from TXT/SRT</summary><Transcript segments={uncertain} seek={seek}/></details>}
-      <div className="poc-exports"><button type="button" onClick={async () => {try {await navigator.clipboard.writeText(accepted.map(s => s.text.trim()).join('\n')); setNotice('Attributed transcript copied.');} catch {setError('Clipboard unavailable. Download the TXT instead.');}}} disabled={!accepted.length}>Copy text</button>
-        {['txt', 'srt', 'json'].map(kind => <a key={kind} href={`${API}/transcriptions/${job.id}/export/${kind}`} download>{kind === 'json' ? 'JSON + evidence' : kind.toUpperCase()} ↓</a>)}
-        <a href={`${API}/transcriptions/${job.id}/audio/extracted`} download>Extracted WAV ↓</a><span>Results expire 15 minutes after completion.</span>
-      </div>
-      {result.comparison && <div className="poc-comparison"><h3>What did One Voice add?</h3><p>These transcripts use identical Whisper settings. The second input is the audio separated by One Voice. The voice filter above is a separate step.</p>
-        <div className="poc-comparison-columns"><section><h4>Original → Whisper</h4><p>{result.comparison.raw.text || 'No text returned.'}</p></section><section><h4>One Voice → Whisper</h4><p>{result.comparison.one_voice.text || 'No text returned.'}</p></section></div>
-        <p className="poc-attribution-note">Whisper can handle some overlapping audio on its own. One Voice may help, make no difference, or introduce errors. Listen to both and compare the words you wanted. For already-clean speech, direct Whisper may be more accurate.</p>
-      </div>}
-      <details className="poc-evidence"><summary>Model roles and attribution evidence</summary><p>Silero marks speech. One Voice alone separates waveforms. ECAPA compares voices; it never edits audio. faster-whisper transcribes the supplied audio without a voice reference, denoising or diarization stage.</p>
-        <p>Extracted audio is influenced by the reference, so its match score is not independent proof of identity. Acceptance also requires evidence from the original audio. Scores are cosine similarities, not probabilities.</p>
-        <p>Checkpoint: <code>{result.model_manifest.one_voice.sha256.slice(0, 16)}</code> · ASR: small.en, CPU int8 · {((result.peak_worker_rss_bytes || 0) / 1024 ** 3).toFixed(2)} GiB peak worker memory.</p>
-        <div className="poc-table-scroll"><table><thead><tr><th>Time</th><th>Original match</th><th>Extracted match</th><th>Decision</th></tr></thead><tbody>{result.windows.map((w, i) => <tr key={i}><td>{clock(w.start)}–{clock(w.end)}</td><td>{w.original_similarity.toFixed(3)}</td><td>{w.extracted_similarity.toFixed(3)}</td><td>{w.attribution}</td></tr>)}</tbody></table></div>
-      </details>
-    </div>}
-    <p className="poc-footer-note">Local files stay on this Mac. Only explicitly saved references persist in this browser; temporary jobs are deleted after 15 minutes or when you delete the result. No training happens in this workspace.</p>
+    <div className="workspace-footnote"><p>One Voice isolates the audio. Whisper writes the words.</p><details><summary>Privacy & storage</summary><p>Local files stay on this Mac. Only explicitly saved references persist in this browser; temporary jobs are deleted after 15 minutes or when you delete the result. No training happens in this workspace.</p></details></div>
   </section>;
 }

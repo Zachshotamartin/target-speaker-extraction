@@ -14,7 +14,7 @@ function Waveform({ peaks, progress = 0 }) {
   </svg>;
 }
 
-export default function OneVoiceDetails() {
+export default function OneVoiceDetails({view = 'listen'}) {
   const [index, setIndex] = useState(0);
   const [track, setTrack] = useState('mixture');
   const [playing, setPlaying] = useState(false);
@@ -29,6 +29,9 @@ export default function OneVoiceDetails() {
     const a = player.current, b = reference.current;
     return () => { a?.pause(); b?.pause(); };
   }, []);
+  useEffect(() => {
+    if (view !== 'listen') { player.current?.pause(); reference.current?.pause(); }
+  }, [view]);
   function play(audio) {
     setError('');
     audio.play().catch(() => setError('Audio could not play. Press Play to try again.'));
@@ -54,8 +57,8 @@ export default function OneVoiceDetails() {
     if (action.play) play(player.current);
   }
   return <>
-    <section className="study-live one-voice" aria-labelledby="one-voice-listen" data-checkpoint={snapshot.checkpointSHA256}>
-      <div className="study-section-heading"><h2 id="one-voice-listen">One conversation. Either voice.</h2><p>Six conversations · two voices each</p></div>
+    <section id="listen" hidden={view !== 'listen'} className="study-live one-voice" aria-labelledby="one-voice-listen" data-checkpoint={snapshot.checkpointSHA256}>
+      <div className="study-section-heading"><h1 id="one-voice-listen">One conversation. Either voice.</h1><p>Six conversations · two voices each</p></div>
       <p>Listen to the overlapping voices, choose who to keep, then switch to the extraction.</p>
       <div className="ov-controls">
         <fieldset><legend>Conversation</legend><div className="ov-switch">
@@ -93,8 +96,8 @@ export default function OneVoiceDetails() {
         <p>This example: {item.improvement.toFixed(2)} dB SI-SDR improvement over the mixture. Higher means better separation against the clean target; it is not a listening-quality rating.</p>
       </div></details>
     </section>
-    <OneVoiceUpload />
-    <section className="ov-about"><h2>A sample tells One Voice who to keep.</h2><p>Use a separate recording of the person speaking alone. One Voice uses that voice sample to extract their speech from an overlapping conversation. It does not clone voices or generate new speech.</p><p>Results can contain distortion or other speakers, especially with noise or unfamiliar recording conditions. Listen to the output before relying on it.</p><p className="ov-listening-note">Examples: LibriSpeech / Libri2Mix, <a href="https://www.openslr.org/12/">OpenSLR</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Audio has been mixed and model-processed.</p><section className="ov-about ov-research" aria-labelledby="ov-research-title"><h2 id="ov-research-title">Research behind One Voice</h2><p>One Voice is an independent implementation informed by published target speaker extraction research. Its reference-conditioned model draws on Junjie Li and colleagues’ <a href="https://arxiv.org/abs/2409.09589">On the effectiveness of enrollment speech augmentation for Target Speaker Extraction</a> (2024), with a smaller configuration for local training. It does not reproduce the paper’s full experiments or reported results.</p><p>The separator follows ideas from Yi Luo and Jianwei Yu’s <a href="https://arxiv.org/abs/2209.15174">Music Source Separation with Band-split RNN</a> (2022). <a href="https://github.com/BUTSpeechFIT/speakerbeam">SpeakerBeam</a> and <a href="https://arxiv.org/abs/2004.08326">SpEx</a> informed the target-speaker formulation and speaker supervision. No pretrained weights from these systems are used.</p><p>Thanks to the researchers and the <a href="https://www.openslr.org/12/">LibriSpeech</a> and <a href="https://github.com/JorisCos/LibriMix">LibriMix</a> dataset contributors. <a href="https://github.com/Zachshotamartin/target-speaker-extraction/blob/main/docs/SOURCES.md">Full sources and attribution ↗</a></p></section>
+    <div hidden={view !== 'upload'}><OneVoiceUpload /></div>
+    <section id="about" hidden={view !== 'about'} className="ov-about"><h1>A sample tells One Voice who to keep.</h1><p>Use a separate recording of the person speaking alone. One Voice uses that voice sample to extract their speech from an overlapping conversation. It does not clone voices or generate new speech.</p><p>Results can contain distortion or other speakers, especially with noise or unfamiliar recording conditions. Listen to the output before relying on it.</p><p className="ov-listening-note">Examples: LibriSpeech / Libri2Mix, <a href="https://www.openslr.org/12/">OpenSLR</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Audio has been mixed and model-processed.</p><section className="ov-about ov-research" aria-labelledby="ov-research-title"><h2 id="ov-research-title">Research behind One Voice</h2><p>One Voice is an independent implementation informed by published target speaker extraction research. Its reference-conditioned model draws on Junjie Li and colleagues’ <a href="https://arxiv.org/abs/2409.09589">On the effectiveness of enrollment speech augmentation for Target Speaker Extraction</a> (2024), with a smaller configuration for local training. It does not reproduce the paper’s full experiments or reported results.</p><p>The separator follows ideas from Yi Luo and Jianwei Yu’s <a href="https://arxiv.org/abs/2209.15174">Music Source Separation with Band-split RNN</a> (2022). <a href="https://github.com/BUTSpeechFIT/speakerbeam">SpeakerBeam</a> and <a href="https://arxiv.org/abs/2004.08326">SpEx</a> informed the target-speaker formulation and speaker supervision. No pretrained weights from these systems are used.</p><p>Thanks to the researchers and the <a href="https://www.openslr.org/12/">LibriSpeech</a> and <a href="https://github.com/JorisCos/LibriMix">LibriMix</a> dataset contributors. <a href="https://github.com/Zachshotamartin/target-speaker-extraction/blob/main/docs/SOURCES.md">Full sources and attribution ↗</a></p></section>
 </section>
   </>;
 }

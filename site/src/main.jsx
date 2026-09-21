@@ -1,11 +1,50 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import OneVoiceDetails from './OneVoiceDetails.jsx';
 import TranscriptionWorkspace from './TranscriptionWorkspace.jsx';
 import './product.css';
-import snapshot from './snapshot.json';
-function Wave({track}) { const peaks=snapshot.items[0].tracks[track].peaks; const bars=Array.from({length:96},(_,i)=>Math.max(...peaks.slice(Math.floor(i*peaks.length/96),Math.floor((i+1)*peaks.length/96)))); return <svg viewBox="0 0 480 100" aria-hidden="true">{bars.map((p,i)=><line key={i} x1={i*5+2.5} x2={i*5+2.5} y1={50-Math.max(1,p*46)} y2={50+Math.max(1,p*46)}/>)}</svg>; }
-function SignalArt(){ return <figure className="signal-art"><figcaption>One conversation. A clearer voice.</figcaption><div className="signal-lane"><div className="signal-caption"><span>01 / THE CONVERSATION</span><span>Two voices</span></div><Wave track="mixture"/></div><div className="signal-lane signal-lane--output"><div className="signal-caption"><span>02 / THE EXTRACTION</span><span>Voice A</span></div><Wave track="estimate"/></div><a href="#listen" className="signal-footnote">Hear this example <span aria-hidden="true">↗</span></a></figure>; }
 
-function App(){return <><a className="skip" href="#listen">Skip to the audio</a><header className="product-nav"><a href="#" className="wordmark"><img src="/assets/one-voice/brand/mark.svg" alt=""/>OneVoice</a><nav aria-label="Main"><a href="#listen">Listen</a><a href="#transcribe">Transcribe</a><a href="#ov-upload-title">Try your recording <span aria-hidden="true">↗</span></a></nav></header><main><section className="hero"><div><p className="eyebrow">TARGET SPEAKER EXTRACTION</p><h1>Keep the voice<br/>that matters.</h1><p className="intro">Two people talking at once. One voice you want to hear. Give One Voice a sample of that person, and separate their speech from the conversation.</p><a className="primary-link" href="#listen">Hear the difference <span>↓</span></a></div><SignalArt/></section><section className="steps" aria-label="How to use One Voice"><p><b>01</b> Choose the conversation.</p><p><b>02</b> Identify the voice with a sample.</p><p><b>03</b> Listen to the extraction.</p></section><TranscriptionWorkspace/><div id="listen" className="experience"><OneVoiceDetails/></div></main><footer><a className="wordmark" href="#">OneVoice</a><p>Made by <a href="https://zachsm.com/projects/one-voice">Zach Martin</a></p><a href="https://github.com/Zachshotamartin/target-speaker-extraction">Source ↗</a></footer></>};
+function currentView() {
+  if (['#listen', '#one-voice-listen'].includes(window.location.hash)) return 'listen';
+  if (window.location.hash === '#ov-upload-title') return 'upload';
+  if (['#about', '#ov-research-title'].includes(window.location.hash)) return 'about';
+  return 'transcribe';
+}
+
+function App() {
+  const [view, setView] = useState(currentView);
+  useEffect(() => {
+    const navigate = () => {
+      if (window.location.hash === '#main-content') return;
+      setView(currentView());
+      document.querySelectorAll('audio').forEach(player => player.pause());
+      requestAnimationFrame(() => window.scrollTo({top: 0, behavior: 'instant'}));
+    };
+    window.addEventListener('hashchange', navigate);
+    return () => window.removeEventListener('hashchange', navigate);
+  }, []);
+
+  return <div className="product-app">
+    <a className="skip" href="#main-content">Skip to workspace</a>
+    <header className="product-nav">
+      <a href="#transcribe" className="wordmark"><img src="/assets/one-voice/brand/mark.svg" alt=""/>OneVoice</a>
+      <nav aria-label="Main">
+        <a href="#transcribe" aria-current={view === 'transcribe' ? 'page' : undefined}>Transcribe</a>
+        <a href="#listen" aria-current={view === 'listen' ? 'page' : undefined}>Listen</a>
+        <a href="#ov-upload-title" aria-current={view === 'upload' ? 'page' : undefined}>Isolate audio</a>
+      </nav>
+      <a className="product-help" href="#about" aria-current={view === 'about' ? 'page' : undefined}>How it works <span aria-hidden="true">↗</span></a>
+    </header>
+    <main id="main-content" tabIndex={-1}>
+      {/* Keep tools mounted so navigation preserves files, results and active jobs. */}
+      <div className="page-view" hidden={view !== 'transcribe'}><TranscriptionWorkspace active={view === 'transcribe'}/></div>
+      <div className="page-view support-view" hidden={view === 'transcribe'}><OneVoiceDetails view={view}/></div>
+    </main>
+    <footer className="product-footer">
+      <p>OneVoice <span>Local audio workspace</span></p>
+      <div><a href="#about">About & research</a><a href="https://github.com/Zachshotamartin/target-speaker-extraction">Source ↗</a><a href="https://zachsm.com/projects/one-voice">Zach Martin</a></div>
+    </footer>
+  </div>;
+}
+
 createRoot(document.getElementById('root')).render(<App/>);

@@ -29,8 +29,8 @@ export default function OneVoiceUpload() {
     finally {setBusy(false); request.current=null;}
   }
   return <section className="ov-upload" aria-labelledby="ov-upload-title">
-    <h2 id="ov-upload-title">Try your own recordings</h2>
-    <p>Upload overlapping speech and a separate, clean sample of the person you want to keep. The sample should contain only that person speaking.</p>
+    <h1 id="ov-upload-title">Isolate a voice</h1>
+    <p>Get the extracted audio from your recording. Upload overlapping speech and a separate, clean sample containing only the person you want to keep.</p>
     <form onSubmit={extract}>
       <div className="ov-upload-fields">
         <label>Overlapping speech <small>WAV or FLAC · up to 30 seconds</small><input type="file" accept=".wav,.flac,audio/wav,audio/flac" disabled={busy || !model} onChange={e => change('mixture',e.target.files[0])} required /></label>
