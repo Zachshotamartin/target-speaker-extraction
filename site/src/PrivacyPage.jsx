@@ -39,6 +39,8 @@ export default function PrivacyPage() {
           <h3>Speech-to-text</h3>
           <p>When you select <strong>Transcribe</strong> on the public website, your recording and reference pass through Vercel to our service hosted on Hugging Face. One Voice, Whisper, speech detection, and voice matching run in that service. Comparison mode also transcribes the original recording. In the local installation, these models run on your computer.</p>
           <p>The worker uses downloaded model files and does not call OpenAI or a separate transcription provider. Hugging Face hosts the public worker and therefore processes the submitted audio. The local worker does not send audio to a cloud service. Installing the models requires downloads from model distributors; those downloads do not include your recordings.</p>
+          <h3>Transcript audio editing</h3>
+          <p>After transcription, <strong>Edit audio</strong> downloads the original and isolated audio into the open page. Selecting words, making cuts, and generating edited audio and subtitle exports happen in your browser. Your edit decisions are not sent back to the service.</p>
         </section>
 
         <section id="privacy-storage" aria-labelledby="privacy-storage-title">
@@ -48,9 +50,10 @@ export default function PrivacyPage() {
             <div><dt>Transcription jobs</dt><dd>Uploads are temporarily written to the worker’s disk: on Hugging Face for the public demo, or on your computer for a local installation. The worker removes the uploaded source files when it finishes. A playable copy of the original recording, the isolated audio, and the transcript with its scores remain for 15 minutes after completion while the service is running. <strong>Delete this result</strong> removes these job files earlier; cancelling a job also removes its files.</dd></div>
             <div><dt>Interrupted cleanup</dt><dd>A normal service shutdown removes jobs. If the service crashes, leftover files can remain until its next startup cleans them up or the hosting platform discards the container. A hosted restart can also make a temporary result unavailable before the 15-minute limit. The 15-minute timer does not run while the service is stopped.</dd></div>
             <div><dt>Saved voice references</dt><dd>Only choosing <strong>Save reference</strong> stores a reference recording and its profile name in this browser’s local database. It remains until you delete it or clear this site’s browser data. One Voice does not sync saved profiles to an account or cloud database.</dd></div>
+            <div><dt>Audio edits</dt><dd>Edits and undo history are held in the open page’s memory. They are discarded when you reload or close the page, replace or delete the transcription result, or reach its 15-minute expiry. Edited WAV, subtitle and text files you download remain on your device.</dd></div>
             <div><dt>Your files and downloads</dt><dd>Deleting a job does not delete your original files, a saved voice reference, or exports you have downloaded. Selected inputs also remain in the open page until replaced or the page is reloaded or closed. You control copies kept on your device and in your backups.</dd></div>
           </dl>
-          <p>The full JSON export includes comparison text and uncertain or excluded words. The audio export contains the complete isolated output. Review these files before sharing them; they can contain more than the selected-voice transcript.</p>
+          <p>The full JSON export includes comparison text and uncertain or excluded words. The unedited audio export contains the complete isolated output. Edit audio exports contain the words and audio you keep, including any unconfirmed matches you leave in. Review these files before sharing them; they can contain more than the selected-voice transcript.</p>
         </section>
 
         <section id="privacy-choices" aria-labelledby="privacy-choices-title">

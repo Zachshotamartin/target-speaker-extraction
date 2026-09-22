@@ -2,11 +2,12 @@ import React, {useEffect, useRef} from 'react';
 import {animateChange, useMotionState} from './motion.js';
 import {useDismissibleDetails} from './useDismissibleDetails.js';
 import {comparisonRows} from './comparisonRows.js';
+import TranscriptEditor from './TranscriptEditor.jsx';
 import './transcription-results.css';
 
 import {TRANSCRIPTION_API as API} from './transcriptionApi.js';
 const clock = time => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, '0')}`;
-const views = [['compare', 'Compare'], ['selected', 'Selected voice']];
+const views = [['compare', 'Compare'], ['selected', 'Selected voice'], ['edit', 'Edit audio']];
 const variants = [['original', 'Without One Voice'], ['extracted', 'With One Voice']];
 
 function TranscriptLines({segments, seek, empty}) {
@@ -71,7 +72,7 @@ export default function TranscriptionResults({result, jobId, referenceName, inpu
       {views.map(([name, label], index) => <button key={name} id={`result-tab-${name}`} type="button" role="tab"
         aria-selected={view === name} aria-controls={`result-${name}`} tabIndex={view === name ? 0 : -1}
         onClick={() => setView(name)} onKeyDown={event => {
-          const next = event.key === 'ArrowRight' || event.key === 'ArrowLeft' ? 1 - index : event.key === 'Home' ? 0 : event.key === 'End' ? 1 : null;
+          const next = event.key === 'ArrowRight' ? (index + 1) % views.length : event.key === 'ArrowLeft' ? (index + views.length - 1) % views.length : event.key === 'Home' ? 0 : event.key === 'End' ? views.length - 1 : null;
           if (next !== null) { event.preventDefault(); setView(views[next][0]); document.getElementById(`result-tab-${views[next][0]}`).focus(); }
         }}>{label}{name === 'selected' && <span>{result.coverage?.accepted_words || 0}</span>}</button>)}
     </div>
@@ -131,6 +132,10 @@ export default function TranscriptionResults({result, jobId, referenceName, inpu
         <p>These words are not included in the selected transcript or its exports.</p>
         <TranscriptLines segments={uncertain} seek={seconds => playFrom('selected', seconds)}/>
       </details>}
+    </div>
+
+    <div id="result-edit" role="tabpanel" aria-labelledby="result-tab-edit" hidden={view !== 'edit'} tabIndex={0} className="result-content">
+      <TranscriptEditor result={result} jobId={jobId} active={active && view === 'edit'}/>
     </div>
 
     <details className="run-details">
