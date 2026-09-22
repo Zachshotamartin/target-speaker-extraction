@@ -23,6 +23,40 @@ from fastapi.responses import FileResponse, Response
 from poc.common import MAX_BYTES, ROOT, TERMINAL, TTL_SECONDS, atomic_json, decode, export_text, wav
 
 
+def worker_rss_kib(pid, process_group=False):
+    """Include FFmpeg and other children in the isolated worker's memory budget."""
+    rows = subprocess.check_output(
+        ["/bin/ps", "-axo", "pid=,pgid=,rss="], timeout=2, text=True
+    ).splitlines()
+    total = 0
+    for row in rows:
+        process_id, group_id, rss = map(int, row.split())
+        if (group_id if process_group else process_id) == pid:
+            total += rss
+    return total
+
+
+def stop_worker(process, process_group=False):
+    def send(sig):
+        try:
+            if process_group:
+                os.killpg(process.pid, sig)
+            elif process.poll() is None:
+                process.send_signal(sig)
+        except ProcessLookupError:
+            pass  # It may finish between the status check and the signal.
+
+    send(signal.SIGTERM)
+    try:
+        process.wait(timeout=2)
+    except subprocess.TimeoutExpired:
+        send(signal.SIGKILL)
+        process.wait(timeout=2)
+    if process_group:
+        # The parent can exit before a child that ignored SIGTERM.
+        send(signal.SIGKILL)
+
+
 class Jobs:
     def __init__(self, directory, models, timeout=600, memory_mib=4096):
         self.directory, self.models = Path(directory), Path(models)
@@ -115,18 +149,7 @@ class Jobs:
             job.update(status="cancelled", stage="Deleted", expires_at=time.time() + TTL_SECONDS)
             process = job["process"]
             if process and process.poll() is None:
-                if job.get("process_group"):
-                    os.killpg(process.pid, signal.SIGTERM)
-                else:
-                    process.terminate()
-                try:
-                    process.wait(timeout=2)
-                except subprocess.TimeoutExpired:
-                    if job.get("process_group"):
-                        os.killpg(process.pid, signal.SIGKILL)
-                    else:
-                        process.kill()
-                    process.wait(timeout=2)
+                stop_worker(process, job.get("process_group", False))
             shutil.rmtree(self.directory / key, ignore_errors=True)
             return self.public(key)
 
@@ -151,18 +174,14 @@ class Jobs:
                         active.update(
                             status="ready" if success else "failed",
                             stage="Ready" if success else error,
+                            worker_exit_code=code,
                             expires_at=now + TTL_SECONDS,
                         )
                         if not success:
                             shutil.rmtree(directory, ignore_errors=True)
                         continue
                     try:
-                        rss = int(
-                            subprocess.check_output(
-                                ["/bin/ps", "-o", "rss=", "-p", str(process.pid)], timeout=2
-                            ).strip()
-                            or 0
-                        )
+                        rss = worker_rss_kib(process.pid, active.get("process_group", False))
                     except (subprocess.SubprocessError, ValueError):
                         rss = 0
                     timeout = active.get("timeout", self.timeout)
@@ -182,6 +201,7 @@ class Jobs:
                         PYTHONPATH=str(ROOT / "src") + os.pathsep + str(ROOT),
                         HF_HUB_OFFLINE="1",
                         HF_HUB_DISABLE_TELEMETRY="1",
+                        ORT_DISABLE_TELEMETRY="1",
                         OMP_NUM_THREADS="1",
                         OPENBLAS_NUM_THREADS="1",
                         VECLIB_MAXIMUM_THREADS="1",

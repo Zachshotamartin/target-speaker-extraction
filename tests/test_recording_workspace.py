@@ -8,8 +8,8 @@ from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from poc.common import RATE, decode, wav
-from poc.server import create_app
-from poc.workspace import CHUNK_BYTES, Uploads, render_options
+from poc.server import create_app, stop_worker, worker_rss_kib
+from poc.workspace import CHUNK_BYTES, Uploads, disk_usage, render_options
 from poc.workspace_worker import discover, probe, render_video, subtitle_text, windowed_extract
 
 
@@ -187,3 +187,91 @@ def test_workspace_submission_is_idempotent_after_inputs_are_consumed(tmp_path):
         recovered = client.get(f"/workspace/requests/{request_id}")
         assert recovered.json()["id"] == first.json()["id"]
         assert len(app.state.jobs.jobs) == 1
+
+
+def test_quota_check_tolerates_concurrent_worker_cleanup(tmp_path, monkeypatch):
+    from pathlib import Path
+
+    kept, removed = tmp_path / "output.wav", tmp_path / "mixture.input"
+    kept.write_bytes(b"saved")
+    removed.write_bytes(b"temporary")
+    original_stat = Path.stat
+
+    def stat_during_cleanup(path, *args, **kwargs):
+        if path == removed:
+            raise FileNotFoundError(path)
+        return original_stat(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "stat", stat_during_cleanup)
+    assert disk_usage(tmp_path) == len(b"saved")
+
+
+def test_job_capacity_respects_space_reserved_for_incomplete_uploads(tmp_path):
+    models = tmp_path / "models"
+    models.mkdir()
+    (models / "manifest.json").write_text("{}")
+    app = create_app(directory=tmp_path / "jobs", models=models)
+    with TestClient(app) as client:
+        app.state.jobs.stop.set()
+        app.state.jobs.thread.join()
+        upload = client.post("/workspace/uploads", json={"size": 3}).json()["id"]
+        client.post(f"/workspace/uploads/{upload}/chunks/0", content=b"abc")
+        for _ in range(7):
+            assert (
+                client.post("/workspace/uploads", json={"size": 100 * CHUNK_BYTES}).status_code
+                == 201
+            )
+        response = client.post("/workspace/jobs", json={"kind": "discover", "recording": upload})
+        assert response.status_code == 429
+        assert not app.state.jobs.jobs
+        assert client.get(f"/workspace/uploads/{upload}").status_code == 200
+
+
+def test_memory_budget_counts_render_children_but_not_other_jobs(monkeypatch):
+    monkeypatch.setattr(
+        subprocess,
+        "check_output",
+        lambda *args, **kwargs: "100 100 512\n101 100 4096\n102 99 999999\n",
+    )
+    assert worker_rss_kib(100, process_group=True) == 4608
+    assert worker_rss_kib(100) == 512
+
+
+def test_cancel_tolerates_worker_exit_and_cleans_up_remaining_children(monkeypatch):
+    import os
+    import signal
+
+    class Process:
+        pid = 100
+
+        def wait(self, timeout):
+            return 0
+
+    signals = []
+    monkeypatch.setattr(os, "killpg", lambda pid, sig: signals.append((pid, sig)))
+    stop_worker(Process(), process_group=True)
+    assert signals == [(100, signal.SIGTERM), (100, signal.SIGKILL)]
+
+    def already_exited(*args):
+        raise ProcessLookupError()
+
+    monkeypatch.setattr(os, "killpg", already_exited)
+    stop_worker(Process(), process_group=True)
+
+
+def test_worker_disables_native_telemetry_before_model_imports():
+    import os
+    import sys
+
+    subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import poc.worker, os, sys; "
+            "assert os.environ['ORT_DISABLE_TELEMETRY'] == '1'; "
+            "assert 'onnxruntime' not in sys.modules",
+        ],
+        env={**os.environ, "ORT_DISABLE_TELEMETRY": "0"},
+        check=True,
+        timeout=30,
+    )

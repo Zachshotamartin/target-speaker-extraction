@@ -4,7 +4,7 @@ import AudioCaptureButton from './AudioCaptureButton.jsx';
 import {useAudioRecorder} from './useAudioRecorder.js';
 import {useAudioUrl} from './useAudioUrl.js';
 import {profiles} from './voiceProfiles.js';
-import {projects, newProject} from './recordingProjects.js';
+import {projects, newProject, projectWriter} from './recordingProjects.js';
 import {json, request, post, upload, asset} from './workspaceApi.js';
 import {wavBytes, transcriptWords, captionsSrt, editedWords, renderEdit} from './audioEdit.js';
 import {emptyEdit, correctedWords, naturalPlan} from './naturalEdits.js';
@@ -22,7 +22,8 @@ export default function TranscriptionWorkspace({active = true}) {
   const [health, setHealth] = useState(null), [demos, setDemos] = useState([]), [demo, setDemo] = useState('0');
   const [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState(''), [saveStatus, setSaveStatus] = useState('');
   const [voice, setVoice] = useState(0), [excerpt, setExcerpt] = useState({start: 0, end: 4}), [exportBusy, setExportBusy] = useState(false);
-  const current = useRef(project), queue = useRef(Promise.resolve()), operation = useRef(null), polling = useRef(null), workspace = useRef(null);
+  const current = useRef(project), storage = useRef(null), operation = useRef(null), polling = useRef(null), workspace = useRef(null);
+  if (!storage.current) storage.current = projectWriter();
   const mounted = useRef(true), importing = useRef(false);
   current.current = project;
   const job = project.job;
@@ -33,8 +34,7 @@ export default function TranscriptionWorkspace({active = true}) {
 
   function update(patch) {setProject(p => ({...p, ...(typeof patch === 'function' ? patch(p) : patch), updated: Date.now()}));}
   function persist(snapshot) {
-    queue.current = queue.current.catch(() => {}).then(() => projects('save', snapshot));
-    return queue.current;
+    return storage.current.save(snapshot);
   }
   function refreshLibrary() {projects('list').then(items => setLibrary(items.sort((a, b) => b.updated - a.updated))).catch(e => setError(e.message));}
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function TranscriptionWorkspace({active = true}) {
     importing.current = true; setBusy(true); setError('');
     try {
       if (current.current.recording) await persist(current.current);
-      const fresh = {...newProject(), recording: blob, name, video: blob.type.startsWith('video/') || /\.(mp4|mov|mkv|webm)$/i.test(name)};
+      const fresh = {...newProject(), recording: blob, name, video: blob.type.startsWith('video/') || (!blob.type.startsWith('audio/') && /\.(mp4|mov|mkv|webm)$/i.test(name))};
       await persist(fresh); setProject(fresh); setVoice(0); setMessage('Recording saved. Find voices or add a clean reference.');
     } catch (e) {setError(e.message);} finally {importing.current = false; setBusy(false);}
   }
@@ -103,7 +103,7 @@ export default function TranscriptionWorkspace({active = true}) {
     if (!blob || !current.current.recording) return;
     if (current.current.references.length >= 4) {setError('Choose at most four voices per project.'); return;}
     if (blob.size > 4 * 1024 * 1024) {setError('A reference must be smaller than 4 MiB and 3–10 seconds.'); return;}
-    update(p => ({references: [...p.references, {id: crypto.randomUUID(), blob, label}]})); setError('');
+    update(p => ({references: [...p.references, {id: crypto.randomUUID(), blob, label: label.slice(0, 60)}]})); setError('');
   }
   async function example() {
     if (processing) return;
@@ -127,7 +127,7 @@ export default function TranscriptionWorkspace({active = true}) {
       }, controller.signal);
     }
     try {
-      const signature = JSON.stringify({kind, refs: snapshot.references.map(r => [r.id, r.label]), clips: videoOptions?.clips, words: videoOptions?.words});
+      const signature = JSON.stringify({kind, refs: snapshot.references.map(r => [r.id, r.label]), track: videoOptions?.trackId, clips: videoOptions?.clips, words: videoOptions?.words});
       const pending = snapshot.pending?.signature === signature ? snapshot.pending : {id: crypto.randomUUID(), signature};
       const resumed = snapshot.pending?.id === pending.id ? await json(`/workspace/requests/${pending.id}`, {signal: controller.signal}).catch(e => {if (e.status !== 404) throw e;}) : null;
       if (resumed) {update({job: resumed, pending: null, uploads: {}}); return;}
@@ -167,9 +167,10 @@ export default function TranscriptionWorkspace({active = true}) {
     } catch (e) {setError(e.message || 'This browser cannot decode the video audio. Use Find voices first, then select a passage.');} finally {setBusy(false);}
   }
   async function openProject(id) {
-    if (processing) return;
+    if (processing || importing.current || microphone.isBusy()) return;
+    importing.current = true; setBusy(true);
     try {if (current.current.recording) await persist(current.current); const saved = await projects('get', id); if (!saved) throw new Error('Project is no longer saved here.'); setProject(saved); setVoice(0); setError(''); setMessage('Saved project opened.');}
-    catch (e) {setError(e.message);}
+    catch (e) {setError(e.message);} finally {importing.current = false; setBusy(false);}
   }
   async function exportAll() {
     setExportBusy(true); setError('');
@@ -193,7 +194,7 @@ export default function TranscriptionWorkspace({active = true}) {
   return <section id="transcribe" ref={workspace} className="recording-workspace" onPlayCapture={e => workspace.current?.querySelectorAll('audio,video').forEach(p => {if (p !== e.target) p.pause();})}>
     <header className="recording-heading"><p className="eyebrow">Recording workspace</p><h1>Choose a voice.<br/>Make it yours.</h1><p>Isolate speakers, review the transcript, and edit audio or video. Start with a recording or try an example.</p></header>
     <div className="project-bar"><label>Project name<input aria-label="Project name" value={project.name} maxLength={100} onChange={e => update({name: e.target.value})}/></label><span role="status">{saveStatus || 'Projects are saved on this device'}</span>
-      <details><summary>Saved projects ({library.length})</summary><ul>{library.map(item => <li key={item.id}><button disabled={processing} onClick={() => openProject(item.id)}>{item.name} <small>{item.tracks} tracks</small></button><button disabled={processing} aria-label={`Delete saved project ${item.name}`} onClick={async () => {try {await queue.current; await projects('delete', item.id); if (project.id === item.id) {setProject(newProject()); setSaveStatus('');} refreshLibrary();} catch (e) {setError(e.message);}}}>Delete</button></li>)}</ul>{!library.length && <p>Your saved projects will appear here.</p>}</details>
+      <details><summary>Saved projects ({library.length})</summary><ul>{library.map(item => <li key={item.id}><button disabled={processing} onClick={() => openProject(item.id)}>{item.name} <small>{item.tracks} tracks</small></button><button disabled={processing} aria-label={`Delete saved project ${item.name}`} onClick={async () => {try {await storage.current.delete(item.id); if (project.id === item.id) {setProject(newProject()); setSaveStatus('');} refreshLibrary();} catch (e) {setError(e.message);}}}>Delete</button></li>)}</ul>{!library.length && <p>Your saved projects will appear here.</p>}</details>
     </div>
     {error && <p className="workspace-alert" role="alert">{error}</p>}
     {(message || processing) && <div className="workspace-progress" role="status"><span>{message || 'Working…'}</span>{processing && <button onClick={cancel}>{busy ? 'Pause upload / cancel' : 'Cancel processing'}</button>}</div>}
@@ -223,7 +224,7 @@ export default function TranscriptionWorkspace({active = true}) {
       {!selected ? <p>Your isolated tracks and transcript editor will appear here.</p> : <><div className="voice-tabs" role="group" aria-label="Speaker tracks">{project.tracks.map((track, index) => <button key={track.id} aria-pressed={voice === index} onClick={() => setVoice(index)}>{track.label}</button>)}</div><p className="workspace-note">{project.notice}</p>
         <TranscriptionResults key={`${project.id}-${selected.id}-${selected.result.processing_seconds}`} result={selected.result} referenceName={selected.label} jobId={null} active={active}
           audioFiles={{original: project.original, extracted: selected.audio}} savedEdit={project.edits[selected.id]} onEdit={edit => update(p => ({edits: {...p.edits, [selected.id]: edit}}))}
-          onRenderVideo={project.video ? options => send('video', options) : undefined} videoBusy={processing}
+          onRenderVideo={project.video ? options => send('video', {...options, trackId: selected.id}) : undefined} videoBusy={processing}
           onNotice={setMessage} onError={setError} onDelete={() => update(p => ({tracks: p.tracks.filter(t => t.id !== selected.id)}))}/></>}
       {project.videoExport && <button onClick={() => download(project.videoExport, 'onevoice-captioned.mp4')}>Download last captioned video</button>}
     </section>

@@ -20,3 +20,16 @@ export function projects(action, value) {
   });
 }
 export const newProject = () => ({id: crypto.randomUUID(), name: 'Untitled recording', updated: Date.now(), references: [], candidates: [], tracks: [], edits: {}, uploads: {}});
+
+// Deletion must also suppress a debounced save that has not been queued yet.
+export function projectWriter() {
+  let queue = Promise.resolve();
+  const deleted = new Set();
+  const enqueue = operation => (queue = queue.catch(() => {}).then(operation));
+  return {
+    save: snapshot => enqueue(() => deleted.has(snapshot.id) ? undefined : projects('save', snapshot)),
+    delete: id => {deleted.add(id); return enqueue(async () => {
+      try {return await projects('delete', id);} catch (error) {deleted.delete(id); throw error;}
+    });},
+  };
+}

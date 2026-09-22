@@ -6,6 +6,7 @@ The same transcribe() call is used for the raw and One Voice comparisons.
 
 import gc
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -25,8 +26,13 @@ ASR_SETTINGS = dict(
 
 class Runtime:
     def __init__(self, directory, progress=lambda _: None):
+        # Disable the native uploader before its library initializes. HF's
+        # telemetry flag and DO_NOT_TRACK do not configure ONNX Runtime.
+        os.environ["ORT_DISABLE_TELEMETRY"] = "1"
+        import onnxruntime
         import torch
 
+        onnxruntime.disable_telemetry_events()
         torch.set_num_threads(1)
         torch.set_num_interop_threads(1)
         self.directory = Path(directory)

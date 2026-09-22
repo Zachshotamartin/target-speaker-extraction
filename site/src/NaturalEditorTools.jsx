@@ -4,7 +4,9 @@ import {suggestions, waveformPeaks} from './naturalEdits.js';
 export default function NaturalEditorTools({words, edit, bounds, audio, duration, change, preview}) {
   const [cut, setCut] = useState({start: 0, end: 0}), [text, setText] = useState(''), [pause, setPause] = useState(.45);
   const start = bounds?.[0], end = bounds?.[1];
-  useEffect(() => {if (start !== undefined) {setCut({start: words[start].start, end: words[end].end}); setText(words[start].text);}}, [start, end]);
+  useEffect(() => {if (start !== undefined) setCut({start: words[start].start, end: words[end].end});}, [start, end]);
+  const selectedText = words[start]?.text;
+  useEffect(() => {if (selectedText !== undefined) setText(selectedText);}, [start, selectedText]);
   const ids = start === undefined ? [] : Array.from({length: end - start + 1}, (_, i) => start + i);
   const ideas = useMemo(() => suggestions(words, 1.2, pause), [words, pause]);
   const remaining = ideas.filter(idea => idea.cut ? !edit.customCuts.some(c => c.start === idea.start && c.end === idea.end) : !idea.ids.every(i => edit.removed.includes(i)));
@@ -20,7 +22,7 @@ export default function NaturalEditorTools({words, edit, bounds, audio, duration
       {ids.length === 1 && <form onSubmit={e => {e.preventDefault(); if (text.trim()) change({corrections: {...edit.corrections, [start]: text.trim()}}, 'Text corrected. Audio is unchanged.');}}><label>Correct selected word<input value={text} maxLength={120} onChange={e => setText(e.target.value)}/></label><button type="submit">Save text</button></form>}
       <div className="editor-history"><button onClick={() => mark('accepted')}>This is the selected voice</button><button onClick={() => mark('excluded')}>Different voice</button><button onClick={() => mark(null)}>Restore model labels</button></div>
       {audio && <div className="waveform-cut"><h4>Fine-tune a cut</h4><p>Adjust the highlighted region, preview it, then apply the cut.</p>
-        <svg viewBox="0 0 600 90" role="img" aria-label="Selected voice waveform">
+        <svg viewBox="0 0 600 90" preserveAspectRatio="none" role="img" aria-label="Selected voice waveform">
           <rect x={Math.max(0, (cut.start - left) / (right - left) * 600)} width={Math.max(0, (Math.min(right, cut.end) - Math.max(left, cut.start)) / (right - left) * 600)} height="90" fill="currentColor" opacity=".1"/>
           {peaks.map((peak, i) => <line key={i} x1={i * 2.5} x2={i * 2.5} y1={45 - peak * 43} y2={45 + peak * 43} stroke="currentColor" strokeWidth="1.5"/>)}
         </svg>

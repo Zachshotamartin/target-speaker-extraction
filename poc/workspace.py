@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import re
+import stat
 import threading
 import time
 import uuid
@@ -20,6 +21,19 @@ MAX_SECONDS = 600
 ASSET = re.compile(
     r"^(?:(?:original|speaker-[0-3]|reference-[0-3])\.wav|captioned\.mp4|report-[0-3]\.json)$"
 )
+
+
+def disk_usage(directory):
+    """Workers and expiry cleanup can remove files while quota is being checked."""
+    total = 0
+    for path in directory.rglob("*"):
+        try:
+            entry = path.stat()
+        except FileNotFoundError:
+            continue
+        if stat.S_ISREG(entry.st_mode):
+            total += entry.st_size
+    return total
 
 
 def identifier(value):
@@ -105,7 +119,7 @@ class Uploads:
             self.expire()
             if sum(i["owner"] == owner for i in self.items.values()) >= 8:
                 raise HTTPException(429, "Finish or remove an earlier upload first.")
-            used = sum(p.stat().st_size for p in self.directory.parent.rglob("*") if p.is_file())
+            used = disk_usage(self.directory.parent)
             reserved = sum(i["size"] - i["received"] for i in self.items.values())
             pending_outputs = (
                 sum(1 for p in self.directory.parent.glob("*/options.json")) * 160 * CHUNK_BYTES
@@ -281,7 +295,7 @@ def attach_routes(app, directory, models, owner):
                 for previous in app.state.jobs.jobs.values():
                     if previous.get("request_id") == request_id and previous["owner"] == identity:
                         return app.state.jobs.public(previous["id"], identity)
-            used = sum(p.stat().st_size for p in directory.rglob("*") if p.is_file())
+            used = disk_usage(directory)
             # Reserve room for generated tracks/video and the decoded render WAV.
             active = sum(
                 j["status"] not in {"ready", "failed", "cancelled", "expired"}
@@ -289,6 +303,7 @@ def attach_routes(app, directory, models, owner):
             )
             if (
                 used
+                + sum(i["size"] - i["received"] for i in app.state.uploads.items.values())
                 + sum(p.stat().st_size for p in files.values())
                 + (active + 1) * 160 * CHUNK_BYTES
                 > DISK_BYTES

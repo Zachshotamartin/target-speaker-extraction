@@ -15,7 +15,7 @@ COPY site/src/snapshot.json ./site/src/snapshot.json
 COPY site/public/assets/one-voice ./site/public/assets/one-voice
 USER service
 ENV PYTHONPATH=/app/src:/app \
-    HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 DO_NOT_TRACK=1 \
+    HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 DO_NOT_TRACK=1 ORT_DISABLE_TELEMETRY=1 \
     OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 EXPOSE 8080
 CMD ["python", "-m", "uvicorn", "poc.hosted:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080", "--workers", "1", "--no-access-log"]
