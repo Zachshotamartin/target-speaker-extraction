@@ -16,9 +16,13 @@ All four audio inputs support microphone recording and browser-side WAV conversi
 
 ## Transcript audio editor
 
-After a transcription finishes, choose **Edit audio** in Results. Click a word to
-listen, or choose **Select words** and click the first and last word of a passage.
-Remove a passage, keep only that passage, restore removed words, or undo/redo edits.
+After a transcription finishes, choose **Edit audio** in Results. Follow the three
+visible steps: select words, make your edit, then listen and download. Click the
+first and last word of a passage (once for a single word), and use **Play selection**
+to audition it. Remove a passage, keep only that passage, restore removed words,
+or undo/redo edits. Selection playback uses the unedited voice so removed passages
+can also be checked before restoring them. Applying an edit switches playback
+back to Edited voice; downloads always export the edit, even while previewing another track.
 Shift-click and Shift-arrow keys extend a selection; Cmd/Ctrl-Z undoes an edit and
 Cmd/Ctrl-Shift-Z redoes it. Reset edits is itself undoable.
 
@@ -38,7 +42,7 @@ Download files to retain them; saved editing sessions are not implemented.
 
 Run `node scripts/check-audio-editor.mjs` and `npm run build` to validate cut
 timelines, captions, history, timestamp normalization, seam fades and PCM export.
-Use a public example in the browser to check word seeking, range edits, track
+Use a public example in the browser to check selection playback, range edits, track
 switching, undo/redo, downloads and narrow layouts. Local transcription uses the
 existing loopback service on port 5296 (`poc/README.md`).
 

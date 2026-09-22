@@ -74,7 +74,7 @@ export default function TranscriptionResults({result, jobId, referenceName, inpu
         onClick={() => setView(name)} onKeyDown={event => {
           const next = event.key === 'ArrowRight' ? (index + 1) % views.length : event.key === 'ArrowLeft' ? (index + views.length - 1) % views.length : event.key === 'Home' ? 0 : event.key === 'End' ? views.length - 1 : null;
           if (next !== null) { event.preventDefault(); setView(views[next][0]); document.getElementById(`result-tab-${views[next][0]}`).focus(); }
-        }}>{label}{name === 'selected' && <span>{result.coverage?.accepted_words || 0}</span>}</button>)}
+        }}>{label}{name === 'selected' && <span>{result.coverage?.accepted_words || 0} {(result.coverage?.accepted_words || 0) === 1 ? 'word' : 'words'}</span>}</button>)}
     </div>
 
     <div id="result-compare" role="tabpanel" aria-labelledby="result-tab-compare" hidden={view !== 'compare'} tabIndex={0} className="result-content comparison-view">

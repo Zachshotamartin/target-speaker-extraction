@@ -21,12 +21,12 @@ export default function TranscriptEditor({result, jobId, active}) {
   const words = useMemo(() => transcriptWords(result), [result]);
   const [history, dispatch] = useReducer(editHistory, initialEdits);
   const [audio, setAudio] = useState(null), [error, setError] = useState(''), [attempt, retry] = useState(0);
-  const [track, setTrack] = useState('edited'), [mode, setMode] = useState('listen');
+  const [track, setTrack] = useState('edited');
   const [selection, setSelection] = useState(null), [awaitingEnd, setAwaitingEnd] = useState(false);
   const [time, setTime] = useState(0), [message, setMessage] = useState('');
   const [editPending, setEditPending] = useState(false);
   const player = useRef(null), sourceTime = useRef(0), stopAt = useRef(null), editing = useRef(false);
-  const pendingSeek = useRef(null), frame = useRef(0);
+  const pendingSeek = useRef(null), pendingPreview = useRef(null), frame = useRef(0);
   const clips = useMemo(() => editPlan(words, history.removed, result.duration), [words, history.removed, result.duration]);
   const kept = useMemo(() => editedWords(words, history.removed, clips), [words, history.removed, clips]);
   const removed = useMemo(() => new Set(history.removed), [history.removed]);
@@ -41,7 +41,7 @@ export default function TranscriptEditor({result, jobId, active}) {
   const url = {original: originalUrl, isolated: isolatedUrl, edited: editedUrl}[track];
   const bounds = selection ? [Math.min(...selection), Math.max(...selection)] : null;
   const selectedIds = bounds ? words.map((_, index) => index).slice(bounds[0], bounds[1] + 1) : [];
-  const currentWord = words.findIndex((word, index) => time >= word.start && time < word.end && (track !== 'edited' || !removed.has(index)));
+  const currentWord = player.current && !player.current.paused ? words.findIndex((word, index) => time >= word.start && time < word.end && (track !== 'edited' || !removed.has(index))) : -1;
 
   useEffect(() => {
     if (!active || audio) return;
@@ -66,7 +66,7 @@ export default function TranscriptEditor({result, jobId, active}) {
     return () => controller.abort();
   }, [active, audio, attempt, jobId, result.duration, result.sample_rate]);
 
-  useEffect(() => { if (!active) {player.current?.pause(); stopAt.current = null; cancelAnimationFrame(frame.current);} }, [active]);
+  useEffect(() => { if (!active) {player.current?.pause(); stopAt.current = null; pendingPreview.current = null; cancelAnimationFrame(frame.current);} }, [active]);
   useEffect(() => () => cancelAnimationFrame(frame.current), []);
   useEffect(() => {editing.current = false;}, [history]);
 
@@ -93,24 +93,34 @@ export default function TranscriptEditor({result, jobId, active}) {
     if (play) player.current.play().catch(() => setMessage('Press Play to listen.'));
   }
   function changeTrack(next) {
-    player.current?.pause(); stopAt.current = null; pendingSeek.current = sourceTime.current; setTrack(next);
+    if (next === track) return;
+    player.current?.pause(); stopAt.current = null; pendingPreview.current = null;
+    pendingSeek.current = sourceTime.current; setTrack(next);
   }
   function selectWord(index, extend = false) {
-    if (mode === 'listen' && !extend) {stopAt.current = null; seek(words[index].start, true); return;}
+    player.current?.pause(); stopAt.current = null; pendingPreview.current = null;
     if (extend || awaitingEnd) {
       setSelection([selection?.[0] ?? index, index]); setAwaitingEnd(false);
     } else {setSelection([index, index]); setAwaitingEnd(true);}
     setMessage('');
   }
+  function playSelection() {
+    if (!bounds || !audio) return;
+    if (!player.current.paused && stopAt.current !== null) {player.current.pause(); stopAt.current = null; return;}
+    const start = words[bounds[0]].start, end = words[bounds[1]].end;
+    // Always audition the uncut passage, including words the user may restore.
+    if (track !== 'isolated') {
+      player.current.pause(); pendingSeek.current = start; pendingPreview.current = end; setTrack('isolated');
+    } else {stopAt.current = end; seek(start, true);}
+  }
   function changeEdits(action, notice) {
     if (editing.current || editHistory(history, action) === history) return;
     editing.current = true;
     setEditPending(true);
-    player.current?.pause(); stopAt.current = null; sourceTime.current = 0; setTime(0);
-    if (track === 'edited') pendingSeek.current = 0;
-    else if (player.current) player.current.currentTime = 0;
+    player.current?.pause(); stopAt.current = null; pendingPreview.current = null; sourceTime.current = 0; setTime(0);
+    pendingSeek.current = 0;
     // Guard immediately; commit history and its derived export artifacts together.
-    animateChange(() => {dispatch(action); editing.current = false; setEditPending(false); setMessage(notice);}, '.transcript-editor');
+    animateChange(() => {dispatch(action); setTrack('edited'); setAwaitingEnd(false); editing.current = false; setEditPending(false); setMessage(notice);}, '.transcript-editor');
   }
   function apply(operation) {
     if (!bounds) return;
@@ -118,7 +128,7 @@ export default function TranscriptEditor({result, jobId, active}) {
     const next = operation === 'keep' ? words.map((_, index) => index).filter(index => !selected.has(index))
       : operation === 'restore' ? history.removed.filter(index => !selected.has(index))
       : [...history.removed, ...selectedIds];
-    changeEdits({type: 'set', removed: next}, operation === 'keep' ? 'Only the selected passage is kept.' : operation === 'restore' ? 'Selected words restored.' : 'Selected words removed. Undo is available.');
+    changeEdits({type: 'set', removed: next}, operation === 'keep' ? 'Only this passage remains. Listen to your edit below.' : operation === 'restore' ? 'Words restored. Listen to your edit below.' : 'Passage removed. Listen below, or select another passage.');
   }
   function keyboard(event) {
     if (/INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
@@ -128,63 +138,79 @@ export default function TranscriptEditor({result, jobId, active}) {
   }
 
   return <section className="transcript-editor" aria-label="Transcript audio editor" onKeyDown={keyboard}>
-    <div className="editor-heading"><div><h3>Edit by selecting words</h3><p>Keep a passage or remove words from the isolated voice. Your original stays intact.</p></div>
-      <span className="editor-duration">{clock(editedDuration(clips))} <span>of {clock(result.duration)}</span></span></div>
+    <p className="editor-intro">Edit the isolated voice in three steps. Your original recording stays intact.</p>
     {!audio && !error && <p role="status" className="editor-status">Preparing audio for local editing…</p>}
     {error && <div className="editor-error" role="alert"><p>{error}</p><button type="button" onClick={() => retry(value => value + 1)}>Retry audio</button></div>}
-    <div className="editor-listening">
-      <label htmlFor="editor-track">Listen to<select id="editor-track" value={track} onChange={event => changeTrack(event.target.value)} disabled={!audio || editPending}>
-        {tracks.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-      </select></label>
-      <audio ref={player} controls preload="metadata" src={url || undefined} aria-label="Editor audio"
-        onLoadedMetadata={() => {const next = pendingSeek.current ?? sourceTime.current; pendingSeek.current = null; seek(next);}}
-        onPlay={followPlayback} onPause={() => cancelAnimationFrame(frame.current)} onTimeUpdate={readPosition} onSeeked={readPosition}
-        onError={() => {if (url) setMessage('Audio playback failed. Try switching tracks or reloading the audio.');}}/>
-    </div>
-    <div className="editor-tools">
-      <div className="editor-mode" role="group" aria-label="Word interaction">
-        <button type="button" aria-pressed={mode === 'listen'} onClick={() => {setMode('listen'); setAwaitingEnd(false);}}>Listen</button>
-        <button type="button" aria-pressed={mode === 'select'} onClick={() => {setMode('select'); setAwaitingEnd(false);}}>Select words</button>
-      </div>
-      <div className="editor-history"><button type="button" disabled={editPending || !history.past.length} onClick={() => changeEdits({type: 'undo'}, 'Edit undone.')}>Undo</button>
-        <button type="button" disabled={editPending || !history.future.length} onClick={() => changeEdits({type: 'redo'}, 'Edit redone.')}>Redo</button>
-        <button type="button" disabled={editPending || !history.removed.length} onClick={() => changeEdits({type: 'set', removed: []}, 'All words restored. You can undo this reset.')}>Reset edits</button></div>
-    </div>
-    <p id="editor-word-help" className="editor-help">{mode === 'listen' ? 'Click a word to listen. Switch to Select words to make a cut.' : awaitingEnd ? 'Now choose the last word of your passage, or use the selection below.' : 'Choose the first and last word of a passage. Shift-click also extends a selection.'}</p>
-    <div className="editor-transcript" role="group" aria-label="Editable transcript" aria-describedby="editor-word-help">
-      {words.length ? words.map((word, index) => <React.Fragment key={index}>
-        {index > 0 && (word.start - words[index - 1].end > 1 || index % 24 === 0) && <span className="editor-break" aria-hidden="true"/>}
-        <button type="button" className={`editor-word${removed.has(index) ? ' is-removed' : ''}${bounds && index >= bounds[0] && index <= bounds[1] ? ' is-selected' : ''}${currentWord === index ? ' is-current' : ''}${word.attribution && word.attribution !== 'accepted' ? ' is-uncertain' : ''}`}
-          aria-label={`${word.text}, ${clock(word.start)}${removed.has(index) ? ', removed' : ''}${word.attribution && word.attribution !== 'accepted' ? ', voice match unconfirmed' : ''}`}
-          aria-pressed={Boolean(bounds && index >= bounds[0] && index <= bounds[1])} aria-current={currentWord === index ? 'true' : undefined}
-          title={`${clock(word.start)}–${clock(word.end)}`} onClick={event => selectWord(index, event.shiftKey)}
-          onKeyDown={event => {
-            if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
-            event.preventDefault();
-            const next = Math.max(0, Math.min(words.length - 1, index + (event.key === 'ArrowRight' ? 1 : -1)));
-            if (event.shiftKey) {setSelection([selection?.[0] ?? index, next]); setAwaitingEnd(false);}
-            event.currentTarget.parentElement.querySelectorAll('.editor-word')[next]?.focus();
-          }}>{word.text}</button>{' '}
-      </React.Fragment>) : <p>No timed words were found. You can still listen to and export the full isolated audio.</p>}
-    </div>
-    <p className="editor-legend">Struck through = removed. Dotted underline = voice match unconfirmed. All transcribed words are available here; listen before keeping them.</p>
-    <div className="editor-selection" aria-label="Passage selection">
-      <p>{bounds ? `${selectedIds.length} ${selectedIds.length === 1 ? 'word' : 'words'} selected · ${clock(words[bounds[0]].start)}–${clock(words[bounds[1]].end)}` : 'Select a passage to edit.'}</p>
-      <div className="editor-selection-actions">
-        <button type="button" disabled={editPending || !bounds || !audio || (track === 'edited' && selectedIds.every(index => removed.has(index)))} onClick={() => {stopAt.current = words[bounds[1]].end; seek(words[bounds[0]].start, true);}}>Play selection</button>
-        <button type="button" disabled={editPending || !bounds || selectedIds.every(index => removed.has(index))} onClick={() => apply('remove')}>Remove</button>
-        <button type="button" disabled={editPending || !bounds} onClick={() => apply('keep')}>Keep only</button>
-        <button type="button" disabled={editPending || !bounds || !selectedIds.some(index => removed.has(index))} onClick={() => apply('restore')}>Restore</button>
-        <button type="button" disabled={!bounds} onClick={() => {setSelection(null); setAwaitingEnd(false);}}>Clear selection</button>
-      </div>
-    </div>
-    {!clips.length && <p className="editor-status">All audio is removed. Restore words or undo an edit to export.</p>}
-    <p className="editor-announcement" role="status">{message}</p>
-    <div className="editor-export"><div><h4>Export your edit</h4><p>Subtitles use the edited audio’s timeline.</p></div>
-      <div className="editor-export-links">
-        {editedUrl && clips.length ? <a href={editedUrl} download="onevoice-edited.wav">Download WAV</a> : <button disabled>Download WAV</button>}
-        {audio && kept.length ? <><a href={srtUrl} download="onevoice-edited.srt">Subtitles (.srt)</a><a href={textUrl} download="onevoice-edited.txt">Transcript (.txt)</a></> : <><button disabled>Subtitles (.srt)</button><button disabled>Transcript (.txt)</button></>}
-      </div></div>
-    <p className="editor-footnote">Cuts and exports run in this browser. Word timings are approximate; audition cuts before exporting. Edits last until you reload, replace this result, or its 15-minute expiry.</p>
+    <ol className="editor-steps" aria-label="Audio editing steps">
+      <li className="editor-step">
+        <div className="editor-step-heading"><span className="editor-step-number" aria-hidden="true">01</span><h3>Select words</h3></div>
+        <p id="editor-word-help" className="editor-step-help">Click the first and last word of a passage. For a single word, click it once.</p>
+        <div className="editor-transcript" role="group" aria-label="Editable transcript" aria-describedby="editor-word-help">
+          {words.length ? words.map((word, index) => <React.Fragment key={index}>
+            {index > 0 && (word.start - words[index - 1].end > 1 || index % 24 === 0) && <span className="editor-break" aria-hidden="true"/>}
+            <button type="button" className={`editor-word${removed.has(index) ? ' is-removed' : ''}${bounds && index >= bounds[0] && index <= bounds[1] ? ' is-selected' : ''}${currentWord === index ? ' is-current' : ''}${word.attribution && word.attribution !== 'accepted' ? ' is-uncertain' : ''}`}
+              aria-label={`${word.text}, ${clock(word.start)}${removed.has(index) ? ', removed' : ''}${word.attribution && word.attribution !== 'accepted' ? ', voice match unconfirmed' : ''}`}
+              aria-pressed={Boolean(bounds && index >= bounds[0] && index <= bounds[1])} aria-current={currentWord === index ? 'true' : undefined}
+              title={`${clock(word.start)}–${clock(word.end)}`} onClick={event => selectWord(index, event.shiftKey)}
+              onKeyDown={event => {
+                if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+                event.preventDefault();
+                const next = Math.max(0, Math.min(words.length - 1, index + (event.key === 'ArrowRight' ? 1 : -1)));
+                if (event.shiftKey) {setSelection([selection?.[0] ?? index, next]); setAwaitingEnd(false);}
+                event.currentTarget.parentElement.querySelectorAll('.editor-word')[next]?.focus();
+              }}>{word.text}</button>{' '}
+          </React.Fragment>) : <p>No timed words were found. Skip to step 3 to listen or download the full isolated audio.</p>}
+        </div>
+        <p className="editor-legend"><span>Crossed out: removed</span><span>Dotted underline: speaker unconfirmed</span></p>
+        <div className="editor-selection" aria-label="Passage selection">
+          <p aria-live="polite">{bounds ? <><strong>{selectedIds.length} {selectedIds.length === 1 ? 'word' : 'words'} selected</strong><span> · {clock(words[bounds[0]].start)}–{clock(words[bounds[1]].end)}</span>{awaitingEnd && <span className="editor-selection-hint">Click another word to extend, or edit this word below.</span>}</> : 'Choose a passage above to get started.'}</p>
+          <div className="editor-selection-actions">
+            <button type="button" disabled={editPending || !bounds || !audio} onClick={playSelection}>{player.current && !player.current.paused && stopAt.current !== null ? 'Stop preview' : 'Play selection'}</button>
+            <button type="button" className="editor-text-button" disabled={!bounds} onClick={() => {setSelection(null); setAwaitingEnd(false);}}>Clear selection</button>
+          </div>
+        </div>
+      </li>
+      <li className="editor-step">
+        <div className="editor-step-heading"><span className="editor-step-number" aria-hidden="true">02</span><h3>Make your edit</h3></div>
+        <p className="editor-step-help">Choose what happens to your selection. Every edit can be undone.</p>
+        <div className="editor-edit-actions">
+          <div><button type="button" disabled={editPending || !bounds || selectedIds.every(index => removed.has(index))} onClick={() => apply('remove')}>Remove selected</button><p>Cut this passage out.</p></div>
+          <div><button type="button" disabled={editPending || !bounds} onClick={() => apply('keep')}>Keep only selected</button><p>Remove everything else.</p></div>
+        </div>
+        <div className="editor-history" aria-label="Edit history">
+          <button type="button" disabled={editPending || !history.past.length} onClick={() => changeEdits({type: 'undo'}, 'Edit undone.')}>Undo</button>
+          <button type="button" disabled={editPending || !history.future.length} onClick={() => changeEdits({type: 'redo'}, 'Edit redone.')}>Redo</button>
+          <button type="button" className="editor-text-button" disabled={editPending || !history.removed.length} onClick={() => changeEdits({type: 'set', removed: []}, 'All words restored. You can undo this reset.')}>Reset edits</button>
+          {bounds && selectedIds.some(index => removed.has(index)) && <button type="button" disabled={editPending} onClick={() => apply('restore')}>Restore selected</button>}
+        </div>
+        <p className="editor-announcement" role="status">{message}</p>
+      </li>
+      <li className="editor-step">
+        <div className="editor-step-heading"><span className="editor-step-number" aria-hidden="true">03</span><h3>Listen &amp; download</h3></div>
+        <p className="editor-step-help">Check your edit, then save it. Switch tracks to compare with the original.</p>
+        <p className="editor-duration"><strong>{clock(editedDuration(clips))}</strong> edited <span>· {clock(result.duration)} original</span></p>
+        <div className="editor-listening">
+          <label htmlFor="editor-track">Preview track<select id="editor-track" value={track} onChange={event => changeTrack(event.target.value)} disabled={!audio || editPending}>
+            {tracks.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          </select></label>
+          <audio ref={player} controls preload="metadata" src={url || undefined} aria-label="Editor audio"
+            onLoadedMetadata={() => {
+              const next = pendingSeek.current ?? sourceTime.current, end = pendingPreview.current;
+              pendingSeek.current = null; pendingPreview.current = null;
+              if (end !== null) stopAt.current = end;
+              seek(next, end !== null && active);
+            }}
+            onPlay={followPlayback} onPause={() => {cancelAnimationFrame(frame.current); setTime(sourceTime.current);}} onTimeUpdate={readPosition} onSeeked={readPosition}
+            onError={() => {if (url) setMessage('Audio playback failed. Try switching tracks or reloading the audio.');}}/>
+        </div>
+        {!clips.length && <p className="editor-status">All audio is removed. Undo an edit or restore words in step 2 to download.</p>}
+        <div className="editor-export-links">
+          {editedUrl && clips.length ? <a href={editedUrl} download="onevoice-edited.wav">Download audio (.wav)</a> : <button disabled>Download audio (.wav)</button>}
+          {audio && kept.length ? <><a href={srtUrl} download="onevoice-edited.srt">Subtitles (.srt)</a><a href={textUrl} download="onevoice-edited.txt">Transcript (.txt)</a></> : <><button disabled>Subtitles (.srt)</button><button disabled>Transcript (.txt)</button></>}
+        </div>
+        <p className="editor-export-note">Downloads always contain your edit. Subtitle times follow the edited audio.</p>
+      </li>
+    </ol>
+    <p className="editor-footnote">Word timings are approximate—listen before saving. Download to keep your work: edits expire with this result after 15 minutes and are lost on reload.</p>
   </section>;
 }
