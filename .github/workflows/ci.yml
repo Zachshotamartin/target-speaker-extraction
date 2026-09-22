@@ -37,6 +37,7 @@ jobs:
       - run: node site/scripts/check-header-scroll.mjs
       - run: node site/scripts/check-page-navigation.mjs
       - run: node site/scripts/check-comparison-rows.mjs
+      - run: node site/scripts/check-audio-editor.mjs
       - run: node site/scripts/check-extraction-proxy.mjs
       - run: node site/scripts/check-transcription-proxy.mjs
       - run: npm run build --prefix site

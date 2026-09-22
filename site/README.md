@@ -14,6 +14,38 @@ For extraction and transcription together, follow [`poc/HOSTING.md`](../poc/HOST
 
 All four audio inputs support microphone recording and browser-side WAV conversion. Browser permission is required, and recording does not automatically submit audio. On the public website, transcription uses the same-origin `/api/poc` proxy with a signed browser-session cookie. Local development keeps the loopback service documented in `poc/README.md`. Hosted requests never attempt to reach a visitor's localhost. Deploying the Vite site does not deploy the Python models; both services must be deployed and verified.
 
+## Transcript audio editor
+
+After a transcription finishes, choose **Edit audio** in Results. Follow the three
+visible steps: select words, make your edit, then listen and download. Click the
+first and last word of a passage (once for a single word), and use **Play selection**
+to audition it. Remove a passage, keep only that passage, restore removed words,
+or undo/redo edits. Selection playback uses the unedited voice so removed passages
+can also be checked before restoring them. Applying an edit switches playback
+back to Edited voice; downloads always export the edit, even while previewing another track.
+Shift-click and Shift-arrow keys extend a selection; Cmd/Ctrl-Z undoes an edit and
+Cmd/Ctrl-Shift-Z redoes it. Reset edits is itself undoable.
+
+The player switches between the original recording, the full isolated voice, and
+the edited voice at the corresponding source time. WAV, SRT and text exports all
+use the same cut plan; subtitle timestamps are retimed to the edited recording.
+Cuts include up to 40ms of adjacent gaps and a 5ms fade at new audio boundaries.
+Word alignment is approximate, so preview cuts before exporting. Unconfirmed
+words remain visible and are never silently discarded by the editor.
+
+Editing and export run entirely in the browser after the existing inference
+service returns audio and word timestamps. There is no new model training or
+backend endpoint. The existing 30-second / 4 MiB upload limits apply. Edits are
+held in memory, survive switching site pages and result tabs, and are discarded
+when the result is deleted, replaced, expires after 15 minutes, or the page closes.
+Download files to retain them; saved editing sessions are not implemented.
+
+Run `node scripts/check-audio-editor.mjs` and `npm run build` to validate cut
+timelines, captions, history, timestamp normalization, seam fades and PCM export.
+Use a public example in the browser to check selection playback, range edits, track
+switching, undo/redo, downloads and narrow layouts. Local transcription uses the
+existing loopback service on port 5296 (`poc/README.md`).
+
 ## Identity and assets
 
 The footer links to `#terms` (Terms and licensing) and `#privacy`. Original project code and original model weights have no general reuse/redistribution license. Third-party code, models, metadata and CC BY 4.0 audio retain their own terms. The terms page is a scoped usage/licensing notice, not an MIT grant or a claim that the full model/data pipeline is commercially cleared. `#terms-*` section links use the shared route and scroll handling, preserving active jobs when switching pages.
