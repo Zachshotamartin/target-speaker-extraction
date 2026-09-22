@@ -16,6 +16,8 @@ All four audio inputs support microphone recording and browser-side WAV conversi
 
 ## Identity and assets
 
+The footer links to `#terms` (Terms and licensing) and `#privacy`. Original project code and original model weights have no general reuse/redistribution license. Third-party code, models, metadata and CC BY 4.0 audio retain their own terms. The terms page is a scoped usage/licensing notice, not an MIT grant or a claim that the full model/data pipeline is commercially cleared. `#terms-*` section links use the shared route and scroll handling, preserving active jobs when switching pages.
+
 The current product uses warm white #FAFAF8, black #191919, Arial, and reusable spacing and typography tokens. See `UI_DESIGN.md` for navigation, responsive layout, and motion rules. The mark represents overlapping signals resolving into one voice. `public/assets/one-voice/brand/identity-board.png` preserves the original brand exploration; the SVG mark and cover are reusable code-native assets. Actual product copy avoids promising perfect noise removal.
 
 The prepared examples share the portfolio's checked snapshot. `src/snapshot.json` carries checkpoint and audio hashes. Keep the copied listening components synchronized with the portfolio when changing playback behavior. Audio attribution is visible in the app; sources are LibriSpeech / Libri2Mix under CC BY 4.0. Training and eval reports stay in the main repository, outside this site's public directory.
