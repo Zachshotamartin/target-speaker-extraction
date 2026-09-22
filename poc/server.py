@@ -5,6 +5,7 @@ import hmac
 import json
 import os
 import shutil
+import signal
 import subprocess
 import sys
 import threading
@@ -77,6 +78,35 @@ class Jobs:
                 job["result"] = json.loads((directory / "result.json").read_text())
             return job
 
+    def submit_workspace(self, options, files, owner=None):
+        with self.lock:
+            if sum(j["status"] not in TERMINAL for j in self.jobs.values()) >= 2:
+                raise HTTPException(
+                    429, "One job is running and one is waiting. Try again shortly."
+                )
+            key = str(uuid.uuid4())
+            directory = self.directory / key
+            directory.mkdir(mode=0o700)
+            try:
+                for name, path in files.items():
+                    shutil.copyfile(path, directory / name)
+                atomic_json(directory / "options.json", options)
+            except Exception:
+                shutil.rmtree(directory, ignore_errors=True)
+                raise
+            self.jobs[key] = {
+                "id": key,
+                "status": "queued",
+                "stage": "Waiting for the CPU worker",
+                "created_at": time.time(),
+                "process": None,
+                "owner": owner,
+                "timeout": 3600,
+                "kind": options["kind"],
+                "request_id": options.get("request_id"),
+            }
+            return self.public(key)
+
     def cancel(self, key, owner=None):
         with self.lock:
             if key not in self.jobs or (owner is not None and self.jobs[key]["owner"] != owner):
@@ -85,11 +115,17 @@ class Jobs:
             job.update(status="cancelled", stage="Deleted", expires_at=time.time() + TTL_SECONDS)
             process = job["process"]
             if process and process.poll() is None:
-                process.terminate()
+                if job.get("process_group"):
+                    os.killpg(process.pid, signal.SIGTERM)
+                else:
+                    process.terminate()
                 try:
                     process.wait(timeout=2)
                 except subprocess.TimeoutExpired:
-                    process.kill()
+                    if job.get("process_group"):
+                        os.killpg(process.pid, signal.SIGKILL)
+                    else:
+                        process.kill()
                     process.wait(timeout=2)
             shutil.rmtree(self.directory / key, ignore_errors=True)
             return self.public(key)
@@ -129,10 +165,11 @@ class Jobs:
                         )
                     except (subprocess.SubprocessError, ValueError):
                         rss = 0
-                    if now - active["started_at"] > self.timeout or rss > self.memory_mib * 1024:
+                    timeout = active.get("timeout", self.timeout)
+                    if now - active["started_at"] > timeout or rss > self.memory_mib * 1024:
                         reason = (
-                            "The job reached its 10-minute limit."
-                            if now - active["started_at"] > self.timeout
+                            f"The job reached its {timeout // 60}-minute processing limit."
+                            if now - active["started_at"] > timeout
                             else "The job exceeded its 4 GiB CPU memory budget. Try a shorter clip."
                         )
                         self.cancel(active["id"])
@@ -165,12 +202,14 @@ class Jobs:
                             stdin=subprocess.DEVNULL,
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL,
+                            start_new_session=True,
                         )
                         queued.update(
                             status="running",
                             stage="Loading local models",
                             started_at=now,
                             process=process,
+                            process_group=True,
                         )
                     except OSError:
                         queued.update(
@@ -265,10 +304,14 @@ def create_app(directory=None, models=None, *, access_token=None):
         with (directory / ".service.lock").open("w") as handle:
             fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
             app.state.jobs = Jobs(directory, models)
+            from poc.workspace import Uploads
+
+            app.state.uploads = Uploads(directory / "uploads")
             try:
                 yield
             finally:
                 app.state.jobs.close()
+                app.state.uploads.close()
 
     app = FastAPI(
         title="One Voice transcription",
@@ -291,7 +334,7 @@ def create_app(directory=None, models=None, *, access_token=None):
             ):
                 return Response(status_code=401)
             path = request.url.path.removeprefix(request.scope.get("root_path", ""))
-            if path.startswith("/transcriptions"):
+            if path.startswith(("/transcriptions", "/workspace")):
                 try:
                     value = request.headers.get("x-onevoice-owner", "")
                     parsed = uuid.UUID(value)
@@ -324,6 +367,13 @@ def create_app(directory=None, models=None, *, access_token=None):
                 "waiting_jobs": 1,
                 "result_minutes": 15,
                 "worker_memory_mib": 4096,
+            },
+            "workspace": {
+                "version": 1,
+                "seconds": 600,
+                "file_bytes": 128 * 1024 * 1024,
+                "chunk_bytes": 1024 * 1024,
+                "speakers": 4,
             },
             "setup": "Run python -m poc.provision; see poc/README.md",
         }
@@ -391,4 +441,7 @@ def create_app(directory=None, models=None, *, access_token=None):
             headers={"Content-Disposition": f'attachment; filename="one-voice.{kind}"'},
         )
 
+    from poc.workspace import attach_routes
+
+    attach_routes(app, directory, models, owner)
     return app

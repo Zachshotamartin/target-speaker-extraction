@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends libsndfile1 procps \
+RUN apt-get update && apt-get install -y --no-install-recommends libsndfile1 procps ffmpeg fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*
 COPY poc/requirements.lock.txt /app/poc/requirements.lock.txt
 RUN pip install --no-cache-dir torch==2.8.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cpu \

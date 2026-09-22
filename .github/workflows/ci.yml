@@ -17,8 +17,8 @@ jobs:
         with:
           version: "0.8.9"
       - run: uv sync --frozen --python 3.12
-      - run: uv run ruff check src tests scripts
-      - run: uv run ruff format --check src tests scripts
+      - run: uv run ruff check src tests scripts poc
+      - run: uv run ruff format --check src tests scripts poc
       - run: uv run pytest -q
       - run: uv build
   product-site:
@@ -38,6 +38,7 @@ jobs:
       - run: node site/scripts/check-page-navigation.mjs
       - run: node site/scripts/check-comparison-rows.mjs
       - run: node site/scripts/check-audio-editor.mjs
+      - run: node site/scripts/check-recording-workspace.mjs
       - run: node site/scripts/check-extraction-proxy.mjs
       - run: node site/scripts/check-transcription-proxy.mjs
       - run: npm run build --prefix site

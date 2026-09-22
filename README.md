@@ -2,6 +2,8 @@
 
 An independently implemented PyTorch system that estimates one person's voice from two overlapping speakers, guided by a separate voice sample. Includes training, data preparation, evaluation, a local API, and a browser audio workspace.
 
+**[Recording workspace](docs/recording-workspace.md):** save projects locally, import up to 10 minutes of audio or video, choose up to four voice references, correct speaker labels and text, edit by transcript or waveform, and export speaker tracks or captioned video. Three/four-speaker overlap remains experimental. The frozen CPU service is independent of training.
+
 **[Voice-selected transcription POC](poc/README.md).** The product site
 can run a frozen One Voice checkpoint → pretrained voice matching → faster-whisper,
 with public examples, saved local references, timestamped transcripts and exports.

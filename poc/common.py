@@ -32,12 +32,19 @@ def atomic_json(path, value):
     temporary.replace(path)
 
 
-def decode(data, maximum=MAX_SECONDS):
-    if not data or len(data) > MAX_BYTES:
-        raise ValueError("Choose a nonempty recording under 4 MiB.")
+def decode(data, maximum=MAX_SECONDS, max_bytes=MAX_BYTES):
+    if not data or len(data) > max_bytes:
+        raise ValueError(f"Choose a nonempty recording under {max_bytes // (1024 * 1024)} MiB.")
     pieces, count = [], 0
     try:
-        with av.open(io.BytesIO(data), mode="r") as container:
+        with av.open(
+            io.BytesIO(data),
+            mode="r",
+            options={
+                "format_whitelist": "wav,flac,mp3,mov,matroska,webm,ogg,aac",
+                "protocol_whitelist": "file,pipe",
+            },
+        ) as container:
             streams = list(container.streams.audio)
             if len(streams) != 1:
                 raise ValueError("Use a recording with one audio stream.")
