@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends libsndfile1 procps \
+RUN apt-get update && apt-get install -y --no-install-recommends libsndfile1 procps ffmpeg fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*
 COPY poc/requirements.lock.txt /app/poc/requirements.lock.txt
 RUN pip install --no-cache-dir torch==2.8.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cpu \
@@ -15,7 +15,7 @@ COPY site/src/snapshot.json ./site/src/snapshot.json
 COPY site/public/assets/one-voice ./site/public/assets/one-voice
 USER service
 ENV PYTHONPATH=/app/src:/app \
-    HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 DO_NOT_TRACK=1 \
+    HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1 DO_NOT_TRACK=1 ORT_DISABLE_TELEMETRY=1 \
     OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 EXPOSE 8080
 CMD ["python", "-m", "uvicorn", "poc.hosted:create_app", "--factory", "--host", "0.0.0.0", "--port", "8080", "--workers", "1", "--no-access-log"]

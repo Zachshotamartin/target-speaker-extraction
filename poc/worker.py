@@ -14,6 +14,7 @@ for variable in [
 os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
 os.environ["DO_NOT_TRACK"] = "1"
+os.environ["ORT_DISABLE_TELEMETRY"] = "1"
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 import json
@@ -34,6 +35,12 @@ def main():
         atomic_json(args.job / "progress.json", {"stage": stage})
 
     try:
+        options = json.loads((args.job / "options.json").read_text())
+        if options.get("kind"):
+            from poc.workspace_worker import run_workspace
+
+            run_workspace(args.job, args.models, options, progress)
+            return
         from poc.models import Runtime
         from poc.pipeline import run
 
@@ -54,8 +61,8 @@ def main():
         atomic_json(args.job / "error.json", {"message": str(error)[:400]})
         raise SystemExit(1) from None
     finally:
-        for name in ["mixture.input", "reference.input", "options.json"]:
-            (args.job / name).unlink(missing_ok=True)
+        for path in [*args.job.glob("*.input"), args.job / "options.json"]:
+            path.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

@@ -1,8 +1,11 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import {animateChange, useMotionState} from './motion.js';
 import {useDismissibleDetails} from './useDismissibleDetails.js';
 import {comparisonRows} from './comparisonRows.js';
 import TranscriptEditor from './TranscriptEditor.jsx';
+import {useAudioUrl} from './useAudioUrl.js';
+import {captionsSrt, transcriptWords} from './audioEdit.js';
+import {emptyEdit, correctedWords} from './naturalEdits.js';
 import './transcription-results.css';
 
 import {TRANSCRIPTION_API as API} from './transcriptionApi.js';
@@ -17,15 +20,22 @@ function TranscriptLines({segments, seek, empty}) {
     </button></li>)}</ol> : <p className="transcript-empty">{empty}</p>;
 }
 
-export default function TranscriptionResults({result, jobId, referenceName, inputsChanged, active, onDelete, onNotice, onError}) {
+export default function TranscriptionResults({result, jobId, referenceName, inputsChanged, active, onDelete, onNotice, onError, audioFiles, savedEdit, onEdit, onRenderVideo, videoBusy}) {
   const [view, setView] = useMotionState(result.comparison ? 'compare' : 'selected');
   const players = useRef({});
   const playing = useRef(null);
   const position = useRef(0);
   const exportMenu = useRef(null);
   useDismissibleDetails(exportMenu, '.selected-toolbar');
-  const accepted = result.segments.filter(segment => segment.attribution === 'accepted');
-  const uncertain = result.segments.filter(segment => segment.attribution === 'uncertain');
+  const originalUrl = useAudioUrl(audioFiles?.original), extractedUrl = useAudioUrl(audioFiles?.extracted);
+  const reviewed = useMemo(() => correctedWords(transcriptWords(result), {...emptyEdit, ...savedEdit}), [result, savedEdit]);
+  const selectedWords = reviewed.filter(w => w.attribution === 'accepted');
+  const textBlob = useMemo(() => new Blob([selectedWords.map(w => w.text).join(' ')], {type: 'text/plain'}), [reviewed]);
+  const srtBlob = useMemo(() => new Blob([captionsSrt(selectedWords)], {type: 'application/x-subrip'}), [reviewed]);
+  const reportBlob = useMemo(() => new Blob([JSON.stringify({result, review: savedEdit}, null, 2)], {type: 'application/json'}), [result, savedEdit]);
+  const textUrl = useAudioUrl(textBlob), srtUrl = useAudioUrl(srtBlob), reportUrl = useAudioUrl(reportBlob);
+  const accepted = audioFiles ? selectedWords : result.segments.filter(segment => segment.attribution === 'accepted');
+  const uncertain = audioFiles ? reviewed.filter(w => w.attribution === 'uncertain') : result.segments.filter(segment => segment.attribution === 'uncertain');
   const rows = comparisonRows(result.comparison, result.duration);
 
   useEffect(() => {
@@ -74,7 +84,7 @@ export default function TranscriptionResults({result, jobId, referenceName, inpu
         onClick={() => setView(name)} onKeyDown={event => {
           const next = event.key === 'ArrowRight' ? (index + 1) % views.length : event.key === 'ArrowLeft' ? (index + views.length - 1) % views.length : event.key === 'Home' ? 0 : event.key === 'End' ? views.length - 1 : null;
           if (next !== null) { event.preventDefault(); setView(views[next][0]); document.getElementById(`result-tab-${views[next][0]}`).focus(); }
-        }}>{label}{name === 'selected' && <span>{result.coverage?.accepted_words || 0} {(result.coverage?.accepted_words || 0) === 1 ? 'word' : 'words'}</span>}</button>)}
+        }}>{label}{name === 'selected' && <span>{selectedWords.length} {(selectedWords.length) === 1 ? 'word' : 'words'}</span>}</button>)}
     </div>
 
     <div id="result-compare" role="tabpanel" aria-labelledby="result-tab-compare" hidden={view !== 'compare'} tabIndex={0} className="result-content comparison-view">
@@ -84,7 +94,7 @@ export default function TranscriptionResults({result, jobId, referenceName, inpu
           {variants.map(([key, label]) => <section key={key} aria-label={label}>
             <h3>{label}</h3>
             <p>{key === 'original' ? 'Original recording → text' : 'Isolated voice → text'}</p>
-            <audio {...audioProps(key)} controls preload="metadata" src={`${API}/transcriptions/${jobId}/audio/${key}`} aria-label={`${label} audio`}/>
+            <audio {...audioProps(key)} controls preload="metadata" src={audioFiles ? (key === 'original' ? originalUrl : extractedUrl) : `${API}/transcriptions/${jobId}/audio/${key}`} aria-label={`${label} audio`}/>
           </section>)}
         </div>
         <div className="comparison-reading-guide"><span>Click text to play that section</span><span>Audio position stays linked</span></div>
@@ -116,16 +126,16 @@ export default function TranscriptionResults({result, jobId, referenceName, inpu
           }}>
             <summary>Export <span aria-hidden="true">↓</span></summary>
             <div className="export-options">
-              <a href={`${API}/transcriptions/${jobId}/export/txt`} download><b>Text</b><span>Selected voice · .txt</span></a>
-              <a href={`${API}/transcriptions/${jobId}/export/srt`} download><b>Subtitles</b><span>Selected voice with timestamps · .srt</span></a>
-              <a href={`${API}/transcriptions/${jobId}/audio/extracted`} download><b>Isolated audio</b><span>One Voice output · .wav</span></a>
-              <a href={`${API}/transcriptions/${jobId}/export/json`} download><b>Full report</b><span>All words and evidence · .json</span></a>
+              <a href={audioFiles ? textUrl : `${API}/transcriptions/${jobId}/export/txt`} download="onevoice.txt"><b>Text</b><span>Selected voice · .txt</span></a>
+              <a href={audioFiles ? srtUrl : `${API}/transcriptions/${jobId}/export/srt`} download="onevoice.srt"><b>Subtitles</b><span>Selected voice with timestamps · .srt</span></a>
+              <a href={audioFiles ? extractedUrl : `${API}/transcriptions/${jobId}/audio/extracted`} download="onevoice-isolated.wav"><b>Isolated audio</b><span>One Voice output · .wav</span></a>
+              <a href={audioFiles ? reportUrl : `${API}/transcriptions/${jobId}/export/json`} download="onevoice.json"><b>Full report</b><span>All words and evidence · .json</span></a>
               <button type="button" onClick={onDelete}>Delete this result</button>
             </div>
           </details>
         </div>
       </div>
-      <audio {...audioProps('selected')} className="selected-audio" controls preload="metadata" src={`${API}/transcriptions/${jobId}/audio/extracted`} aria-label="Selected voice audio"/>
+      <audio {...audioProps('selected')} className="selected-audio" controls preload="metadata" src={audioFiles ? extractedUrl : `${API}/transcriptions/${jobId}/audio/extracted`} aria-label="Selected voice audio"/>
       <p className="transcript-caption">Click a line to listen</p>
       <TranscriptLines segments={accepted} seek={seconds => playFrom('selected', seconds)} empty={result.outcome === 'no_speech' ? 'No speech was detected in this recording.' : 'No words confidently matched this reference. Review the comparison or try another reference sample.'}/>
       {uncertain.length > 0 && <details className="poc-review"><summary><span className="review-indicator" aria-hidden="true"/> {uncertain.length} uncertain {uncertain.length === 1 ? 'region' : 'regions'} <span aria-hidden="true">+</span></summary>
@@ -135,7 +145,7 @@ export default function TranscriptionResults({result, jobId, referenceName, inpu
     </div>
 
     <div id="result-edit" role="tabpanel" aria-labelledby="result-tab-edit" hidden={view !== 'edit'} tabIndex={0} className="result-content">
-      <TranscriptEditor result={result} jobId={jobId} active={active && view === 'edit'}/>
+      <TranscriptEditor result={result} jobId={jobId} active={active && view === 'edit'} audioFiles={audioFiles} savedEdit={savedEdit} onEdit={onEdit} onRenderVideo={onRenderVideo} videoBusy={videoBusy}/>
     </div>
 
     <details className="run-details">
@@ -161,6 +171,6 @@ export default function TranscriptionResults({result, jobId, referenceName, inpu
         <p className="accuracy-note">Isolation and voice matching can introduce errors. Timestamps are approximate; listen to the audio when reviewing the text.</p>
       </div>
     </details>
-    <div className="result-footer">Temporary result · 15-minute storage</div>
+    <div className="result-footer">{audioFiles ? 'Saved in this browser · download a copy to keep it elsewhere' : 'Temporary result · 15-minute storage'}</div>
   </>;
 }

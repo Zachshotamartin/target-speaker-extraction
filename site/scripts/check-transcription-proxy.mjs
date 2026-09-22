@@ -55,6 +55,19 @@ try {
   assert.equal((await fetch(base+'/transcriptions/'+owner,{headers:{Cookie:session}})).status,200);
   assert.equal(observed.url,'/transcriptions/'+owner);
   assert.equal((await fetch(base+'/transcriptions',{method:'POST',body:new Uint8Array(4*1024*1024+1),headers:{'Content-Type':'multipart/form-data; boundary=test'}})).status,413);
+  const begin = await fetch(base+'/workspace/uploads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({size:3})});
+  assert.equal(begin.status,200);
+  const uploadSession=begin.headers.get('set-cookie');
+  assert.ok(sessionOwner(uploadSession,secret));
+  assert.equal((await fetch(base+`/workspace/uploads/${owner}/chunks/0`,{method:'POST',headers:{'Content-Type':'application/octet-stream',Cookie:uploadSession},body:new Uint8Array([1,2,3])})).status,200);
+  assert.deepEqual([...observed.body],[1,2,3]);
+  assert.equal((await fetch(base+`/workspace/uploads/${owner}/chunks/0`,{method:'POST',headers:{'Content-Type':'application/octet-stream'},body:new Uint8Array([1])})).status,404);
+  assert.equal((await fetch(base+`/workspace/uploads/${owner}/chunks/0`,{method:'POST',headers:{'Content-Type':'application/octet-stream',Cookie:uploadSession},body:new Uint8Array(1024*1024+1)})).status,413);
+  assert.equal((await fetch(base+`/workspace/jobs/${owner}/assets/speaker-0.wav/chunks/0`,{headers:{Cookie:uploadSession}})).status,200);
+  assert.equal((await fetch(base+`/workspace/jobs/${owner}/assets/options.json/info`,{headers:{Cookie:uploadSession}})).status,404);
+  assert.equal((await fetch(base+`/workspace/jobs/${owner}/assets/report-0.json/chunks/0`,{headers:{Cookie:uploadSession}})).status,200);
+  assert.equal((await fetch(base+`/workspace/requests/${owner}`,{headers:{Cookie:uploadSession}})).status,200);
+
 } finally {
   if(oldBase===undefined)delete process.env.ONE_VOICE_TRANSCRIPTION_URL;else process.env.ONE_VOICE_TRANSCRIPTION_URL=oldBase;
   if(oldKey===undefined)delete process.env.ONE_VOICE_TRANSCRIPTION_TOKEN;else process.env.ONE_VOICE_TRANSCRIPTION_TOKEN=oldKey;

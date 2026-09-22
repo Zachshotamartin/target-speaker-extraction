@@ -1,306 +1,233 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {animateChange, useMotionState} from './motion.js';
-import {useDismissibleDetails} from './useDismissibleDetails.js';
-import {profiles} from './voiceProfiles.js';
 import TranscriptionResults from './TranscriptionResults.jsx';
 import AudioCaptureButton from './AudioCaptureButton.jsx';
 import {useAudioRecorder} from './useAudioRecorder.js';
 import {useAudioUrl} from './useAudioUrl.js';
+import {profiles} from './voiceProfiles.js';
+import {projects, newProject, projectWriter} from './recordingProjects.js';
+import {json, request, post, upload, asset} from './workspaceApi.js';
+import {wavBytes, transcriptWords, captionsSrt, editedWords, renderEdit} from './audioEdit.js';
+import {emptyEdit, correctedWords, naturalPlan} from './naturalEdits.js';
 import './transcription.css';
+import './recording-workspace.css';
 
-import {TRANSCRIPTION_API as API} from './transcriptionApi.js';
-const AUDIO_TYPES = 'audio/*,.wav,.flac,.mp3,.m4a,.webm,.ogg';
 const terminal = new Set(['ready', 'failed', 'cancelled', 'expired']);
-
-async function request(path, options) {
-  const response = await fetch(`${API}${path}`, options);
-  if (!response.ok) {
-    let reason;
-    try { reason = (await response.json()).detail; } catch { /* Proxy errors are not JSON. */ }
-    throw new Error(typeof reason === 'string' ? reason : `The model service returned ${response.status}. Please try again.`);
-  }
-  return response;
-}
+const fileTypes = 'audio/*,video/*,.wav,.flac,.mp3,.m4a,.mp4,.mov,.webm,.ogg';
+const clock = time => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, '0')}`;
+function Audio({blob, label}) {const url = useAudioUrl(blob); return <audio src={url || undefined} controls preload="metadata" aria-label={label}/>;}
+function download(blob, name) {const url = URL.createObjectURL(blob), link = document.createElement('a'); link.href = url; link.download = name; link.click(); setTimeout(() => URL.revokeObjectURL(url), 60000);}
 
 export default function TranscriptionWorkspace({active = true}) {
-  const [health, setHealth] = useMotionState(null);
-  const [demos, setDemos] = useMotionState([]);
-  const [demo, setDemo] = useMotionState(0);
-  const [condition, setCondition] = useMotionState('mixture');
-  const [source, setSource] = useMotionState('files');
-  const [reference, setReference] = useMotionState(null);
-  const [recording, setRecording] = useMotionState(null);
-  const [referenceName, setReferenceName] = useMotionState('');
-  const [recordingName, setRecordingName] = useMotionState('');
-  const [saved, setSaved] = useMotionState([]);
-  const [profileId, setProfileId] = useMotionState('');
-  const [profileName, setProfileName] = useState('My voice');
-  const [compare, setCompare] = useMotionState(true);
-  const [job, setJob] = useMotionState(null);
-  const [submittedInput, setSubmittedInput] = useMotionState(null);
-  const [sending, setSending] = useMotionState(false);
-  const [error, setError] = useMotionState('');
-  const [notice, setNotice] = useMotionState('');
-  const [loadingExample, setLoadingExample] = useMotionState(false);
-  const mounted = useRef(true);
-  const workspace = useRef(null);
-  const toolHelp = useRef(null);
-  useDismissibleDetails(toolHelp, '.workspace-footnote');
-  const fileDraft = useRef(null);
-  const sourceChoice = useRef('files');
-  const pendingExample = useRef(false);
-  const activeRef = useRef(active);
-  activeRef.current = active;
-  const latestJob = useRef(null);
-  const submitting = useRef(false);
-  const referenceUrl = useAudioUrl(reference);
-  const recordingUrl = useAudioUrl(recording);
-  const busy = sending || (job && !terminal.has(job.status));
-  const microphone = useAudioRecorder({active, scope: '#transcribe',
-    onStart: () => {setError(''); setNotice('');}, onError: setError,
-    onComplete: (target, blob) => {
-      if (target === 'reference') {setReference(blob); setReferenceName('Recorded voice reference'); setProfileId('');}
-      else {setRecording(blob); setRecordingName('Microphone recording');}
-    },
-  });
-  const selectedDemo = demos.find(item => item.id === Number(demo));
-  latestJob.current = job;
+  const [project, setProject] = useState(newProject), [library, setLibrary] = useState([]), [savedProfiles, setSavedProfiles] = useState([]);
+  const [health, setHealth] = useState(null), [demos, setDemos] = useState([]), [demo, setDemo] = useState('0');
+  const [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState(''), [saveStatus, setSaveStatus] = useState('');
+  const [voice, setVoice] = useState(0), [excerpt, setExcerpt] = useState({start: 0, end: 4}), [exportBusy, setExportBusy] = useState(false);
+  const current = useRef(project), storage = useRef(null), operation = useRef(null), polling = useRef(null), workspace = useRef(null);
+  if (!storage.current) storage.current = projectWriter();
+  const mounted = useRef(true), importing = useRef(false);
+  current.current = project;
+  const job = project.job;
+  const processing = busy || Boolean(job && !terminal.has(job.status));
+  const recordingUrl = useAudioUrl(project.recording);
+  const microphone = useAudioRecorder({active, scope: '#transcribe', onStart: () => setError(''), onError: setError,
+    onComplete: (target, blob) => target === 'reference' ? addReference(blob, 'Recorded reference') : loadRecording(blob, 'Microphone recording')});
 
+  function update(patch) {setProject(p => ({...p, ...(typeof patch === 'function' ? patch(p) : patch), updated: Date.now()}));}
+  function persist(snapshot) {
+    return storage.current.save(snapshot);
+  }
+  function refreshLibrary() {projects('list').then(items => setLibrary(items.sort((a, b) => b.updated - a.updated))).catch(e => setError(e.message));}
   useEffect(() => {
     mounted.current = true;
-    Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())])
-      .then(([info, list]) => { if (mounted.current) { setHealth(info); setDemos(list); } })
-      .catch(() => { if (mounted.current) {setHealth({ready: false}); setError('The model service may be waking up or temporarily unavailable. Retry the connection shortly.');} });
-    profiles('list').then(list => { if (mounted.current) setSaved(list); }).catch(e => setError(e.message));
-    return () => {
-      mounted.current = false;
-      const active = latestJob.current;
-      if (active && !terminal.has(active.status)) fetch(`${API}/transcriptions/${active.id}`, {method: 'DELETE', keepalive: true}).catch(() => {});
-    };
+    refreshLibrary(); profiles('list').then(setSavedProfiles).catch(e => setError(e.message));
+    Promise.all([json('/health'), json('/demos')]).then(([h, d]) => {if (mounted.current) {setHealth(h); setDemos(d);}}).catch(e => {if (mounted.current) setError(e.message);});
+    return () => {mounted.current = false; operation.current?.abort(); if (current.current.recording) persist(current.current).catch(() => {});};
   }, []);
-
   useEffect(() => {
-    if (source !== 'public' || !demos.length) return;
-    const controller = new AbortController();
-    setLoadingExample(true); setReference(null); setRecording(null); setError(''); setProfileId('');
-    Promise.all(['reference', condition].map(part => request(`/demos/${demo}/${part}`, {signal: controller.signal}).then(r => r.blob())))
-      .then(([ref, mix]) => {
-        if (controller.signal.aborted || sourceChoice.current !== 'public') return;
-        const selected = demos.find(item => item.id === Number(demo));
-        setReference(ref); setRecording(mix);
-        setReferenceName(`Conversation ${selected.conversation}, voice ${selected.voice}`);
-        setRecordingName({mixture: 'Two voices overlapping', target: 'Selected voice alone', absent: 'Other voice alone', silence: 'Silence'}[condition]);
-      }).catch(e => { if (!controller.signal.aborted) setError(e.message); })
-      .finally(() => { if (!controller.signal.aborted) {
-        setLoadingExample(false);
-        animateChange(() => {pendingExample.current = false;}, '#transcribe');
-      } });
-    return () => controller.abort();
-  }, [demo, condition, source, demos]);
-
-  useEffect(() => {
-    if (!job?.id || terminal.has(job.status)) return;
-    let cancelled = false, timer;
-    const poll = async () => {
-      try {
-        const next = await request(`/transcriptions/${job.id}`).then(r => r.json());
-        if (!cancelled) {
-          if (next.status !== latestJob.current?.status || next.stage !== latestJob.current?.stage) setJob(next);
-          setError('');
-        }
-      } catch (e) { if (!cancelled) setError(`${e.message} Your job may still be running; reconnecting…`); }
-      if (!cancelled) timer = setTimeout(poll, 1500);
-    };
-    timer = setTimeout(poll, 500);
-    return () => { cancelled = true; clearTimeout(timer); };
-  }, [job?.id, job?.status]);
-
-  useEffect(() => {
-    if (job?.status !== 'ready') return;
-    const timer = setTimeout(() => setJob(previous => previous?.id === job.id ? {...previous, status: 'expired', result: null} : previous),
-      Math.max(0, job.expires_at * 1000 - Date.now()));
+    if (!project.recording) return;
+    setSaveStatus('Saving on this device…');
+    const timer = setTimeout(() => persist(project).then(() => {if (current.current.id === project.id) setSaveStatus('Saved on this device'); refreshLibrary();}).catch(e => {setSaveStatus('Not saved'); setError(e.message);}), 450);
     return () => clearTimeout(timer);
-  }, [job?.id, job?.status, job?.expires_at]);
+  }, [project]);
+  useEffect(() => {if (!active) workspace.current?.querySelectorAll('audio,video').forEach(p => p.pause());}, [active]);
 
-  useEffect(() => {
-    if (!active) {
-      workspace.current?.querySelectorAll('audio').forEach(player => player.pause());
+  async function collect(next, signal) {
+    const result = next.result;
+    if (result.kind === 'discover') {
+      const candidates = [];
+      for (const item of result.candidates) candidates.push({...item, blob: await asset(next.id, item.asset, signal)});
+      const original = await asset(next.id, 'original.wav', signal);
+      update({candidates, original, duration: result.duration, job: null});
+      setMessage(candidates.length ? 'Listen to the suggested samples and add the voices you want.' : 'No clear voice sample found. Select a solo passage below or upload a reference.');
+    } else if (result.kind === 'extract') {
+      const original = await asset(next.id, 'original.wav', signal), tracks = [];
+      for (const track of result.tracks) tracks.push({...track, result: track.result || JSON.parse(await (await asset(next.id, track.report_asset, signal)).text()), audio: await asset(next.id, track.asset, signal)});
+      update({original, tracks, duration: result.duration, edits: {}, job: null, notice: result.notice}); setVoice(0);
+      setMessage('Tracks are ready. Your audio and edits are saved on this device.');
+    } else {
+      const video = await asset(next.id, result.asset, signal);
+      update({videoExport: video, job: null}); download(video, 'onevoice-captioned.mp4'); setMessage('Captioned video is ready.');
     }
-  }, [active]);
-
-  function chooseSource(next) {
-    if (microphone.isBusy()) return;
-    if (next === sourceChoice.current) return;
-    if (sourceChoice.current === 'files' && source === 'files') fileDraft.current = {reference, recording, referenceName, recordingName, profileId};
-    sourceChoice.current = next;
-    pendingExample.current = next === 'public';
-    const draft = next === 'files' ? fileDraft.current : null;
-    setReference(draft?.reference || null); setRecording(draft?.recording || null);
-    setReferenceName(draft?.referenceName || ''); setRecordingName(draft?.recordingName || '');
-    setProfileId(draft?.profileId || ''); setLoadingExample(false); setSource(next); setError(''); setNotice('');
   }
-
-  async function start() {
-    if (submitting.current || busy || pendingExample.current || microphone.isBusy()) return;
-    submitting.current = true;
-    setError(''); setNotice(''); setSending(true);
-    try {
-      if (!reference || !recording) throw new Error('Choose a reference voice and a recording first.');
-      if (reference.size + recording.size > 4 * 1024 * 1024 - 2048) throw new Error('The two audio files must total less than 4 MiB.');
-      if (job?.id) await request(`/transcriptions/${job.id}`, {method: 'DELETE'}).catch(() => {});
-      setJob(null);
-      const data = new FormData();
-      data.append('reference', reference, 'reference.audio'); data.append('mixture', recording, 'recording.audio');
-      data.append('compare', String(compare));
-      const next = await request('/transcriptions', {method: 'POST', body: data}).then(r => r.json());
-      setSubmittedInput({reference, recording, referenceName, recordingName}); setJob(next);
-      if (activeRef.current && window.matchMedia('(max-width: 680px)').matches) {
-        requestAnimationFrame(() => document.getElementById('result-title')?.scrollIntoView({
-          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start',
-        }));
+  useEffect(() => {
+    if (!job?.id || ['failed', 'cancelled', 'expired'].includes(job.status)) return;
+    const controller = new AbortController(); polling.current = controller; let timer;
+    async function poll() {
+      try {
+        const next = await json(`/workspace/jobs/${job.id}`, {signal: controller.signal});
+        if (controller.signal.aborted) return;
+        if (next.status === 'ready') {setMessage('Saving completed files to your project…'); await collect(next, controller.signal); return;}
+        if (next.status === 'failed' || next.status === 'cancelled') {update({job: next}); setError(next.error || next.stage || 'Processing stopped. Your recording is saved; you can try again.'); return;}
+        setMessage(next.stage || 'Waiting for the model service');
+      } catch (e) {
+        if (controller.signal.aborted) return;
+        if (e.status === 404) {update({job: null}); setError('The temporary server result expired. Your saved input and previous tracks are still available. Run the recording again.'); return;}
+        setError(`${e.message} Reconnecting to the saved job…`);
       }
-    } catch (e) { setError(e.message); } finally { setSending(false); animateChange(() => {submitting.current = false;}, '#transcribe'); }
-  }
+      timer = setTimeout(poll, 2000);
+    }
+    poll(); return () => {controller.abort(); clearTimeout(timer);};
+  }, [job?.id, project.id]);
 
-  async function removeJob() {
-    try { if (job?.id) await request(`/transcriptions/${job.id}`, {method: 'DELETE'}); setJob(null); setError(''); }
-    catch (e) { setError(e.message); }
-  }
-
-  async function saveProfile() {
-    if (!reference) return;
+  async function loadRecording(blob, name) {
+    if (!blob || processing || importing.current) return;
+    if (blob.size > 128 * 1024 * 1024) {setError('Choose a recording up to 128 MiB and 10 minutes.'); return;}
+    importing.current = true; setBusy(true); setError('');
     try {
-      const id = crypto.randomUUID();
-      await profiles('save', {id, name: profileName.trim().slice(0, 60) || 'Voice reference', audio: reference});
-      setSaved(await profiles('list')); setProfileId(id); setNotice('Reference saved in this browser on this device.');
-    } catch (e) { setError(e.message); }
+      if (current.current.recording) await persist(current.current);
+      const fresh = {...newProject(), recording: blob, name, video: blob.type.startsWith('video/') || (!blob.type.startsWith('audio/') && /\.(mp4|mov|mkv|webm)$/i.test(name))};
+      await persist(fresh); setProject(fresh); setVoice(0); setMessage('Recording saved. Find voices or add a clean reference.');
+    } catch (e) {setError(e.message);} finally {importing.current = false; setBusy(false);}
   }
-
-  async function deleteProfile() {
+  function addReference(blob, label) {
+    if (!blob || !current.current.recording) return;
+    if (current.current.references.length >= 4) {setError('Choose at most four voices per project.'); return;}
+    if (blob.size > 4 * 1024 * 1024) {setError('A reference must be smaller than 4 MiB and 3–10 seconds.'); return;}
+    update(p => ({references: [...p.references, {id: crypto.randomUUID(), blob, label: label.slice(0, 60)}]})); setError('');
+  }
+  async function example() {
+    if (processing) return;
+    setBusy(true); setError('');
     try {
-      await profiles('delete', profileId); setSaved(await profiles('list'));
-      setProfileId(''); setReference(null); setReferenceName(''); setNotice('Saved reference deleted from this browser.');
-    } catch (e) { setError(e.message); }
+      const [recording, reference] = await Promise.all(['mixture', 'reference'].map(part => request(`/demos/${demo}/${part}`).then(r => r.blob())));
+      if (current.current.recording) await persist(current.current);
+      const item = demos.find(d => d.id === Number(demo));
+      setProject({...newProject(), name: `Conversation ${item?.conversation || Number(demo) + 1}`, recording,
+        references: [{id: crypto.randomUUID(), blob: reference, label: `Voice ${item?.voice || 'A'}`}], video: false}); setVoice(0); setMessage('Example loaded. Extract the selected voice, or find more voices.');
+    } catch (e) {setError(e.message);} finally {setBusy(false);}
   }
-
-
-  const result = !sending && job?.status === 'ready' ? job.result : null;
-
-  const processingStep = !job || job.status === 'queued' ? 0 : /Transcribing/.test(job.stage) ? 3 : /Checking the selected/.test(job.stage) ? 2 : /Extracting/.test(job.stage) ? 1 : 0;
-
-  return <section ref={workspace} id="transcribe" className="transcription" aria-labelledby="transcription-title" onPlay={event => {
-    if (microphone.isBusy()) {event.target.pause(); return;}
-    workspace.current?.querySelectorAll('audio').forEach(player => { if (player !== event.target) player.pause(); });
-  }}>
-    <header className="transcription-heading">
-      <div><h1 id="transcription-title">Speech to text</h1></div>
-      <div className="workspace-actions"><div className={`poc-connection ${health?.ready ? 'is-ready' : ''}`}>
-        <span className="connection-dot" aria-hidden="true"/>
-        <span>{health?.ready ? (health.processing_location === 'hosted' ? 'Server processing' : 'Local processing') : health ? 'Service unavailable' : 'Connecting to model service…'}</span>
-        {health && !health.ready && <button type="button" onClick={async () => {try {
-          const [info, list] = await Promise.all([request('/health').then(r => r.json()), request('/demos').then(r => r.json())]);
-          setHealth(info); setDemos(list); setError('');
-        } catch (e) {setError(e.message);}}}>Retry</button>}
-      </div><button className="poc-primary" type="button" onClick={start} disabled={!health?.ready || busy || microphone.busy || !reference || !recording || loadingExample}>
-            {busy ? 'Processing…' : 'Transcribe'}<span aria-hidden="true">↗</span>
-          </button></div>
-    </header>
-    <p className="transcription-availability">Processing starts only when you choose Transcribe. The public demo runs on Hugging Face and may take a moment to wake up. <a href="#privacy">Privacy policy</a></p>
-
-    <div className="workspace-grid">
-      <aside className="setup-panel" aria-labelledby="setup-title">
-        <div className="setup-panel-heading"><h2 id="setup-title">Audio setup</h2><span>English</span></div>
-        <div className="poc-source-switch" role="group" aria-label="Recording source" data-source={source}>
-          {[['files', 'Upload audio'], ['public', 'Use example']].map(([value, label]) =>
-            <button key={value} type="button" aria-pressed={source === value} disabled={busy || microphone.busy || (value === 'public' && !demos.length)} onClick={() => chooseSource(value)}>{label}</button>)}
-        </div>
-
-        <fieldset className="setup-fields" disabled={busy}>
-          <legend className="sr-only">Choose reference voice and recording</legend>
-          {source === 'public' && <div className="example-choice">
-            <label htmlFor="demo-voice">Example</label>
-            <select id="demo-voice" value={demo} onChange={event => {pendingExample.current = true; setDemo(Number(event.target.value));}}>
-              {demos.map(item => <option key={item.id} value={item.id}>Conversation {item.conversation} · Voice {item.voice}</option>)}
-            </select>
-          </div>}
-          <section className="setup-group" aria-labelledby="reference-heading">
-            <h3 id="reference-heading">Voice reference</h3>
-            {source === 'public' ? <p className="field-help">Voice {selectedDemo?.voice} · separate recording</p> : <>
-              <p className="field-help">3–10 seconds · one speaker</p>
-              {saved.length > 0 && <div className="poc-profile-row">
-                <label htmlFor="saved-voice">Saved on this device</label>
-                <div><select id="saved-voice" value={profileId} disabled={microphone.busy} onChange={e => {
-                  setProfileId(e.target.value); const selected = saved.find(p => p.id === e.target.value);
-                  if (selected) {setReference(selected.audio); setReferenceName(selected.name);} else {setReference(null); setReferenceName('');}
-                }}><option value="">Choose a saved reference</option>{saved.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
-                  <button className="poc-text-button" type="button" disabled={!profileId || microphone.busy} onClick={deleteProfile}>Delete</button>
-                </div>
-              </div>}
-              <label className="upload-field"><span className="sr-only">Reference audio</span><span className="file-picker"><span aria-hidden="true">↑</span>{reference ? 'Replace reference' : 'Upload reference'}<input aria-label="Reference audio" type="file" accept={AUDIO_TYPES} disabled={microphone.busy} onChange={e => {if (!e.target.files?.[0]) return; setReference(e.target.files[0]); setReferenceName(e.target.files[0].name); setProfileId(''); e.target.value = '';}}/></span></label>
-              <AudioCaptureButton recorder={microphone} target="reference" label="voice reference" minimum={3} maximum={10} disabled={busy}/>
-              {referenceName && <p className="poc-filename" title={referenceName}>{referenceName}</p>}
-            </>}
-            {loadingExample ? <div className="audio-loading" role="status">Loading reference…</div> : referenceUrl && <audio controls preload="metadata" src={referenceUrl} aria-label="Reference voice sample"/>}
-            {source === 'files' && reference && <details className="poc-profile-save"><summary>Save voice</summary>
-              <label>Profile name<input maxLength={60} value={profileName} onChange={e => setProfileName(e.target.value)}/></label>
-              <button type="button" disabled={microphone.busy} onClick={saveProfile}>Save reference</button>
-              <p>This stores the audio in this browser. It does not train a model or upload it to a cloud service.</p>
-            </details>}
-          </section>
-
-          <section className="setup-group" aria-labelledby="recording-heading">
-            <h3 id="recording-heading">Recording</h3>
-            {source === 'public' ? <>
-              <p className="field-help">Conversation {selectedDemo?.conversation}</p>
-              <label className="sr-only" htmlFor="demo-condition">Recording condition</label>
-              <select id="demo-condition" value={condition} onChange={event => {pendingExample.current = true; setCondition(event.target.value);}}>
-                <option value="mixture">Two voices overlapping</option><option value="target">Selected voice alone</option>
-                <option value="absent">Other voice only (target absent)</option><option value="silence">Silence</option>
-              </select>
-            </> : <>
-              <p className="field-help">Up to 30 seconds</p>
-              <label className="upload-field"><span className="sr-only">Recording file</span><span className="file-picker"><span aria-hidden="true">↑</span>{recording ? 'Replace recording' : 'Upload recording'}<input aria-label="Recording file" type="file" accept={AUDIO_TYPES} disabled={microphone.busy} onChange={e => {if (!e.target.files?.[0]) return; setRecording(e.target.files[0]); setRecordingName(e.target.files[0].name); e.target.value = '';}}/></span></label>
-              <AudioCaptureButton recorder={microphone} target="recording" label="recording" disabled={busy}/>
-              {recordingName && <p className="poc-filename" title={recordingName}>{recordingName}</p>}
-            </>}
-            {loadingExample ? <div className="audio-loading" role="status">Loading recording…</div> : recordingUrl && <audio controls preload="metadata" src={recordingUrl} aria-label="Input recording"/>}
-          </section>
-        </fieldset>
-
-
-        <details className="poc-options"><summary>Advanced <span>Comparison {compare ? 'on' : 'off'}</span></summary>
-          <label className="poc-checkbox"><input type="checkbox" checked={compare} disabled={busy} onChange={e => setCompare(e.target.checked)}/> Compare with original audio</label>
-          <p>The same Whisper model transcribes both inputs, so you can see what One Voice changes.</p>
-        </details>
-        <p className="setup-limit">Up to 30s · 4 MiB total</p>
-        {error && <p className="poc-error" role="alert">{error}</p>}
-        {notice && <p className="poc-notice" role="status">{notice}</p>}
-      </aside>
-
-      <section className={`result-panel ${result ? 'has-result' : ''}`} aria-labelledby="result-title">
-        <header className="result-toolbar">
-          <h2 id="result-title">Results</h2>
-          <span className="result-state">{result ? 'Ready' : busy ? 'In progress' : job?.status === 'failed' ? 'Needs attention' : job?.status === 'expired' ? 'Expired' : 'New transcript'}</span>
-        </header>
-        {result ? <TranscriptionResults key={job.id} result={result} jobId={job.id}
-          referenceName={submittedInput?.referenceName}
-          inputsChanged={reference !== submittedInput?.reference || recording !== submittedInput?.recording}
-          active={active} onDelete={removeJob} onNotice={setNotice} onError={setError}/> : busy ? <div className="processing-state">
-          <div className="processing-symbol" aria-hidden="true"><span/><span/><span/><span/><span/></div>
-          <h3>{sending ? 'Preparing your recording' : job?.status === 'queued' ? 'Waiting for the worker' : ['Check audio', 'Separate voice', 'Match speaker', 'Transcribe'][processingStep]}</h3>
-          <p className="sr-only" role="status" aria-live="polite">{sending ? 'Sending audio to the model service…' : job.stage}</p>
-          <ol className="processing-stages" aria-label="Processing stages">{['Check audio', 'Separate voice', 'Match speaker', 'Transcribe'].map((label, index) => <li key={label} aria-current={processingStep === index ? 'step' : undefined} className={processingStep > index ? 'is-complete' : ''}><span>{processingStep > index ? '✓' : index + 1}</span>{label}</li>)}</ol>
-          <button type="button" onClick={removeJob} disabled={sending}>Cancel job</button>
-
-        </div> : <div className={`result-empty ${job?.status === 'failed' ? 'has-error' : ''}`}>
-          <div className="empty-audio" aria-hidden="true"><span/><span/><span/><span/><span/></div>
-          <h3>{job?.status === 'failed' ? 'This recording needs another try' : job?.status === 'expired' ? 'This result has expired' : 'No transcript yet'}</h3>
-          <p>{job?.status === 'failed' ? job.stage : job?.status === 'expired' ? 'Transcribe your recording again to create a fresh result.' : 'Add audio and a voice reference to begin.'}</p>
-          {job && <button className="poc-text-button" type="button" onClick={removeJob}>Dismiss</button>}
-
-        </div>}
+  async function send(kind, videoOptions) {
+    if (processing || operation.current || microphone.isBusy()) return;
+    setBusy(true); setError('');
+    const controller = new AbortController(); operation.current = controller;
+    const snapshot = current.current;
+    async function sendFile(key, blob) {
+      return upload(blob, snapshot.uploads?.[key], state => {
+        update(p => ({uploads: {...p.uploads, [key]: state.id}})); setMessage(`Uploading ${key} · ${Math.round(state.received / state.size * 100)}%`);
+      }, controller.signal);
+    }
+    try {
+      const signature = JSON.stringify({kind, refs: snapshot.references.map(r => [r.id, r.label]), track: videoOptions?.trackId, clips: videoOptions?.clips, words: videoOptions?.words});
+      const pending = snapshot.pending?.signature === signature ? snapshot.pending : {id: crypto.randomUUID(), signature};
+      const resumed = snapshot.pending?.id === pending.id ? await json(`/workspace/requests/${pending.id}`, {signal: controller.signal}).catch(e => {if (e.status !== 404) throw e;}) : null;
+      if (resumed) {update({job: resumed, pending: null, uploads: {}}); return;}
+      update({pending}); await persist({...current.current, pending});
+      const body = {kind, request_id: pending.id, recording: await sendFile('recording', snapshot.recording)};
+      if (kind === 'extract') {
+        body.references = [];
+        for (const ref of snapshot.references) body.references.push({upload: await sendFile(ref.id, ref.blob), label: ref.label});
+        body.compare = true;
+      }
+      if (kind === 'video') Object.assign(body, {audio: await sendFile(`edited-${pending.id}`, videoOptions.audio), clips: videoOptions.clips, words: videoOptions.words, captions: true});
+      const next = await post('/workspace/jobs', body, controller.signal);
+      const saved = {...current.current, uploads: {}, pending: null, job: next, updated: Date.now()};
+      setProject(saved); await persist(saved); setMessage(next.stage || 'Queued');
+    } catch (e) {if (!controller.signal.aborted) setError(e.message); else setMessage('Upload paused. Run again to resume the saved chunks.');}
+    finally {setBusy(false); operation.current = null;}
+  }
+  async function cancel() {
+    operation.current?.abort();
+    if (job?.id) {
+      try {await json(`/workspace/jobs/${job.id}`, {method: 'DELETE'}); polling.current?.abort(); update({job: null}); setMessage('Processing cancelled. Saved audio and edits are unchanged.');}
+      catch (e) {setError(e.message);}
+    }
+  }
+  async function excerptReference() {
+    if (!Number.isFinite(excerpt.start + excerpt.end) || excerpt.start < 0 || excerpt.end - excerpt.start < 3 || excerpt.end - excerpt.start > 10) {setError('Select a passage lasting 3–10 seconds.'); return;}
+    setBusy(true); setError('');
+    try {
+      const context = new OfflineAudioContext(1, 1, 16000);
+      const buffer = await context.decodeAudioData(await (project.original || project.recording).arrayBuffer());
+      if (excerpt.end > buffer.duration) throw new Error('The selected passage ends after the recording.');
+      const samples = new Float32Array(Math.round((excerpt.end - excerpt.start) * buffer.sampleRate));
+      for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
+        const input = buffer.getChannelData(ch); for (let i = 0; i < samples.length; i++) samples[i] += input[Math.floor(excerpt.start * buffer.sampleRate) + i] / buffer.numberOfChannels;
+      }
+      addReference(new Blob([wavBytes([samples], buffer.sampleRate)], {type: 'audio/wav'}), `Voice at ${clock(excerpt.start)}`);
+    } catch (e) {setError(e.message || 'This browser cannot decode the video audio. Use Find voices first, then select a passage.');} finally {setBusy(false);}
+  }
+  async function openProject(id) {
+    if (processing || importing.current || microphone.isBusy()) return;
+    importing.current = true; setBusy(true);
+    try {if (current.current.recording) await persist(current.current); const saved = await projects('get', id); if (!saved) throw new Error('Project is no longer saved here.'); setProject(saved); setVoice(0); setError(''); setMessage('Saved project opened.');}
+    catch (e) {setError(e.message);} finally {importing.current = false; setBusy(false);}
+  }
+  async function exportAll() {
+    setExportBusy(true); setError('');
+    try {
+      const {zipSync, strToU8} = await import('fflate'); const files = {};
+      for (const track of project.tracks) {
+        const edit = {...emptyEdit, ...project.edits[track.id]}, words = correctedWords(transcriptWords(track.result), edit);
+        const clips = naturalPlan(words, edit, track.result.duration), kept = editedWords(words, edit.removed, clips);
+        if (!clips.length) continue;
+        const context = new OfflineAudioContext(1, 1, 16000), buffer = await context.decodeAudioData(await track.audio.arrayBuffer());
+        const name = `${track.id}-${track.label.replace(/[^a-z0-9-]/gi, '-').slice(0, 60)}`;
+        files[`${name}.wav`] = new Uint8Array(wavBytes(renderEdit([buffer.getChannelData(0)], buffer.sampleRate, clips), buffer.sampleRate));
+        files[`${name}.srt`] = strToU8(captionsSrt(kept)); files[`${name}.txt`] = strToU8(kept.map(w => w.text).join(' '));
+        files[`${name}-review.json`] = strToU8(JSON.stringify({edits: edit, original_report: track.result}, null, 2));
+      }
+      if (!Object.keys(files).length) throw new Error('All audio has been removed. Restore a passage before exporting.');
+      download(new Blob([zipSync(files, {level: 0})], {type: 'application/zip'}), 'onevoice-speaker-tracks.zip');
+    } catch (e) {setError(e.message);} finally {setExportBusy(false);}
+  }
+  const selected = project.tracks[voice] || project.tracks[0];
+  return <section id="transcribe" ref={workspace} className="recording-workspace" onPlayCapture={e => workspace.current?.querySelectorAll('audio,video').forEach(p => {if (p !== e.target) p.pause();})}>
+    <header className="recording-heading"><p className="eyebrow">Recording workspace</p><h1>Choose a voice.<br/>Make it yours.</h1><p>Isolate speakers, review the transcript, and edit audio or video. Start with a recording or try an example.</p></header>
+    <div className="project-bar"><label>Project name<input aria-label="Project name" value={project.name} maxLength={100} onChange={e => update({name: e.target.value})}/></label><span role="status">{saveStatus || 'Projects are saved on this device'}</span>
+      <details><summary>Saved projects ({library.length})</summary><ul>{library.map(item => <li key={item.id}><button disabled={processing} onClick={() => openProject(item.id)}>{item.name} <small>{item.tracks} tracks</small></button><button disabled={processing} aria-label={`Delete saved project ${item.name}`} onClick={async () => {try {await storage.current.delete(item.id); if (project.id === item.id) {setProject(newProject()); setSaveStatus('');} refreshLibrary();} catch (e) {setError(e.message);}}}>Delete</button></li>)}</ul>{!library.length && <p>Your saved projects will appear here.</p>}</details>
+    </div>
+    {error && <p className="workspace-alert" role="alert">{error}</p>}
+    {(message || processing) && <div className="workspace-progress" role="status"><span>{message || 'Working…'}</span>{processing && <button onClick={cancel}>{busy ? 'Pause upload / cancel' : 'Cancel processing'}</button>}</div>}
+    <div className="recording-setup">
+      <section className="recording-step"><h2><span>01</span> Add a recording</h2><p>Audio or video · up to 10 minutes / 128 MiB.</p>
+        <label className="workspace-file">Choose audio or video<input type="file" accept={fileTypes} disabled={processing || microphone.isBusy()} onChange={e => {loadRecording(e.target.files?.[0], e.target.files?.[0]?.name); e.target.value = '';}}/></label>
+        <AudioCaptureButton target="recording" recorder={microphone} disabled={processing} label="Record with microphone"/>
+        {project.recording && <><p className="recording-filename">{project.name}</p>{project.video ? <video src={recordingUrl || undefined} controls preload="metadata" aria-label="Imported video"/> : <Audio blob={project.recording} label="Imported recording"/>}</>}
+        <details><summary>Try a public example</summary><div className="example-choice"><label>Example<select value={demo} onChange={e => setDemo(e.target.value)}>{demos.map(d => <option key={d.id} value={d.id}>Conversation {d.conversation} · voice {d.voice}</option>)}</select></label><button disabled={processing || !demos.length} onClick={example}>Load example</button></div></details>
+      </section>
+      <section className="recording-step"><h2><span>02</span> Choose your voices</h2><p>Find samples in the recording, or provide 3–10 seconds of a speaker on their own.</p>
+        <button className="poc-primary" disabled={processing || !project.recording || !health?.workspace} onClick={() => send('discover')}>Find voices in recording</button>
+        {!health?.workspace && <p>The recording service is connecting. <button onClick={() => json('/health').then(setHealth).catch(e => setError(e.message))}>Retry connection</button></p>}
+        {!!project.candidates.length && <div className="voice-candidates"><p>Suggested samples, not verified identities. If voices overlap, choose a clean solo passage instead.</p>{project.candidates.map(c => <div key={c.id}><strong>{c.label} · {clock(c.start)}</strong><Audio blob={c.blob} label={`${c.label} suggested sample`}/><button disabled={processing || project.references.length >= 4} onClick={() => addReference(c.blob, c.label)}>Use this voice</button></div>)}</div>}
+        <details><summary>Select a passage or upload a reference</summary><div className="reference-tools">
+          <p>Listen above and choose a clean passage containing only the person you want.</p><div className="cut-boundaries"><label>Start (seconds)<input type="number" step="0.1" min="0" value={excerpt.start} onChange={e => setExcerpt({...excerpt, start: Number(e.target.value)})}/></label><label>End (seconds)<input type="number" step="0.1" min="3" value={excerpt.end} onChange={e => setExcerpt({...excerpt, end: Number(e.target.value)})}/></label><button disabled={processing || !project.recording} onClick={excerptReference}>Use this passage</button></div>
+          <label className="workspace-file">Upload voice reference<input type="file" accept="audio/*" disabled={processing || !project.recording} onChange={e => {addReference(e.target.files?.[0], e.target.files?.[0]?.name || 'Voice'); e.target.value = '';}}/></label>
+          <AudioCaptureButton target="reference" minimum={3} maximum={10} recorder={microphone} disabled={processing || !project.recording} label="Record voice reference"/>
+          {!!savedProfiles.length && <label>Saved voice<select defaultValue="" onChange={e => {const profile = savedProfiles.find(p => p.id === e.target.value); if (profile) addReference(profile.audio, profile.name); e.target.value = '';}}><option value="">Choose a saved voice</option>{savedProfiles.map(p => <option value={p.id} key={p.id}>{p.name}</option>)}</select></label>}
+        </div></details>
+        <div className="chosen-voices">{project.references.map((ref, index) => <div key={ref.id}><label>Voice {index + 1}<input aria-label={`Voice ${index + 1} name`} value={ref.label} maxLength={60} disabled={processing} onChange={e => update(p => ({references: p.references.map(r => r.id === ref.id ? {...r, label: e.target.value} : r)}))}/></label><Audio blob={ref.blob} label={`Reference ${index + 1}`}/><div className="voice-actions"><button disabled={processing} onClick={() => update(p => ({references: p.references.filter(r => r.id !== ref.id)}))}>Remove</button><button onClick={() => profiles('save', {id: ref.id, name: ref.label, audio: ref.blob}).then(() => profiles('list')).then(setSavedProfiles).then(() => setMessage('Reference saved on this device.')).catch(e => setError(e.message))}>Save voice</button></div></div>)}</div>
+        <button className="poc-primary" disabled={processing || !project.recording || !project.references.length || project.references.some(r => !r.label.trim()) || !health?.workspace} onClick={() => send('extract')}>Extract {project.references.length > 1 ? `${project.references.length} voices` : 'selected voice'} &amp; transcribe</button>
+        <p className="workspace-note">Three or four simultaneous speakers are experimental. Longer recordings take longer to process; you can return to a saved project while the server works.</p>
       </section>
     </div>
-    <div className="workspace-footnote"><details ref={toolHelp}><summary>About this tool</summary><p>One Voice separates your selected speaker; Whisper transcribes the audio. The public site processes audio on Hugging Face; the local installation processes it on your computer. Saved voice references stay in this browser. Temporary results expire after 15 minutes. No training happens here.</p></details></div>
+    <section className="recording-results"><div className="recording-result-heading"><h2><span>03</span> Review, edit &amp; export</h2>{!!project.tracks.length && <button disabled={exportBusy} onClick={exportAll}>{exportBusy ? 'Preparing tracks…' : 'Download all tracks (.zip)'}</button>}</div>
+      {!selected ? <p>Your isolated tracks and transcript editor will appear here.</p> : <><div className="voice-tabs" role="group" aria-label="Speaker tracks">{project.tracks.map((track, index) => <button key={track.id} aria-pressed={voice === index} onClick={() => setVoice(index)}>{track.label}</button>)}</div><p className="workspace-note">{project.notice}</p>
+        <TranscriptionResults key={`${project.id}-${selected.id}-${selected.result.processing_seconds}`} result={selected.result} referenceName={selected.label} jobId={null} active={active}
+          audioFiles={{original: project.original, extracted: selected.audio}} savedEdit={project.edits[selected.id]} onEdit={edit => update(p => ({edits: {...p.edits, [selected.id]: edit}}))}
+          onRenderVideo={project.video ? options => send('video', {...options, trackId: selected.id}) : undefined} videoBusy={processing}
+          onNotice={setMessage} onError={setError} onDelete={() => update(p => ({tracks: p.tracks.filter(t => t.id !== selected.id)}))}/></>}
+      {project.videoExport && <button onClick={() => download(project.videoExport, 'onevoice-captioned.mp4')}>Download last captioned video</button>}
+    </section>
+    <p className="workspace-footnote">Recordings and edits are saved in this browser, not a cloud account. Browser storage can be cleared—download important work. Processing sends the selected files to the service; incomplete uploads expire after an hour and completed server results after 15 minutes. Audio is not used for training. <a href="#privacy">Privacy details</a></p>
   </section>;
 }

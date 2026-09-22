@@ -43,6 +43,8 @@ def main():
         try:
             with urllib.request.urlopen("http://127.0.0.1:5296/health", timeout=3) as response:
                 info = json.load(response)
+            if info.get("workspace", {}).get("version") != 1:
+                raise ValueError("The existing service needs the recording workspace update")
             if info.get("models") != json.loads(manifest.read_text()):
                 raise ValueError("Different model manifest")
         except Exception:

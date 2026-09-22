@@ -7,6 +7,11 @@ const routes = [
   [/^\/(health|demos)$/, ['GET']],
   [/^\/demos\/\d{1,2}\/(reference|mixture|target|absent|silence)$/, ['GET']],
   [/^\/transcriptions$/, ['POST']],
+  [/^\/workspace\/(uploads|jobs)$/, ['POST']],
+  [new RegExp(`^/workspace/requests/${UUID}$`), ['GET']],
+  [new RegExp(`^/workspace/(?:uploads|jobs)/${UUID}$`), ['GET', 'DELETE']],
+  [new RegExp(`^/workspace/uploads/${UUID}/chunks/\\d{1,3}$`), ['POST']],
+  [new RegExp(`^/workspace/jobs/${UUID}/assets/(?:(?:original|speaker-[0-3]|reference-[0-3])\\.wav|captioned\\.mp4|report-[0-3]\\.json)/(?:info|chunks/\\d{1,3})$`), ['GET']],
   [new RegExp(`^/transcriptions/${UUID}$`), ['GET', 'DELETE']],
   [new RegExp(`^/transcriptions/${UUID}/(?:audio/(?:original|extracted)|export/(?:txt|srt|json))$`), ['GET']],
 ];
@@ -47,7 +52,7 @@ export default async function transcription(req, res) {
   } catch {return fail(503, 'The transcription service is not configured.');}
   const signingKey = secret || 'loopback-preview-only';
   let owner = sessionOwner(req.headers.cookie, signingKey);
-  const needsOwner = path.startsWith('/transcriptions/');
+  const needsOwner = path.startsWith('/transcriptions/') || (path.startsWith('/workspace/') && path !== '/workspace/uploads');
   if (!owner && needsOwner) return fail(404, 'This result expired or belongs to another browser.');
   if (!owner && req.method === 'POST') {
     owner = randomUUID();
@@ -57,10 +62,14 @@ export default async function transcription(req, res) {
   try {
     let body;
     if (req.method === 'POST') {
-      if (!String(req.headers['content-type'] || '').startsWith('multipart/form-data;')) return fail(415, 'Choose a recording and a voice reference.');
-      if (Number(req.headers['content-length']) > LIMIT) return fail(413, 'Combined upload must be under 4 MiB.');
+      const workspace = path.startsWith('/workspace/');
+      const contentType = String(req.headers['content-type'] || '');
+      const expected = workspace ? (path.includes('/chunks/') ? 'application/octet-stream' : 'application/json') : 'multipart/form-data;';
+      const limit = workspace ? (path.includes('/chunks/') ? 1024 * 1024 : 256 * 1024) : LIMIT;
+      if (!contentType.startsWith(expected)) return fail(415, 'Unsupported request format.');
+      if (Number(req.headers['content-length']) > limit) return fail(413, 'Combined upload must be under 4 MiB.');
       let size = 0; const chunks = [];
-      for await (const chunk of req) {size += chunk.length; if (size > LIMIT) return fail(413, 'Combined upload must be under 4 MiB.'); chunks.push(Buffer.from(chunk));}
+      for await (const chunk of req) {size += chunk.length; if (size > limit) return fail(413, 'Combined upload must be under 4 MiB.'); chunks.push(Buffer.from(chunk));}
       body = Buffer.concat(chunks);
     }
     const upstream = await fetch(`${base.replace(/\/$/, '')}${path}`, {

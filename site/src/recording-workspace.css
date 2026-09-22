@@ -1,0 +1,72 @@
+.recording-workspace { max-width: 1240px; margin: 0 auto; padding: 56px var(--space-6) 80px; }
+.recording-heading { max-width: 720px; padding-bottom: 36px; }
+.recording-heading h1 { font-size: clamp(38px, 5vw, 68px); line-height: 1.05; font-weight: 500; letter-spacing: -.045em; margin: 12px 0 24px; }
+.recording-heading p { color: var(--muted); line-height: 1.65; }
+.recording-workspace h2 { font-size: 22px; font-weight: 500; display: flex; gap: 14px; align-items: baseline; margin: 0 0 20px; }
+.recording-workspace h2>span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.recording-workspace h4 { font-size: 16px; margin: 20px 0 10px; }
+.recording-workspace p { line-height: 1.65; }
+.recording-workspace button:not(.editor-word), .recording-workspace .editor-export-links a { min-height: 40px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font-size: 14px; cursor: pointer; }
+.recording-workspace button.poc-primary { background: var(--ink); color: var(--app-bg); }
+.recording-workspace button:disabled { opacity: .45; cursor: default; }
+.recording-workspace button:focus-visible, .recording-workspace input:focus-visible, .recording-workspace summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.recording-workspace input:not([type='file']):not([type='range']), .recording-workspace select { display: block; width: 100%; min-height: 42px; padding: 10px 12px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 5px; font: inherit; margin-top: 8px; }
+.recording-workspace label { display: block; min-width: 0; font-size: 13px; color: var(--muted); }
+.project-bar { display: flex; align-items: end; flex-wrap: wrap; gap: 20px; padding: 24px 0; border-block: 1px solid var(--line); }
+.project-bar>label { flex: 1; min-width: 220px; }
+.project-bar>span { font-size: 12px; color: var(--muted); padding-bottom: 14px; }
+.project-bar details { flex-basis: 100%; }
+.project-bar ul { list-style: none; padding: 0; margin: 16px 0; }
+.project-bar li { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.project-bar small { color: var(--muted); margin-left: 16px; }
+.recording-setup { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; padding: 38px 0 48px; }
+.recording-step { min-width: 0; }
+.recording-step>p { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+.recording-step>button { margin-bottom: 20px; }
+.workspace-file { display: grid !important; gap: 12px; border: 1px dashed var(--line); padding: 22px; margin: 20px 0 14px; }
+.workspace-file input { max-width: 100%; color: var(--ink); }
+.recording-workspace audio { width: 100%; height: 42px; margin: 14px 0; }
+.recording-workspace video { max-width: 100%; max-height: 300px; margin: 20px 0; background: #111; }
+.recording-workspace details { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 18px; }
+.recording-workspace summary { cursor: pointer; font-size: 14px; padding: 6px 0; }
+.recording-filename { overflow-wrap: anywhere; }
+.reference-tools, .voice-candidates { margin: 24px 0; }
+.chosen-voices>div, .voice-candidates>div { border-bottom: 1px solid var(--line); padding: 18px 0; }
+.chosen-voices { margin: 24px 0; }
+.voice-actions { display: flex; gap: 10px; }
+.workspace-note, .workspace-footnote { font-size: 13px; color: var(--muted); margin: 22px 0; }
+.workspace-footnote { border-top: 1px solid var(--line); padding-top: 30px; margin-top: 40px; }
+.workspace-alert { padding: 18px; border-left: 3px solid #ae452e; background: #ae452e0a; margin: 24px 0; }
+.workspace-progress { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.recording-results { border-top: 1px solid var(--line); padding-top: 34px; }
+.recording-result-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.voice-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0; }
+.voice-tabs button[aria-pressed='true'] { background: var(--ink); color: var(--app-bg); }
+.cut-boundaries { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; margin: 18px 0; }
+.cut-boundaries>label { flex: 1; min-width: 140px; }
+.editor-refinements { border-top: 1px solid var(--line); margin-top: 26px; padding-top: 10px; }
+.editor-refinements>p, .editor-suggestions>p, .waveform-cut>p { color: var(--muted); font-size: 13px; }
+.editor-refinements form { display: flex; align-items: end; gap: 12px; margin: 18px 0; }
+.editor-refinements form label { flex: 1; }
+.waveform-cut svg { width: 100%; height: 90px; display: block; border-block: 1px solid var(--line); }
+.editor-suggestions ul { padding: 0; list-style: none; max-height: 360px; overflow-y: auto; }
+.editor-suggestions li { display: flex; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.editor-suggestions li>span { flex: 1; font-size: 14px; }
+.recording-workspace .editor-transcript { max-height: 460px; overflow-y: auto; }
+@media (max-width: 800px) {
+ .recording-workspace { padding: 34px 20px 60px; }
+ .recording-setup { grid-template-columns: 1fr; gap: 36px; }
+ .recording-step+.recording-step { border-top: 1px solid var(--line); padding-top: 34px; }
+ .recording-result-heading { align-items: start; }
+ .editor-suggestions li { flex-wrap: wrap; }
+ .editor-suggestions li>span { flex-basis: 100%; }
+ .project-bar>span { padding: 0; }
+}
+.recording-workspace .result-tabs button[aria-selected='true'] { border-color: var(--ink); background: var(--ink); color: var(--app-bg); }
+.recording-workspace input[type='range'] { width: 100%; margin-top: 12px; accent-color: var(--ink); }
+@media (max-width: 600px) {
+ .recording-workspace { padding-inline: 0; }
+ .recording-workspace .result-tabs { gap: 8px; flex-wrap: wrap; }
+ .recording-workspace .result-tabs button { min-width: 0; padding: 10px 8px; font-size: 13px; }
+ .recording-workspace .result-tabs button>span { display: none; }
+}
