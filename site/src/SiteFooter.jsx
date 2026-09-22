@@ -7,6 +7,7 @@ export default function SiteFooter({activePage}) {
     <p className="site-footer-credit">Made by <a href="https://zachsm.com/projects/one-voice">Zach Martin</a></p>
     <nav className="site-footer-links" aria-label="Project information">
       <a className="continuous-underline" href="#privacy" aria-current={activePage === 'privacy' ? 'page' : undefined}>Privacy</a>
+      <a className="continuous-underline" href="#terms" aria-current={activePage === 'terms' ? 'page' : undefined}>Terms and licensing</a>
       <a className="continuous-underline" href="https://github.com/Zachshotamartin/target-speaker-extraction">Source ↗</a>
     </nav>
   </footer>;

@@ -4,6 +4,7 @@ import SiteHeader from './SiteHeader.jsx';
 import SiteFooter from './SiteFooter.jsx';
 import TranscriptionWorkspace from './TranscriptionWorkspace.jsx';
 import PrivacyPage from './PrivacyPage.jsx';
+import TermsPage from './TermsPage.jsx';
 import {pageForHash} from './pageRoute.js';
 import {ownScrollRestoration, scrollToRoute} from './routeNavigation.js';
 import {animatePageChange, animateDisclosure} from './motion.js';
@@ -63,6 +64,7 @@ export default function App() {
       <div hidden={page !== 'overview'}><LandingPage active={page === 'overview'}/></div>
       <div hidden={!transcribing}><TranscriptionWorkspace active={transcribing}/></div>
       <div hidden={page !== 'privacy'}><PrivacyPage/></div>
+      <div hidden={page !== 'terms'}><TermsPage/></div>
     </main>
     <SiteFooter activePage={page}/>
   </div>;
