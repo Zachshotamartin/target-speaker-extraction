@@ -37,3 +37,25 @@ for (const snapshot of [best, latest]) {
   }
 }
 console.log('Best/latest identities, audio hashes, fixed cases, timing, and validation history verified.');
+
+const diagnostics = await load('src/validation-diagnostics.json');
+const evidence = await load('public' + diagnostics.downloads.report);
+assert.equal(evidence.best_step, best.step);
+assert.equal(evidence.latest_step, progress.latestFull.step);
+assert.ok(evidence.latest_step < latest.step, 'Diagnostics describe validated weights, not the later saved checkpoint');
+assert.equal(evidence.paired.length, 6000);
+assert.equal(new Set(evidence.paired.map(row => row.case_id)).size, 6000);
+assert.equal(evidence.speakers.length, 40);
+assert.equal(evidence.speakers.reduce((total, row) => total + row.cases, 0), 6000);
+assert.deepEqual(evidence.summary, diagnostics.summary);
+assert.equal(evidence.summary.best.mean, best.validation.improvement);
+assert.equal(evidence.summary.best.improved / 6000, best.validation.positiveFraction);
+assert.equal(evidence.summary.wrong_speaker_cases / 6000, best.validation.confusionFraction);
+assert.equal(evidence.summary.paired.improved_over_1db + evidence.summary.paired.within_1db + evidence.summary.paired.worsened_over_1db, 6000);
+assert.equal(evidence.failures.at(-1).step, progress.latestFull.step);
+for (const path of [...Object.values(diagnostics.charts), ...Object.values(diagnostics.downloads)]) {
+  const bytes = await readFile(new URL('public' + path, root));
+  const hash = createHash('sha256').update(bytes).digest('hex').slice(0, 12);
+  assert.ok(path.includes(`-${hash}.`), `${path}: asset hash mismatch`);
+}
+console.log('Diagnostic cohorts, paired cases, failure counts, source identity, and chart/data hashes verified.');

@@ -1,0 +1,60 @@
+{
+  "summary": {
+    "cases": 6000,
+    "speakers": 40,
+    "best": {
+      "mean": 11.777042989879847,
+      "median": 13.381293296813965,
+      "p10": 7.257305526733399,
+      "p25": 11.042737007141113,
+      "p75": 15.355709314346313,
+      "p90": 16.960940742492678,
+      "minimum": -40.583560943603516,
+      "maximum": 23.399629592895508,
+      "improved": 5698,
+      "no_improvement": 302
+    },
+    "latest": {
+      "mean": 11.746004445870717,
+      "median": 13.39827585220337,
+      "p10": 6.975467681884766,
+      "p25": 10.97396731376648,
+      "p75": 15.397615194320679,
+      "p90": 16.992450332641603,
+      "minimum": -40.01881408691406,
+      "maximum": 23.352033615112305,
+      "improved": 5694,
+      "no_improvement": 306
+    },
+    "wrong_speaker_cases": 241,
+    "latest_wrong_speaker_cases": 246,
+    "paired": {
+      "mean_change": -0.031038544009129206,
+      "improved_over_1db": 391,
+      "within_1db": 5157,
+      "worsened_over_1db": 452
+    },
+    "speaker_mean_range": [
+      7.3562319209222835,
+      14.47108201766282
+    ],
+    "speaker_case_range": [
+      63,
+      223
+    ]
+  },
+  "best_epoch": 80.0,
+  "latest_epoch": 81.0,
+  "charts": {
+    "distribution": "/assets/one-voice/quality-distribution-619912aa4a57.svg",
+    "failures": "/assets/one-voice/failure-rates-9d50c71cb161.svg",
+    "speakers": "/assets/one-voice/speaker-performance-cadbf7485c29.svg",
+    "paired": "/assets/one-voice/paired-checkpoints-bbff6ae3eb64.svg"
+  },
+  "downloads": {
+    "paired": "/assets/one-voice/diagnostics-paired-d70d366c467f.csv",
+    "speakers": "/assets/one-voice/diagnostics-speakers-f05e35356535.csv",
+    "failures": "/assets/one-voice/diagnostics-failures-779dc30cfdab.csv",
+    "report": "/assets/one-voice/validation-diagnostics-bd8c74778318.json"
+  }
+}

@@ -1,8 +1,9 @@
 import progress from './training-progress.json';
+import ValidationDiagnostics from './ValidationDiagnostics.jsx';
 import './training-progress.css';
 
 export default function TrainingProgress() {
-  return <section className="ov-training" aria-labelledby="ov-training-title">
+  return <section className="ov-training one-voice" aria-labelledby="ov-training-title">
     <div className="study-section-heading">
       <h2 id="ov-training-title">Training progress</h2>
       <p>Snapshot · September 29, 2026</p>
@@ -20,5 +21,6 @@ export default function TrainingProgress() {
     <p>The 400-request monitor and full validation are different suites. The latest saved model is at update {progress.latestStep.toLocaleString('en-US')}, nine updates after the last full validation. Its listening examples are current; that exact checkpoint has no full-suite score.</p>
     <p>Training used {progress.trainingMixtures.toLocaleString('en-US')} Libri2Mix mixtures and {progress.trainingSpeakers} speakers. Both listening versions use the same six conversations, chosen independently of their scores.</p>
     <a href="/assets/one-voice/training-progress.json" download>Download training results</a>
+    <ValidationDiagnostics/>
   </section>;
 }

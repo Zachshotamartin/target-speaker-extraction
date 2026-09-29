@@ -18,6 +18,20 @@
 .ov-training-figure img { display: block; width: 100%; height: auto; }
 .ov-training-figure figcaption { max-width: 78ch; margin-top: 1rem; font-size: 1rem; line-height: 1.6; }
 .ov-checkpoint-note { line-height: 1.6; margin-block: 1rem; }
+.ov-diagnostics { container-type: inline-size; margin-top: var(--ov-training-space); padding-top: var(--ov-training-space); border-top: 1px solid var(--study-rule); }
+.ov-diagnostics h3 { font-size: clamp(1.4rem, 2.4vw, 1.8rem); font-weight: 500; margin: 0 0 1rem; }
+.ov-diagnostics h4 { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 500; margin: 0 0 1rem; }
+.ov-diagnostics p { max-width: 78ch; line-height: 1.65; }
+.ov-diagnostics-controls { margin-block: 1.5rem var(--ov-training-space); }
+.ov-diagnostics-downloads { display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
+.ov-diagnostics-scope { margin-top: 1.5rem; color: var(--study-muted); }
+.ov-diagnostics-result { min-width: 0; }
+.ov-diagnostics-plot { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+.ov-diagnostics-plot img { min-width: 800px; }
+.ov-diagnostics-scroll-hint { display: none; }
+@container (max-width: 799px) {
+  .ov-diagnostics-scroll-hint { display: block; }
+}
 @media (max-width: 680px) {
   .ov-training-metrics { grid-template-columns: 1fr; gap: 1.5rem; }
 }
