@@ -323,7 +323,7 @@ def publish(args):
     downloads = {}
     for name in ("paired", "speakers", "failures"):
         stream = io.StringIO(newline="")
-        writer = csv.DictWriter(stream, fieldnames=list(data[name][0]))
+        writer = csv.DictWriter(stream, fieldnames=list(data[name][0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(data[name])
         downloads[name] = asset(f"diagnostics-{name}", stream.getvalue().encode(), "csv")

@@ -52,9 +52,9 @@
     "paired": "/assets/one-voice/paired-checkpoints-bbff6ae3eb64.svg"
   },
   "downloads": {
-    "paired": "/assets/one-voice/diagnostics-paired-9c74c3f89505.csv",
-    "speakers": "/assets/one-voice/diagnostics-speakers-c647b4c06344.csv",
-    "failures": "/assets/one-voice/diagnostics-failures-2ec8b46a71ce.csv",
+    "paired": "/assets/one-voice/diagnostics-paired-d70d366c467f.csv",
+    "speakers": "/assets/one-voice/diagnostics-speakers-f05e35356535.csv",
+    "failures": "/assets/one-voice/diagnostics-failures-779dc30cfdab.csv",
     "report": "/assets/one-voice/validation-diagnostics-bd8c74778318.json"
   }
 }
