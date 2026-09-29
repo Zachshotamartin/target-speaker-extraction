@@ -1,0 +1,4559 @@
+{
+  "asOf": "2026-09-29",
+  "status": "paused",
+  "resumable": true,
+  "reason": "Training paused; 100-epoch schedule not completed.",
+  "completedEpochs": 81,
+  "plannedEpochs": 100,
+  "latestStep": 281484,
+  "elapsedSeconds": 1614038.4072233746,
+  "trainingMixtures": 13900,
+  "trainingSpeakers": 251,
+  "developmentSpeakers": 40,
+  "bestFull": {
+    "cases": 6000,
+    "mean_si_sdr_db": 11.77639505891564,
+    "mean_si_sdri_db": 11.777042989879847,
+    "positive_improvement_fraction": 0.9496666666666667,
+    "confusion_fraction": 0.04016666666666667,
+    "step": 278000,
+    "epoch": 80.0,
+    "kind": "full",
+    "evaluation_device": "cpu",
+    "manifest_sha256": "7fdb48305a0d9162ae43a848fd44fb0e44851ad720643b095cbfa83f0814ef9e",
+    "monitor_sha256": "7c1a845c780a3f2ebc0dd8069238e8c8a488179c93f8a6cddff9935cd82a796e",
+    "checkpoint_sha256": "ebdbd30792fcb939936279d9dbab1e40feadbc1c079da9a67ecf944500d5114f"
+  },
+  "latestFull": {
+    "cases": 6000,
+    "mean_si_sdr_db": 11.745356515266621,
+    "mean_si_sdri_db": 11.746004445870717,
+    "positive_improvement_fraction": 0.949,
+    "confusion_fraction": 0.041,
+    "step": 281475,
+    "epoch": 81.0,
+    "kind": "full",
+    "evaluation_device": "cpu",
+    "manifest_sha256": "7fdb48305a0d9162ae43a848fd44fb0e44851ad720643b095cbfa83f0814ef9e",
+    "monitor_sha256": "7c1a845c780a3f2ebc0dd8069238e8c8a488179c93f8a6cddff9935cd82a796e"
+  },
+  "bestMonitor": {
+    "cases": 400,
+    "mean_si_sdr_db": 11.755627909302712,
+    "mean_si_sdri_db": 11.843682755231857,
+    "positive_improvement_fraction": 0.955,
+    "confusion_fraction": 0.0375,
+    "step": 238000,
+    "epoch": 68.48920863309353,
+    "kind": "monitor",
+    "evaluation_device": "cpu",
+    "manifest_sha256": "7fdb48305a0d9162ae43a848fd44fb0e44851ad720643b095cbfa83f0814ef9e",
+    "monitor_sha256": "7c1a845c780a3f2ebc0dd8069238e8c8a488179c93f8a6cddff9935cd82a796e",
+    "checkpoint_sha256": "f3d1bd0146ce3bfe89e16264a7abd56f01c178cfc31eced00ee030d20fa3342e"
+  },
+  "latestCheckpointValidation": "The latest checkpoint is 9 updates after epoch-81 validation; its full-suite score is unmeasured.",
+  "metric": "Mean target-specific SI-SDR improvement over the mixture, in dB. Development results, not an unseen test or speech-recognition accuracy.",
+  "history": [
+    {
+      "epoch": 0.14388489208633093,
+      "step": 500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": -0.051015415228903294
+    },
+    {
+      "epoch": 0.28776978417266186,
+      "step": 1000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 0.015903546260669827
+    },
+    {
+      "epoch": 0.4316546762589928,
+      "step": 1500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": -0.07268432881683111
+    },
+    {
+      "epoch": 0.5755395683453237,
+      "step": 2000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": -0.1394142501987517
+    },
+    {
+      "epoch": 0.7194244604316546,
+      "step": 2500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 0.15792787620797755
+    },
+    {
+      "epoch": 0.8633093525179856,
+      "step": 3000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 0.045196999181061986
+    },
+    {
+      "epoch": 1.0,
+      "step": 3475,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 0.14068536418086539
+    },
+    {
+      "epoch": 1.0071942446043165,
+      "step": 3500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 0.05997858390212059
+    },
+    {
+      "epoch": 1.1510791366906474,
+      "step": 4000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 0.27017035469412803
+    },
+    {
+      "epoch": 1.2949640287769784,
+      "step": 4500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 0.49050062349066137
+    },
+    {
+      "epoch": 1.4388489208633093,
+      "step": 5000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 0.4045919541083276
+    },
+    {
+      "epoch": 1.5827338129496402,
+      "step": 5500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 1.2341835717111826
+    },
+    {
+      "epoch": 1.7266187050359711,
+      "step": 6000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 1.4082118575461209
+    },
+    {
+      "epoch": 1.870503597122302,
+      "step": 6500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 1.5635842767450958
+    },
+    {
+      "epoch": 2.0,
+      "step": 6950,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 1.7985872264703116
+    },
+    {
+      "epoch": 2.014388489208633,
+      "step": 7000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 1.8213099928572773
+    },
+    {
+      "epoch": 2.158273381294964,
+      "step": 7500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 2.0796447706595065
+    },
+    {
+      "epoch": 2.302158273381295,
+      "step": 8000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 2.236894796062261
+    },
+    {
+      "epoch": 2.446043165467626,
+      "step": 8500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 2.411772753875703
+    },
+    {
+      "epoch": 2.5899280575539567,
+      "step": 9000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 2.598540402073413
+    },
+    {
+      "epoch": 2.7338129496402876,
+      "step": 9500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 2.771274733245373
+    },
+    {
+      "epoch": 2.8776978417266186,
+      "step": 10000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 2.5234403512999415
+    },
+    {
+      "epoch": 3.0,
+      "step": 10425,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 3.014070381930098
+    },
+    {
+      "epoch": 3.0215827338129495,
+      "step": 10500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 2.980775953195989
+    },
+    {
+      "epoch": 3.1654676258992804,
+      "step": 11000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.019285715613514
+    },
+    {
+      "epoch": 3.3093525179856114,
+      "step": 11500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.026982408091426
+    },
+    {
+      "epoch": 3.4532374100719423,
+      "step": 12000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.2599502892792227
+    },
+    {
+      "epoch": 3.597122302158273,
+      "step": 12500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.251640219800174
+    },
+    {
+      "epoch": 3.741007194244604,
+      "step": 13000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.4532753341272473
+    },
+    {
+      "epoch": 3.884892086330935,
+      "step": 13500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.6670801631733774
+    },
+    {
+      "epoch": 4.0,
+      "step": 13900,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 3.70124343305019
+    },
+    {
+      "epoch": 4.028776978417266,
+      "step": 14000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.676407838910818
+    },
+    {
+      "epoch": 4.172661870503597,
+      "step": 14500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.576743917763233
+    },
+    {
+      "epoch": 4.316546762589928,
+      "step": 15000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.890715280417353
+    },
+    {
+      "epoch": 4.460431654676259,
+      "step": 15500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.9020129859074952
+    },
+    {
+      "epoch": 4.60431654676259,
+      "step": 16000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 3.5054091990366576
+    },
+    {
+      "epoch": 4.748201438848921,
+      "step": 16500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.255686790198087
+    },
+    {
+      "epoch": 4.892086330935252,
+      "step": 17000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.213485636413098
+    },
+    {
+      "epoch": 5.0,
+      "step": 17375,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 4.087711986559444
+    },
+    {
+      "epoch": 5.0359712230215825,
+      "step": 17500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.254300833642483
+    },
+    {
+      "epoch": 5.179856115107913,
+      "step": 18000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.561846472918988
+    },
+    {
+      "epoch": 5.323741007194244,
+      "step": 18500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.399947931095958
+    },
+    {
+      "epoch": 5.467625899280575,
+      "step": 19000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.667720590159297
+    },
+    {
+      "epoch": 5.611510791366906,
+      "step": 19500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.666400328353047
+    },
+    {
+      "epoch": 5.755395683453237,
+      "step": 20000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.6472216613590716
+    },
+    {
+      "epoch": 5.899280575539568,
+      "step": 20500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.706228945553303
+    },
+    {
+      "epoch": 6.0,
+      "step": 20850,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 4.971624847865353
+    },
+    {
+      "epoch": 6.043165467625899,
+      "step": 21000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.699863718897104
+    },
+    {
+      "epoch": 6.18705035971223,
+      "step": 21500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.988301666676998
+    },
+    {
+      "epoch": 6.330935251798561,
+      "step": 22000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.235218888819218
+    },
+    {
+      "epoch": 6.474820143884892,
+      "step": 22500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.137297208011151
+    },
+    {
+      "epoch": 6.618705035971223,
+      "step": 23000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.077301322314888
+    },
+    {
+      "epoch": 6.762589928057554,
+      "step": 23500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 4.43950791656971
+    },
+    {
+      "epoch": 6.906474820143885,
+      "step": 24000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.279440207630396
+    },
+    {
+      "epoch": 7.0,
+      "step": 24325,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 5.142919063694775
+    },
+    {
+      "epoch": 7.0503597122302155,
+      "step": 24500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.485763416644186
+    },
+    {
+      "epoch": 7.194244604316546,
+      "step": 25000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.438487012535334
+    },
+    {
+      "epoch": 7.338129496402877,
+      "step": 25500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.430991076603532
+    },
+    {
+      "epoch": 7.482014388489208,
+      "step": 26000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.0677220903337
+    },
+    {
+      "epoch": 7.625899280575539,
+      "step": 26500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.569887532889843
+    },
+    {
+      "epoch": 7.76978417266187,
+      "step": 27000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.890784920006991
+    },
+    {
+      "epoch": 7.913669064748201,
+      "step": 27500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.321980592980981
+    },
+    {
+      "epoch": 8.0,
+      "step": 27800,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 5.632920746651789
+    },
+    {
+      "epoch": 8.057553956834532,
+      "step": 28000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.657231231555342
+    },
+    {
+      "epoch": 8.201438848920864,
+      "step": 28500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.758050362765789
+    },
+    {
+      "epoch": 8.345323741007194,
+      "step": 29000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.7415306234080346
+    },
+    {
+      "epoch": 8.489208633093526,
+      "step": 29500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.977131704986095
+    },
+    {
+      "epoch": 8.633093525179856,
+      "step": 30000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 5.812882460802793
+    },
+    {
+      "epoch": 8.776978417266188,
+      "step": 30500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.253403072431683
+    },
+    {
+      "epoch": 8.920863309352518,
+      "step": 31000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.157459446415305
+    },
+    {
+      "epoch": 9.0,
+      "step": 31275,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 6.248868672844022
+    },
+    {
+      "epoch": 9.06474820143885,
+      "step": 31500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.219033176451921
+    },
+    {
+      "epoch": 9.20863309352518,
+      "step": 32000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.351943421438336
+    },
+    {
+      "epoch": 9.352517985611511,
+      "step": 32500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.370559048056602
+    },
+    {
+      "epoch": 9.496402877697841,
+      "step": 33000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.49892259195447
+    },
+    {
+      "epoch": 9.640287769784173,
+      "step": 33500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.307045833338052
+    },
+    {
+      "epoch": 9.784172661870503,
+      "step": 34000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.369520829841495
+    },
+    {
+      "epoch": 9.928057553956835,
+      "step": 34500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.295064841508865
+    },
+    {
+      "epoch": 10.0,
+      "step": 34750,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 6.581415888808667
+    },
+    {
+      "epoch": 10.071942446043165,
+      "step": 35000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.459417043179274
+    },
+    {
+      "epoch": 10.215827338129497,
+      "step": 35500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.553853788226843
+    },
+    {
+      "epoch": 10.359712230215827,
+      "step": 36000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.657597495634109
+    },
+    {
+      "epoch": 10.503597122302159,
+      "step": 36500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.723138419389724
+    },
+    {
+      "epoch": 10.647482014388489,
+      "step": 37000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.887319229245186
+    },
+    {
+      "epoch": 10.79136690647482,
+      "step": 37500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.500224983543157
+    },
+    {
+      "epoch": 10.93525179856115,
+      "step": 38000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.943493786901236
+    },
+    {
+      "epoch": 11.0,
+      "step": 38225,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 6.872449222917358
+    },
+    {
+      "epoch": 11.079136690647482,
+      "step": 38500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.0213801434263585
+    },
+    {
+      "epoch": 11.223021582733812,
+      "step": 39000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.1222086486965415
+    },
+    {
+      "epoch": 11.366906474820144,
+      "step": 39500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.127210492771119
+    },
+    {
+      "epoch": 11.510791366906474,
+      "step": 40000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.198652133718133
+    },
+    {
+      "epoch": 11.654676258992806,
+      "step": 40500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.03707352809608
+    },
+    {
+      "epoch": 11.798561151079136,
+      "step": 41000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.046427805610001
+    },
+    {
+      "epoch": 11.942446043165468,
+      "step": 41500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.923268196061254
+    },
+    {
+      "epoch": 12.0,
+      "step": 41700,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 6.804349528687696
+    },
+    {
+      "epoch": 12.086330935251798,
+      "step": 42000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.3996623778343205
+    },
+    {
+      "epoch": 12.23021582733813,
+      "step": 42500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.3177215375751254
+    },
+    {
+      "epoch": 12.37410071942446,
+      "step": 43000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.359577345848083
+    },
+    {
+      "epoch": 12.517985611510792,
+      "step": 43500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.184035716205836
+    },
+    {
+      "epoch": 12.661870503597122,
+      "step": 44000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 6.832768641710281
+    },
+    {
+      "epoch": 12.805755395683454,
+      "step": 44500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.173477379530668
+    },
+    {
+      "epoch": 12.949640287769784,
+      "step": 45000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.500170734524727
+    },
+    {
+      "epoch": 13.0,
+      "step": 45175,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 7.24301654805243
+    },
+    {
+      "epoch": 13.093525179856115,
+      "step": 45500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.502488462179899
+    },
+    {
+      "epoch": 13.237410071942445,
+      "step": 46000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.682247752845288
+    },
+    {
+      "epoch": 13.381294964028777,
+      "step": 46500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.611178211346268
+    },
+    {
+      "epoch": 13.525179856115107,
+      "step": 47000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.506356668770313
+    },
+    {
+      "epoch": 13.66906474820144,
+      "step": 47500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.683693836927414
+    },
+    {
+      "epoch": 13.81294964028777,
+      "step": 48000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.759443797767163
+    },
+    {
+      "epoch": 13.956834532374101,
+      "step": 48500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.667553982511163
+    },
+    {
+      "epoch": 14.0,
+      "step": 48650,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 7.782269391554097
+    },
+    {
+      "epoch": 14.100719424460431,
+      "step": 49000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.601409604102373
+    },
+    {
+      "epoch": 14.244604316546763,
+      "step": 49500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.693471777625382
+    },
+    {
+      "epoch": 14.388489208633093,
+      "step": 50000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.766037305444479
+    },
+    {
+      "epoch": 14.532374100719425,
+      "step": 50500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.686378116253763
+    },
+    {
+      "epoch": 14.676258992805755,
+      "step": 51000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.969677133783698
+    },
+    {
+      "epoch": 14.820143884892087,
+      "step": 51500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.8723491024971
+    },
+    {
+      "epoch": 14.964028776978417,
+      "step": 52000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.059310011267662
+    },
+    {
+      "epoch": 15.0,
+      "step": 52125,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 7.705810373314967
+    },
+    {
+      "epoch": 15.107913669064748,
+      "step": 52500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.865122955441475
+    },
+    {
+      "epoch": 15.251798561151078,
+      "step": 53000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.674646983221173
+    },
+    {
+      "epoch": 15.39568345323741,
+      "step": 53500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.226465250784532
+    },
+    {
+      "epoch": 15.53956834532374,
+      "step": 54000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.87001034155488
+    },
+    {
+      "epoch": 15.683453237410072,
+      "step": 54500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.942401207834482
+    },
+    {
+      "epoch": 15.827338129496402,
+      "step": 55000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.053696044385433
+    },
+    {
+      "epoch": 15.971223021582734,
+      "step": 55500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.860476843202487
+    },
+    {
+      "epoch": 16.0,
+      "step": 55600,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.02257367697855
+    },
+    {
+      "epoch": 16.115107913669064,
+      "step": 56000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.398230591118336
+    },
+    {
+      "epoch": 16.258992805755394,
+      "step": 56500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.273231009840964
+    },
+    {
+      "epoch": 16.402877697841728,
+      "step": 57000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.028838289789855
+    },
+    {
+      "epoch": 16.546762589928058,
+      "step": 57500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.9489210142940285
+    },
+    {
+      "epoch": 16.690647482014388,
+      "step": 58000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.16936784222722
+    },
+    {
+      "epoch": 16.834532374100718,
+      "step": 58500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.326001716554165
+    },
+    {
+      "epoch": 16.97841726618705,
+      "step": 59000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.569158913046122
+    },
+    {
+      "epoch": 17.0,
+      "step": 59075,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.311252115783592
+    },
+    {
+      "epoch": 17.12230215827338,
+      "step": 59500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 7.9947307459265
+    },
+    {
+      "epoch": 17.26618705035971,
+      "step": 60000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.218510675951839
+    },
+    {
+      "epoch": 17.41007194244604,
+      "step": 60500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.362375534772873
+    },
+    {
+      "epoch": 17.553956834532375,
+      "step": 61000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.28721458464861
+    },
+    {
+      "epoch": 17.697841726618705,
+      "step": 61500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.38091992765665
+    },
+    {
+      "epoch": 17.841726618705035,
+      "step": 62000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.279270867109298
+    },
+    {
+      "epoch": 17.985611510791365,
+      "step": 62500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.290271850079298
+    },
+    {
+      "epoch": 18.0,
+      "step": 62550,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.348859272907177
+    },
+    {
+      "epoch": 18.1294964028777,
+      "step": 63000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.483709545433522
+    },
+    {
+      "epoch": 18.27338129496403,
+      "step": 63500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.167149491384626
+    },
+    {
+      "epoch": 18.41726618705036,
+      "step": 64000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.5497142778337
+    },
+    {
+      "epoch": 18.56115107913669,
+      "step": 64500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.368854467626662
+    },
+    {
+      "epoch": 18.705035971223023,
+      "step": 65000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.123506773635745
+    },
+    {
+      "epoch": 18.848920863309353,
+      "step": 65500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.374052970856429
+    },
+    {
+      "epoch": 18.992805755395683,
+      "step": 66000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.323098283410072
+    },
+    {
+      "epoch": 19.0,
+      "step": 66025,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.593168411592643
+    },
+    {
+      "epoch": 19.136690647482013,
+      "step": 66500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.596008912473916
+    },
+    {
+      "epoch": 19.280575539568346,
+      "step": 67000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.547196109779179
+    },
+    {
+      "epoch": 19.424460431654676,
+      "step": 67500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.488266649991274
+    },
+    {
+      "epoch": 19.568345323741006,
+      "step": 68000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.692883384972811
+    },
+    {
+      "epoch": 19.712230215827336,
+      "step": 68500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.679796236604453
+    },
+    {
+      "epoch": 19.85611510791367,
+      "step": 69000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.591203963458538
+    },
+    {
+      "epoch": 20.0,
+      "step": 69500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.354060818254947
+    },
+    {
+      "epoch": 20.0,
+      "step": 69500,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.649626129428546
+    },
+    {
+      "epoch": 20.14388489208633,
+      "step": 70000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.54486912816763
+    },
+    {
+      "epoch": 20.287769784172664,
+      "step": 70500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.376601233035325
+    },
+    {
+      "epoch": 20.431654676258994,
+      "step": 71000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.422816137075424
+    },
+    {
+      "epoch": 20.575539568345324,
+      "step": 71500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.653421996086836
+    },
+    {
+      "epoch": 20.719424460431654,
+      "step": 72000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.425725142583252
+    },
+    {
+      "epoch": 20.863309352517987,
+      "step": 72500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.914710874259471
+    },
+    {
+      "epoch": 21.0,
+      "step": 72975,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.858071910018722
+    },
+    {
+      "epoch": 21.007194244604317,
+      "step": 73000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.610291757285594
+    },
+    {
+      "epoch": 21.151079136690647,
+      "step": 73500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.86671070843935
+    },
+    {
+      "epoch": 21.294964028776977,
+      "step": 74000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.729208943992854
+    },
+    {
+      "epoch": 21.43884892086331,
+      "step": 74500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.889978473261
+    },
+    {
+      "epoch": 21.58273381294964,
+      "step": 75000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.839395131319762
+    },
+    {
+      "epoch": 21.72661870503597,
+      "step": 75500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.72578213147819
+    },
+    {
+      "epoch": 21.8705035971223,
+      "step": 76000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.702734860777856
+    },
+    {
+      "epoch": 22.0,
+      "step": 76450,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.729370319967469
+    },
+    {
+      "epoch": 22.014388489208635,
+      "step": 76500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.049829648137093
+    },
+    {
+      "epoch": 22.158273381294965,
+      "step": 77000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.89177268922329
+    },
+    {
+      "epoch": 22.302158273381295,
+      "step": 77500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.94587513923645
+    },
+    {
+      "epoch": 22.446043165467625,
+      "step": 78000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.975057002753019
+    },
+    {
+      "epoch": 22.58992805755396,
+      "step": 78500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.845432841107248
+    },
+    {
+      "epoch": 22.73381294964029,
+      "step": 79000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.785655134320258
+    },
+    {
+      "epoch": 22.87769784172662,
+      "step": 79500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.933632403481752
+    },
+    {
+      "epoch": 23.0,
+      "step": 79925,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.997585499117772
+    },
+    {
+      "epoch": 23.02158273381295,
+      "step": 80000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.034429528079928
+    },
+    {
+      "epoch": 23.165467625899282,
+      "step": 80500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.090233199894428
+    },
+    {
+      "epoch": 23.309352517985612,
+      "step": 81000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.194248791709542
+    },
+    {
+      "epoch": 23.453237410071942,
+      "step": 81500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.823666214942932
+    },
+    {
+      "epoch": 23.597122302158272,
+      "step": 82000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.930577020049094
+    },
+    {
+      "epoch": 23.741007194244606,
+      "step": 82500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.840762941241264
+    },
+    {
+      "epoch": 23.884892086330936,
+      "step": 83000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.73482598349452
+    },
+    {
+      "epoch": 24.0,
+      "step": 83400,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 8.854183524173996
+    },
+    {
+      "epoch": 24.028776978417266,
+      "step": 83500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.176697274148465
+    },
+    {
+      "epoch": 24.172661870503596,
+      "step": 84000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.92695774167776
+    },
+    {
+      "epoch": 24.31654676258993,
+      "step": 84500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.16036448955536
+    },
+    {
+      "epoch": 24.46043165467626,
+      "step": 85000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.105787968635559
+    },
+    {
+      "epoch": 24.60431654676259,
+      "step": 85500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 8.959707043617964
+    },
+    {
+      "epoch": 24.74820143884892,
+      "step": 86000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.256833854466677
+    },
+    {
+      "epoch": 24.892086330935253,
+      "step": 86500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.290475585237145
+    },
+    {
+      "epoch": 25.0,
+      "step": 86875,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 9.045050737470389
+    },
+    {
+      "epoch": 25.035971223021583,
+      "step": 87000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.42412286132574
+    },
+    {
+      "epoch": 25.179856115107913,
+      "step": 87500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.004309556186199
+    },
+    {
+      "epoch": 25.323741007194243,
+      "step": 88000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.377025465965271
+    },
+    {
+      "epoch": 25.467625899280577,
+      "step": 88500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.244407170712948
+    },
+    {
+      "epoch": 25.611510791366907,
+      "step": 89000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.039738609045743
+    },
+    {
+      "epoch": 25.755395683453237,
+      "step": 89500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.143637878596783
+    },
+    {
+      "epoch": 25.899280575539567,
+      "step": 90000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.195307285189628
+    },
+    {
+      "epoch": 26.0,
+      "step": 90350,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 9.418439759239554
+    },
+    {
+      "epoch": 26.0431654676259,
+      "step": 90500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.366096773296595
+    },
+    {
+      "epoch": 26.18705035971223,
+      "step": 91000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.215375795811415
+    },
+    {
+      "epoch": 26.33093525179856,
+      "step": 91500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.375268716812133
+    },
+    {
+      "epoch": 26.47482014388489,
+      "step": 92000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.453657147213816
+    },
+    {
+      "epoch": 26.618705035971225,
+      "step": 92500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.180884480327368
+    },
+    {
+      "epoch": 26.762589928057555,
+      "step": 93000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.262617228031159
+    },
+    {
+      "epoch": 26.906474820143885,
+      "step": 93500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.558208667039871
+    },
+    {
+      "epoch": 27.0,
+      "step": 93825,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 9.417605710347493
+    },
+    {
+      "epoch": 27.050359712230215,
+      "step": 94000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.222594456076623
+    },
+    {
+      "epoch": 27.194244604316548,
+      "step": 94500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.186974537670613
+    },
+    {
+      "epoch": 27.33812949640288,
+      "step": 95000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.351606604084372
+    },
+    {
+      "epoch": 27.48201438848921,
+      "step": 95500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.575566501915455
+    },
+    {
+      "epoch": 27.62589928057554,
+      "step": 96000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.161300508230925
+    },
+    {
+      "epoch": 27.769784172661872,
+      "step": 96500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.666451288461685
+    },
+    {
+      "epoch": 27.913669064748202,
+      "step": 97000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.37538333505392
+    },
+    {
+      "epoch": 28.0,
+      "step": 97300,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 9.644571072250605
+    },
+    {
+      "epoch": 28.057553956834532,
+      "step": 97500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.588672042638063
+    },
+    {
+      "epoch": 28.201438848920862,
+      "step": 98000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.44091649144888
+    },
+    {
+      "epoch": 28.345323741007196,
+      "step": 98500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.57812659174204
+    },
+    {
+      "epoch": 28.489208633093526,
+      "step": 99000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.657213363349438
+    },
+    {
+      "epoch": 28.633093525179856,
+      "step": 99500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.550680679529906
+    },
+    {
+      "epoch": 28.776978417266186,
+      "step": 100000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.38254996135831
+    },
+    {
+      "epoch": 28.92086330935252,
+      "step": 100500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.439466954767704
+    },
+    {
+      "epoch": 29.0,
+      "step": 100775,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 9.560889822438359
+    },
+    {
+      "epoch": 29.06474820143885,
+      "step": 101000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.581224305480719
+    },
+    {
+      "epoch": 29.20863309352518,
+      "step": 101500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.548287784457207
+    },
+    {
+      "epoch": 29.35251798561151,
+      "step": 102000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.375237001925706
+    },
+    {
+      "epoch": 29.496402877697843,
+      "step": 102500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.48832920640707
+    },
+    {
+      "epoch": 29.640287769784173,
+      "step": 103000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.445331503804773
+    },
+    {
+      "epoch": 29.784172661870503,
+      "step": 103500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.772427814751863
+    },
+    {
+      "epoch": 29.928057553956833,
+      "step": 104000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.792306460142136
+    },
+    {
+      "epoch": 30.0,
+      "step": 104250,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 9.77616973349452
+    },
+    {
+      "epoch": 30.071942446043167,
+      "step": 104500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.875502918064594
+    },
+    {
+      "epoch": 30.215827338129497,
+      "step": 105000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.324192227721214
+    },
+    {
+      "epoch": 30.359712230215827,
+      "step": 105500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.386349486410618
+    },
+    {
+      "epoch": 30.503597122302157,
+      "step": 106000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.489563562273979
+    },
+    {
+      "epoch": 30.64748201438849,
+      "step": 106500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.974836644530296
+    },
+    {
+      "epoch": 30.79136690647482,
+      "step": 107000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.828502637445927
+    },
+    {
+      "epoch": 30.93525179856115,
+      "step": 107500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.849325850307942
+    },
+    {
+      "epoch": 31.0,
+      "step": 107725,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 9.849394256934524
+    },
+    {
+      "epoch": 31.07913669064748,
+      "step": 108000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.795526835918427
+    },
+    {
+      "epoch": 31.223021582733814,
+      "step": 108500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.71199842453003
+    },
+    {
+      "epoch": 31.366906474820144,
+      "step": 109000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.866651072204114
+    },
+    {
+      "epoch": 31.510791366906474,
+      "step": 109500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.68427442640066
+    },
+    {
+      "epoch": 31.654676258992804,
+      "step": 110000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.836170473620296
+    },
+    {
+      "epoch": 31.798561151079138,
+      "step": 110500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.86067915380001
+    },
+    {
+      "epoch": 31.942446043165468,
+      "step": 111000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.800798893868922
+    },
+    {
+      "epoch": 32.0,
+      "step": 111200,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.044866321062049
+    },
+    {
+      "epoch": 32.0863309352518,
+      "step": 111500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.657039474397898
+    },
+    {
+      "epoch": 32.23021582733813,
+      "step": 112000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.854871056154371
+    },
+    {
+      "epoch": 32.37410071942446,
+      "step": 112500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.869414974153042
+    },
+    {
+      "epoch": 32.51798561151079,
+      "step": 113000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.909080645442009
+    },
+    {
+      "epoch": 32.66187050359712,
+      "step": 113500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.795420676767826
+    },
+    {
+      "epoch": 32.805755395683455,
+      "step": 114000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.93557670533657
+    },
+    {
+      "epoch": 32.94964028776978,
+      "step": 114500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.005408412516116
+    },
+    {
+      "epoch": 33.0,
+      "step": 114675,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 9.893065426136056
+    },
+    {
+      "epoch": 33.093525179856115,
+      "step": 115000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.13554640442133
+    },
+    {
+      "epoch": 33.23741007194245,
+      "step": 115500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.97579078823328
+    },
+    {
+      "epoch": 33.381294964028775,
+      "step": 116000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.034250384569168
+    },
+    {
+      "epoch": 33.52517985611511,
+      "step": 116500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.881928725242615
+    },
+    {
+      "epoch": 33.669064748201436,
+      "step": 117000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.148093727082014
+    },
+    {
+      "epoch": 33.81294964028777,
+      "step": 117500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.018692926988006
+    },
+    {
+      "epoch": 33.9568345323741,
+      "step": 118000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.316745549142361
+    },
+    {
+      "epoch": 34.0,
+      "step": 118150,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.094725968209406
+    },
+    {
+      "epoch": 34.10071942446043,
+      "step": 118500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.090068996995688
+    },
+    {
+      "epoch": 34.24460431654676,
+      "step": 119000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.253110906109214
+    },
+    {
+      "epoch": 34.388489208633096,
+      "step": 119500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.2642907589674
+    },
+    {
+      "epoch": 34.53237410071942,
+      "step": 120000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.252765814363956
+    },
+    {
+      "epoch": 34.67625899280576,
+      "step": 120500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.2384318202734
+    },
+    {
+      "epoch": 34.82014388489208,
+      "step": 121000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.914646582305432
+    },
+    {
+      "epoch": 34.96402877697842,
+      "step": 121500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.288474412560463
+    },
+    {
+      "epoch": 35.0,
+      "step": 121625,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.033460653364658
+    },
+    {
+      "epoch": 35.10791366906475,
+      "step": 122000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.654702743142844
+    },
+    {
+      "epoch": 35.25179856115108,
+      "step": 122500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.022034637928009
+    },
+    {
+      "epoch": 35.39568345323741,
+      "step": 123000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.023906303942203
+    },
+    {
+      "epoch": 35.539568345323744,
+      "step": 123500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.820245675742626
+    },
+    {
+      "epoch": 35.68345323741007,
+      "step": 124000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.034899263978005
+    },
+    {
+      "epoch": 35.827338129496404,
+      "step": 124500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.387239750921726
+    },
+    {
+      "epoch": 35.97122302158273,
+      "step": 125000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.250311430990696
+    },
+    {
+      "epoch": 36.0,
+      "step": 125100,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.412987755497918
+    },
+    {
+      "epoch": 36.115107913669064,
+      "step": 125500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.519826086461544
+    },
+    {
+      "epoch": 36.2589928057554,
+      "step": 126000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.245622574239968
+    },
+    {
+      "epoch": 36.402877697841724,
+      "step": 126500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.411601710766554
+    },
+    {
+      "epoch": 36.54676258992806,
+      "step": 127000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.191177544593812
+    },
+    {
+      "epoch": 36.69064748201439,
+      "step": 127500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.43560050547123
+    },
+    {
+      "epoch": 36.83453237410072,
+      "step": 128000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.087594279348851
+    },
+    {
+      "epoch": 36.97841726618705,
+      "step": 128500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.341122788786889
+    },
+    {
+      "epoch": 37.0,
+      "step": 128575,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.420345416339735
+    },
+    {
+      "epoch": 37.12230215827338,
+      "step": 129000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.068555982932448
+    },
+    {
+      "epoch": 37.26618705035971,
+      "step": 129500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.282442439198494
+    },
+    {
+      "epoch": 37.410071942446045,
+      "step": 130000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.524361317306758
+    },
+    {
+      "epoch": 37.55395683453237,
+      "step": 130500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.174089926928282
+    },
+    {
+      "epoch": 37.697841726618705,
+      "step": 131000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.104671887457371
+    },
+    {
+      "epoch": 37.84172661870504,
+      "step": 131500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.410841804146767
+    },
+    {
+      "epoch": 37.985611510791365,
+      "step": 132000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.465221179425717
+    },
+    {
+      "epoch": 38.0,
+      "step": 132050,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.4623365363429
+    },
+    {
+      "epoch": 38.1294964028777,
+      "step": 132500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.445649033784866
+    },
+    {
+      "epoch": 38.273381294964025,
+      "step": 133000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.01037128418684
+    },
+    {
+      "epoch": 38.41726618705036,
+      "step": 133500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.406435095667838
+    },
+    {
+      "epoch": 38.56115107913669,
+      "step": 134000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.547674544155598
+    },
+    {
+      "epoch": 38.70503597122302,
+      "step": 134500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.512069443762302
+    },
+    {
+      "epoch": 38.84892086330935,
+      "step": 135000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.605864364504814
+    },
+    {
+      "epoch": 38.992805755395686,
+      "step": 135500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.645246875286102
+    },
+    {
+      "epoch": 39.0,
+      "step": 135525,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.513758092708885
+    },
+    {
+      "epoch": 39.13669064748201,
+      "step": 136000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.652898026406765
+    },
+    {
+      "epoch": 39.280575539568346,
+      "step": 136500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.72735681667924
+    },
+    {
+      "epoch": 39.42446043165467,
+      "step": 137000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.231675013303757
+    },
+    {
+      "epoch": 39.568345323741006,
+      "step": 137500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.396016981899738
+    },
+    {
+      "epoch": 39.71223021582734,
+      "step": 138000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.45677331328392
+    },
+    {
+      "epoch": 39.856115107913666,
+      "step": 138500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.502779166549445
+    },
+    {
+      "epoch": 40.0,
+      "step": 139000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.097405293732882
+    },
+    {
+      "epoch": 40.0,
+      "step": 139000,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.380415879420935
+    },
+    {
+      "epoch": 40.143884892086334,
+      "step": 139500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.557886536121368
+    },
+    {
+      "epoch": 40.28776978417266,
+      "step": 140000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.457643007338048
+    },
+    {
+      "epoch": 40.431654676258994,
+      "step": 140500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.508081595301627
+    },
+    {
+      "epoch": 40.57553956834533,
+      "step": 141000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.210756186544895
+    },
+    {
+      "epoch": 40.719424460431654,
+      "step": 141500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.846969042122364
+    },
+    {
+      "epoch": 40.86330935251799,
+      "step": 142000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.5643921097368
+    },
+    {
+      "epoch": 41.0,
+      "step": 142475,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.707712257961433
+    },
+    {
+      "epoch": 41.007194244604314,
+      "step": 142500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.66453857064247
+    },
+    {
+      "epoch": 41.15107913669065,
+      "step": 143000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.398517425656319
+    },
+    {
+      "epoch": 41.29496402877698,
+      "step": 143500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.472827929109336
+    },
+    {
+      "epoch": 41.43884892086331,
+      "step": 144000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.500357120633126
+    },
+    {
+      "epoch": 41.58273381294964,
+      "step": 144500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.443695156276226
+    },
+    {
+      "epoch": 41.726618705035975,
+      "step": 145000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.524972023367882
+    },
+    {
+      "epoch": 41.8705035971223,
+      "step": 145500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.641629678606987
+    },
+    {
+      "epoch": 42.0,
+      "step": 145950,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.43310655302306
+    },
+    {
+      "epoch": 42.014388489208635,
+      "step": 146000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.366726084649564
+    },
+    {
+      "epoch": 42.15827338129496,
+      "step": 146500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.659364441558719
+    },
+    {
+      "epoch": 42.302158273381295,
+      "step": 147000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.6672569039464
+    },
+    {
+      "epoch": 42.44604316546763,
+      "step": 147500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.629660848975181
+    },
+    {
+      "epoch": 42.589928057553955,
+      "step": 148000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.638485129177571
+    },
+    {
+      "epoch": 42.73381294964029,
+      "step": 148500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.69581498488784
+    },
+    {
+      "epoch": 42.87769784172662,
+      "step": 149000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.493639565780759
+    },
+    {
+      "epoch": 43.0,
+      "step": 149425,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.685213387062152
+    },
+    {
+      "epoch": 43.02158273381295,
+      "step": 149500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.641185669451952
+    },
+    {
+      "epoch": 43.16546762589928,
+      "step": 150000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.585432294011117
+    },
+    {
+      "epoch": 43.30935251798561,
+      "step": 150500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 9.98866525232792
+    },
+    {
+      "epoch": 43.45323741007194,
+      "step": 151000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.67897920280695
+    },
+    {
+      "epoch": 43.597122302158276,
+      "step": 151500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.74633067190647
+    },
+    {
+      "epoch": 43.7410071942446,
+      "step": 152000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.618390246480704
+    },
+    {
+      "epoch": 43.884892086330936,
+      "step": 152500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.64148604810238
+    },
+    {
+      "epoch": 44.0,
+      "step": 152900,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.550032983094454
+    },
+    {
+      "epoch": 44.02877697841727,
+      "step": 153000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.60473978549242
+    },
+    {
+      "epoch": 44.172661870503596,
+      "step": 153500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.32797406345606
+    },
+    {
+      "epoch": 44.31654676258993,
+      "step": 154000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.839281655400992
+    },
+    {
+      "epoch": 44.460431654676256,
+      "step": 154500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.69971744477749
+    },
+    {
+      "epoch": 44.60431654676259,
+      "step": 155000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.792181065380573
+    },
+    {
+      "epoch": 44.74820143884892,
+      "step": 155500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.601300605833531
+    },
+    {
+      "epoch": 44.89208633093525,
+      "step": 156000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.648630584776402
+    },
+    {
+      "epoch": 45.0,
+      "step": 156375,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.844766466200351
+    },
+    {
+      "epoch": 45.03597122302158,
+      "step": 156500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.592778945565223
+    },
+    {
+      "epoch": 45.17985611510792,
+      "step": 157000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.763667174875737
+    },
+    {
+      "epoch": 45.32374100719424,
+      "step": 157500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.51611165203154
+    },
+    {
+      "epoch": 45.46762589928058,
+      "step": 158000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.636007412225007
+    },
+    {
+      "epoch": 45.611510791366904,
+      "step": 158500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.428577319979668
+    },
+    {
+      "epoch": 45.75539568345324,
+      "step": 159000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.759490721821784
+    },
+    {
+      "epoch": 45.89928057553957,
+      "step": 159500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.384729084298014
+    },
+    {
+      "epoch": 46.0,
+      "step": 159850,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.708250023494164
+    },
+    {
+      "epoch": 46.0431654676259,
+      "step": 160000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.703579823374747
+    },
+    {
+      "epoch": 46.18705035971223,
+      "step": 160500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.755785502493382
+    },
+    {
+      "epoch": 46.330935251798564,
+      "step": 161000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.484558254778385
+    },
+    {
+      "epoch": 46.47482014388489,
+      "step": 161500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.655960945785045
+    },
+    {
+      "epoch": 46.618705035971225,
+      "step": 162000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.575482724010945
+    },
+    {
+      "epoch": 46.76258992805755,
+      "step": 162500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.738543607592582
+    },
+    {
+      "epoch": 46.906474820143885,
+      "step": 163000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.451281728222966
+    },
+    {
+      "epoch": 47.0,
+      "step": 163325,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.771512906809647
+    },
+    {
+      "epoch": 47.05035971223022,
+      "step": 163500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.67727408826351
+    },
+    {
+      "epoch": 47.194244604316545,
+      "step": 164000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.673865784183144
+    },
+    {
+      "epoch": 47.33812949640288,
+      "step": 164500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.126193076372147
+    },
+    {
+      "epoch": 47.48201438848921,
+      "step": 165000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.860940985530615
+    },
+    {
+      "epoch": 47.62589928057554,
+      "step": 165500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.625001136660575
+    },
+    {
+      "epoch": 47.76978417266187,
+      "step": 166000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.953811285197736
+    },
+    {
+      "epoch": 47.9136690647482,
+      "step": 166500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.834994936883449
+    },
+    {
+      "epoch": 48.0,
+      "step": 166800,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.930755025590459
+    },
+    {
+      "epoch": 48.05755395683453,
+      "step": 167000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.88868086218834
+    },
+    {
+      "epoch": 48.201438848920866,
+      "step": 167500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.732104241549969
+    },
+    {
+      "epoch": 48.34532374100719,
+      "step": 168000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.67830026231706
+    },
+    {
+      "epoch": 48.489208633093526,
+      "step": 168500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.91175633609295
+    },
+    {
+      "epoch": 48.63309352517986,
+      "step": 169000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.917703475318849
+    },
+    {
+      "epoch": 48.776978417266186,
+      "step": 169500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.760141356363892
+    },
+    {
+      "epoch": 48.92086330935252,
+      "step": 170000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.83876872599125
+    },
+    {
+      "epoch": 49.0,
+      "step": 170275,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.810767672002315
+    },
+    {
+      "epoch": 49.064748201438846,
+      "step": 170500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.6189261713624
+    },
+    {
+      "epoch": 49.20863309352518,
+      "step": 171000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.75024099111557
+    },
+    {
+      "epoch": 49.35251798561151,
+      "step": 171500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.946018647253513
+    },
+    {
+      "epoch": 49.49640287769784,
+      "step": 172000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.582937690168619
+    },
+    {
+      "epoch": 49.64028776978417,
+      "step": 172500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.706524802148342
+    },
+    {
+      "epoch": 49.78417266187051,
+      "step": 173000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.860451757609844
+    },
+    {
+      "epoch": 49.92805755395683,
+      "step": 173500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.722818189561368
+    },
+    {
+      "epoch": 50.0,
+      "step": 173750,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.871783334756891
+    },
+    {
+      "epoch": 50.07194244604317,
+      "step": 174000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.833601599931717
+    },
+    {
+      "epoch": 50.21582733812949,
+      "step": 174500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.985653465390206
+    },
+    {
+      "epoch": 50.35971223021583,
+      "step": 175000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.067941669821739
+    },
+    {
+      "epoch": 50.50359712230216,
+      "step": 175500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.147030699849129
+    },
+    {
+      "epoch": 50.64748201438849,
+      "step": 176000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.026107772290707
+    },
+    {
+      "epoch": 50.79136690647482,
+      "step": 176500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.83316744543612
+    },
+    {
+      "epoch": 50.935251798561154,
+      "step": 177000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.774372509717942
+    },
+    {
+      "epoch": 51.0,
+      "step": 177225,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 10.773297876526913
+    },
+    {
+      "epoch": 51.07913669064748,
+      "step": 177500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.900067518055438
+    },
+    {
+      "epoch": 51.223021582733814,
+      "step": 178000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.144825643897057
+    },
+    {
+      "epoch": 51.36690647482014,
+      "step": 178500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.018257656991482
+    },
+    {
+      "epoch": 51.510791366906474,
+      "step": 179000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.806380077898503
+    },
+    {
+      "epoch": 51.65467625899281,
+      "step": 179500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.056902732849121
+    },
+    {
+      "epoch": 51.798561151079134,
+      "step": 180000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.669399918615818
+    },
+    {
+      "epoch": 51.94244604316547,
+      "step": 180500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.950270263850689
+    },
+    {
+      "epoch": 52.0,
+      "step": 180700,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.098571342388789
+    },
+    {
+      "epoch": 52.0863309352518,
+      "step": 181000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.024441252350806
+    },
+    {
+      "epoch": 52.23021582733813,
+      "step": 181500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.947802886068821
+    },
+    {
+      "epoch": 52.37410071942446,
+      "step": 182000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.949460967928172
+    },
+    {
+      "epoch": 52.51798561151079,
+      "step": 182500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.171436730325222
+    },
+    {
+      "epoch": 52.66187050359712,
+      "step": 183000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.134041864871978
+    },
+    {
+      "epoch": 52.805755395683455,
+      "step": 183500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.915885293781757
+    },
+    {
+      "epoch": 52.94964028776978,
+      "step": 184000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.068479305803775
+    },
+    {
+      "epoch": 53.0,
+      "step": 184175,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.1989219036599
+    },
+    {
+      "epoch": 53.093525179856115,
+      "step": 184500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.917502634227276
+    },
+    {
+      "epoch": 53.23741007194245,
+      "step": 185000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.778814230859279
+    },
+    {
+      "epoch": 53.381294964028775,
+      "step": 185500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.982620282173157
+    },
+    {
+      "epoch": 53.52517985611511,
+      "step": 186000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.354062313139439
+    },
+    {
+      "epoch": 53.669064748201436,
+      "step": 186500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.857310212105512
+    },
+    {
+      "epoch": 53.81294964028777,
+      "step": 187000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.084529549479484
+    },
+    {
+      "epoch": 53.9568345323741,
+      "step": 187500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.180519028902054
+    },
+    {
+      "epoch": 54.0,
+      "step": 187650,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.223004443476597
+    },
+    {
+      "epoch": 54.10071942446043,
+      "step": 188000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.060761483982205
+    },
+    {
+      "epoch": 54.24460431654676,
+      "step": 188500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.12115573823452
+    },
+    {
+      "epoch": 54.388489208633096,
+      "step": 189000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.1097279214859
+    },
+    {
+      "epoch": 54.53237410071942,
+      "step": 189500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.002963123619557
+    },
+    {
+      "epoch": 54.67625899280576,
+      "step": 190000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.92360828846693
+    },
+    {
+      "epoch": 54.82014388489208,
+      "step": 190500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.979198341965676
+    },
+    {
+      "epoch": 54.96402877697842,
+      "step": 191000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.10076411128044
+    },
+    {
+      "epoch": 55.0,
+      "step": 191125,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.032023166798055
+    },
+    {
+      "epoch": 55.10791366906475,
+      "step": 191500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.014263877868652
+    },
+    {
+      "epoch": 55.25179856115108,
+      "step": 192000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.201478499025107
+    },
+    {
+      "epoch": 55.39568345323741,
+      "step": 192500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.119516873955726
+    },
+    {
+      "epoch": 55.539568345323744,
+      "step": 193000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.963074815869332
+    },
+    {
+      "epoch": 55.68345323741007,
+      "step": 193500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.09236022606492
+    },
+    {
+      "epoch": 55.827338129496404,
+      "step": 194000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.9427623924613
+    },
+    {
+      "epoch": 55.97122302158273,
+      "step": 194500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.136912397444249
+    },
+    {
+      "epoch": 56.0,
+      "step": 194600,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.324417481700578
+    },
+    {
+      "epoch": 56.115107913669064,
+      "step": 195000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.882261020839215
+    },
+    {
+      "epoch": 56.2589928057554,
+      "step": 195500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.0538270804286
+    },
+    {
+      "epoch": 56.402877697841724,
+      "step": 196000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.25659952133894
+    },
+    {
+      "epoch": 56.54676258992806,
+      "step": 196500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.112675132155418
+    },
+    {
+      "epoch": 56.69064748201439,
+      "step": 197000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.205852819085122
+    },
+    {
+      "epoch": 56.83453237410072,
+      "step": 197500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.010106104910374
+    },
+    {
+      "epoch": 56.97841726618705,
+      "step": 198000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.907024756669998
+    },
+    {
+      "epoch": 57.0,
+      "step": 198075,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.122718340059121
+    },
+    {
+      "epoch": 57.12230215827338,
+      "step": 198500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.01797528475523
+    },
+    {
+      "epoch": 57.26618705035971,
+      "step": 199000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.20254534125328
+    },
+    {
+      "epoch": 57.410071942446045,
+      "step": 199500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.930678821504117
+    },
+    {
+      "epoch": 57.55395683453237,
+      "step": 200000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.105754818171263
+    },
+    {
+      "epoch": 57.697841726618705,
+      "step": 200500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.177969925403595
+    },
+    {
+      "epoch": 57.84172661870504,
+      "step": 201000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.891095691174268
+    },
+    {
+      "epoch": 57.985611510791365,
+      "step": 201500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.178500853180886
+    },
+    {
+      "epoch": 58.0,
+      "step": 201550,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.25342847965161
+    },
+    {
+      "epoch": 58.1294964028777,
+      "step": 202000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.230809746086598
+    },
+    {
+      "epoch": 58.273381294964025,
+      "step": 202500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.966186933144927
+    },
+    {
+      "epoch": 58.41726618705036,
+      "step": 203000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.976612946987153
+    },
+    {
+      "epoch": 58.56115107913669,
+      "step": 203500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.320099487006665
+    },
+    {
+      "epoch": 58.70503597122302,
+      "step": 204000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.450923826694488
+    },
+    {
+      "epoch": 58.84892086330935,
+      "step": 204500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.393304662555456
+    },
+    {
+      "epoch": 58.992805755395686,
+      "step": 205000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.262771648466588
+    },
+    {
+      "epoch": 59.0,
+      "step": 205025,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.317005375929178
+    },
+    {
+      "epoch": 59.13669064748201,
+      "step": 205500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.291978536844253
+    },
+    {
+      "epoch": 59.280575539568346,
+      "step": 206000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.369100645184517
+    },
+    {
+      "epoch": 59.42446043165467,
+      "step": 206500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.162969690784813
+    },
+    {
+      "epoch": 59.568345323741006,
+      "step": 207000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.279900424182415
+    },
+    {
+      "epoch": 59.71223021582734,
+      "step": 207500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.219212662279606
+    },
+    {
+      "epoch": 59.856115107913666,
+      "step": 208000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.160167773365975
+    },
+    {
+      "epoch": 60.0,
+      "step": 208500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.213519585430623
+    },
+    {
+      "epoch": 60.0,
+      "step": 208500,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.392320480883122
+    },
+    {
+      "epoch": 60.143884892086334,
+      "step": 209000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.038432047814132
+    },
+    {
+      "epoch": 60.28776978417266,
+      "step": 209500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.728334572464227
+    },
+    {
+      "epoch": 60.431654676258994,
+      "step": 210000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 10.90701801121235
+    },
+    {
+      "epoch": 60.57553956834533,
+      "step": 210500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.083706372976303
+    },
+    {
+      "epoch": 60.719424460431654,
+      "step": 211000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.373919954895973
+    },
+    {
+      "epoch": 60.86330935251799,
+      "step": 211500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.224630906432868
+    },
+    {
+      "epoch": 61.0,
+      "step": 211975,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.251969468072057
+    },
+    {
+      "epoch": 61.007194244604314,
+      "step": 212000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.312911513149738
+    },
+    {
+      "epoch": 61.15107913669065,
+      "step": 212500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.419509735107422
+    },
+    {
+      "epoch": 61.29496402877698,
+      "step": 213000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.049364992082118
+    },
+    {
+      "epoch": 61.43884892086331,
+      "step": 213500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.279136241078376
+    },
+    {
+      "epoch": 61.58273381294964,
+      "step": 214000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.25184554040432
+    },
+    {
+      "epoch": 61.726618705035975,
+      "step": 214500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.427016200125218
+    },
+    {
+      "epoch": 61.8705035971223,
+      "step": 215000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.40709995508194
+    },
+    {
+      "epoch": 62.0,
+      "step": 215450,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.48355732566615
+    },
+    {
+      "epoch": 62.014388489208635,
+      "step": 215500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.423741433620453
+    },
+    {
+      "epoch": 62.15827338129496,
+      "step": 216000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.335826871693135
+    },
+    {
+      "epoch": 62.302158273381295,
+      "step": 216500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.171218318939209
+    },
+    {
+      "epoch": 62.44604316546763,
+      "step": 217000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.292951948046685
+    },
+    {
+      "epoch": 62.589928057553955,
+      "step": 217500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.061306965351104
+    },
+    {
+      "epoch": 62.73381294964029,
+      "step": 218000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.311955600976944
+    },
+    {
+      "epoch": 62.87769784172662,
+      "step": 218500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.475921057164669
+    },
+    {
+      "epoch": 63.0,
+      "step": 218925,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.25457775190721
+    },
+    {
+      "epoch": 63.02158273381295,
+      "step": 219000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.271323973238468
+    },
+    {
+      "epoch": 63.16546762589928,
+      "step": 219500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.339519731551409
+    },
+    {
+      "epoch": 63.30935251798561,
+      "step": 220000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.216562934219837
+    },
+    {
+      "epoch": 63.45323741007194,
+      "step": 220500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.251707480549813
+    },
+    {
+      "epoch": 63.597122302158276,
+      "step": 221000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.278462740778924
+    },
+    {
+      "epoch": 63.7410071942446,
+      "step": 221500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.179238785505294
+    },
+    {
+      "epoch": 63.884892086330936,
+      "step": 222000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.281392523050307
+    },
+    {
+      "epoch": 64.0,
+      "step": 222400,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.401953809666137
+    },
+    {
+      "epoch": 64.02877697841727,
+      "step": 222500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.472472824603319
+    },
+    {
+      "epoch": 64.1726618705036,
+      "step": 223000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.371204181611539
+    },
+    {
+      "epoch": 64.31654676258992,
+      "step": 223500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.40907747387886
+    },
+    {
+      "epoch": 64.46043165467626,
+      "step": 224000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.484452787339688
+    },
+    {
+      "epoch": 64.60431654676259,
+      "step": 224500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.368585743308067
+    },
+    {
+      "epoch": 64.74820143884892,
+      "step": 225000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.423451721072198
+    },
+    {
+      "epoch": 64.89208633093526,
+      "step": 225500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.230666604340076
+    },
+    {
+      "epoch": 65.0,
+      "step": 225875,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.495158091669282
+    },
+    {
+      "epoch": 65.03597122302158,
+      "step": 226000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.36983880072832
+    },
+    {
+      "epoch": 65.17985611510791,
+      "step": 226500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.503090196847916
+    },
+    {
+      "epoch": 65.32374100719424,
+      "step": 227000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.60339890241623
+    },
+    {
+      "epoch": 65.46762589928058,
+      "step": 227500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.34455077379942
+    },
+    {
+      "epoch": 65.61151079136691,
+      "step": 228000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.66802105307579
+    },
+    {
+      "epoch": 65.75539568345324,
+      "step": 228500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.573391051888466
+    },
+    {
+      "epoch": 65.89928057553956,
+      "step": 229000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.549452705532312
+    },
+    {
+      "epoch": 66.0,
+      "step": 229350,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.517379767497381
+    },
+    {
+      "epoch": 66.0431654676259,
+      "step": 229500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.591272731423379
+    },
+    {
+      "epoch": 66.18705035971223,
+      "step": 230000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.724398875236512
+    },
+    {
+      "epoch": 66.33093525179856,
+      "step": 230500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.554102260768413
+    },
+    {
+      "epoch": 66.4748201438849,
+      "step": 231000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.559103889763355
+    },
+    {
+      "epoch": 66.61870503597122,
+      "step": 231500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.587510445713997
+    },
+    {
+      "epoch": 66.76258992805755,
+      "step": 232000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.379120437800884
+    },
+    {
+      "epoch": 66.90647482014388,
+      "step": 232500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.36793361723423
+    },
+    {
+      "epoch": 67.0,
+      "step": 232825,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.354791008075079
+    },
+    {
+      "epoch": 67.05035971223022,
+      "step": 233000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.608602421581745
+    },
+    {
+      "epoch": 67.19424460431655,
+      "step": 233500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.40328324764967
+    },
+    {
+      "epoch": 67.33812949640287,
+      "step": 234000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.701159526407718
+    },
+    {
+      "epoch": 67.4820143884892,
+      "step": 234500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.37665479540825
+    },
+    {
+      "epoch": 67.62589928057554,
+      "step": 235000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.488826447427273
+    },
+    {
+      "epoch": 67.76978417266187,
+      "step": 235500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.629328128099441
+    },
+    {
+      "epoch": 67.9136690647482,
+      "step": 236000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.642097415924072
+    },
+    {
+      "epoch": 68.0,
+      "step": 236300,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.50051531762878
+    },
+    {
+      "epoch": 68.05755395683454,
+      "step": 236500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.63250244796276
+    },
+    {
+      "epoch": 68.20143884892086,
+      "step": 237000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.46674982815981
+    },
+    {
+      "epoch": 68.34532374100719,
+      "step": 237500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.67339128613472
+    },
+    {
+      "epoch": 68.48920863309353,
+      "step": 238000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.843682755231857
+    },
+    {
+      "epoch": 68.63309352517986,
+      "step": 238500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.564588462412358
+    },
+    {
+      "epoch": 68.77697841726619,
+      "step": 239000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.553739015758037
+    },
+    {
+      "epoch": 68.92086330935251,
+      "step": 239500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.592933510541917
+    },
+    {
+      "epoch": 69.0,
+      "step": 239775,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.57063213573893
+    },
+    {
+      "epoch": 69.06474820143885,
+      "step": 240000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.531467856764793
+    },
+    {
+      "epoch": 69.20863309352518,
+      "step": 240500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.618244841694832
+    },
+    {
+      "epoch": 69.35251798561151,
+      "step": 241000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.572459676861763
+    },
+    {
+      "epoch": 69.49640287769785,
+      "step": 241500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.578748034536838
+    },
+    {
+      "epoch": 69.64028776978417,
+      "step": 242000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.810845126509667
+    },
+    {
+      "epoch": 69.7841726618705,
+      "step": 242500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.633324865996837
+    },
+    {
+      "epoch": 69.92805755395683,
+      "step": 243000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.539304648041725
+    },
+    {
+      "epoch": 70.0,
+      "step": 243250,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.625245939552784
+    },
+    {
+      "epoch": 70.07194244604317,
+      "step": 243500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.641875417679548
+    },
+    {
+      "epoch": 70.2158273381295,
+      "step": 244000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.790403528213501
+    },
+    {
+      "epoch": 70.35971223021583,
+      "step": 244500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.538794482946395
+    },
+    {
+      "epoch": 70.50359712230215,
+      "step": 245000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.743256844431162
+    },
+    {
+      "epoch": 70.64748201438849,
+      "step": 245500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.625978597849608
+    },
+    {
+      "epoch": 70.79136690647482,
+      "step": 246000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.607288357913495
+    },
+    {
+      "epoch": 70.93525179856115,
+      "step": 246500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.703814800977707
+    },
+    {
+      "epoch": 71.0,
+      "step": 246725,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.573148176411788
+    },
+    {
+      "epoch": 71.07913669064749,
+      "step": 247000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.497552825212479
+    },
+    {
+      "epoch": 71.22302158273381,
+      "step": 247500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.233588799238206
+    },
+    {
+      "epoch": 71.36690647482014,
+      "step": 248000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.566440751552582
+    },
+    {
+      "epoch": 71.51079136690647,
+      "step": 248500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.519073290228844
+    },
+    {
+      "epoch": 71.65467625899281,
+      "step": 249000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.61601763665676
+    },
+    {
+      "epoch": 71.79856115107914,
+      "step": 249500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.624439805299044
+    },
+    {
+      "epoch": 71.94244604316546,
+      "step": 250000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.751875762939454
+    },
+    {
+      "epoch": 72.0,
+      "step": 250200,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.755965950151284
+    },
+    {
+      "epoch": 72.0863309352518,
+      "step": 250500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.774502038508654
+    },
+    {
+      "epoch": 72.23021582733813,
+      "step": 251000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.634322990477084
+    },
+    {
+      "epoch": 72.37410071942446,
+      "step": 251500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.595385710000992
+    },
+    {
+      "epoch": 72.5179856115108,
+      "step": 252000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.574146281182767
+    },
+    {
+      "epoch": 72.66187050359713,
+      "step": 252500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.623901260495186
+    },
+    {
+      "epoch": 72.80575539568345,
+      "step": 253000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.55900070130825
+    },
+    {
+      "epoch": 72.94964028776978,
+      "step": 253500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.551544505655766
+    },
+    {
+      "epoch": 73.0,
+      "step": 253675,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.644130110328396
+    },
+    {
+      "epoch": 73.09352517985612,
+      "step": 254000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.663539609014988
+    },
+    {
+      "epoch": 73.23741007194245,
+      "step": 254500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.531653503626584
+    },
+    {
+      "epoch": 73.38129496402878,
+      "step": 255000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.560021803975106
+    },
+    {
+      "epoch": 73.5251798561151,
+      "step": 255500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.70895602285862
+    },
+    {
+      "epoch": 73.66906474820144,
+      "step": 256000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.630491164326667
+    },
+    {
+      "epoch": 73.81294964028777,
+      "step": 256500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.71660869628191
+    },
+    {
+      "epoch": 73.9568345323741,
+      "step": 257000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.721130104362965
+    },
+    {
+      "epoch": 74.0,
+      "step": 257150,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.673951535865665
+    },
+    {
+      "epoch": 74.10071942446044,
+      "step": 257500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.606181933283805
+    },
+    {
+      "epoch": 74.24460431654676,
+      "step": 258000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.607250709235668
+    },
+    {
+      "epoch": 74.38848920863309,
+      "step": 258500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.71457286655903
+    },
+    {
+      "epoch": 74.53237410071942,
+      "step": 259000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.583221848011016
+    },
+    {
+      "epoch": 74.67625899280576,
+      "step": 259500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.613973520696163
+    },
+    {
+      "epoch": 74.82014388489209,
+      "step": 260000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.731259983181953
+    },
+    {
+      "epoch": 74.96402877697842,
+      "step": 260500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.66388480246067
+    },
+    {
+      "epoch": 75.0,
+      "step": 260625,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.598018688420455
+    },
+    {
+      "epoch": 75.10791366906474,
+      "step": 261000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.708298001885414
+    },
+    {
+      "epoch": 75.25179856115108,
+      "step": 261500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.459476920366287
+    },
+    {
+      "epoch": 75.39568345323741,
+      "step": 262000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.774316147267818
+    },
+    {
+      "epoch": 75.53956834532374,
+      "step": 262500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.627838468551635
+    },
+    {
+      "epoch": 75.68345323741008,
+      "step": 263000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.408862040638924
+    },
+    {
+      "epoch": 75.8273381294964,
+      "step": 263500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.65008684039116
+    },
+    {
+      "epoch": 75.97122302158273,
+      "step": 264000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.72180490285158
+    },
+    {
+      "epoch": 76.0,
+      "step": 264100,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.61401546346148
+    },
+    {
+      "epoch": 76.11510791366906,
+      "step": 264500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.542866008281708
+    },
+    {
+      "epoch": 76.2589928057554,
+      "step": 265000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.64131453230977
+    },
+    {
+      "epoch": 76.40287769784173,
+      "step": 265500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.500425444543362
+    },
+    {
+      "epoch": 76.54676258992805,
+      "step": 266000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.549459899663924
+    },
+    {
+      "epoch": 76.69064748201438,
+      "step": 266500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.654551485180855
+    },
+    {
+      "epoch": 76.83453237410072,
+      "step": 267000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.445899701714517
+    },
+    {
+      "epoch": 76.97841726618705,
+      "step": 267500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.754634334743024
+    },
+    {
+      "epoch": 77.0,
+      "step": 267575,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.577452631304661
+    },
+    {
+      "epoch": 77.12230215827338,
+      "step": 268000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.625314688682556
+    },
+    {
+      "epoch": 77.26618705035972,
+      "step": 268500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.701856491267682
+    },
+    {
+      "epoch": 77.41007194244604,
+      "step": 269000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.529395043179393
+    },
+    {
+      "epoch": 77.55395683453237,
+      "step": 269500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.37274076409638
+    },
+    {
+      "epoch": 77.6978417266187,
+      "step": 270000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.438762704133987
+    },
+    {
+      "epoch": 77.84172661870504,
+      "step": 270500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.621985076665878
+    },
+    {
+      "epoch": 77.98561151079137,
+      "step": 271000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.41892248660326
+    },
+    {
+      "epoch": 78.0,
+      "step": 271050,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.645866813292105
+    },
+    {
+      "epoch": 78.12949640287769,
+      "step": 271500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.654366872012615
+    },
+    {
+      "epoch": 78.27338129496403,
+      "step": 272000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.705039584636689
+    },
+    {
+      "epoch": 78.41726618705036,
+      "step": 272500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.693498465120792
+    },
+    {
+      "epoch": 78.56115107913669,
+      "step": 273000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.6348504576087
+    },
+    {
+      "epoch": 78.70503597122303,
+      "step": 273500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.698289144337178
+    },
+    {
+      "epoch": 78.84892086330935,
+      "step": 274000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.542823999524117
+    },
+    {
+      "epoch": 78.99280575539568,
+      "step": 274500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.58065007030964
+    },
+    {
+      "epoch": 79.0,
+      "step": 274525,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.705343066841364
+    },
+    {
+      "epoch": 79.13669064748201,
+      "step": 275000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.652397024035453
+    },
+    {
+      "epoch": 79.28057553956835,
+      "step": 275500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.276702382564544
+    },
+    {
+      "epoch": 79.42446043165468,
+      "step": 276000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.654227491021157
+    },
+    {
+      "epoch": 79.56834532374101,
+      "step": 276500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.69615867689252
+    },
+    {
+      "epoch": 79.71223021582733,
+      "step": 277000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.636652742326259
+    },
+    {
+      "epoch": 79.85611510791367,
+      "step": 277500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.609366865754128
+    },
+    {
+      "epoch": 80.0,
+      "step": 278000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.819295046925545
+    },
+    {
+      "epoch": 80.0,
+      "step": 278000,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.777042989879847
+    },
+    {
+      "epoch": 80.14388489208633,
+      "step": 278500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.582531916201114
+    },
+    {
+      "epoch": 80.28776978417267,
+      "step": 279000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.390783091187478
+    },
+    {
+      "epoch": 80.43165467625899,
+      "step": 279500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.584183665215969
+    },
+    {
+      "epoch": 80.57553956834532,
+      "step": 280000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.682622721791267
+    },
+    {
+      "epoch": 80.71942446043165,
+      "step": 280500,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.769167287051678
+    },
+    {
+      "epoch": 80.86330935251799,
+      "step": 281000,
+      "kind": "monitor",
+      "cases": 400,
+      "improvement": 11.643512305915356
+    },
+    {
+      "epoch": 81.0,
+      "step": 281475,
+      "kind": "full",
+      "cases": 6000,
+      "improvement": 11.746004445870717
+    }
+  ]
+}

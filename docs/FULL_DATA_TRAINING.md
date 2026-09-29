@@ -1,5 +1,7 @@
 # Full-data training with pause and resume
 
+**September 29 status:** paused and resumable at update 281,484, after 81 complete epochs. The 100-epoch schedule has not completed. The epoch-80 checkpoint is selected for the public app; the latest checkpoint remains available as a listening comparison. [Release, validation results, and artifact identities](RELEASE_2026_09_29.md). The schedule and controls below describe the preserved training run.
+
 The active experiment starts a **fresh random model** on all prepared Libri2Mix clean train-100 data: **13,900 mixtures, 251 speakers and 27,800 target requests per epoch**. Both sources are requested once per epoch, in a deterministic shuffled order. New three-second mixture crops and distinct-utterance voice references are drawn each epoch.
 
 The efficient architecture keeps three BSRNN blocks, the ResNet34 enrollment encoder, and three-second enrollment crops. This is a declared compute compromise relative to the six-block, full-reference baseline; using its dataset does not make this an exact paper reproduction. No pretrained or eight-voice checkpoint initializes this run.
@@ -52,7 +54,7 @@ All development speakers are excluded from training. The official test-clean cor
 
 ## Preserved earlier experiment
 
-The eight-voice continuation was safely paused at update **6,000** on September 7, 2026. Its best development improvement was **6.66185 dB at update 5,350** across its separate 32-request familiar-voice suite. Those checkpoints and galleries remain intact. Its score must not be compared directly with this run's 40 unseen development speakers. The default application still serves the earlier v0.2.0 release.
+The eight-voice continuation was safely paused at update **6,000** on September 7, 2026. Its best development improvement was **6.66185 dB at update 5,350** across its separate 32-request familiar-voice suite. Those checkpoints and galleries remain intact. Its score must not be compared directly with this run's 40 unseen development speakers. The local training application retains the earlier v0.2.0 default; public hosting uses the separately frozen epoch-80 release.
 
 ## Verification
 

@@ -2,6 +2,8 @@
 
 A public listening and extraction interface. It does not expose or import the training dashboard, trainer, pause/resume controls, or training configuration. The private dashboard on port 8000 is unchanged.
 
+The September 29 release includes **Best / Latest** listening comparisons, a full validation-history chart, and accurate paused/resumable training status. Best is epoch 80; latest is the saved update 281,484, whose exact full-suite score is unmeasured. See [release provenance](../docs/RELEASE_2026_09_29.md).
+
 ## Local use
 
 Run `npm ci`, `npm run build`, and `npm run preview` in this directory. The site opens on http://127.0.0.1:5295. Its proxy expects the inference-only `tse.public_api:create_public_app` on loopback port 5294. Start that process separately with `PYTHONPATH=src` and `TSE_CHECKPOINT` pointing at a frozen checkpoint copy. Do not point the website at `tse.api`, which serves private training tools. Never stop the trainer to start this site.
