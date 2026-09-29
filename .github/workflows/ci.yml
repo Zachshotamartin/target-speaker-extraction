@@ -32,6 +32,7 @@ jobs:
           cache: npm
           cache-dependency-path: site/package-lock.json
       - run: npm ci --prefix site
+      - run: node site/scripts/check-model-release.mjs
       - run: node site/scripts/check-recording.mjs
       - run: node site/scripts/check-motion.mjs
       - run: node site/scripts/check-header-scroll.mjs

@@ -17,13 +17,15 @@ The standalone site can run this pipeline on Hugging Face independently of the
 training computer. See the [protected CPU Space deployment guide](poc/HOSTING.md)
 for the hosted service, browser-session protection, and resource limits.
 
+**September 29 hosted update:** the public app now uses the epoch-80 full-data checkpoint (11.78 dB SI-SDR improvement on 6,000 development requests). Training is paused and resumable after 81 of 100 planned epochs. Both sites publish best/latest listening examples and a validation-history chart. These are development results, not an untouched test score. [Release details and hashes](docs/RELEASE_2026_09_29.md).
+
 **Experimental research software.** It can select the wrong speaker and distort speech. The requested speaker must be present. Live microphone use and production speech quality are outside this release's claims.
 
 The current experiment improves speaker separation after the first model left competing speech and audible artifacts. It combines an independently implemented spectral separator, speaker supervision, a larger training corpus and checkpoint averaging. There is no SpeakerBeam source, checkpoint, or dependency. The original controlled reference-augmentation experiment remains available in the [v0.1.0 case study](docs/CASE_STUDY_V0_1.md).
 
 The active experiment is [full-data training with pause and resume](docs/FULL_DATA_TRAINING.md): fresh random weights, all **251 speakers and 13,900 Libri2Mix train-100 mixtures**, and a **100-epoch schedule** using the efficient three-block model. Training runs without a session time limit until the full schedule completes or it is manually paused. [Live full-data progress](http://127.0.0.1:8000/experiments/full/) provides pause/resume controls, separate latest/best development results, and [audible best/latest comparisons](docs/full-validation-listening.md) on fixed development examples.
 
-The [eight-voice concept experiment](docs/CONCEPT_DEMO.md) is preserved at update 6,000, with its best 32-request development improvement of **6.66 dB** at update 5,350. This is a familiar-voice score and cannot be compared directly with the new run's unseen development speakers. The slower [six-block reference baseline](docs/REFERENCE_BASELINE.md) and [compact v3 experiments](docs/V3_WORKLOG.md) remain preserved. The default app still serves v0.2.0.
+The [eight-voice concept experiment](docs/CONCEPT_DEMO.md) is preserved at update 6,000, with its best 32-request development improvement of **6.66 dB** at update 5,350. This is a familiar-voice score and cannot be compared directly with the new run's unseen development speakers. The slower [six-block reference baseline](docs/REFERENCE_BASELINE.md) and [compact v3 experiments](docs/V3_WORKLOG.md) remain preserved. The local training app retains its historical default; the public site uses the separately frozen model described in the September 29 release.
 
 ## Frozen v0.2.0 results
 

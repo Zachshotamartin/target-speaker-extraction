@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import {useMotionState} from './motion.js';
-import snapshot from './snapshot.json';
+import bestSnapshot from './snapshot.json';
+import TrainingProgress from './TrainingProgress.jsx';
+import releaseAssets from './release-assets.json';
 import './one-voice.css';
 import OneVoiceUpload from './OneVoiceUpload.jsx';
 
@@ -18,6 +20,10 @@ function Waveform({ peaks, progress = 0 }) {
 export default function OneVoiceDetails({active: pageActive = true}) {
   const [index, setIndex] = useMotionState(0, '#listen');
   const [track, setTrack] = useMotionState('mixture', '#listen');
+  const [modelVersion, setModelVersion] = useMotionState('best', '.one-voice');
+  const [latestSnapshot, setLatestSnapshot] = useState(null);
+  const [loadingVersion, setLoadingVersion] = useMotionState(false, '.one-voice');
+  const snapshot = modelVersion === 'best' ? bestSnapshot : latestSnapshot;
   const [playing, setPlaying] = useState(false);
   const [referencePlaying, setReferencePlaying] = useState(false);
   const [time, setTime] = useState(0);
@@ -41,6 +47,25 @@ export default function OneVoiceDetails({active: pageActive = true}) {
     reference.current.pause();
     setTrack(next); setError('');
   }
+  async function chooseModel(next) {
+    if (next === modelVersion || loadingVersion) return;
+    if (next === 'latest' && !latestSnapshot) {
+      setLoadingVersion(true);
+      try {
+        const response = await fetch(releaseAssets.latestListening);
+        if (!response.ok) throw new Error('Latest examples unavailable');
+        const loaded = await response.json();
+        if (!player.current) return;
+        setLatestSnapshot(loaded);
+      } catch {
+        setError('The latest examples could not load. Please try again.');
+        return;
+      } finally { setLoadingVersion(false); }
+    }
+    pending.current = { time: player.current.currentTime || 0, play: !player.current.paused };
+    player.current.pause(); reference.current.pause();
+    setModelVersion(next); setTrack('estimate'); setError('');
+  }
   function chooseExample(next) {
     if (next === index) return;
     player.current.pause(); reference.current.pause();
@@ -58,7 +83,11 @@ export default function OneVoiceDetails({active: pageActive = true}) {
     <section className="study-live one-voice" aria-labelledby="one-voice-listen" data-checkpoint={snapshot.checkpointSHA256}>
       <div className="study-section-heading"><h2 id="one-voice-listen">One conversation. Either voice.</h2><p>Six conversations · two voices each</p></div>
       <p>Listen to the overlapping voices, choose who to keep, then switch to the extraction.</p>
+      <p className="ov-checkpoint-note">{modelVersion === 'best' ? 'Best full validation · epoch 80 · used for live processing' : 'Latest saved model · epoch 81 + 9 updates · listening comparison'}</p>
       <div className="ov-controls">
+        <fieldset><legend>Model version</legend><div className="ov-switch">
+          {['best', 'latest'].map(version => <button key={version} disabled={loadingVersion} aria-pressed={modelVersion === version} onClick={() => chooseModel(version)}>{version === 'best' ? 'Best' : loadingVersion ? 'Loading latest…' : 'Latest'}</button>)}
+        </div></fieldset>
         <fieldset><legend>Conversation</legend><div className="ov-switch">
           {[...new Set(snapshot.items.map(example => example.conversation))].map(n => <button key={n} aria-pressed={item.conversation === n} onClick={() => chooseExample((n - 1) * 2 + index % 2)}>Conversation {n}</button>)}
         </div></fieldset>
@@ -95,6 +124,7 @@ export default function OneVoiceDetails({active: pageActive = true}) {
       </div></details>
     </section>
     <OneVoiceUpload active={pageActive}/>
+    <TrainingProgress/>
     <section className="ov-about"><h2>A sample tells One Voice who to keep.</h2><p>Use a separate recording of the person speaking alone. One Voice uses that voice sample to extract their speech from an overlapping conversation. It does not clone voices or generate new speech.</p><p>Results can contain distortion or other speakers, especially with noise or unfamiliar recording conditions. Listen to the output before relying on it.</p><p className="ov-listening-note">Examples: LibriSpeech / Libri2Mix, <a href="https://www.openslr.org/12/">OpenSLR</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Audio has been mixed and model-processed.</p><section className="ov-about ov-research" aria-labelledby="ov-research-title"><h2 id="ov-research-title">Research behind One Voice</h2><p>One Voice is an independent implementation informed by published target speaker extraction research. Its reference-conditioned model draws on Junjie Li and colleagues’ <a href="https://arxiv.org/abs/2409.09589">On the effectiveness of enrollment speech augmentation for Target Speaker Extraction</a> (2024), with a smaller configuration for local training. It does not reproduce the paper’s full experiments or reported results.</p><p>The separator follows ideas from Yi Luo and Jianwei Yu’s <a href="https://arxiv.org/abs/2209.15174">Music Source Separation with Band-split RNN</a> (2022). <a href="https://github.com/BUTSpeechFIT/speakerbeam">SpeakerBeam</a> and <a href="https://arxiv.org/abs/2004.08326">SpEx</a> informed the target-speaker formulation and speaker supervision. No pretrained weights from these systems are used.</p><p>Thanks to the researchers and the <a href="https://www.openslr.org/12/">LibriSpeech</a> and <a href="https://github.com/JorisCos/LibriMix">LibriMix</a> dataset contributors. <a href="https://github.com/Zachshotamartin/target-speaker-extraction/blob/main/docs/SOURCES.md">Full sources and attribution ↗</a></p></section>
 </section>
   </>;

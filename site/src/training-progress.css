@@ -1,0 +1,23 @@
+.ov-training {
+  --ov-training-space: clamp(1.5rem, 3vw, 3rem);
+  margin-block: var(--ov-training-space);
+  padding-block: var(--ov-training-space);
+  border-top: 1px solid var(--border, #d8d8d4);
+}
+.ov-training > p { max-width: 78ch; line-height: 1.65; }
+.ov-training-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--ov-training-space);
+  margin-block: var(--ov-training-space);
+}
+.ov-training-metrics dt { font-size: 1rem; line-height: 1.5; }
+.ov-training-metrics dd { margin: .6rem 0 0; font-size: clamp(1.8rem, 3vw, 2.6rem); font-variant-numeric: tabular-nums; }
+.ov-training-metrics dd span { font-size: 1rem; }
+.ov-training-figure { margin: var(--ov-training-space) 0; }
+.ov-training-figure img { display: block; width: 100%; height: auto; }
+.ov-training-figure figcaption { max-width: 78ch; margin-top: 1rem; font-size: 1rem; line-height: 1.6; }
+.ov-checkpoint-note { line-height: 1.6; margin-block: 1rem; }
+@media (max-width: 680px) {
+  .ov-training-metrics { grid-template-columns: 1fr; gap: 1.5rem; }
+}

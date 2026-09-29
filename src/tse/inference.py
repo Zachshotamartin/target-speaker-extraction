@@ -37,6 +37,9 @@ class Extractor:
             "ready": True,
             "model_id": self.checkpoint_hash[:12],
             "checkpoint_sha256": self.checkpoint_hash,
+            "source_checkpoint_sha256": self.payload.get("provenance", {}).get(
+                "source_checkpoint_sha256", self.checkpoint_hash
+            ),
             "processing_version": PROCESSING_VERSION,
             "training_updates": self.payload["step"],
             "training_updates_scope": "This training run; initialization may include earlier project training",
