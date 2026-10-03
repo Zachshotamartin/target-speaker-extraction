@@ -1,3 +1,7 @@
+import AudioPlayer from './ui/AudioPlayer.jsx';
+import Section from './ui/Section.jsx';
+import Text from './ui/Text.jsx';
+import Heading from './ui/Heading.jsx';
 import { useEffect, useRef } from 'react';
 import {useMotionState} from './motion.js';
 import {useAudioRecorder} from './useAudioRecorder.js';
@@ -39,33 +43,33 @@ export default function OneVoiceUpload({active = true}) {
     } catch (error) {setNotice(error.name === 'AbortError' ? 'Stopped waiting for the result.' : error.message);}
     finally {setBusy(false); request.current=null;}
   }
-  return <section className="ov-upload" aria-labelledby="ov-upload-title" onPlay={event => {
+  return <Section className="ov-upload" aria-labelledby="ov-upload-title" onPlay={event => {
     if (microphone.isBusy()) {event.target.pause(); return;}
     event.currentTarget.querySelectorAll('audio').forEach(player => {if (player !== event.target) player.pause();});
   }}>
-    <h2 id="ov-upload-title">Try your own recordings</h2>
-    <p>Upload or record overlapping speech and a separate, clean sample of the person you want to keep. The sample should contain only that person speaking.</p>
+    <Heading id="ov-upload-title">Try your own recordings</Heading>
+    <Text>Upload or record overlapping speech and a separate, clean sample of the person you want to keep. The sample should contain only that person speaking.</Text>
     <form onSubmit={extract}>
       <div className="ov-upload-fields">
         {[
           {name: 'mixture', title: 'Overlapping speech', help: 'WAV or FLAC · up to 30 seconds', url: mixtureUrl, minimum: 0.5, maximum: 30},
           {name: 'reference', title: 'Voice to keep', help: 'A separate sample · 3–10 seconds · WAV or FLAC', url: referenceUrl, minimum: 3, maximum: 10},
-        ].map(field => <section className="ov-capture-field" key={field.name} aria-labelledby={`ov-input-${field.name}`}>
-          <h3 id={`ov-input-${field.name}`}>{field.title}</h3><p>{field.help}</p>
+        ].map(field => <Section className="ov-capture-field" key={field.name} aria-labelledby={`ov-input-${field.name}`}>
+          <h3 id={`ov-input-${field.name}`}>{field.title}</h3><Text>{field.help}</Text>
           <label className="upload-field"><span className="file-picker"><span aria-hidden="true">↑</span>{files[field.name] ? 'Replace audio' : 'Upload audio'}<input type="file" aria-label={field.title} accept=".wav,.flac,audio/wav,audio/flac" disabled={busy || microphone.busy} onChange={event => {change(field.name, event.target.files?.[0]); event.target.value = '';}}/></span></label>
           <AudioCaptureButton recorder={microphone} target={field.name} label={field.title.toLowerCase()} minimum={field.minimum} maximum={field.maximum} disabled={busy}/>
-          {files[field.name] && <p className="poc-filename" title={files[field.name].name}>{files[field.name].name}</p>}
-          {field.url && <audio className="ov-capture-preview" controls src={field.url} aria-label={`${field.title} preview`}/>}
-        </section>)}
+          {files[field.name] && <Text className="poc-filename" title={files[field.name].name}>{files[field.name].name}</Text>}
+          {field.url && <AudioPlayer className="ov-capture-preview" src={field.url} label={`${field.title} preview`}/>}
+        </Section>)}
       </div>
-      <p className="ov-listening-note">Up to 4 MiB combined. Audio is sent to the extraction service for processing and is not saved or used for training. Only upload recordings you have permission to use. <a href="#privacy">Privacy policy</a>.</p>
+      <Text className="ov-listening-note">Up to 4 MiB combined. Audio is sent to the extraction service for processing and is not saved or used for training. Only upload recordings you have permission to use. <a href="#privacy">Privacy policy</a>.</Text>
       <div className="ov-upload-actions">
         <button disabled={!model || !files.mixture || !files.reference || busy || microphone.busy} type="submit">{busy ? 'Extracting…' : 'Extract voice'}</button>
         {busy && <button type="button" onClick={() => request.current?.abort()}>Cancel</button>}
       </div>
-      <p role="status">{notice}</p>
+      <Text role="status">{notice}</Text>
     </form>
-    {output && <div className="ov-upload-result"><h3>Extracted voice</h3><audio controls src={output} /><a href={output} download="extracted-voice.wav">Download extracted voice</a></div>}
-    <p className="ov-listening-note">Results vary with speakers, noise, and recording conditions.</p>
-  </section>;
+    {output && <div className="ov-upload-result"><h3>Extracted voice</h3><AudioPlayer src={output} label="Extracted voice"/><a href={output} download="extracted-voice.wav">Download extracted voice</a></div>}
+    <Text className="ov-listening-note">Results vary with speakers, noise, and recording conditions.</Text>
+  </Section>;
 }

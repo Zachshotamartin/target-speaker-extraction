@@ -38,6 +38,7 @@ jobs:
       - run: node site/scripts/check-header-scroll.mjs
       - run: node site/scripts/check-page-navigation.mjs
       - run: node site/scripts/check-comparison-rows.mjs
+      - run: node site/scripts/check-transcript-phrases.mjs
       - run: node site/scripts/check-audio-editor.mjs
       - run: node site/scripts/check-recording-workspace.mjs
       - run: node site/scripts/check-extraction-proxy.mjs

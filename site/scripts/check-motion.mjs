@@ -95,3 +95,63 @@ await tick();
 assert.equal(effects.at(-1), 'reduced-navigation');
 assert.equal(fades.length, 2, 'Reduced motion skips navigation fades');
 console.log('Motion queue: batching, sequencing, callbacks, navigation layout/scroll before reveal, reduced motion and background updates passed.');
+
+// Step transitions animate only their content and always commit the newest input.
+const {animateStepChange, setDetailsOpen} = await import('../src/motion.js');
+reduced = false;
+let step = 'audio', stepEffects = [], stepAnimations = [];
+const stepPanel = {
+  getClientRects: () => [1],
+  getBoundingClientRect: () => ({height: step === 'audio' ? 200 : 400}),
+  animate(keyframes) {
+    let finish;
+    const animation = {finished: new Promise(resolve => {finish = resolve;}), finish: () => finish(), cancel() {}};
+    stepAnimations.push({animation, keyframes});
+    return animation;
+  },
+};
+document.querySelector = selector => {
+  assert.equal(selector, '.workspace-step-content', 'Step motion must not fade the whole page');
+  return stepPanel;
+};
+animateStepChange(() => {step = 'voice'; stepEffects.push('voice');}, () => stepEffects.push('focus'));
+await tick();
+assert.equal(step, 'audio', 'Wait for content fade before replacing it');
+stepAnimations[0].animation.finish(); await tick();
+assert.deepEqual(stepEffects, ['voice', 'focus']);
+assert.deepEqual(stepAnimations[1].keyframes.map(f => f.height), ['200px', '400px']);
+animateStepChange(() => {step = 'audio';});
+animateStepChange(() => {step = 'voice';});
+stepAnimations[1].animation.finish(); stepAnimations[2].animation.finish(); await tick();
+stepAnimations[3].animation.finish(); await tick();
+assert.equal(step, 'voice', 'Rapid input resolves to the most recent step');
+stepAnimations[4].animation.finish(); stepAnimations[5].animation.finish(); await tick();
+const animatedCount = stepAnimations.length;
+reduced = true;
+animateStepChange(() => {step = 'results';}); await tick();
+assert.equal(step, 'results'); assert.equal(stepAnimations.length, animatedCount);
+console.log('Step motion: isolated content, height interpolation, rapid changes, focus and reduced motion passed.');
+
+// Popovers must never join document snapshots that place them behind named content.
+let popupAnimations = [], captures = transitions.length;
+const popup = {
+  open: false,
+  classList: {contains: name => name === 'ui-popover'},
+  querySelector: () => ({animate() {
+    let finish, reject;
+    const animation = {finished: new Promise((yes, no) => {finish = yes; reject = no;}), finish: () => finish(), cancel: () => reject(new Error('cancelled'))};
+    popupAnimations.push(animation); return animation;
+  }}),
+};
+reduced = false;
+setDetailsOpen(popup, true); assert.equal(popup.open, true);
+setDetailsOpen(popup, false); setDetailsOpen(popup, true);
+popupAnimations.at(-1).finish(); await tick();
+assert.equal(popup.open, true, 'Reopening during exit cannot close the new popup');
+setDetailsOpen(popup, false); popupAnimations.at(-1).finish(); await tick();
+assert.equal(popup.open, false);
+assert.equal(transitions.length, captures, 'Popup transitions do not use global captures');
+reduced = true;
+setDetailsOpen(popup, true); assert.equal(popup.open, true);
+setDetailsOpen(popup, false); assert.equal(popup.open, false);
+console.log('Popover motion: immediate top-layer opening, interrupted close/reopen and reduced motion passed.');

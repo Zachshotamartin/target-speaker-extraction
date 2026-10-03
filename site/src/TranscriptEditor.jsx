@@ -1,3 +1,5 @@
+import AudioPlayer from './ui/AudioPlayer.jsx';
+import Heading from './ui/Heading.jsx';
 import React, {useEffect, useMemo, useReducer, useRef, useState} from 'react';
 import {TRANSCRIPTION_API as API} from './transcriptionApi.js';
 import {animateChange} from './motion.js';
@@ -152,12 +154,12 @@ export default function TranscriptEditor({result, jobId, active, audioFiles, sav
   }
 
   return <section className="transcript-editor" aria-label="Transcript audio editor" onKeyDown={keyboard}>
-    <p className="editor-intro">Edit the isolated voice in three steps. Your original recording stays intact.</p>
+    <Heading>Edit audio</Heading>
     {!audio && !error && <p role="status" className="editor-status">Preparing audio for local editing…</p>}
     {error && <div className="editor-error" role="alert"><p>{error}</p><button type="button" onClick={() => retry(value => value + 1)}>Retry audio</button></div>}
-    <ol className="editor-steps" aria-label="Audio editing steps">
-      <li className="editor-step">
-        <div className="editor-step-heading"><span className="editor-step-number" aria-hidden="true">01</span><h3>Select words</h3></div>
+    <div className="editor-workbench">
+      <section className="editor-document">
+
         <p id="editor-word-help" className="editor-step-help">Click the first and last word of a passage. For a single word, click it once.</p>
         <div className="editor-transcript" role="group" aria-label="Editable transcript" aria-describedby="editor-word-help">
           {words.length ? words.map((word, index) => <React.Fragment key={index}>
@@ -183,13 +185,13 @@ export default function TranscriptEditor({result, jobId, active, audioFiles, sav
             <button type="button" className="editor-text-button" disabled={!bounds} onClick={() => {setSelection(null); setAwaitingEnd(false);}}>Clear selection</button>
           </div>
         </div>
-      </li>
-      <li className="editor-step">
-        <div className="editor-step-heading"><span className="editor-step-number" aria-hidden="true">02</span><h3>Make your edit</h3></div>
-        <p className="editor-step-help">Choose what happens to your selection. Every edit can be undone.</p>
+      </section>
+      <aside className="editor-tools">
+        <h3 className="editor-tools-title">Selection tools</h3>
+
         <div className="editor-edit-actions">
-          <div><button type="button" disabled={editPending || !bounds || selectedIds.every(index => removed.has(index))} onClick={() => apply('remove')}>Remove selected</button><p>Cut this passage out.</p></div>
-          <div><button type="button" disabled={editPending || !bounds} onClick={() => apply('keep')}>Keep only selected</button><p>Remove everything else.</p></div>
+          <div><button type="button" disabled={editPending || !bounds || selectedIds.every(index => removed.has(index))} onClick={() => apply('remove')}>Remove selected</button></div>
+          <div><button type="button" disabled={editPending || !bounds} onClick={() => apply('keep')}>Keep only selected</button></div>
         </div>
         <div className="editor-history" aria-label="Edit history">
           <button type="button" disabled={editPending || !history.past.length} onClick={() => changeEdits({type: 'undo'}, 'Edit undone.')}>Undo</button>
@@ -204,16 +206,16 @@ export default function TranscriptEditor({result, jobId, active, audioFiles, sav
             else {stopAt.current = end; seek(start, true);}
           }}/>
         <p className="editor-announcement" role="status">{message}</p>
-      </li>
-      <li className="editor-step">
-        <div className="editor-step-heading"><span className="editor-step-number" aria-hidden="true">03</span><h3>Listen &amp; download</h3></div>
-        <p className="editor-step-help">Check your edit, then save it. Switch tracks to compare with the original.</p>
+      </aside>
+      <section className="editor-preview">
+        <h3 className="editor-tools-title">Preview &amp; export</h3>
+
         <p className="editor-duration"><strong>{clock(editedDuration(clips))}</strong> edited <span>· {clock(result.duration)} original</span></p>
         <div className="editor-listening">
           <label htmlFor="editor-track">Preview track<select id="editor-track" value={track} onChange={event => changeTrack(event.target.value)} disabled={!audio || editPending}>
             {tracks.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
           </select></label>
-          <audio ref={player} controls preload="metadata" src={url || undefined} aria-label="Editor audio"
+          <AudioPlayer ref={player} src={url || undefined} label="Editor audio"
             onLoadedMetadata={() => {
               const next = pendingSeek.current ?? sourceTime.current, end = pendingPreview.current;
               pendingSeek.current = null; pendingPreview.current = null;
@@ -223,15 +225,15 @@ export default function TranscriptEditor({result, jobId, active, audioFiles, sav
             onPlay={followPlayback} onPause={() => {cancelAnimationFrame(frame.current); setTime(sourceTime.current);}} onTimeUpdate={readPosition} onSeeked={readPosition}
             onError={() => {if (url) setMessage('Audio playback failed. Try switching tracks or reloading the audio.');}}/>
         </div>
-        {!clips.length && <p className="editor-status">All audio is removed. Undo an edit or restore words in step 2 to download.</p>}
+        {!clips.length && <p className="editor-status">All audio is removed. Undo an edit or restore words to download.</p>}
         <div className="editor-export-links">
           {editedUrl && clips.length ? <a href={editedUrl} download="onevoice-edited.wav">Download audio (.wav)</a> : <button disabled>Download audio (.wav)</button>}
           {audio && kept.length ? <><a href={srtUrl} download="onevoice-edited.srt">Subtitles (.srt)</a><a href={textUrl} download="onevoice-edited.txt">Transcript (.txt)</a></> : <><button disabled>Subtitles (.srt)</button><button disabled>Transcript (.txt)</button></>}
         </div>
         {onRenderVideo && <button className="poc-primary" type="button" disabled={!output || videoBusy} onClick={() => onRenderVideo({audio: output, clips, words: kept})}>{videoBusy ? 'Processing…' : 'Export captioned video (.mp4)'}</button>}
         <p className="editor-export-note">Downloads always contain your edit. Subtitle times follow the edited audio.</p>
-      </li>
-    </ol>
-    <p className="editor-footnote">Word timings are approximate—listen before saving. {audioFiles ? 'Audio and edits are saved in this browser with your project.' : 'Download to keep your work before this temporary result expires.'}</p>
+      </section>
+    </div>
+    <p className="editor-footnote">Word timings are approximate. Listen before exporting.</p>
   </section>;
 }

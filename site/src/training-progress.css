@@ -2,7 +2,6 @@
   --ov-training-space: clamp(1.5rem, 3vw, 3rem);
   margin-block: var(--ov-training-space);
   padding-block: var(--ov-training-space);
-  border-top: 1px solid var(--border, #d8d8d4);
 }
 .ov-training > p { max-width: 78ch; line-height: 1.65; }
 .ov-training-metrics {
@@ -18,7 +17,7 @@
 .ov-training-figure img { display: block; width: 100%; height: auto; }
 .ov-training-figure figcaption { max-width: 78ch; margin-top: 1rem; font-size: 1rem; line-height: 1.6; }
 .ov-checkpoint-note { line-height: 1.6; margin-block: 1rem; }
-.ov-diagnostics { container-type: inline-size; margin-top: var(--ov-training-space); padding-top: var(--ov-training-space); border-top: 1px solid var(--study-rule); }
+.ov-diagnostics { margin-top: var(--ov-training-space); padding-top: var(--ov-training-space); }
 .ov-diagnostics h3 { font-size: clamp(1.4rem, 2.4vw, 1.8rem); font-weight: 500; margin: 0 0 1rem; }
 .ov-diagnostics h4 { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 500; margin: 0 0 1rem; }
 .ov-diagnostics p { max-width: 78ch; line-height: 1.65; }
@@ -26,12 +25,8 @@
 .ov-diagnostics-downloads { display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
 .ov-diagnostics-scope { margin-top: 1.5rem; color: var(--study-muted); }
 .ov-diagnostics-result { min-width: 0; }
-.ov-diagnostics-plot { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
-.ov-diagnostics-plot img { min-width: 800px; }
-.ov-diagnostics-scroll-hint { display: none; }
-@container (max-width: 799px) {
-  .ov-diagnostics-scroll-hint { display: block; }
-}
+.ov-diagnostics-plot { width: 100%; min-width: 0; }
+.ov-diagnostics-plot img { max-width: 100%; min-width: 0; }
 @media (max-width: 680px) {
   .ov-training-metrics { grid-template-columns: 1fr; gap: 1.5rem; }
 }

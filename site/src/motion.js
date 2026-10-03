@@ -10,6 +10,11 @@ export function animateChange(update, scope, after) {
   enqueue({update, scope, after});
 }
 
+// Step changes animate only their content; header and step controls stay in place.
+export function animateStepChange(update, after) {
+  enqueue({update, after, scope: '.workspace-step-content', stepNavigation: true});
+}
+
 // Route changes also replace the document's height and scroll destination. Keep
 // them out of document snapshots, which capture the footer's old position.
 export function animatePageChange(update, after) {
@@ -38,6 +43,9 @@ async function run() {
     else if (batch.some(({pageNavigation}) => pageNavigation)) {
       await fadePage(update, position);
     }
+    else if (batch.some(({stepNavigation}) => stepNavigation)) {
+      await fadeStep(update, position);
+    }
     else if (document.startViewTransition) {
       const transition = document.startViewTransition(commit);
       // A browser can skip a visual transition; the update still must complete.
@@ -55,6 +63,26 @@ async function run() {
   } finally {
     running = false;
     if (queued.length) { scheduled = true; queueMicrotask(run); }
+  }
+}
+
+async function fadeStep(update, position) {
+  const panel = document.querySelector('.workspace-step-content');
+  if (!panel) {update(); position(); return;}
+  const before = panel.getBoundingClientRect().height;
+  let outgoing, incoming, resize;
+  try {
+    outgoing = panel.animate([{opacity: 1, transform: 'translateX(0)'}, {opacity: 0, transform: 'translateX(-12px)'}], {duration: 120, fill: 'forwards'});
+    await outgoing.finished.catch(() => {});
+    update();
+    position();
+    const after = panel.getBoundingClientRect().height;
+    resize = panel.animate([{height: `${before}px`, overflow: 'clip'}, {height: `${after}px`, overflow: 'clip'}], {duration: 300, easing: 'cubic-bezier(.22,1,.36,1)'});
+    incoming = panel.animate([{opacity: 0, transform: 'translateX(16px)'}, {opacity: 1, transform: 'translateX(0)'}], {duration: 300, easing: 'cubic-bezier(.22,1,.36,1)'});
+    outgoing.cancel();
+    await Promise.all([incoming.finished.catch(() => {}), resize.finished.catch(() => {})]);
+  } finally {
+    outgoing?.cancel(); incoming?.cancel(); resize?.cancel();
   }
 }
 
@@ -111,11 +139,35 @@ export function useMotionState(initial, scope = '#transcribe') {
   return [value, set];
 }
 
+const popoverAnimations = new WeakMap();
+
+export function setDetailsOpen(details, open, scope) {
+  if (!details.classList.contains('ui-popover')) {
+    animateChange(() => {details.open = open;}, scope);
+    return;
+  }
+  const previous = popoverAnimations.get(details);
+  previous?.animation.cancel();
+  const body = details.querySelector('.ui-disclosure-body');
+  if (!body || reduced() || document.hidden) {details.open = open; popoverAnimations.delete(details); return;}
+  details.open = true;
+  const frames = open
+    ? [{opacity: 0, transform: 'translateY(-6px)'}, {opacity: 1, transform: 'translateY(0)'}]
+    : [{opacity: 1, transform: 'translateY(0)'}, {opacity: 0, transform: 'translateY(-4px)'}];
+  const animation = body.animate(frames, {duration: open ? 220 : 140, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards'});
+  const state = {animation, open};
+  popoverAnimations.set(details, state);
+  animation.finished.then(() => {
+    if (popoverAnimations.get(details) !== state) return;
+    details.open = open; animation.cancel(); popoverAnimations.delete(details);
+  }).catch(() => {});
+}
+
 export function animateDisclosure(event) {
   const summary = event.target.closest('summary');
   if (!summary || event.target.closest('a, button, input, select')) return;
   const details = summary.parentElement;
   if (details.tagName !== 'DETAILS') return;
   event.preventDefault();
-  animateChange(() => { details.open = !details.open; });
+  setDetailsOpen(details, !(popoverAnimations.get(details)?.open ?? details.open));
 }

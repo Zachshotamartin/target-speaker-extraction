@@ -1,6 +1,6 @@
 .site-footer {
-  background: #242625;
-  color: #fafaf8;
+  background: var(--surface-dark);
+  color: var(--app-bg);
   position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -14,10 +14,9 @@
   font-size: var(--text-small);
   line-height: var(--line-body);
 }
-.site-footer::before { content: ''; position: absolute; top: 0; inset-inline: 0; height: 1px; background: #ffffff30; }
-.site-footer :focus-visible { outline-color: #fafaf8; }
+.site-footer :focus-visible { outline-color: var(--app-bg); }
 .site-footer-brand { font-size: var(--text-lead); font-weight: 600; letter-spacing: -.5px; line-height: 1.4; text-decoration: none; }
-.site-footer-credit { margin: 0; min-width: 0; color: #cbd0ca; }
+.site-footer-credit { margin: 0; min-width: 0; color: var(--inverse-muted); }
 .site-footer-credit a { white-space: nowrap; }
 .site-footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-6); }
 .site-footer-links a { display: inline-flex; align-items: center; min-height: var(--space-8); text-decoration: none; white-space: nowrap; }

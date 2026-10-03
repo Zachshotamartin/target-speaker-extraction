@@ -1,0 +1,32 @@
+.ui-audio-player { min-width: 0; width: 100%; container: audio-player / inline-size; }
+.ui-audio-player audio[hidden] { display: none; }
+.ui-audio-row { display: flex; align-items: center; gap: var(--space-2); padding: var(--pill-inset); border-radius: var(--radius-pill); background: var(--ink); color: var(--app-bg); }
+.ui-audio-player .ui-audio-row button { display: grid; place-items: center; flex: 0 0 var(--audio-control-size); width: var(--audio-control-size); height: var(--audio-control-size); min-height: var(--audio-control-size); padding: 0; margin: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+.ui-audio-player .ui-audio-row .ui-audio-play { background: var(--app-bg); color: var(--ink); }
+.ui-audio-player .ui-audio-row button:hover:not(:disabled) { background: var(--inverse-overlay); }
+.ui-audio-player .ui-audio-row .ui-audio-play:hover:not(:disabled) { background: var(--surface-hover); }
+.ui-audio-player .ui-audio-row button:disabled { opacity: .5; cursor: not-allowed; }
+.ui-audio-player .ui-audio-row button:focus-visible { outline: 2px solid var(--app-bg); outline-offset: 2px; }
+.ui-audio-row svg { display: block; width: var(--space-5); height: var(--space-5); fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ui-audio-play>span { grid-area: 1 / 1; display: grid; place-items: center; transition: opacity 140ms ease, transform 140ms ease; }
+.ui-audio-play-icon, .ui-audio-play[data-playing='true'] .ui-audio-pause-icon { opacity: 1; transform: scale(1); }
+.ui-audio-pause-icon, .ui-audio-play[data-playing='true'] .ui-audio-play-icon { opacity: 0; transform: scale(.75); }
+.ui-audio-seek { flex: 1; min-width: var(--space-6); display: grid; align-items: center; }
+.ui-audio-seek>* { grid-area: 1 / 1; width: 100%; min-width: 0; }
+.ui-audio-seek progress { appearance: none; display: block; height: var(--space-1); border: 0; border-radius: var(--radius-pill); overflow: hidden; background: var(--audio-track); color: var(--app-bg); }
+.ui-audio-seek progress::-webkit-progress-bar { background: var(--audio-track); border-radius: inherit; }
+.ui-audio-seek progress::-webkit-progress-value { background: var(--app-bg); border-radius: inherit; }
+.ui-audio-seek progress::-moz-progress-bar { background: var(--app-bg); border-radius: inherit; }
+.ui-audio-player .ui-audio-seek input { appearance: none; height: var(--control-height); margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.ui-audio-seek input::-webkit-slider-runnable-track { height: var(--space-1); background: transparent; }
+.ui-audio-seek input::-moz-range-track { height: var(--space-1); background: transparent; }
+.ui-audio-seek input::-webkit-slider-thumb { appearance: none; height: var(--space-3); width: var(--space-3); margin-top: calc((var(--space-1) - var(--space-3)) / 2); border: 0; border-radius: 50%; background: var(--app-bg); }
+.ui-audio-seek input::-moz-range-thumb { height: var(--space-3); width: var(--space-3); border: 0; border-radius: 50%; background: var(--app-bg); }
+.ui-audio-seek input:focus-visible { outline: 2px solid var(--app-bg); outline-offset: 0; border-radius: var(--radius-control); }
+.ui-audio-time { flex-shrink: 0; white-space: nowrap; font-size: var(--text-small); line-height: 1.25; font-variant-numeric: tabular-nums; }
+.ui-audio-duration { color: var(--audio-muted); }
+.ui-audio-error { margin: var(--space-2) 0 0; color: var(--error-ink); font-size: var(--text-small); line-height: var(--line-body); }
+@container audio-player (max-width: 240px) {
+  .ui-audio-row { gap: var(--space-1); }
+}
+@media (prefers-reduced-motion: reduce) { .ui-audio-play>span { transition: none; } }

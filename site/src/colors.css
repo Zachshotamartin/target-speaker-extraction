@@ -1,0 +1,31 @@
+/* The sole palette for OneVoice. Components use these semantic tokens. */
+:root {
+  --charcoal: #242625;
+  --ink: var(--charcoal);
+  --accent: var(--charcoal);
+  --surface-dark: var(--charcoal);
+  --app-bg: #fafaf8;
+  --surface: #fff;
+  --muted: #686864;
+  --soft: #f4f4f2;
+  --accent-soft: #f1f1ef;
+  --surface-hover: #e4e4e1;
+  --selection-bg: #dfdfd7;
+  --border: #d8d8d4;
+  --line: color-mix(in srgb, var(--charcoal) 14.5%, transparent);
+  --focus: var(--charcoal);
+  --inverse-muted: #cbd0ca;
+  --inverse-line: color-mix(in srgb, var(--surface) 19%, transparent);
+  --inverse-hover: color-mix(in srgb, var(--surface) 9.5%, transparent);
+  --inverse-overlay: color-mix(in srgb, var(--surface) 15%, transparent);
+  --audio-track: color-mix(in srgb, var(--surface) 25%, transparent);
+  --audio-muted: color-mix(in srgb, var(--surface) 65%, transparent);
+  --shadow-color: color-mix(in srgb, var(--charcoal) 7%, transparent);
+  --dialog-backdrop: color-mix(in srgb, var(--charcoal) 40%, transparent);
+  --signal-muted: #aaa9a4;
+  --waveform-input: #8b959a;
+  --warning-bg: #fcf8ef;
+  --warning-ink: #775a2d;
+  --error-bg: #fff2ef;
+  --error-ink: #903e32;
+}

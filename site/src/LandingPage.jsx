@@ -1,29 +1,31 @@
+import Section from './ui/Section.jsx';
+import Text from './ui/Text.jsx';
+import Heading from './ui/Heading.jsx';
 import React from 'react';
-import snapshot from './snapshot.json';
+import SignalArt from './SignalArt.jsx';
 import OneVoiceDetails from './OneVoiceDetails.jsx';
-function Wave({track}) { const peaks=snapshot.items[0].tracks[track].peaks; const bars=Array.from({length:96},(_,i)=>Math.max(...peaks.slice(Math.floor(i*peaks.length/96),Math.floor((i+1)*peaks.length/96)))); return <svg viewBox="0 0 480 100" aria-hidden="true">{bars.map((p,i)=><line key={i} x1={i*5+2.5} x2={i*5+2.5} y1={50-Math.max(1,p*46)} y2={50+Math.max(1,p*46)}/>)}</svg>; }
-function SignalArt(){ return <figure className="signal-art"><figcaption>One conversation. A clearer voice.</figcaption><div className="signal-lane"><div className="signal-caption"><span>01 / THE CONVERSATION</span><span>Two voices</span></div><Wave track="mixture"/></div><div className="signal-lane signal-lane--output"><div className="signal-caption"><span>02 / THE EXTRACTION</span><span>Voice A</span></div><Wave track="estimate"/></div><a href="#listen" className="signal-footnote continuous-underline">Hear this example <span aria-hidden="true">↗</span></a></figure>; }
+
 
 
 export default function LandingPage({active = true}) {
   return <>
-    <section className="hero">
+    <Section className="hero">
       <div>
-        <p className="eyebrow">TARGET SPEAKER EXTRACTION</p>
+        <Text className="eyebrow">TARGET SPEAKER EXTRACTION</Text>
         <h1>Keep the voice<br/>that matters.</h1>
-        <p className="intro">Two people talking at once. One voice you want to hear. Give One Voice a sample of that person, and separate their speech from the conversation.</p>
+        <Text className="intro">Two people talking at once. One voice you want to hear. Give One Voice a sample of that person, and separate their speech from the conversation.</Text>
         <div className="hero-actions">
           <a className="primary-link" href="#listen">Hear the difference <span aria-hidden="true">↓</span></a>
           <a className="hero-recording-link continuous-underline" href="#ov-upload-title">Try your recording <span aria-hidden="true">↓</span></a>
         </div>
       </div>
       <SignalArt/>
-    </section>
-    <section className="steps" aria-label="How to use One Voice">
-      <p><b>01</b> Choose the conversation.</p>
-      <p><b>02</b> Identify the voice with a sample.</p>
-      <p><b>03</b> Listen to the extraction.</p>
-    </section>
+    </Section>
+    <Section className="steps" aria-label="How to use One Voice">
+      <Text><b>01</b> Choose the conversation.</Text>
+      <Text><b>02</b> Identify the voice with a sample.</Text>
+      <Text><b>03</b> Listen to the extraction.</Text>
+    </Section>
     <div id="listen" className="experience"><OneVoiceDetails active={active}/></div>
   </>;
 }
