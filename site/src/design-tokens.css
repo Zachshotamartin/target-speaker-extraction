@@ -1,17 +1,5 @@
-/* One Voice: the palette and Arial typography of the product site on main. */
+/* Shared typography, spacing and geometry. The palette lives in colors.css. */
 :root {
-  --app-bg: #fafaf8;
-  --surface: #fff;
-  --ink: #191919;
-  --muted: #686864;
-  --line: #19191925;
-  --soft: #f4f4f2;
-  --accent: #262626;
-  --accent-soft: #f1f1ef;
-  --warning-bg: #fcf8ef;
-  --warning-ink: #775a2d;
-  --error-bg: #fff2ef;
-  --error-ink: #903e32;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -33,10 +21,15 @@
   --radius-control: 8px;
   --radius-pill: 999px;
   --control-height: 44px;
+  --pill-inset: var(--space-1);
+  --audio-control-size: var(--control-height);
   --toolbar-height: 80px;
   --header-padding-block: calc(var(--space-6) + var(--space-1));
   --layer-navigation: 10;
   --layer-popover: 20;
+  --popover-width: 400px;
+  --processing-indicator-size: 48px;
+  --shadow-popover: 0 8px 28px var(--shadow-color);
   --header-brand-size: 1.625rem;
   --header-brand-gap: 10px;
   --header-mark-width: 32px;
@@ -44,8 +37,10 @@
   --content-max-width: 1440px;
   --page-gutter: clamp(var(--space-6), 6vw, 96px);
   --page-intro-space: clamp(var(--space-10), 6vw, 76px);
+  --section-space: clamp(var(--space-8), 4vw, var(--space-12));
+  --workspace-content-width: 760px;
   --workspace-gap: var(--space-12);
-  --workspace-rail-width: 304px;
+  --workspace-rail-width: 252px;
 }
 
 /* Continue heading scaling through 320–700px instead of fixing the mobile size. */

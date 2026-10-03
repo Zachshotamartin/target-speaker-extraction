@@ -59,10 +59,9 @@ export default function ValidationDiagnostics() {
       <h4>{chart.title}</h4>
       <p className="ov-diagnostics-finding" aria-live="polite">{chart.finding}</p>
       <figure className="ov-training-figure">
-        <div className="ov-diagnostics-plot" role="region" aria-label="Scrollable evaluation graph" tabIndex={0}>
+        <div className="ov-diagnostics-plot">
           <img src={diagnostics.charts[selected]} width="1000" height="540" loading="lazy" alt={chart.alt}/>
         </div>
-        <p className="ov-diagnostics-scroll-hint">Scroll within the graph to see all axes, or download it at full size.</p>
         <figcaption>{chart.caption}</figcaption>
       </figure>
       <nav className="ov-diagnostics-downloads" aria-label="Download evaluation evidence">

@@ -1,3 +1,9 @@
+import Waveform from './ui/Waveform.jsx';
+import Disclosure from './ui/Disclosure.jsx';
+import Section from './ui/Section.jsx';
+import Text from './ui/Text.jsx';
+import Heading from './ui/Heading.jsx';
+import AudioPlayer from './ui/AudioPlayer.jsx';
 import { useEffect, useRef, useState } from 'react';
 import {useMotionState} from './motion.js';
 import bestSnapshot from './snapshot.json';
@@ -7,15 +13,7 @@ import './one-voice.css';
 import OneVoiceUpload from './OneVoiceUpload.jsx';
 
 const labels = { mixture: 'Both voices', estimate: 'Extracted voice', target: 'Clean target' };
-const clock = value => `${Math.floor(value / 60)}:${String(Math.floor(value % 60)).padStart(2, '0')}`;
 
-function Waveform({ peaks, progress = 0 }) {
-  const maximum = Math.max(...peaks, .001);
-  return <svg viewBox="0 0 768 120" preserveAspectRatio="none" aria-hidden="true">
-    {peaks.map((peak, i) => <line key={i} x1={i * 4 + 2} x2={i * 4 + 2} y1={60 - 52 * peak / maximum} y2={60 + 52 * peak / maximum} />)}
-    {progress > 0 && <path className="ov-playhead" d={`M ${Math.min(1, progress) * 768} 0 v120`} />}
-  </svg>;
-}
 
 export default function OneVoiceDetails({active: pageActive = true}) {
   const [index, setIndex] = useMotionState(0, '#listen');
@@ -24,8 +22,6 @@ export default function OneVoiceDetails({active: pageActive = true}) {
   const [latestSnapshot, setLatestSnapshot] = useState(null);
   const [loadingVersion, setLoadingVersion] = useMotionState(false, '.one-voice');
   const snapshot = modelVersion === 'best' ? bestSnapshot : latestSnapshot;
-  const [playing, setPlaying] = useState(false);
-  const [referencePlaying, setReferencePlaying] = useState(false);
   const [time, setTime] = useState(0);
   const [error, setError] = useMotionState('', '#listen');
   const player = useRef(null), reference = useRef(null);
@@ -36,6 +32,9 @@ export default function OneVoiceDetails({active: pageActive = true}) {
     const a = player.current, b = reference.current;
     return () => { a?.pause(); b?.pause(); };
   }, []);
+  useEffect(() => {
+    if (!pageActive) {player.current?.pause(); reference.current?.pause(); pending.current.play = false;}
+  }, [pageActive]);
   function play(audio) {
     setError('');
     audio.play().catch(() => setError('Audio could not play. Press Play to try again.'));
@@ -80,10 +79,10 @@ export default function OneVoiceDetails({active: pageActive = true}) {
     if (action.play) play(player.current);
   }
   return <>
-    <section className="study-live one-voice" aria-labelledby="one-voice-listen" data-checkpoint={snapshot.checkpointSHA256}>
-      <div className="study-section-heading"><h2 id="one-voice-listen">One conversation. Either voice.</h2><p>Six conversations · two voices each</p></div>
-      <p>Listen to the overlapping voices, choose who to keep, then switch to the extraction.</p>
-      <p className="ov-checkpoint-note">{modelVersion === 'best' ? 'Best full validation · epoch 80 · used for live processing' : 'Latest saved model · epoch 81 + 9 updates · listening comparison'}</p>
+    <Section className="study-live one-voice" aria-labelledby="one-voice-listen" data-checkpoint={snapshot.checkpointSHA256}>
+      <div className="study-section-heading"><Heading id="one-voice-listen">One conversation. Either voice.</Heading><Text>Six conversations · two voices each</Text></div>
+      <Text>Listen to the overlapping voices, choose who to keep, then switch to the extraction.</Text>
+      <Text className="ov-checkpoint-note">{modelVersion === 'best' ? 'Best full validation · epoch 80 · used for live processing' : 'Latest saved model · epoch 81 + 9 updates · listening comparison'}</Text>
       <div className="ov-controls">
         <fieldset><legend>Model version</legend><div className="ov-switch">
           {['best', 'latest'].map(version => <button key={version} disabled={loadingVersion} aria-pressed={modelVersion === version} onClick={() => chooseModel(version)}>{version === 'best' ? 'Best' : loadingVersion ? 'Loading latest…' : 'Latest'}</button>)}
@@ -96,9 +95,11 @@ export default function OneVoiceDetails({active: pageActive = true}) {
         </div></fieldset>
       </div>
       <div className="ov-reference">
-        <button aria-pressed={referencePlaying} onClick={() => { player.current.pause(); if (reference.current.paused) play(reference.current); else reference.current.pause(); }}>
-          {referencePlaying ? 'Pause' : 'Hear'} voice {item.voice}’s sample
-        </button><p>A separate recording identifies the speaker. It is not the clean answer.</p>
+        <div className="ov-reference-player">
+          <Text tone="ink">Voice {item.voice}’s sample</Text>
+          <AudioPlayer ref={reference} src={item.tracks.reference.src} label={`Voice ${item.voice} sample`} onPlay={() => player.current?.pause()}/>
+        </div>
+        <Text>A separate recording identifies the speaker. It is not the clean answer.</Text>
       </div>
       <div className="ov-waveforms">
         {['mixture', 'estimate'].map(name => <button key={name} className={`ov-wave ov-wave--${name}`} aria-pressed={track === name} onClick={() => chooseTrack(name)}>
@@ -108,24 +109,24 @@ export default function OneVoiceDetails({active: pageActive = true}) {
         </button>)}
       </div>
       <div className="ov-player">
-        <button className="ov-play" onClick={() => { reference.current.pause(); if (player.current.paused) play(player.current); else player.current.pause(); }}>{playing ? 'Pause' : 'Play'} {labels[track].toLowerCase()}</button>
-        <label className="ov-timeline"><span className="sr-only">Playback position</span><input aria-label="Playback position" type="range" min="0" max={duration} step="0.01" value={Math.min(time, duration)} onChange={event => { const value = Number(event.target.value); player.current.currentTime = value; setTime(value); }} /></label>
-        <span className="ov-time">{clock(time)} / {clock(duration)}</span>
+        <Text tone="ink">{labels[track]}</Text>
+        <AudioPlayer ref={player} src={active.src} label={labels[track]} onLoadedMetadata={loaded}
+          onPlay={() => reference.current?.pause()}
+          onSeeking={event => setTime(event.currentTarget.currentTime)}
+          onTimeUpdate={event => setTime(event.currentTarget.currentTime)}/>
       </div>
-      <audio ref={player} src={active.src} preload="auto" onLoadedMetadata={loaded} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} onTimeUpdate={() => setTime(player.current.currentTime)} onError={() => setError('This audio could not load. Try another conversation or reload the page.')} />
-      <audio ref={reference} src={item.tracks.reference.src} preload="metadata" onPlay={() => setReferencePlaying(true)} onPause={() => setReferencePlaying(false)} onEnded={() => setReferencePlaying(false)} onError={() => setError('The voice sample could not load. Please reload the page.')} />
-      {error && <p role="alert">{error}</p>}
-      <p className="ov-listening-note">Switch tracks while playing to compare the same moment. Playback levels are matched; no extra denoising is applied.</p>
-      <details className="ov-details"><summary>Compare with the clean target</summary><div>
-        <p>This is the original speaker’s recording before mixing. The model does not receive it during extraction.</p>
-        <button aria-pressed={track === 'target'} onClick={() => chooseTrack('target')}>Listen to clean target</button>
+      {error && <Text role="alert">{error}</Text>}
+      <Text className="ov-listening-note">Switch tracks while playing to compare the same moment. Playback levels are matched; no extra denoising is applied.</Text>
+      <Disclosure className="ov-details" label="Hear the original solo voice">
+        <Text>This is the chosen speaker’s original recording before the two voices were mixed. Compare it with the model’s extraction to hear what was preserved or lost. The model never receives this clean answer during extraction.</Text>
+        <button aria-pressed={track === 'target'} onClick={() => chooseTrack('target')}>Play original solo voice</button>
         <a href={item.tracks.estimate.raw} download>Download raw model output ↗</a>
-        <p>This example: {item.improvement.toFixed(2)} dB SI-SDR improvement over the mixture. Higher means better separation against the clean target; it is not a listening-quality rating.</p>
-      </div></details>
-    </section>
+        <Text>This example: {item.improvement.toFixed(2)} dB SI-SDR improvement over the mixture. Higher means better separation against the clean target; it is not a listening-quality rating.</Text>
+      </Disclosure>
+    </Section>
     <OneVoiceUpload active={pageActive}/>
     <TrainingProgress/>
-    <section className="ov-about"><h2>A sample tells One Voice who to keep.</h2><p>Use a separate recording of the person speaking alone. One Voice uses that voice sample to extract their speech from an overlapping conversation. It does not clone voices or generate new speech.</p><p>Results can contain distortion or other speakers, especially with noise or unfamiliar recording conditions. Listen to the output before relying on it.</p><p className="ov-listening-note">Examples: LibriSpeech / Libri2Mix, <a href="https://www.openslr.org/12/">OpenSLR</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Audio has been mixed and model-processed.</p><section className="ov-about ov-research" aria-labelledby="ov-research-title"><h2 id="ov-research-title">Research behind One Voice</h2><p>One Voice is an independent implementation informed by published target speaker extraction research. Its reference-conditioned model draws on Junjie Li and colleagues’ <a href="https://arxiv.org/abs/2409.09589">On the effectiveness of enrollment speech augmentation for Target Speaker Extraction</a> (2024), with a smaller configuration for local training. It does not reproduce the paper’s full experiments or reported results.</p><p>The separator follows ideas from Yi Luo and Jianwei Yu’s <a href="https://arxiv.org/abs/2209.15174">Music Source Separation with Band-split RNN</a> (2022). <a href="https://github.com/BUTSpeechFIT/speakerbeam">SpeakerBeam</a> and <a href="https://arxiv.org/abs/2004.08326">SpEx</a> informed the target-speaker formulation and speaker supervision. No pretrained weights from these systems are used.</p><p>Thanks to the researchers and the <a href="https://www.openslr.org/12/">LibriSpeech</a> and <a href="https://github.com/JorisCos/LibriMix">LibriMix</a> dataset contributors. <a href="https://github.com/Zachshotamartin/target-speaker-extraction/blob/main/docs/SOURCES.md">Full sources and attribution ↗</a></p></section>
-</section>
+    <Section className="ov-about"><Heading>A sample tells One Voice who to keep.</Heading><Text>Use a separate recording of the person speaking alone. One Voice uses that voice sample to extract their speech from an overlapping conversation. It does not clone voices or generate new speech.</Text><Text>Results can contain distortion or other speakers, especially with noise or unfamiliar recording conditions. Listen to the output before relying on it.</Text><Text className="ov-listening-note">Examples: LibriSpeech / Libri2Mix, <a href="https://www.openslr.org/12/">OpenSLR</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Audio has been mixed and model-processed.</Text><Section className="ov-about ov-research" aria-labelledby="ov-research-title"><Heading id="ov-research-title">Research behind One Voice</Heading><Text>One Voice is an independent implementation informed by published target speaker extraction research. Its reference-conditioned model draws on Junjie Li and colleagues’ <a href="https://arxiv.org/abs/2409.09589">On the effectiveness of enrollment speech augmentation for Target Speaker Extraction</a> (2024), with a smaller configuration for local training. It does not reproduce the paper’s full experiments or reported results.</Text><Text>The separator follows ideas from Yi Luo and Jianwei Yu’s <a href="https://arxiv.org/abs/2209.15174">Music Source Separation with Band-split RNN</a> (2022). <a href="https://github.com/BUTSpeechFIT/speakerbeam">SpeakerBeam</a> and <a href="https://arxiv.org/abs/2004.08326">SpEx</a> informed the target-speaker formulation and speaker supervision. No pretrained weights from these systems are used.</Text><Text>Thanks to the researchers and the <a href="https://www.openslr.org/12/">LibriSpeech</a> and <a href="https://github.com/JorisCos/LibriMix">LibriMix</a> dataset contributors. <a href="https://github.com/Zachshotamartin/target-speaker-extraction/blob/main/docs/SOURCES.md">Full sources and attribution ↗</a></Text></Section>
+</Section>
   </>;
 }
